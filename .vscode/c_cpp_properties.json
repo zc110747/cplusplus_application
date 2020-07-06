@@ -1,0 +1,28 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${env.includePATH}",
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "__cplusplus=201711L",
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "__ARM_PCS_VFP",
+                "_BSD_SOURCE",
+                "__need_timer_t",
+                "__GNU_LIBRARY__",
+                "_XOPEN_SOURCE"
+            ],
+            "windowsSdkVersion": "8.1",
+            "compilerPath": "D:/Software/mingw64/bin/g++.exe",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-x64"
+        }
+    ],
+    "version": 4
+}
