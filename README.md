@@ -11,14 +11,16 @@
 /*数据集合的列表*/
 #include<list>
 #include<deque>
-/*先入先出的栈结构*/
+/*后进先出的堆栈容器*/
 #include<stack>
+/*先进先出的队列容器*/
 #include<queue>
 #include<priority_queue>
 #include<tuple>
 //关联式容器
 /*不重复的自动排序的元素集合*/
 #include<set>
+/*带映射关系的表集合*/
 #include<map>
 #include<multiset>
 #include<multimap>

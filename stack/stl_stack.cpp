@@ -1,11 +1,11 @@
 ﻿/**********************************************************
  * 说明:stack
- * 先入先出的栈操作
- * stack常用方法
- * push, pop
- * size
- * empty 判断为空
- * swap 交换占用
+ * 后进先出的栈序列
+ * push, pop    用于压栈和出栈的接口
+ * size         堆栈内当前的数据量
+ * empty        判断栈内数据是否为空
+ * emplace      向栈内压入数据(避免不必要的临时对象产生)
+ * swap         交换栈内数据，被交换方则被情空
 ************************************************************/
 #include <stack>
 #include <vector>
@@ -15,43 +15,49 @@
 
 int main(int argc, char* argv[])
 {    
-    std::stack<int> st_int;
-    st_int.push(1);
-    st_int.push(3);
-    st_int.push(5);
-    int size = st_int.size();
-    std::cout<<"stack size:"<<size<<std::endl;
+    std::stack<int> stack_int0;
+
+    //push pop emplace size empty
+    stack_int0.push(1);
+    stack_int0.push(3);
+    stack_int0.push(5);
+    stack_int0.emplace(6);
+    int size = stack_int0.size();
+    std::cout<<"stack_int0 size:"<<size<<std::endl;
+    std::cout<<"stack_int0 val:";
     for(int index=0; index<size; index++)
     {
-        std::cout<<st_int.top()<<" ";
-        st_int.pop();
+        std::cout<<stack_int0.top()<<" ";
+        stack_int0.pop();
     }
     std::cout<<std::endl;
-    std::cout<<"st_int is empty:"<<st_int.empty()<<std::endl;
+    std::cout<<"stack_int0 empty:"<<stack_int0.empty()<<std::endl;
 
     
     std::vector<int>  v_int{1, 2, 3, 4, 5};
-    std::stack<int, std::vector<int>> s_vint(v_int);
-    while(!s_vint.empty())
+    std::stack<int, std::vector<int>> stack_int1(v_int);
+    std::cout<<"stack_int1 val:";
+    while(!stack_int1.empty())
     {
-        std::cout<<s_vint.top()<<" ";
-        s_vint.pop();
+        std::cout<<stack_int1.top()<<" ";
+        stack_int1.pop();
     }
     std::cout<<std::endl;
 
     std::list<std::string> list_str = {"11", "22", "33"};
-    std::stack<std::string, std::list<std::string>> sl_str(list_str);
-    while(!sl_str.empty())
+    std::stack<std::string, std::list<std::string>> stack_str0(list_str);
+    std::cout<<"stack_str0 val:";
+    while(!stack_str0.empty())
     {
-        std::cout<<sl_str.top()<<" ";
-        sl_str.pop();
+        std::cout<<stack_str0.top()<<" ";
+        stack_str0.pop();
     }
     std::cout<<std::endl;
-    sl_str.push("world!");
-    sl_str.push("hello ");
+    stack_str0.push("world!");
+    stack_str0.push("hello");
     std::stack<std::string, std::list<std::string>> sl_str1;
-    sl_str1.swap(sl_str);
-    std::cout<<"sl_str is empty:"<<sl_str.empty()<<std::endl;
+    sl_str1.swap(stack_str0);
+    std::cout<<"stack_str0 is empty:"<<stack_str0.empty()<<std::endl;
 
     auto sl_str2 = sl_str1;
     std::cout<<"sl_str1 is empty:"<<sl_str1.empty()<<std::endl;

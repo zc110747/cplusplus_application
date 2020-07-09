@@ -1,131 +1,129 @@
-﻿/**********************************************************
- * 说明: map 关联容器，提供映射的处理关系
- * size 获取map的当前大小
- * max_size 容器的最大大小
- * empty 判断容器是否为空
- * swap 交换两个map内的信息，另外一个map将会被清空
- * erase clear 容器删除数据
- * insert 容器插入数据
- * lower_bound 返回非递减序列中的第一个大于等于值val的迭代器(上限闭合)
- * upper_bound 返回非递减序列中第一个大于值val的位置(下限闭合)
-************************************************************/
-#include <string>
+﻿/*********************************************************************
+ * 说明: map 
+ * 关联容器，提供映射的处理关系
+ * size         获取map容器的当前大小
+ * max_size     获取map容器的最大允许容量
+ * empty        判断容器是否为空
+ * swap         交换两个map内的信息，另外一个map将会被清空
+ * erase clear  容器删除/清空数据
+ * insert       向容器内插入数据
+ * emplace      向队列插入数据(避免不必要的临时对象产生)
+ * lower_bound  返回非递减序列中的第一个大于等于值val的迭代器(上限闭合)
+ * upper_bound  返回非递减序列中第一个大于值val的位置(下限闭合)
+*********************************************************************/
 #include <map>
+#include <string>
 #include <iostream>
 #include <algorithm>
 #include <typeinfo>
 #include <vector>
 
-using namespace std;
-
 template<class T0, class T1>
-void show_map(map<T0, T1> &map_val)
+void show_map(std::map<T0, T1> &map_val)
 {
-    for_each(map_val.begin(), map_val.end(), [](const pair<T0, T1> &map_ref){
-        cout<<map_ref.first<<":"<<map_ref.second<<endl;
+    std::for_each(map_val.begin(), map_val.end(), [](const std::pair<T0, T1> &map_ref){
+        std::cout<<map_ref.first<<":"<<map_ref.second<<" ";
     });
-    cout<<endl;
+    std::cout<<std::endl;
 }
 
 int main(int argc, char* argv[])
 {
-    map<string, int> MapVal = {
+    std::map<std::string, int> map_si0 = {
         {"first", 1},
         {"second", 2},
         {"third", 3}
     };
-    map<string, string> MapString = {
+    std::map<std::string, std::string> map_ss0 = {
         {"val0", "0"},
         {"val1", "1"},
     };
-    map<int, int> MapInt = {
+    std::map<int, int> map_ii0 = {
         {10, 500},
         {20, 600},
         {30, 900}
     };
+    std::cout<<"show map:";
+    show_map<std::string, int>(map_si0);
 
-    cout<<"show map:"<<endl;
-    show_map<string, int>(MapVal);
-
-    //Map方法size, clear， erase
-    cout<<"MapString size:"<<MapString.size()<<endl;
-    MapString.clear();
-    cout<<"MapString size:"<<MapString.size()<<endl;
-    cout<<"MapString max size:"<<MapString.max_size()<<endl;
-    cout<<"MapString is empty:"<<MapString.empty()<<endl;
-    MapString["first"] = "0";
-    MapString["second"] = "1";
-    MapString["third"] = "1";
-    for(auto iter=MapString.begin();iter!=MapString.end();)
+    //size, max_size, empty
+    std::cout<<"map_ss0 size:"<<map_ss0.size()<<std::endl;
+    map_ss0.clear();
+    std::cout<<"map_ss0 size:"<<map_ss0.size()<<std::endl;
+    std::cout<<"map_ss0 max size:"<<map_ss0.max_size()<<std::endl;
+    std::cout<<"map_ss0 is empty:"<<map_ss0.empty()<<std::endl;
+    map_ss0["first"] = "0";
+    map_ss0["second"] = "1";
+    map_ss0["third"] = "1";
+    for(auto iter=map_ss0.begin();iter!=map_ss0.end();)
     {
         if(iter->second == "1")
         {
-            iter = MapString.erase(iter);
+            iter = map_ss0.erase(iter);
         }
         else
         {
             iter++;
         }
     }
-    show_map<string, string>(MapString);
+    show_map<std::string, std::string>(map_ss0);
     
-    //Map方法lower_bound, upper_bound, swap方法
-    auto map_iterator = MapInt.lower_bound(9);
-    cout<<"lower bound:"<<map_iterator->first<<":"<<map_iterator->second<<endl;
-    map_iterator = MapInt.upper_bound(21);
-    cout<<"upper bound:"<<map_iterator->first<<":"<<map_iterator->second<<endl;
-    cout<<"show mapInt0:"<<endl;
-    show_map<int, int>(MapInt);
-    map<int, int> MapInt1;
-    MapInt1.swap(MapInt);
-    cout<<"show mapInt1:"<<endl;
-    show_map<int, int>(MapInt1);
-    cout<<"MapInt size:"<<MapInt.size()<<endl;
+    //lower_bound, upper_bound, swap
+    auto map_iterator = map_ii0.lower_bound(9);
+    std::cout<<"lower bound val:"<<map_iterator->first<<":"<<map_iterator->second<<std::endl;
+    map_iterator = map_ii0.upper_bound(21);
+    std::cout<<"upper bound val:"<<map_iterator->first<<":"<<map_iterator->second<<std::endl;
+    std::cout<<"show map_ii00:";
+    show_map<int, int>(map_ii0);
 
-    //map insert方法
-    MapVal.insert(pair<string, int>("four", 4));
-    MapVal.insert(make_pair<string, int>("five", 5));
-    MapVal.insert(map<string, int>::value_type("six", 6));
-    MapVal["Seven"] = 7;
-    cout<<"show insert:"<<endl;
-    show_map<string, int>(MapVal);
-    
-    //auto :
-    cout<<"show auto:"<<endl;
-    for(auto val:MapVal)
+    //swap
+    std::map<int, int> map_ii1;
+    map_ii1.swap(map_ii0);
+    std::cout<<"show map_ii1:";
+    show_map<int, int>(map_ii1);
+    std::cout<<"map_ii0 size:"<<map_ii0.size()<<std::endl;
+
+    //insert, emplace, []
+    map_si0.insert(std::pair<std::string, int>("four", 4));
+    map_si0.insert(std::make_pair<std::string, int>("five", 5));
+    map_si0.insert(std::map<std::string, int>::value_type("six", 6));
+    map_si0.emplace(std::pair<std::string, int>("ten", 10));
+    map_si0["Seven"] = 7;
+    std::cout<<"map_si0 val:";
+    show_map<std::string, int>(map_si0);
+    std::cout<<"map_si0 val:";
+    for(auto val:map_si0)
     {
-        cout<<val.first<<":"<<val.second<<endl;
+        std::cout<<val.first<<":"<<val.second<<" ";
     }
-    cout<<endl;
-
-    //auto iterator
-    cout<<"show iterator:"<<endl;
-    for(auto iteartor_val=MapVal.begin(); iteartor_val!=MapVal.end(); iteartor_val++)
+    std::cout<<std::endl;
+    std::cout<<"map_si0 iterator val:";
+    for(auto iteartor_val=map_si0.begin(); iteartor_val!=map_si0.end(); iteartor_val++)
     {
-        cout<<iteartor_val->first<<":"<<iteartor_val->second<<endl;
+        std::cout<<iteartor_val->first<<":"<<iteartor_val->second<<" ";
     }
-    cout<<endl;
+    std::cout<<std::endl;
 
-    //find语法
-    map<string, int>::iterator iter = MapVal.find(string("second"));
-    if(iter != MapVal.end())
-        cout<<iter->first<<":"<<iter->second<<endl;
-    cout<<endl;
+    //find
+    std::map<std::string, int>::iterator iter = map_si0.find("second");
+    if(iter != map_si0.end())
+        std::cout<<iter->first<<":"<<iter->second;
+    std::cout<<std::endl;
 
-    //map排序 sort算法默认只支持vector
-    cout<<"show sort:"<<endl;
-    vector<pair<string, int>>  vec_pair;
-    for(auto val:MapVal)
+    //sort
+    std::cout<<"show sort:";
+    std::vector<std::pair<std::string, int>>  vec_pair;
+    for(auto val:map_si0)
     {
-        vec_pair.push_back(pair<string, int>(val.first, val.second));
+        vec_pair.push_back(std::pair<std::string, int>(val.first, val.second));
     }
-    sort(vec_pair.begin(), vec_pair.end(), [](pair<string, int> &map_ref0, pair<string, int> &map_ref1)->bool{
+    std::sort(vec_pair.begin(), vec_pair.end(), [](std::pair<std::string, int> &map_ref0, std::pair<std::string, int> &map_ref1)->bool{
         return map_ref0.second < map_ref1.second;
     });
     for(auto val:vec_pair)
     {
-        cout<<val.first<<":"<<val.second<<endl;
+        std::cout<<val.first<<":"<<val.second<<" ";
     }
-    cout<<endl;
+    std::cout<<std::endl;
     return 0;
 }

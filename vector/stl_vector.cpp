@@ -1,82 +1,106 @@
 ﻿/**********************************************************
- * 说明: vector 向量容器
- * 向量容器要求内部变量的类型一致,且与模板定义的一致
- * 与数组的操作类似，较大的区别是vector对于空间的运用更加灵活
- * vector常用方法
- * size, push_back, pop_back, size, insert
- * erase, clear         只清除变量，不释放空间
- * capacity, resize,
- * reserve
+ * std::vector
+ * 包含一系列相同变量的向量容器
+ * size                 容器内当前数据的数目
+ * max_size             容器内当前数据的最大数目
+ * capacity             容器当前的容量
+ * resize               以指定值扩展容器空间, 小于当前数目则删除
+ * push_back, pop_back  向容器内写入或者弹出数据
+ * insert               向容器的指定地址插入指定数目的数据
+ * erase, clear         删除数据或者内部全部数据
+ * reserve              增加容器的容量(大于当前容量则扩容，否则不变)
+ * emplace_back         功能等同于push_back, 向队列插入数据(避免不必要的临时对象产生)
 ************************************************************/
 #include <vector>
 #include <iostream>
 #include <algorithm>
+#include <string>
 
-using namespace std;
+template<class T>
+void show_vector(std::vector<T> vector_val)
+{
+    //begin end
+    std::for_each(vector_val.begin(), vector_val.end(), [](const T &ref_value){
+        std::cout<<ref_value<<" ";
+    });
+    std::cout<<std::endl;
+}
 
 int main(int argc, char* argv[])
 {
+    //init
     int array[5] = {8, 2, 1, 3, 5};
+    std::vector<int> vector_int0(array, array+5);
+    std::vector<int> vector_int1(vector_int0);
+    std::vector<int> vector_int2{5, 2, 1, 3, 1}; //列表初始化
 
-    //容器的初始化
-    vector<int> v0(array, array+5);
-    vector<int> v1(v0);
-    vector<int> v2{5, 2, 1, 3, 1}; //列表初始化 C++11支持
+    //push_back, pop_back，resize, size, max_size
+    std::cout<<"vector_int1 val:";
+    show_vector(vector_int1);
+    vector_int1.push_back(7);
+    vector_int1.insert(vector_int1.begin(), 1, 2);
+    vector_int1.emplace_back(19);
+    std::cout<<"vector_int1 val:";
+    show_vector(vector_int1);
+    vector_int1.pop_back();
+    std::cout<<"vector_int1 val:";
+    show_vector(vector_int1);
+    vector_int1.resize(2, 3);
+    std::cout<<"vector_int1 val:";
+    show_vector(vector_int1);
+    vector_int1.resize(8, 6); //扩展空间为8位,并以6赋值
+    std::cout<<"vector_int1 val:";
+    show_vector(vector_int1);
+    std::cout<<"vector_int1 size:"<<vector_int1.size()<<std::endl;
+    vector_int1.reserve(9);
+    std::cout<<"vector_int1 val:";
+    show_vector(vector_int1);
+    std::cout<<"vector_int1 size:"<<vector_int1.capacity()<<std::endl;
+    std::cout<<"vector_int1 max_size:"<<vector_int1.max_size()<<std::endl;
 
-    //向量容器的push, pop和resize方法
-    v0.push_back(7);
-    v1.pop_back();
-    v1.resize(8, 6); //扩展空间为8位,并以6赋值
-    
-    //输出容器的长度
-    cout<<"size v0:"<<v0.size()<<endl;
-    cout<<"size v0:"<<v1.size()<<endl;
+    //capacity, empty, clear, reserve
+    std::cout<<"vector_int2 capacity:"<<vector_int2.capacity()<<std::endl;
+    std::cout<<"vector_int2 empty:"<<vector_int2.empty()<<std::endl;
+    vector_int2.clear(); 
+    vector_int2.reserve(1);
+    std::cout<<"capacity vector_int2:"<<vector_int2.capacity()<<std::endl;
+    std::cout<<"vector_int2 empty:"<<vector_int2.empty()<<std::endl;
 
-    //容量 容器是否为空
-    cout<<"capacity v2:"<<v2.capacity()<<endl;
-    cout<<"v2 is empty:"<<v2.empty()<<endl;
-    v2.clear(); 
-    v2.reserve(1);
-    cout<<"capacity v2:"<<v2.capacity()<<endl;
-    cout<<"v2 is empty:"<<v2.empty()<<endl;
+    //front, back
+    std::cout<<"vector_int1 front:"<<vector_int1.front()<<std::endl;
+    std::cout<<"vector_int1 end:"<<vector_int1.back()<<std::endl;
 
-    //输出向量的首值和末尾值
-    cout<<"vector front:"<<v1.front()<<" ";
-    cout<<"vector end:"<<v1.back()<<endl;
-
-    //迭代器输出
-    cout<<"iterator：";
-    for(vector<int>::iterator iter0=v1.begin(); iter0 != v1.end(); iter0++)
+    //iterator
+    std::cout<<"vector_int1 iterator val:";
+    for(std::vector<int>::iterator iter0=vector_int1.begin(); iter0 != vector_int1.end(); iter0++)
     {
-        cout<<*iter0<<" ";
+        std::cout<<*iter0<<" ";
     }
-    cout<<endl;
+    std::cout<<std::endl;
 
-    //自动推导变量auto和重载
-    cout<<"auto and *overload：";
-    for(auto iter1=v1.begin(); iter1 != v1.end(); iter1++)
+    // //auto
+    std::cout<<"vector_int1 iterator auto:";
+    for(auto iter1=vector_int1.begin(); iter1 != vector_int1.end(); iter1++)
     {
-        cout<<*iter1<<" ";
+        std::cout<<*iter1<<" ";
     }
-    cout<<endl;
+    std::cout<<std::endl;
 
-    //foreach和lambda
-    cout<<"foreach and lambda: ";
-    for_each(v1.begin(), v1.end(), [](int &value){
-        cout<<value<<" ";
-    });
-    cout<<endl;
-
-    //sort， foreach和lambda
-    cout<<"sort foreach and lambda: ";
-    sort(v1.begin(), v1.end(), [](int &t1, int &t2)->bool{
+    // //sort, foreach, lambda
+    std::cout<<"vector_int1 sort val ";
+    std::sort(vector_int1.begin(), vector_int1.end(), [](int &t1, int &t2)->bool{
         if(t1<t2)
              return true;
         return false;
     });
-    sort(v0.begin(), v1.begin());
-    for_each(v1.begin(), v1.end(), [](int &value){
-        cout<<value<<" ";
-    });
-    cout<<endl;
+    show_vector(vector_int1);
+
+    std::vector<std::string> vector_str0{"hello", "vector", "test"};
+    std::vector<std::string> vector_str1;
+    std::cout<<"vector_str0 val:";
+    show_vector(vector_str0);
+    vector_str1.swap(vector_str0);
+    std::cout<<"vector_str1 val:";
+    show_vector(vector_str1);
+    std::cout<<"vector_str0 empty:"<<vector_str0.empty()<<std::endl;
 }
