@@ -6,16 +6,18 @@
 ## STL相关应用  
 ```cpp
 //序列式容器
+/*数据集合的向量*/
 #include<vector>
+/*数据集合的列表*/
 #include<list>
 #include<deque>
+/*先入先出的栈结构*/
 #include<stack>
 #include<queue>
-#include<heap>
 #include<priority_queue>
-#include<slist>
 #include<tuple>
 //关联式容器
+/*不重复的自动排序的元素集合*/
 #include<set>
 #include<map>
 #include<multiset>
