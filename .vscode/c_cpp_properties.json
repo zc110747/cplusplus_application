@@ -18,7 +18,7 @@
                 "_XOPEN_SOURCE"
             ],
             "windowsSdkVersion": "8.1",
-            "compilerPath": "D:/Software/mingw64/bin/g++.exe",
+            "compilerPath": "C:/Qt/Qt5.12.8/Tools/mingw730_32/bin/g++",
             "cStandard": "c11",
             "cppStandard": "c++17",
             "intelliSenseMode": "gcc-x64"
