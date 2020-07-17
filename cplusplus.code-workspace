@@ -61,7 +61,8 @@
 			"ratio": "cpp",
 			"mutex": "cpp",
 			"thread": "cpp",
-			"bit": "cpp"
+			"bit": "cpp",
+			"ios": "cpp"
 		}
 	}
 }

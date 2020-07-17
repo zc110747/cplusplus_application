@@ -3,11 +3,10 @@
         {
             "name": "Win32",
             "includePath": [
-                "${env.includePATH}",
+                "${env.includeMingwPath}",
                 "${workspaceFolder}/**"
             ],
             "defines": [
-                "__cplusplus=201711L",
                 "_DEBUG",
                 "UNICODE",
                 "_UNICODE",
@@ -18,9 +17,9 @@
                 "_XOPEN_SOURCE"
             ],
             "windowsSdkVersion": "8.1",
-            "compilerPath": "",
+            "compilerPath": "D:/Software/mingw64/bin/g++",
             "cStandard": "c11",
-            "cppStandard": "c++17",
+            "cppStandard": "c++11",
             "intelliSenseMode": "gcc-x64"
         }
     ],

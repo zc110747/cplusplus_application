@@ -5,8 +5,8 @@ CFLAGS  := -O3 -std=c++17 -lpthread
 #头文件路径
 LOWERAPP_INC_ROOT = ../
 
-OBJS = stl_list.o 
-APP = stl_list
+OBJS = test_constexpr.o 
+APP = test_constexpr
 
 LOWERAPP_INC= -I $(LOWERAPP_INC_ROOT)
 INCLUDE_PATH = $(LOWERAPP_INC)

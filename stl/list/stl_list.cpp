@@ -17,7 +17,7 @@
 #include <string>
 
 template<class T>
-int show_list(std::list<T> &list_val)
+void show_list(std::list<T> &list_val)
 {
     std::for_each(list_val.begin(), list_val.end(), [](T &value){
         std::cout<<value<<" ";
