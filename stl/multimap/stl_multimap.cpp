@@ -11,6 +11,8 @@
  * emplace      向队列插入数据(避免不必要的临时对象产生)
  * lower_bound  返回非递减序列中的第一个大于等于值val的迭代器(上限闭合)
  * upper_bound  返回非递减序列中第一个大于值val的位置(下限闭合)
+ * key_comp     判断在容器中，后面指定的key值和前面指定key值的相对位置(1表示在后面)
+ * value_comp   判断在容器中，后面指定的value值和前面指定value值的相对位置(1表示在后面)
 ************************************************************/
 #include <string>
 #include <map>
@@ -99,9 +101,23 @@ int main(int argc, char* argv[])
     };
     std::cout<<multimap_val3<<std::endl;
     std::cout<<(*(multimap_val3.find("first"))).second<<std::endl;
-    auto multimap_val4 = multimap_val3;
     
-    //key_comp
-    std::cout<<multimap_val3.key_comp()((*multimap_val3.begin()).first, "g")<<std::endl;
-    std::cout<<multimap_val3<<std::endl;
+    //key_comp, value_comp
+    std::multimap<int, int> multimap_val4 = {
+        {1, 2},
+        {3, 4},
+        {4, 5},
+    };
+    multimap_val4.insert(std::make_pair(3, 1));
+    std::cout<<multimap_val4<<std::endl;
+    std::cout<<multimap_val4.key_comp()((*multimap_val4.begin()).first, 2)<<std::endl;
+    std::cout<<multimap_val4.key_comp()((*multimap_val4.begin()).first, 0)<<std::endl;
+    std::cout<<multimap_val4.value_comp()(*multimap_val4.begin(), *multimap_val4.rbegin())<<std::endl;
+    std::cout<<multimap_val4.value_comp()(*multimap_val4.rbegin(), *multimap_val4.begin())<<std::endl;
+
+    auto iter0 = multimap_val4.lower_bound(2);
+    auto iter1 = multimap_val4.upper_bound(3);
+    std::cout<<iter0->first<<" "<<iter0->second<<std::endl;
+    if(iter1 != multimap_val4.end())
+        std::cout<<iter1->first<<" "<<iter1->second<<std::endl;
 }
