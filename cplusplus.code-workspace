@@ -63,7 +63,11 @@
 			"thread": "cpp",
 			"bit": "cpp",
 			"ios": "cpp",
+<<<<<<< HEAD
 			"variant": "cpp"
+=======
+			"hash_set": "cpp"
+>>>>>>> 4c27ff6faa0625bb78fcc12e295ed3575b182006
 		}
 	}
 }

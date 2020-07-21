@@ -1,12 +1,13 @@
 ﻿/*********************************************************************
  * 说明: map 
  * 关联容器，提供映射的处理关系
- * size         获取map容器的当前大小
- * max_size     获取map容器的最大允许容量
+ * size         获取容器的当前大小
+ * max_size     获取容器的最大允许容量
  * empty        判断容器是否为空
  * swap         交换两个map内的信息，另外一个map将会被清空
  * erase clear  容器删除/清空数据
  * insert       向容器内插入数据
+ * find         查找存在指定值，返回迭代器
  * emplace      向队列插入数据(避免不必要的临时对象产生)
  * lower_bound  返回非递减序列中的第一个大于等于值val的迭代器(上限闭合)
  * upper_bound  返回非递减序列中第一个大于值val的位置(下限闭合)
@@ -88,6 +89,7 @@ int main(int argc, char* argv[])
     map_si0.insert(std::make_pair<std::string, int>("five", 5));
     map_si0.insert(std::map<std::string, int>::value_type("six", 6));
     map_si0.emplace(std::pair<std::string, int>("ten", 10));
+    map_si0.emplace(std::pair<std::string, int>("ten", 11)); //相同的值添加无效
     map_si0["Seven"] = 7;
     std::cout<<"map_si0 val:";
     show_map<std::string, int>(map_si0);

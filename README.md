@@ -15,13 +15,9 @@
 #include<tuple>
 //关联式容器
 #include<set>               /*不重复的自动排序的元素集合*/
-#include<map>               /*带映射关系的表集合*/
-#include<multiset>          /*支撑重复的自动排序的元素集合*/
-#include<multimap>
-#include<hash_set>
-#include<hash_map>
-#include<hash_multiset>
-#include<hash_multimap>
+multiset                    /*支持重复的自动排序的元素集合*/
+#include<map>               /*带映射关系的表集合*/       
+multimap                    /*支持重复的映射关系的表集合*/
 //算法
 //支持的算法(常用)
 //遍历for_each
