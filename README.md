@@ -1,39 +1,49 @@
 # cplusplus_application  
-基于C++标准库的基础应用实践，用于深入熟悉和学习C++语言  
-参考学习书籍《STL源码剖析》和《泛型编程和STL》  
-内部需要用到类，模板的知识，且涉及少量的lambda，建议实践前掌握  
-因为代码部分涉及到C++11及之后版本的实现，目前测试版本为g++9.3.0, 早期版本测试可能不通过
+this is a program for study cplusplus.
+study for cplusplus can be find in path:http://www.cplusplus.com/reference/
+include C library, Containers, Input/Output, Multi-threading and Others.
+also, Other suggested books shows below will be useful.
+<C++ Primer Plus>
+<STL源码剖析>
+<泛型编程和STL> 
 
-## stl/ 标准模板库, STL相关应用  
+## Container for cplusplus
 ```cpp
-//序列式容器
-#include<vector>            /*数据集合的向量*/
-#include<list>              /*数据集合的列表*/    
+//Sequence of the container
+#include<vector>           
+#include<list>             
 #include<deque>
-#include<stack>             /*后进先出的堆栈容器*/
-#include<queue>             /*先进先出的队列容器*/
-#include<tuple>
-//关联式容器
-#include<set>               /*不重复的自动排序的元素集合*/
-multiset                    /*支持重复的自动排序的元素集合*/
-#include<map>               /*带映射关系的表集合*/       
-multimap                    /*支持重复的映射关系的表集合*/
-//算法
-//支持的算法(常用)
-//遍历for_each
-//排序sort
-//查找find, find_if, find_end, find_first_of
-//复制copy
-//重复元素折叠unique
-//交换swap
+#include<stack>            
+#include<queue>           
+#include<set>             
+#include<multiset>          
+#include<unordered_set>
+#include<unordered_multiset>
+//associative containers
+#include<map>             
+#include<multimap>  
+#include<unordered_map>
+#include<unordered_multimap>                 
+//algorithm(useful)
+//for_each, sort
+//find, find_if, find_end, find_first_of
+//copy, unique
+//swap
 #include<algorithm>
 //
 ```
 
-## std/ C++标准库应用
+## Input/Output for cplusplus
 ```cpp
-#include<string>
 #include<iostream>
+```
+
+## Multi-threading
+```cpp
 #include<thread>
 ```
 
+## Others
+```cpp
+#include<string>
+```
