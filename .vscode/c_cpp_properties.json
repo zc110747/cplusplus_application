@@ -3,7 +3,6 @@
         {
             "name": "Win32",
             "includePath": [
-                "${env.includeMingwPath}",
                 "${workspaceFolder}/**"
             ],
             "defines": [
@@ -17,7 +16,7 @@
                 "_XOPEN_SOURCE"
             ],
             "windowsSdkVersion": "8.1",
-            "compilerPath": "D:/Software/mingw64/bin/g++",
+            "compilerPath": "/usr/bin/g++",
             "cStandard": "c11",
             "cppStandard": "c++17",
             "intelliSenseMode": "gcc-x64"
