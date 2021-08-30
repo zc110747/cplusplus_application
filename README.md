@@ -1,6 +1,6 @@
 # cplusplus_application  
-this is a program for study cplusplus.
-study for cplusplus can be find in path:http://www.cplusplus.com/reference/
+This is a program for study cplusplus.
+Study for cplusplus:http://www.cplusplus.com/reference/
 include C library, Containers, Input/Output, Multi-threading and Others.
 also, Other suggested books shows below will be useful.
 <C++ Primer Plus>
