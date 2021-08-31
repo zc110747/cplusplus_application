@@ -1,6 +1,0 @@
-LIBS=
-C_MD5_SUM=UMl0DqCTIaqp8jio7QqLjw
-SIGNATURE=1630388353,9434
-SYSTEM_INCLUDES=algorithm iostream set string unistd.h
-INCLUDES=
-END=
