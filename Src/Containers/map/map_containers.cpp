@@ -88,12 +88,24 @@ void map_study_handle(void)
     //equal_range, lower_bound, upper_bound
     std::pair<std::map<string, int>::iterator, std::map<string, int>::iterator> ret;
     ret = usermap.equal_range("beta");
-    cout<<"equal_range lower_bound:"<<ret.first->first<<"=>"<<ret.first->second<<endl;
-    cout<<"equal_range upper_bound:"<<ret.second->first<<"=>"<<ret.second->second<<endl;
+    if(ret.first != usermap.end())
+        cout<<"equal_range lower_bound:"<<ret.first->first<<"=>"<<ret.first->second<<endl;
+    else
+        cout<<"invaild equal_range lower_bound"<<endl;
+    if(ret.second != usermap.end())   
+        cout<<"equal_range upper_bound:"<<ret.second->first<<"=>"<<ret.second->second<<endl;
+    else
+        cout<<"invaild equal_range upper_bound"<<endl;
     std::map<string, int>::iterator lower = usermap.lower_bound("beta");
     std::map<string, int>::iterator upper = usermap.upper_bound("beta");
-    cout<<"lower_bound:"<<lower->first<<"=>"<<lower->second<<endl;
-    cout<<"upper_bound:"<<upper->first<<"=>"<<upper->second<<endl;
+    if(lower != usermap.end())
+        cout<<"lower_bound:"<<lower->first<<"=>"<<lower->second<<endl;
+    else
+        cout<<"invaild lower_bound"<<endl;
+    if(upper != usermap.end())
+        cout<<"upper_bound:"<<upper->first<<"=>"<<upper->second<<endl;
+    else   
+        cout<<"invaild upper_bound"<<endl;
 
     //find, erase
     std::map<string, int>::iterator it = usermap.find("gamma");
@@ -182,12 +194,12 @@ void show_map_help(void)
 
     helpstring.append("at               Returns a reference to the element at position n.\n");
     helpstring.append("begin            Returns an iterator pointing to the first element.\n");
-    helpstring.append("cbegin           Returns a const_iterator pointing to the first element(c++11).\n");
-    helpstring.append("cend             Returns a const_iterator pointing to the past-the-end element. \n");
-    helpstring.append("clear            Removes all element from the map, and container size is zero. \n");
+    helpstring.append("cbegin           Returns a const_iterator pointing to the first element.\n");
+    helpstring.append("cend             Returns a const_iterator pointing to the past-the-end element.\n");
+    helpstring.append("clear            Removes all element from the map, and container size is zero.\n");
     helpstring.append("count            Searches the container for elements with a key equivalent to k and returns the number of matches.\n");
     helpstring.append("crbegin          Returns a const_reverse_iterator pointing to the last element.\n");
-    helpstring.append("crend            Returns a const_reverse_iterator pointing to the theoretical element preceding the first element(c++11).\n");
+    helpstring.append("crend            Returns a const_reverse_iterator pointing to the theoretical element preceding the first element.\n");
     helpstring.append("emplace          Inserts a new element in the map if its key is unique.\n");
     helpstring.append("emplace_hint     Inserts a new element in the map if its key is unique, with a hint on the insertion position..\n");
     helpstring.append("empty            Returns whehter the map is empty.\n");

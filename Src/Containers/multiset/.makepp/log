@@ -1,0 +1,41 @@
+3/usr/bin/makepp clean
+VERSION2.0.99.25.22.1x86_64-linux-gnu-thread-multi
+DEBUG0
+LOAD1eb55a0Makefile1a6fca8/home/user/Application/git/cplusplus_application/Src/Containers/multiset1a6fca8
+TRY1eb55a0
+USEdefault rule
+DEPEND1eb55a0
+UP_TO_DATE1eb55a0
+LOAD_DEFAULT1eb5d20Build1a6a6a8/home/user/Application/git/cplusplus_application
+LOAD_INCL1ed3dc0makepp_builtin_rules.mk17a9178/usr/share/makepp1ecb368makepp_default_makefile.mk17a9178
+LOAD_END1ecb368
+PREBUILD1eeb470build.mk1eb5d20/home/user/Application/git/cplusplus_application/Src/Containers/multiset/Makefile:19
+TRY1eeb470
+USEdefault rule
+DEPEND1eeb470
+UP_TO_DATE1eeb470
+LOAD_INCL1eeb470/home/user/Application/git/cplusplus_application/Src/Containers/multiset/Makefile:19
+LOAD_INCL1ed3dc01eb55a0
+LOAD_END1eb55a0
+TRY1eaff70clean1a6fca8
+USE/home/user/Application/git/cplusplus_application/Build/build.mk:29(../Src/Containers/multiset)
+SCAN_INFO1eaff70
+LEX_RULE1eaff70info not cached
+PARSErm -f multiset_containers.o ../../../Executables//studymultiset1a6fca8/home/user/Application/git/cplusplus_application/Build/build.mk:29(../Src/Containers/multiset)
+TRY1f142f0rm1f14128/bin
+USEdefault rule
+DEPEND1f142f0
+UP_TO_DATE1f142f0
+DEPEND1eaff701f142f0
+BUILD_NONE1eaff70
+SUCCESS/home/user/Application/git/cplusplus_application/Build/build.mk:29(../Src/Containers/multiset)1eaff70
+*** warning: I attempted to build /home/user/Application/git/cplusplus_application/Src/Containers/multiset/clean,
+  but after successfully executing the commands, the target does not exist.
+  Perhaps it is a phony target?	 If so, the rule defining it should be modified
+  like this:
+    $(phony clean): dependencies
+	actions
+
+  or you could also declare it as phony like this:
+    .PHONY: clean
+N_FILES010

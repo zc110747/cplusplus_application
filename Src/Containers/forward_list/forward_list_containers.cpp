@@ -184,8 +184,8 @@ void show_forward_list_help(void)
     helpstring.append("before_begin     Returns an iterator pointing to the position before the first element.\n");
     helpstring.append("begin            Returns an iterator pointing to the first element.\n");
     helpstring.append("cbefore_begin    Returns a const_iterator pointing to the position before the first element.\n");
-    helpstring.append("cbegin           Returns a const_iterator pointing to the first element(c++11).\n");
-    helpstring.append("cend             Returns a const_iterator pointing to the past-the-end element(c++11). \n");
+    helpstring.append("cbegin           Returns a const_iterator pointing to the first element.\n");
+    helpstring.append("cend             Returns a const_iterator pointing to the past-the-end element. \n");
     helpstring.append("clear            Removes all element from the forward_list, and container size is zero. \n");
     helpstring.append("emplace_after    The container is extended by inserting a new element after the element at position.\n");
     helpstring.append("emplace_front    Inserts a new element at the beginning of the forward_list, right before its current first element.\n");

@@ -213,8 +213,8 @@ void show_list_help(void)
     helpstring.append("back             Returns a reference to the last element.\n");
     helpstring.append("begin            Returns a iterator pointing to the first element.\n");
     helpstring.append("cbegin           Returns a const_iterator pointing to the first element.\n");
-    helpstring.append("cend             Returns a const_iterator pointing to the past-the-end element. \n");
-    helpstring.append("clear            Removes all element from the list, and container size is zero. \n");
+    helpstring.append("cend             Returns a const_iterator pointing to the past-the-end element.\n");
+    helpstring.append("clear            Removes all element from the list, and container size is zero.\n");
     helpstring.append("crbegin          Returns a const_reverse_iterator pointing to the last element.\n");
     helpstring.append("crend            Returns a const_reverse_iterator pointing to the theoretical element preceding the first element.\n");
     helpstring.append("emplace          Insert a new element at position, return newly iterator.\n");

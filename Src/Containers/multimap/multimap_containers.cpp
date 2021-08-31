@@ -85,12 +85,24 @@ void multimap_study_handle(void)
     //equal_range, lower_bound, upper_bound
     std::pair<std::multimap<string, int>::iterator, std::multimap<string, int>::iterator> ret;
     ret = usermultimap.equal_range("beta");
-    cout<<"equal_range lower_bound:"<<ret.first->first<<"=>"<<ret.first->second<<endl;
-    cout<<"equal_range upper_bound:"<<ret.second->first<<"=>"<<ret.second->second<<endl;
+    if(ret.first != usermultimap.end())
+        cout<<"equal_range lower_bound:"<<ret.first->first<<"=>"<<ret.first->second<<endl;
+    else
+        cout<<"invaild equal_range lower_bound"<<endl;
+    if(ret.second != usermultimap.end())   
+        cout<<"equal_range upper_bound:"<<ret.second->first<<"=>"<<ret.second->second<<endl;
+    else
+        cout<<"invaild equal_range upper_bound"<<endl;
     std::multimap<string, int>::iterator lower = usermultimap.lower_bound("beta");
     std::multimap<string, int>::iterator upper = usermultimap.upper_bound("beta");
-    cout<<"lower_bound:"<<lower->first<<"=>"<<lower->second<<endl;
-    cout<<"upper_bound:"<<upper->first<<"=>"<<upper->second<<endl;
+    if(lower != usermultimap.end())
+        cout<<"lower_bound:"<<lower->first<<"=>"<<lower->second<<endl;
+    else
+        cout<<"invaild lower_bound"<<endl;
+    if(upper != usermultimap.end())
+        cout<<"upper_bound:"<<upper->first<<"=>"<<upper->second<<endl;
+    else   
+        cout<<"invaild upper_bound"<<endl;
 
     //find, erase
     std::multimap<string, int>::iterator it = usermultimap.find("gamma");
@@ -178,12 +190,12 @@ void show_multimap_help(void)
     string helpstring;
 
     helpstring.append("begin            Returns an iterator pointing to the first element.\n");
-    helpstring.append("cbegin           Returns a const_iterator pointing to the first element(c++11).\n");
-    helpstring.append("cend             Returns a const_iterator pointing to the past-the-end element. \n");
-    helpstring.append("clear            Removes all element from the multimap, and container size is zero. \n");
+    helpstring.append("cbegin           Returns a const_iterator pointing to the first element.\n");
+    helpstring.append("cend             Returns a const_iterator pointing to the past-the-end element.\n");
+    helpstring.append("clear            Removes all element from the multimap, and container size is zero.\n");
     helpstring.append("count            Searches the container for elements with a key equivalent to k and returns the number of matches.\n");
     helpstring.append("crbegin          Returns a const_reverse_iterator pointing to the last element.\n");
-    helpstring.append("crend            Returns a const_reverse_iterator pointing to the theoretical element preceding the first element(c++11).\n");
+    helpstring.append("crend            Returns a const_reverse_iterator pointing to the theoretical element preceding the first element.\n");
     helpstring.append("emplace          Inserts a new element in the multimap if its key is unique.\n");
     helpstring.append("emplace_hint     Inserts a new element in the multimap if its key is unique, with a hint on the insertion position..\n");
     helpstring.append("empty            Returns whehter the multimap is empty.\n");

@@ -127,11 +127,11 @@ void show_array_help(void)
     helpstring.append("at               Returns a reference to the element at position n.\n");
     helpstring.append("back             Returns a reference to the last element.\n");
     helpstring.append("begin            Returns an iterator pointing to the first element.\n");
-    helpstring.append("cbegin           Returns a const_iterator pointing to the first element(c++11).\n");
-    helpstring.append("cend             Returns a const_iterator pointing to the past-the-end element(c++11). \n");
-    helpstring.append("crbegin          Returns a const_reverse_iterator pointing to the last element(c++11).\n");
-    helpstring.append("crend            Returns a const_reverse_iterator pointing to the theoretical element preceding the first element(c++11).\n");
-    helpstring.append("data             Returns a pointer to the fisrt element in array(c++11).\n");
+    helpstring.append("cbegin           Returns a const_iterator pointing to the first element.\n");
+    helpstring.append("cend             Returns a const_iterator pointing to the past-the-end element. \n");
+    helpstring.append("crbegin          Returns a const_reverse_iterator pointing to the last element.\n");
+    helpstring.append("crend            Returns a const_reverse_iterator pointing to the theoretical element preceding the first element.\n");
+    helpstring.append("data             Returns a pointer to the fisrt element in array.\n");
     helpstring.append("empty            Returns whehter the array is empty.\n");
     helpstring.append("end              Returns an iterator pointing to the past-the-end element.\n");
     helpstring.append("fill             Sets val as the value for all the elements in the array object.\n");

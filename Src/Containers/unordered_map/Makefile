@@ -8,11 +8,11 @@
 
 # This is object should be build and will link to generate
 # the executables
-objects = unordered_set_containers.o
+objects = unordered_map_containers.o
 
 # This is the file name of the executables and path where 
 # place the executables
-executables = studyunordered_set
+executables = studyunordered_map
 executables_path = ../../../Executables/
 
 # Including this file allows access to the Build System.

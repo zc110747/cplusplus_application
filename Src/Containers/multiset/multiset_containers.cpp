@@ -38,7 +38,7 @@ void multiset_study_handle(void)
     listmultiset = std::multiset<string>({"0x00", "0x01", "0x02"});
     
     show_multiset(listmultiset, "listmultiset");
-    //count, clear, size
+    //count, clear, size,empty
     cout<<"count"<<listmultiset.count("0x01");
     listmultiset.clear();
     cout<<"size:"<<listmultiset.size()<<endl;
@@ -73,14 +73,27 @@ void multiset_study_handle(void)
     show_multiset(usermultiset, "emplace_hint");
 
     //equal_range, lower_bound, upper_bound
-    std::pair<std::multiset<int>::const_iterator, std::multiset<int>::const_iterator> ret;
+    //equal_range, lower_bound, upper_bound
+    std::pair<std::set<int>::const_iterator, std::set<int>::const_iterator> ret;
     ret = usermultiset.equal_range(5);
-    cout<<"equal_range lowerbound:"<<*(ret.first)<<endl;
-    cout<<"equal_range upperbound:"<<*(ret.second)<<endl;
-    std::multiset<int>::const_iterator iterlower = usermultiset.lower_bound(5);
-    std::multiset<int>::const_iterator iterupper = usermultiset.upper_bound(5);
-    cout<<"lowerbound:"<<*(ret.first)<<endl;
-    cout<<"upperbound:"<<*(ret.second)<<endl;
+    if(ret.first != usermultiset.end())
+        cout<<"equal_range lowerbound:"<<*(ret.first)<<endl;
+    else
+        cout<<"invalid equal_range lowerbound"<<endl;
+    if(ret.second != usermultiset.end())
+        cout<<"equal_range upperbound:"<<*(ret.second)<<endl;
+    else
+        cout<<"invalid equal_range lowerbound"<<endl;
+    std::set<int>::const_iterator iterlower = usermultiset.lower_bound(5);
+    std::set<int>::const_iterator iterupper = usermultiset.upper_bound(5);
+    if(iterlower != usermultiset.end())
+        cout<<"lowerbound:"<<*iterlower<<endl;
+    else
+        cout<<"invalid lowerbound"<<endl;
+    if(iterupper != usermultiset.end())
+        cout<<"upperbound:"<<*iterupper<<endl;
+    else
+        cout<<"invalid upperbound"<<endl;
 
     //erase
     auto iter=usermultiset.begin();
@@ -179,13 +192,13 @@ void show_multiset_help(void)
     string helpstring;
 
     helpstring.append("begin            Returns an iterator pointing to the first element.\n");
-    helpstring.append("cbegin           Returns a const_iterator pointing to the first element(c++11).\n");
-    helpstring.append("cend             Returns a const_iterator pointing to the past-the-end element(c++11). \n");
+    helpstring.append("cbegin           Returns a const_iterator pointing to the first element.\n");
+    helpstring.append("cend             Returns a const_iterator pointing to the past-the-end element. \n");
     helpstring.append("clear            Removes all element from the multiset, and container size is zero. \n");
-    helpstring.append("count            Searches the container for elements equivalent to val and returns the number of matches. \n");   
-    helpstring.append("crbegin          Returns a const_reverse_iterator pointing to the last element(c++11).\n");
-    helpstring.append("crend            Returns a const_reverse_iterator pointing to the theoretical element preceding the first element(c++11).\n");
-    helpstring.append("emplace          Insert a new element at position, return newly iterator.(c++).\n");
+    helpstring.append("count            Searches the container for elements equivalent to val and returns the number of matches.\n");   
+    helpstring.append("crbegin          Returns a const_reverse_iterator pointing to the last element.\n");
+    helpstring.append("crend            Returns a const_reverse_iterator pointing to the theoretical element preceding the first element.\n");
+    helpstring.append("emplace          Insert a new element at position, return newly iterator.\n");
     helpstring.append("emplace_hint     Inserts a new element in the multiset, if unique, with a hint on the insertion position.\n");
     helpstring.append("empty            Returns whehter the multiset is empty.\n");
     helpstring.append("end              Returns an iterator referring to the past-the-end element in the multiset container.\n");

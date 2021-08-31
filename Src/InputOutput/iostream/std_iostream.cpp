@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
         ios::out：　　　 //文件以输出方式打开（内存数据输出到文件）  
         ios::nocreate： //不建立文件，所以文件不存在时打开失败  
         ios::noreplace：//不覆盖文件，所以打开文件时如果文件存在失败  
-        ios::trunc：　  //如果文件存在，把文件长度设为0(覆盖文件)
+        ios::trunc：　  //如果文件存在，把文件长度设为0(覆盖文件
     */
     std::ofstream ofstream_file1;
     ofstream_file1.open("0.txt", std::ios::app);

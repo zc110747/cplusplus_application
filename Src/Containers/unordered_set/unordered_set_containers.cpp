@@ -38,11 +38,15 @@ void unordered_set_study_handle(void)
     listunordered_set = std::unordered_set<string>({"0x00", "0x01", "0x02"});
     
     show_unordered_set(listunordered_set, "listunordered_set");
-    //count, clear, size
+    //count, clear, size, empty
+    //load_factor,max_bucket_count,max_load_factor
     cout<<"count"<<listunordered_set.count("0x01");
     listunordered_set.clear();
     cout<<"size:"<<listunordered_set.size()<<endl;
     cout<<"empty:"<<listunordered_set.empty()<<endl;
+    cout<<"load_factor"<<listunordered_set.load_factor()<<endl;
+    cout<<"max_bucket_count"<<listunordered_set.max_bucket_count()<<endl;
+    cout<<"max_load_factor"<<listunordered_set.max_load_factor()<<endl;
 
     show_unordered_set(userunordered_set, "userunordered_set");
 
@@ -50,13 +54,21 @@ void unordered_set_study_handle(void)
     cout<<"max_size:"<<userunordered_set.max_size()<<endl;
 
     //begin,  end,  cbegin,  cend
-    //rbegin, rend, rcbegin, rcend
     std::unordered_set<int>::iterator iterbegin = userunordered_set.begin();
     std::unordered_set<int>::iterator iterend = userunordered_set.end();
     std::unordered_set<int>::const_iterator iterconstbegin = userunordered_set.cbegin();
     std::unordered_set<int>::const_iterator iterconstend = userunordered_set.cend();
     cout<<"begin:"<<*iterbegin<<" ";
     cout<<"cbegin:"<<*iterconstbegin<<endl;
+
+    //bucket, bucket_count, bucket_size
+    cout<<"bucket:"<<userunordered_set.bucket(5)<<endl;
+    auto bucket_count = userunordered_set.bucket_count();
+    cout<<"bucket count:"<<bucket_count<<endl;
+    for(auto i=0; i<bucket_count; i++)
+    {
+        cout<<"bucket #"<<i<<" has "<<userunordered_set.bucket_size(i)<<" elements."<<endl;
+    }
 
     //emplace, find, emplace_hint
     auto it = userunordered_set.emplace(15);
@@ -66,7 +78,7 @@ void unordered_set_study_handle(void)
     userunordered_set.emplace_hint(find, 9);
     show_unordered_set(userunordered_set, "emplace_hint");
 
-    //equal_range
+    //equal_range, lower_bound, upper_bound
     std::pair<std::unordered_set<int>::const_iterator, std::unordered_set<int>::const_iterator> ret;
     ret = userunordered_set.equal_range(5);
     cout<<"equal_range lowerbound:"<<*(ret.first)<<endl;
@@ -98,14 +110,29 @@ void unordered_set_study_handle(void)
     }
     cout<<endl;
 
+    //hash_function
+    typedef std::unordered_set<int> stringintMap;
+    stringintMap::hasher hash_fn = userunordered_set.hash_function();
+    cout<<"file hash value:"<<hash_fn(5)<<endl;
+
     //insert
     userunordered_set.insert(15);
     show_unordered_set(userunordered_set, "insert");
+
+    //key_eq
+    bool equal = userunordered_set.key_eq()(4, 6);
+    cout<<"key_eq:"<<equal<<endl;
 
     //swap
     std::unordered_set<int> swapunordered_set;
     swapunordered_set.swap(userunordered_set);
     show_unordered_set(swapunordered_set, "swapunordered_set");
+
+    //rehash, reserve
+    swapunordered_set.rehash(15);
+    cout<<"rehash:"<<swapunordered_set.bucket_count()<<endl;
+    swapunordered_set.reserve(5);
+    cout<<"reserve:"<<swapunordered_set.bucket_count()<<endl;
 }
 
 template<class T>
@@ -147,31 +174,33 @@ void show_unordered_set_help(void)
     string helpstring;
 
     helpstring.append("begin            Returns an iterator pointing to the first element.\n");
-    helpstring.append("bucket           Returns the bucket number where the element with value k is located..\n");
+    helpstring.append("bucket           Returns the bucket number where the element with key k is located.\n");
+    helpstring.append("bucket_count     Returns the number of buckets in the unordered_set container.\n");
+    helpstring.append("bucket_size      Returns the number of elements in bucket n.\n");
+    helpstring.append("cbegin           Returns a const_iterator pointing to the first element.\n");
     helpstring.append("cend             Returns a const_iterator pointing to the past-the-end element. \n");
     helpstring.append("clear            Removes all element from the unordered_set, and container size is zero. \n");
-    helpstring.append("count            Searches the container for elements equivalent to val and returns the number of matches. \n");   
-    helpstring.append("crbegin          Returns a const_reverse_iterator pointing to the last element.\n");
-    helpstring.append("crend            Returns a const_reverse_iterator pointing to the theoretical element preceding the first element.\n");
-    helpstring.append("emplace          Insert a new element at position, return newly iterator.\n");
-    helpstring.append("emplace_hint     Inserts a new element in the unordered_set, if unique, with a hint on the insertion position.\n");
+    helpstring.append("count            Searches the container for elements with a key equivalent to k and returns the number of matches.\n");
+    helpstring.append("emplace          Inserts a new element in the unordered_set if its key is unique.\n");
+    helpstring.append("emplace_hint     Inserts a new element in the unordered_set if its key is unique, with a hint on the insertion position.\n");
     helpstring.append("empty            Returns whehter the unordered_set is empty.\n");
     helpstring.append("end              Returns an iterator referring to the past-the-end element in the unordered_set container.\n");
-    helpstring.append("equal_range      Returns the bounds of a range that includes all the elements in the container that are equivalent to val.\n");
+    helpstring.append("equal_range      Returns the bounds of a range that includes all the elements in the container which have a key equivalent to k.\n");
     helpstring.append("erase            Removes a single element or a range of elements in the unordered_set.\n");
-    helpstring.append("find             Searches the container for an element equivalent to val and returns an iterator to it if found.\n");
+    helpstring.append("find             Searches the container for an element with a key equivalent to k and returns an iterator to it if found.\n");
     helpstring.append("get_allocator    Returns a copy of the allocator object associated with the unordered_set.\n");
-    helpstring.append("insert           insert new elements before the element at the unordered_set position.\n");
-    helpstring.append("key_comp         Returns a copy of the comparison object used by the container to compare keys.\n");
-    helpstring.append("lower_bound      Returns an iterator pointing to the first element in the container whose key is not considered to go before k.\n");   
-    helpstring.append("max_size         Returns the maximum number of elements that the unordered_set can hold.\n");
-    helpstring.append("operator=        Assgins new container, replacing current contents and modifying size.\n");
-    helpstring.append("rbegin           Returns a reverse_iterator pointing to the last element.\n");
-    helpstring.append("rend             Returns a reverse_iterator pointing to the theoretical element preceding the first element.\n");
+    helpstring.append("hash function    Returns the hash function object used by the unordered_set container.\n");
+    helpstring.append("insert           Extends the container by inserting new elements, effectively increasing the container size by the number of elements inserted.\n");
+    helpstring.append("key_eq           Returns the key equivalence comparison predicate used by the unordered_set container.\n");
+    helpstring.append("load_factor      Returns the current load factor in the unordered_set container.\n");
+    helpstring.append("max_bucket_count Returns the maximum number of buckets that the unordered_set container can have.\n");
+    helpstring.append("max_load_factor  Get or set maximum load factor.\n");
+    helpstring.append("max_size         Returns the maximum number of elements that the unordered_set container can hold.\n");
+    helpstring.append("operator=        Assigns new contents to the container, replacing its current content.\n");
+    helpstring.append("rehash            Sets the number of buckets in the container to n or more.\n");
+    helpstring.append("reserve          Sets the number of buckets in the container (bucket_count) to the most appropriate to contain at least n elements.\n");
     helpstring.append("size             Returns number of elements in the container.\n");    
     helpstring.append("swap             Exchange the content of the containder.\n");
-    helpstring.append("upper_bound      Returns an iterator pointing to the first element in the container whose key is considered to go after k.\n");
-    helpstring.append("value_comp       Returns a comparison object that can be used to compare two elements to get whether the key of the first one goes before the second.\n");
 
     cout<<helpstring;
 }
