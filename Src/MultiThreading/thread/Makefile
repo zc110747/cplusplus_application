@@ -1,28 +1,19 @@
-#编译工具和编译选项
-CC = g++
-CFLAGS  := -O3 -std=c++11 -lpthread
+################################################################################
+#
+# THIS FILE IS BASIC MAKE FILE FOR
+# Copyright (c) 2020-2021
+# Original Author: 1107473010@qq.com
+#
+################################################################################
 
-#头文件路径
-LOWERAPP_INC_ROOT = ../
+# This is object should be build and will link to generate
+# the executables
+objects = thread_mt.o
 
-OBJS = std_thread.o 
-APP = std_thread
+# This is the file name of the executables and path where 
+# place the executables
+executables = studythread_mt
+executables_path = ../../../Executables/
 
-LOWERAPP_INC= -I $(LOWERAPP_INC_ROOT)
-INCLUDE_PATH = $(LOWERAPP_INC)
-
-all : $(APP)
-
-#生成.o文件 
-%.o : %.cpp
-	$(CC) $(CFLAGS) -c $< -o $@ $(INCLUDE_PATH)
-
-#生成文件
-$(APP): $(OBJS)
-	$(CC) -o $(APP) $(OBJS) $(LIB) $(CFLAGS)
-	rm -f $(OBJS)
-tags :
-	ctags -R *
-
-clean:
-	rm -f $(OBJS) $(APP)
+# Including this file allows access to the Build System.
+include ../../../Build/build.mk

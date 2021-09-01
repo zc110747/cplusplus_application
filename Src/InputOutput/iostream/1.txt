@@ -1,2 +1,0 @@
-test for val
-write val ok
