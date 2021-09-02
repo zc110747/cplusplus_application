@@ -13,7 +13,6 @@
 #include <memory>
 #include <thread>
 #include <chrono>    // std::chrono::seconds
-#include <mutex> 
 #include <unistd.h>
 
 using std::cout;
@@ -21,7 +20,6 @@ using std::endl;
 using std::string;
 
 static volatile int val;
-std::mutex sys_mutex;
 
 void loop_task(string str, int n)
 {
