@@ -34,7 +34,8 @@ multithreading_path := MultiThreading/thread \
 build_multithreading_path := $(foreach path,$(multithreading_path),$(mkfile_path)/$(path))
 
 #path for other c++ projece
-other_path := Other/string
+other_path := Other/string \
+			Other/tuple
 build_other_path := $(foreach path,$(other_path),$(mkfile_path)/$(path))
 
 # this is the rule how to complie file in the program, all the makefile will
