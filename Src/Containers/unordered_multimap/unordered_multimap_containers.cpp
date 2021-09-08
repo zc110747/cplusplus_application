@@ -5,7 +5,7 @@
  * of a key value and a mapped value, and which allows for fast retrieval of individual 
  * elements based on their keys.
  * 1.Need compile with command -std=c++11
- * 2.Generate excutable file studystlunordered_multimap
+ * 2.Generate excutable file studyunordered_multimap
  * 3.More reference shows in function show_unordered_multimap_help or command "studyunordered_multimap -h"
 ***********************************************************************************/
 #include <unordered_map>

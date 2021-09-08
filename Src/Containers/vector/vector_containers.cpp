@@ -3,7 +3,7 @@
  * reference:http://www.cplusplus.com/reference/vector/vector/
  * Vetors are sequence containers representing arrays that can change in size.
  * 1.Need compile with command -std=c++11
- * 2.Generate excutable file studystlvector
+ * 2.Generate excutable file studyvector
  * 3.More reference shows in function show_vector_help or command "studyvector -h"
 ***********************************************************************************/
 #include <vector>
@@ -80,7 +80,7 @@ void vector_study_handle(void)
     std::vector<int>::reverse_iterator iterrend = uservector.rend();
     std::vector<int>::const_reverse_iterator iterconstrbegin = uservector.crbegin();
     std::vector<int>::const_reverse_iterator iterconstrend = uservector.crend();
-    cout<<"begin:"<<*iterbegin<<" "<<"end:"<<*iterend<<" ";
+    cout<<"begin:"<<*iterbegin<<" "<<"end:"<<*(iterend-1)<<" ";
     cout<<"cbegin:"<<*iterconstbegin<<" "<<"cend:"<<*(iterconstend-1)<<" ";
     cout<<"rbegin:"<<*iterrbegin<<" "<<"rend:"<<*(iterrend-1)<<" ";
     cout<<"crbegin:"<<*iterconstrbegin<<" "<<"crend:"<<*(iterconstrend-1)<<" "<<endl;

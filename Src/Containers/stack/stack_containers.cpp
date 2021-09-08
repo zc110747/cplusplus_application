@@ -5,7 +5,7 @@
  * context (first-in first-out), where elements are inserted into one end of the 
  * container and extracted from the other
  * 1.Need compile with command -std=c++11
- * 2.Generate excutable file studystlstack
+ * 2.Generate excutable file studystack
  * 3.More reference shows in function show_stack_help or command "studystack -h"
 ***********************************************************************************/
 #include <stack>

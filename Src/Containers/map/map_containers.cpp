@@ -4,7 +4,7 @@
  * Maps are associative containers that store elements formed by a combination 
  * of a key value and a mapped value, following a specific order
  * 1.Need compile with command -std=c++11
- * 2.Generate excutable file studystlmap
+ * 2.Generate excutable file studymap
  * 3.More reference shows in function show_map_help or command "studymap -h"
 ***********************************************************************************/
 #include <map>

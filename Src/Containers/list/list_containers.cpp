@@ -5,7 +5,7 @@
  * and erase operations anywhere within the sequence, 
  * and iteration in both directions.
  * 1.Need compile with command -std=c++11
- * 2.Generate excutable file studystllist
+ * 2.Generate excutable file studylist
  * 3.More reference shows in function show_list_help or command "studylist -h"
 ***********************************************************************************/
 #include <list>

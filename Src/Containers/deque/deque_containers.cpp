@@ -3,7 +3,7 @@
  * reference:http://www.cplusplus.com/reference/deque/deque/
  * deque is an irregular acronym of double-ended queue.
  * 1. Need compile with command -std=c++11
- * 2. Generate excutable file studystldeque
+ * 2. Generate excutable file studydeque
  * 3. More reference shows in function show_deque_help or command "studydeque -h"
 ***********************************************************************************/
 #include <deque>

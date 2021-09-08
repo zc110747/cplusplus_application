@@ -3,7 +3,7 @@
  * reference:http://www.cplusplus.com/reference/unordered_set/unordered_multiset/
  * unordered_multisets are containers that store unique elements following a specific order.
  * 1.Need compile with command -std=c++11
- * 2.Generate excutable file studystlunordered_multiset
+ * 2.Generate excutable file studyunordered_multiset
  * 3.More reference shows in function show_unordered_multiset_help or command "studyunordered_multiset -h"
 ***********************************************************************************/
 #include <unordered_set>

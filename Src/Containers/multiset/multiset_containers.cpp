@@ -3,7 +3,7 @@
  * reference:http://www.cplusplus.com/reference/set/multiset/
  * multisets are containers that store unique elements following a specific order.
  * 1.Need compile with command -std=c++11
- * 2.Generate excutable file studystlmultiset
+ * 2.Generate excutable file studymultiset
  * 3.More reference shows in function show_multiset_help or command "studymultiset -h"
 ***********************************************************************************/
 #include <set>

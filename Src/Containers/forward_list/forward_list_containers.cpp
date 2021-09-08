@@ -4,7 +4,7 @@
  * Forward lists are sequence containers that allow constant time insert 
  * and erase operations anywhere within the sequence.
  * 1.Need compile with command -std=c++11
- * 2.Generate excutable file studystlforward_list
+ * 2.Generate excutable file studyforward_list
  * 3.More reference shows in function show_forward_list_help or command "studyforward_list -h"
 ***********************************************************************************/
 #include <forward_list>

@@ -32,4 +32,5 @@ clean:
 # this tags let the make can execute the executabls.
 # command: make execute option="-h"
 execute:
+	@echo ----execute current compile executables---
 	$(executables_path)/$(executables) $(option)

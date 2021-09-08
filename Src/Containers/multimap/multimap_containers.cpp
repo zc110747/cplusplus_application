@@ -5,7 +5,7 @@
  * a key value and a mapped value, following a specific order, and where multiple elements 
  * can have equivalent keys
  * 1.Need compile with command -std=c++11
- * 2.Generate excutable file studystlmultimap
+ * 2.Generate excutable file studymultimap
  * 3.More reference shows in function show_multimap_help or command "studymultimap -h"
 ***********************************************************************************/
 #include <map>

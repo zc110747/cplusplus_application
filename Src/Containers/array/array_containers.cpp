@@ -3,7 +3,7 @@
  * http://www.cplusplus.com/reference/array/array/
  * Arrays are fixed-size sequence containers.
  * 1.Need compile with command -std=c++11
- * 2.Generate excutable file studystlarray
+ * 2.Generate excutable file studyarray
  * 3.More reference shows in function show_array_help or command "studyarray -h"
 ***********************************************************************************/
 #include <array>

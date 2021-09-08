@@ -5,8 +5,8 @@
  * with other such sequences in multithreading environments, while sharing a same 
  * address space
  * 1.Need compile with command -std=c++11
- * 2.Generate excutable file studystlmap
- * 3.More reference shows in function show_map_help or command "studymap -h"
+ * 2.Generate excutable file studythread_mt
+ * 3.More reference shows in function show_map_help or command "studythread_mt -h"
 ***********************************************************************************/
 #include <iostream>
 #include <string>

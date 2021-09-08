@@ -13,7 +13,7 @@ objects = forward_list_containers.o
 # This is the file name of the executables and path where 
 # place the executables
 executables = studyforward_list
-executables_path = ../../../Executables/
+executables_path = ../../../Executables
 
 # Including this file allows access to the Build System.
 include ../../../Build/build.mk
