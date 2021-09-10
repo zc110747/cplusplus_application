@@ -1,6 +1,6 @@
 /************************************************************************************
  * std::thread
- * reference:http://www.cplusplus.com/reference/thread/thread/
+ * https://www.cplusplus.com/reference/thread/thread/
  * A thread of execution is a sequence of instructions that can be executed concurrently 
  * with other such sequences in multithreading environments, while sharing a same 
  * address space

@@ -1,6 +1,6 @@
 ﻿/************************************************************************************
  * std::string
- * http://www.cplusplus.com/reference/string/string/
+ * https://www.cplusplus.com/reference/string/string/
  * Strings are objects that represent sequences of characters
  * 1.Need compile with command -std=c++11
  * 2.Generate excutable file studystring

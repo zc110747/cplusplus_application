@@ -1,6 +1,6 @@
 ﻿/************************************************************************************
  * std::set
- * reference:http://www.cplusplus.com/reference/set/set/
+ * https://www.cplusplus.com/reference/set/set/
  * Sets are containers that store unique elements following a specific order.
  * 1.Need compile with command -std=c++11
  * 2.Generate excutable file studyset

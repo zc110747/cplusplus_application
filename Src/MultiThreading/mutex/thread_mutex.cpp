@@ -1,6 +1,6 @@
 /************************************************************************************
  * std::mutex
- * reference:http://www.cplusplus.com/reference/mutex/mutex/
+ * https://www.cplusplus.com/reference/mutex/mutex/
  * Allow mutual exclusion (mutex) of concurrent execution of critical sections of code, 
  * allowing to explicitly avoid data races.
  * 1.Need compile with command -std=c++11

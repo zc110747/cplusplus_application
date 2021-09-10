@@ -1,6 +1,6 @@
 ﻿/************************************************************************************
  * std::vector
- * reference:http://www.cplusplus.com/reference/vector/vector/
+ * https://www.cplusplus.com/reference/vector/vector/
  * Vetors are sequence containers representing arrays that can change in size.
  * 1.Need compile with command -std=c++11
  * 2.Generate excutable file studyvector
@@ -164,7 +164,7 @@ void show_vector(std::vector<T> value, string qstring, SHOW_MODE_ENUM mode)
             cout<<ref_value<<" ";
         });
     }
-    //auto
+    //autoreference
     else if(mode == SHOW_MODE_ENUM_TYPE_AUTO)
     {
         for(auto &ref : value)

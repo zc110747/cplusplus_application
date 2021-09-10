@@ -64,7 +64,10 @@
 			"bit": "cpp",
 			"ios": "cpp",
 			"variant": "cpp",
-			"hash_set": "cpp"
+			"hash_set": "cpp",
+			"unordered_set": "cpp",
+			"bitset": "cpp",
+			"forward_list": "cpp"
 		}
 	}
 }

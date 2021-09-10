@@ -1,6 +1,6 @@
 ﻿/************************************************************************************
  * std::list
- * reference:http://www.cplusplus.com/reference/list/list/
+ * https://www.cplusplus.com/reference/list/list/
  * Lists are sequence containers that allow constant time insert 
  * and erase operations anywhere within the sequence, 
  * and iteration in both directions.

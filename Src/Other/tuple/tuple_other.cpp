@@ -1,6 +1,6 @@
 ﻿/************************************************************************************
  * std::tuple
- * http://www.cplusplus.com/reference/tuple/tuple/
+ * https://www.cplusplus.com/reference/tuple/tuple/
  * A tuple is an object capable to hold a collection of elements. Each element can 
  * be of a different type.
  * 1.Need compile with command -std=c++11
