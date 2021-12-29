@@ -14,6 +14,7 @@
 #include <thread>
 #include <chrono>    // std::chrono::seconds
 #include <unistd.h>
+#include <atomic>
 
 using std::cout;
 using std::endl;
