@@ -1,11 +1,16 @@
 # cplusplus_application  
-This is a program for study cplusplus. 
-Study for cplusplus:http://www.cplusplus.com/reference/ 
-include C library, Containers, Input/Output, Multi-threading and Others. 
-also, Other suggested books shows below will be useful. 
-<C++ Primer Plus> 
-<STL源码剖析> 
-<泛型编程和STL> 
+This is a program for cplusplus basic learning，reference the URL: http://www.cplusplus.com/reference/.   
+
+The Structure as follows.  
+Containers: test and learn The interface and application in STL library.      
+Composite: comprehensive project, maybe only test.  
+InputOutput: istream and ostream interface in C++ library.    
+Multi-threading: thread application and synchronization.  
+
+books shows below will be useful.   
+<C++ Primer Plus>   
+<STL源码剖析>   
+<泛型编程和STL>   
 
 ## Container for cplusplus
 ```cpp
@@ -41,9 +46,4 @@ also, Other suggested books shows below will be useful.
 ## Multi-threading
 ```cpp
 #include<thread>
-```
-
-## Others
-```cpp
-#include<string>
 ```
