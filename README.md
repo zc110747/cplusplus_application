@@ -16,7 +16,8 @@ books shows below will be useful.
 ```cpp
 //Sequence of the container
 #include<vector>           
-#include<list>             
+#include<list>      
+#include<forward_list>       
 #include<deque>
 #include<stack>            
 #include<queue>           
@@ -46,4 +47,13 @@ books shows below will be useful.
 ## Multi-threading
 ```cpp
 #include<thread>
+#include<mutex>
+```
+
+## Composite
+```cpp
+#include<bitset>
+//constexpr
+#include<string>
+#include<tuple>
 ```
