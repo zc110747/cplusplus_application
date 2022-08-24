@@ -1,10 +1,10 @@
 # cplusplus_application  
-This is a program for study cplusplus.
-Study for cplusplus:http://www.cplusplus.com/reference/
-include C library, Containers, Input/Output, Multi-threading and Others.
-also, Other suggested books shows below will be useful.
-<C++ Primer Plus>
-<STL源码剖析>
+This is a program for study cplusplus. 
+Study for cplusplus:http://www.cplusplus.com/reference/ 
+include C library, Containers, Input/Output, Multi-threading and Others. 
+also, Other suggested books shows below will be useful. 
+<C++ Primer Plus> 
+<STL源码剖析> 
 <泛型编程和STL> 
 
 ## Container for cplusplus
