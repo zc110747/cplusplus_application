@@ -2,7 +2,7 @@
  * 说明: safety-c++ application
  * 本篇代码实现参考文章，非原创
  * https://mp.weixin.qq.com/s/ZZD8-vpGVoN-re6T6j3VrQ
- * 需要支持C++11
+ * 需要支持C++17, gcc version 7.5.0 allowed.
  * static_cast      用static_cast来限制指针的强制转换
  * enum class       增加枚举类型内值检查
  * static_assert    静态断言，编译期检查

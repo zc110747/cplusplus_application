@@ -21,13 +21,14 @@ all : $(executables)
 $(executables): $(objects)
 	$(CC) -o $(executables) $(objects) $(LIB) $(CFLAGS)
 	rm $(objects)
+	mkdir -p $(executables_path)
 	mv $(executables) $(executables_path)
 tags :
 	ctags -R *
 
 # this is the rule how to clean all the file
 clean:
-	rm $(objects) $(executables_path)/$(executables)
+	rm $(executables_path)/$(executables)
 
 # this tags let the make can execute the executabls.
 # command: make execute option="-h"
