@@ -21,7 +21,7 @@ all : $(executables)
 $(executables): $(objects)
 	$(CC) -o $(executables) $(objects) $(LIB) $(CFLAGS)
 	rm $(objects)
-	mkdir -p $(executables_path)
+	$(shell if [ -d $(executables_path) ]; then echo; else mkdir $(executables_path); fi)
 	mv $(executables) $(executables_path)
 tags :
 	ctags -R *
