@@ -47,6 +47,13 @@
         "cinttypes": "cpp",
         "functional": "cpp",
         "iterator": "cpp",
-        "numeric": "cpp"
+        "numeric": "cpp",
+        "thread": "cpp",
+        "bitset": "cpp",
+        "condition_variable": "cpp",
+        "ratio": "cpp",
+        "source_location": "cpp",
+        "iomanip": "cpp",
+        "mutex": "cpp"
     }
 }
