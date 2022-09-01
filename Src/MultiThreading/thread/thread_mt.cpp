@@ -7,6 +7,7 @@
  * 1.Need compile with command -std=c++11
  * 2.Generate excutable file studythread_mt
  * 3.More reference shows in function show_map_help or command "studythread_mt -h"
+ * 4.if want compile in windows, need use mingw64 with "posix" interface.
 ***********************************************************************************/
 #include <iostream>
 #include <string>

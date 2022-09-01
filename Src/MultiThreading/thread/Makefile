@@ -9,6 +9,7 @@
 # This is object should be build and will link to generate
 # the executables
 objects = thread_mt.o
+CFLAGS := -D _GLIBCXX_HAS_GTHREADS -D _GLIBCXX_USE_C99_STDINT_TR1
 
 # This is the file name of the executables and path where 
 # place the executables
