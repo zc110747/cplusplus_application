@@ -4,7 +4,7 @@
 
 using namespace boost;
 
-int TimeProcess(void)
+int boost_time_process(void)
 {
     timer t;
 

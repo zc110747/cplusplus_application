@@ -8,7 +8,7 @@
 
 # This is object should be build and will link to generate
 # the executables
-objects = time.o main.o mem_manage.o
+objects = time.o main.o boost_mem.o boost_tool.o
 
 # This is the file name of the executables and path where 
 # place the executables
