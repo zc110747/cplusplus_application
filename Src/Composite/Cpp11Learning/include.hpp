@@ -5,6 +5,7 @@ _Pragma("once")
 #include <stdio.h>
 
 int basic_test(void) noexcept;
+int class_study(void) noexcept;
 
 #define LOG(...) { \
     fprintf(stderr, "%s: Line %d:", __FILE__, __LINE__); \
