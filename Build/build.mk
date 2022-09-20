@@ -9,14 +9,14 @@
 # this place define the compile and flags, CC complie should be g++ and 
 # option could be add in place
 CC = g++
-CFLAGS  += -O3 -std=c++17 -lpthread
+CFLAGS  += -std=c++17 -lpthread -lm
 
 # this is the rule how to complie file with type .cpp to middle file .o 
 # then link the object and generate the executables.
 all : $(executables)
 
 %.o : %.cpp
-	$(CC) $(CFLAGS) -c $< -o $@ $(INCLUDE_PATH)
+	$(CC) $(CFLAGS) -c $< -o $@ $(include_path)
 
 $(executables): $(objects)
 	$(CC) -o $(executables) $(objects) $(LIB) $(CFLAGS)
@@ -32,6 +32,10 @@ clean:
 
 # this tags let the make can execute the executabls.
 # command: make execute option="-h"
-execute:
-	@echo ----execute current compile executables---
-	$(executables_path)/$(executables) $(option)
+run:
+	@make
+	@echo ---- run complier executables ----
+	@$(executables_path)/$(executables) $(option)
+
+build:
+	@make

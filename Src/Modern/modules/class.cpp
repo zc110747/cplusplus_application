@@ -43,7 +43,7 @@ public:
     }
 };
 
-int class_study(void)
+int class_process(void)
 {
     UserBase Base0("s0", "s1");
     UserOne User0("u0", "u1");

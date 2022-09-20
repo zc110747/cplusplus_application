@@ -8,14 +8,12 @@
 
 # This is object should be build and will link to generate
 # the executables
-objects = time.o main.o boost_mem.o boost_tool.o
-include_path = -I D:/Software/boost/include/boost-1_80
+objects = iostream_io.o
 
 # This is the file name of the executables and path where 
 # place the executables
-executables = studyboost
-executables_path = ../../Executables
-
+executables = studyiostream_io
+executables_path = ../../../Executables/
 
 # Including this file allows access to the Build System.
-include ../../Build/build.mk
+include ../../../Build/build.mk

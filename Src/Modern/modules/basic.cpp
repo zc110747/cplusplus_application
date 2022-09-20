@@ -1,8 +1,7 @@
-
-
-#include "include.hpp"
 #include <memory.h>
 #include <climits>
+#include <stdio.h>
+#include <iostream>
 
 using namespace std;
 
@@ -19,8 +18,10 @@ int bit_copy(T &a, U &b)
     return 0;
 }
 
+#define LOG(...)    printf(__VA_ARGS__)
+
 //noexcept 表示函数不会抛出异常
-int basic_test(void) noexcept
+int basic_process(void) noexcept
 {
     //显示标准类型
     cout<<"Standard Clib:"<<__STDC_HOSTED__<<endl;

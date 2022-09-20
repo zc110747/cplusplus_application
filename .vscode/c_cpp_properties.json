@@ -14,7 +14,7 @@
                 "_GLIBCXX_USE_C99_STDINT_TR1"
             ],
             "windowsSdkVersion": "8.1",
-            "compilerPath": "D:\\Software\\mingw64\\bin\\g++.exe",
+            "compilerPath": "${env.CppComplier}", //将CppComplier指定为g++路径，并添加到用户环境变量中
             "cStandard": "c17",
             "cppStandard": "c++17",
             "intelliSenseMode": "gcc-x64"
