@@ -1,6 +1,12 @@
-
+/************************************************************************************
+ * lambda
+ * 
+***********************************************************************************/
 #include "lambda.hpp"
 #include <iostream>
+#include <algorithm>
+#include <vector>
+#include <ctime>
 
 using namespace std;
 
@@ -8,11 +14,57 @@ using namespace std;
 #define FUNCTION_END()    }{cout<<"\n\n";  }   
 
 static void lambda_capture(void);
+static void lambda_algorithm(void);
 
 int lambda_process(void)
 {
     lambda_capture();
+
+    lambda_algorithm();
     return 0;
+}
+
+static void lambda_algorithm(void)
+{
+    FUNCTION_START()
+
+    srand((unsigned int)time(NULL));
+    std::vector<int> x(3);
+    std::vector<int> y(4);
+
+    auto show_vec = [](auto &&x){
+        //遍历
+        //for_each
+        for_each(x.cbegin(), x.cend(), [](auto &&val){
+            cout<<val<<" ";
+        });
+        cout<<" | ";
+    };
+    
+    //填充
+    //generate
+    std::generate(x.begin(), x.end(), []{
+        return rand()%100;
+    });
+    show_vec(x);
+
+    //generate_n
+    std::generate_n(y.begin(), y.size(), []{
+        return rand()%100;
+    });
+    show_vec(y);
+    
+    //fill
+    std::fill(x.begin(), x.end(), 5);
+    show_vec(x);
+
+    //fill_n
+    std::fill(x.begin(), x.size(), 5);
+    show_vec(x);
+
+    //遍历
+
+    FUNCTION_END() 
 }
 
 static void lambda_capture(void)

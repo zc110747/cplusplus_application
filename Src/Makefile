@@ -33,14 +33,9 @@ multithreading_path := MultiThreading/thread \
 				MultiThreading/mutex
 build_multithreading_path := $(foreach path,$(multithreading_path),$(mkfile_path)/$(path))
 
-#path for other c++ projece
-other_path := Other/string \
-			Other/tuple
-build_other_path := $(foreach path,$(other_path),$(mkfile_path)/$(path))
-
 # this is the rule how to complie file in the program, all the makefile will
 # execute, and finally could be see in $(root)/Executables
-all: build_container build_multithreading build_other
+all: build_container build_multithreading
 
 build_container:
 	@echo ==============================================================================
@@ -59,16 +54,6 @@ build_multithreading:
 	@echo
 	@echo ==============================================================================
 	for x_path in $(build_multithreading_path); do \
-		cd $$x_path && make; \
-	done
-
-build_other:
-	@echo ==============================================================================
-	@echo
-	@echo ********************start build other c++ executables********************
-	@echo
-	@echo ==============================================================================
-	for x_path in $(build_other_path); do \
 		cd $$x_path && make; \
 	done
 
