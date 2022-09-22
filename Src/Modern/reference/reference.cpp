@@ -2,6 +2,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <assert.h>
+#include <memory.h>
 
 using namespace std;
 
