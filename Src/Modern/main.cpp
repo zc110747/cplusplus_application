@@ -18,6 +18,7 @@
 #include "modules/class.hpp"
 #include "reference/reference.hpp"
 #include "lambda/lambda.hpp"
+#include "template/template.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -39,7 +40,11 @@ int main(int argc, char *argv[])
     /********************************
      * lambda标识符
     *********************************/
-    lambda_process();
+    //lambda_process();
 
+    /********************************
+     * template
+    *********************************/
+    template_process();
     return 0;
 }

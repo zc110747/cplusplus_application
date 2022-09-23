@@ -13,7 +13,8 @@ objects = main.o 	\
 		modules/basic.o \
 		modules/class.o \
 		reference/reference.o \
-		lambda/lambda.o
+		lambda/lambda.o	\
+		template/template.o
 
 # path for header
 include_path = -I"reference/" -I"modules/" -I"lambda/"
