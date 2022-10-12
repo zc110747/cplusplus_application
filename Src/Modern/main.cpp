@@ -13,12 +13,15 @@
  * 4.类和类的函数
  * 委托构造函数，移动构造函数
  * 5.常量表达式(constexpr)
+ * 6.改进的命名空间(namespace)
 ********************************************************************/
 #include "modules/basic.hpp"
 #include "modules/class.hpp"
 #include "reference/reference.hpp"
+#include "type/type.hpp"
 #include "lambda/lambda.hpp"
 #include "constexpr/constexpr.hpp"
+#include "namespace/namespace.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -26,6 +29,11 @@ int main(int argc, char *argv[])
      * 基础
     *********************************/
     //basic_process();
+
+    /********************************
+     * type
+    *********************************/
+    type_process();
 
     /********************************
      * 类的处理
@@ -45,6 +53,12 @@ int main(int argc, char *argv[])
     /********************************
      * constexpr
     *********************************/
-    constexpr_process();
+    //constexpr_process();
+
+    /********************************
+     * namespace
+    *********************************/
+    //namespace_process();
+
     return 0;
 }

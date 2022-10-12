@@ -11,6 +11,19 @@ books shows below will be useful.
 <C++ Primer Plus>   
 <STL源码剖析>   
 <泛型编程和STL>   
+<现代C++语言核心特性解析>
+
+## Modern
+```cpp
+/***************************************************************
+包含C++11~C++20之间新增加特性的学习
+1.扩展的namespace
+2.auto占位符, decltype
+3.右值引用
+4.lambda
+5.constexpr只读表达式
+****************************************************************/
+```
 
 ## Container for cplusplus
 ```cpp
@@ -38,7 +51,6 @@ books shows below will be useful.
 #include<algorithm>
 //
 ```
-
 ## Input/Output for cplusplus
 ```cpp
 #include<iostream>
