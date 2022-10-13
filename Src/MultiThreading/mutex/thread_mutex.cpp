@@ -14,11 +14,13 @@
 #include <chrono>    // std::chrono::seconds
 #include <mutex>
 #include <unistd.h>
+#include <ctime>
 
 using std::cout;
 using std::endl;
 using std::string;
 using std::mutex;
+using std::chrono::system_clock;
 
 static volatile int val;
 mutex usrmutex;
@@ -104,5 +106,15 @@ int main(int argc, char* argv[])
     else
         thread_study_handle();
 
+    {
+        std::time_t tt = system_clock::to_time_t(system_clock::now());
+        std::tm *ptm = std::localtime(&tt);
+        ptm->tm_min++;
+        ptm->tm_sec=0;
+        std::cout<<"hour:"<<ptm->tm_hour<<",minute:"<<ptm->tm_min<<",second:"<<ptm->tm_sec<<endl;
+        std::this_thread::sleep_until(system_clock::from_time_t(mktime(ptm)));
+    }
+
+    system("pause");
     return 0;
 } 

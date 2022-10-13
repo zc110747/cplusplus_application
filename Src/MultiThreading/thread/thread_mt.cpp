@@ -16,28 +16,37 @@
 #include <chrono>    // std::chrono::seconds
 #include <unistd.h>
 #include <atomic>
+#include <mutex>
 
 using std::cout;
 using std::endl;
 using std::string;
+using std::mutex;
 
 static volatile int val;
+mutex usrmutex;
 
 void loop_task(string str, int n)
 {
+    usrmutex.lock();
     for(int i=0; i<n; i++)
     {
         cout<<"times "<<i<<" : "<<str<<endl;
     }
+    usrmutex.unlock();
     std::this_thread::sleep_for(std::chrono::seconds(1));
 
     //get_id
-    cout<<"loop_task id: 0x"<<std::hex<<std::this_thread::get_id()<<endl;
+    usrmutex.lock();
+    cout<<str<<" id:0x"<<std::hex<<std::this_thread::get_id()<<endl;
+    usrmutex.unlock();
 } 
 
 void basic_task(void)
 {
+    usrmutex.lock();
     cout<<"basic_task id: 0x"<<std::hex<<std::this_thread::get_id()<<endl;
+    usrmutex.unlock();
 } 
 
 int thread_study_handle(void)
@@ -49,21 +58,27 @@ int thread_study_handle(void)
 
         //native_handle, get_id
         auto nh = userbasethread.native_handle();
+        usrmutex.lock();
         cout<<"native_handle: 0x"<<std::hex<<nh<<endl;
         cout<<"get_id: 0x"<<userbasethread.get_id()<<endl;
 
         //joinable, join
-        cout<<"joinable:"<<userbasethread.joinable()<<endl;
+        cout<<"joinable:"<<std::boolalpha<<userbasethread.joinable()<<endl;
+        usrmutex.unlock();
 
         //join
         userloopthread.join();
         userbasethread.join();
 
         //detach
-        std::thread userdetachthread(loop_task, "detech task!", 1);
+        std::thread userdetachthread(loop_task, "detech task!", 5);
         userdetachthread.detach();
 
         sleep(2);
+
+        usrmutex.lock();
+        cout<<"thread_study_handle leave!"<<endl;
+        usrmutex.unlock();
     }
     catch(const std::exception& e)
     {
