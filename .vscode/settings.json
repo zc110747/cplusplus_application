@@ -65,6 +65,7 @@
         "variant": "cpp",
         "forward_list": "cpp",
         "unordered_set": "cpp",
-        "cassert": "cpp"
+        "cassert": "cpp",
+        "climits": "cpp"
     }
 }

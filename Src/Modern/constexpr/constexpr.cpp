@@ -1,10 +1,6 @@
 /******************************************************************
- * constexpr
- * 常量表达式要求在编译期必须有准确得值
- * if constexpr (表达式) {
- *    //...
- * }
- * C++20 引入consteval和constinit
+ * 1.constexpr
+ * 2.static_assert
 ********************************************************************/
 #include "constexpr.hpp"
 #include <iostream>
@@ -59,12 +55,14 @@ int constexpr_process(void)
 
     //枚举使用constexpr
     {
-        typedef enum{
+        typedef enum:unsigned int
+        {
             f0 = factorial(1),
             f1 = factorial(2),
             f2 = factorial(3),
             f3 = factorial(4),
         }const_enum;
+        static_assert(const_enum::f0 == factorial(0), "not equal!");
         cout<<const_enum::f0<<" "<<const_enum::f1<<" ";
         cout<<const_enum::f2<<" "<<const_enum::f3<<" | ";
     }

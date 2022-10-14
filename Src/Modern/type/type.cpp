@@ -1,13 +1,9 @@
-/*********************************************************************************
-1.auto推导规则
-    (1)如果auto声明的变量是按值初始化，忽略CV限定符(const/volatile),
-    但auto本身支持CV限定符, 引用初始化则保留
-    (2)如果声明变量初始化时，目标对象是引用，引用属性被忽略
-    (3)使用auto和万能引用声明变量时，对于左值会将auto推导为引用类型
-    (4)使用auto声明变量，如果目标是数组或者函数，auto推导为对应的指针类型
-    (5)直接使用列表初始化，必须为单元素，用等号加列表初始化，支持多个元素，
-    但类型必须相同std::initializer_list<T>
-**********************************************************************************/
+/******************************************************************
+ * 1.auto占位符
+ * 2.decltype说明符
+ * 3.函数返回类型后置 
+ * 4.强枚举类型
+********************************************************************/
 #include "type.hpp"
 #include <iostream>
 
@@ -18,6 +14,21 @@ using namespace std;
 
 static void auto_process(void);
 static void decltype_process(void);
+
+//强枚举类型
+enum class HighSchool : unsigned int
+{
+    student = 1,
+    teacher,
+    principal,
+};
+
+enum class University: unsigned int
+{
+    student = 1,
+    teacher,
+    principal,
+};
 
 int type_process(void)
 {
@@ -38,6 +49,22 @@ void f()
     cout<<N<<" | ";
 }
 
+//函数返回类型后置
+template<typename T>
+auto PrintEnum(T const &value)->typename std::underlying_type<T>::type{
+    return static_cast<typename std::underlying_type<T>::type>(value);
+}
+
+/*********************************************************************************
+1.auto推导规则
+    (1)如果auto声明的变量是按值初始化，忽略CV限定符(const/volatile),
+    但auto本身支持CV限定符, 引用初始化则保留
+    (2)如果声明变量初始化时，目标对象是引用，引用属性被忽略
+    (3)使用auto和万能引用声明变量时，对于左值会将auto推导为引用类型
+    (4)使用auto声明变量，如果目标是数组或者函数，auto推导为对应的指针类型
+    (5)直接使用列表初始化，必须为单元素，用等号加列表初始化，支持多个元素，
+    但类型必须相同std::initializer_list<T>
+**********************************************************************************/
 static void auto_process(void)
 {
     FUNCTION_START()
@@ -124,6 +151,22 @@ static void auto_process(void)
     f<3>();
     f<'c'>();
 
+    {
+        auto x = HighSchool::teacher;
+        auto y = University::principal;
+        auto z{1};
+        //auto b = (x == y);
+        cout<<"x="<<PrintEnum(x)<<",y="<<PrintEnum(y)<<" | ";
+
+        auto &a = x;
+        auto &&s = HighSchool::teacher;
+        auto PrintEnumPerfect = [](auto &&x)->auto{
+            return static_cast<typename std::underlying_type_t<typename std::remove_reference_t<decltype(x)>>>(std::forward<decltype(x)>(x));
+        };
+        cout<<PrintEnumPerfect(x)<<" | ";
+        cout<<PrintEnumPerfect(a)<<" | ";
+        cout<<PrintEnumPerfect(s)<<" | ";
+    }
     FUNCTION_END() 
 }
 

@@ -13,6 +13,7 @@ objects = main.o 	\
 		modules/basic.o \
 		modules/class.o \
 		reference/reference.o \
+		template/template.o \
 		lambda/lambda.o \
 		constexpr/constexpr.o \
 		namespace/namespace.o \
