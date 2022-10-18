@@ -14,9 +14,9 @@
                 "_GLIBCXX_USE_C99_STDINT_TR1"
             ],
             "windowsSdkVersion": "8.1",
-            "compilerPath": "${env.CppComplier}", //½«CppComplierÖ¸¶¨Îªg++Â·¾¶£¬²¢Ìí¼Óµ½ÓÃ»§»·¾³±äÁ¿ÖÐ
+            "compilerPath": "${env.CppComplier}", //ï¿½ï¿½CppComplierÖ¸ï¿½ï¿½Îªg++Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             "cStandard": "c17",
-            "cppStandard": "c++17",
+            "cppStandard": "c++20",
             "intelliSenseMode": "gcc-x64"
         }
     ],

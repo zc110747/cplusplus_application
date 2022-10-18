@@ -98,7 +98,7 @@ static void basic_class(void)
         a1.print();
         a2.print();
         cout<<"trivial:"<<boolalpha<<is_trivial_v<A><<" | ";
-        cout<<"pod"<<is_pod_v<A><<" | ";
+        cout<<"standard_layout_v"<<is_standard_layout_v<A><<" | ";
     }
     FUNCTION_END()
 }
@@ -251,9 +251,71 @@ static void init_class(void)
 //3.没有虚函数
 //4.必须是公开的基类，不能有private或protected的基类
 //5.必须是非虚继承
-static void aggregate_class(void)
-{
+class Count{
+public:
+    int count;
+};
 
+class MyStringWithCount:public string, public Count{
+public:
+    int index = 0;
+};
+
+std::ostream& operator<<(std::ostream &os, MyStringWithCount &s){
+    os<<s.index<<", "<<s.count<<", "<<s.c_str();
+    return os;
+}
+
+static void aggregate_class(void)
+{   
+    FUNCTION_START()
+
+    {
+        class A{  
+        public:
+            void nothing(){
+            }
+        };
+        class B{        //用户提供构造函数
+            B(){}
+        };
+        class C{        //私有静态成员
+        private:
+            int a;
+        };
+        class D{       //虚函数
+        public:
+            virtual void virtdo(){
+            }
+        };
+        class E{
+        public:
+            E() = default;
+        };
+        class A1:public virtual A{  //虚拟继承
+        };  
+        class A2:private A{         //私有继承
+        };
+        class A3:public A1, public virtual A{ 
+        };
+
+        A3 a;
+        a.nothing();
+
+        cout<<boolalpha<<is_aggregate_v<A><<", "<<is_aggregate_v<A1><<" | ";
+        cout<<boolalpha<<is_aggregate_v<A2><<", "<<is_aggregate_v<A3><<" | ";
+        cout<<boolalpha<<is_aggregate_v<B><<" | ";
+        cout<<boolalpha<<is_aggregate_v<C><<" | ";
+        cout<<boolalpha<<is_aggregate_v<D><<" | ";
+        cout<<boolalpha<<is_aggregate_v<E><<" | ";
+    }
+
+    {
+        //聚合类型支持列表初始化(按照声明顺序)
+        MyStringWithCount val{"hello", 5, 3};
+        cout<<val<<" | ";
+    }
+    FUNCTION_END()
 }
 
 class X

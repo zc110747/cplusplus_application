@@ -66,6 +66,8 @@
         "forward_list": "cpp",
         "unordered_set": "cpp",
         "cassert": "cpp",
-        "climits": "cpp"
-    }
+        "climits": "cpp",
+        "future": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
 }
