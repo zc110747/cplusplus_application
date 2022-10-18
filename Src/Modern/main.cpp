@@ -12,7 +12,7 @@
  * 第七章 lambda表达式 -- finish(lambda)
  * 第八章 非静态成员默认初始化 -- finish(class)
  * 第九章 列表初始化 -- finish(class)
- * 第十章 默认和删除函数
+ * 第十章 默认和删除函数 -- finish(class)
  * 第十一章 非受限联合类型 -- finish(class)
  * 第十二章 委托构造函数 -- finish(class)
  * 第十三章 继承构造函数 -- finish(class)

@@ -24,6 +24,7 @@ static void basic_class(void);
 static void init_class(void);
 static void struct_class(void);
 static void noLimit_union(void);
+static void aggregate_class(void);
 static void template_class(void);
 
 #define FUNCTION_START()  {cout<<__func__<<":\n  ";}{
@@ -38,6 +39,8 @@ int class_process(void)
     struct_class();
 
     init_class();
+
+    aggregate_class();
 
     template_class();     
 
@@ -70,6 +73,8 @@ static void basic_class(void)
         cout<<boolalpha<<is_trivially_copyable_v<A><<" | ";
     }
 
+    //delete
+    //default
     {
         class A
         {
@@ -78,14 +83,16 @@ static void basic_class(void)
                 cout<<"A"<<" | ";
             }
         public:
-            A()=default;
+            A() = default;
             A(const char *ptr){} //声明任何构造函数，都会阻碍默认构造函数的创建
             A(const A &type) = delete;       //禁止调用复制构造函数
+            void *operator new(std::size_t) = delete;
         };
 
         A a{"class defined"};
         A a1;   //如果没有default,则报错 
         //A a2 = a1;
+        //A *pa = new A;
         A&& a2 = std::move(a1);
         a.print();
         a1.print();
@@ -238,6 +245,16 @@ static void init_class(void)
     FUNCTION_END()
 }
 
+//聚合类型
+//1.没有用户提供的构造函数
+//2.没有private和protected的非静态成员
+//3.没有虚函数
+//4.必须是公开的基类，不能有private或protected的基类
+//5.必须是非虚继承
+static void aggregate_class(void)
+{
+
+}
 
 class X
 {
