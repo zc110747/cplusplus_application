@@ -9,6 +9,8 @@
  * 8.default - delete
  * 9.C++类的类型: 聚合, POD, TrivialType, TrivialCopyable, 
  *               Standard-layout Type, 标准布局兼容
+ * 10.重写，重载和隐藏
+ * 11.noexcept
 ********************************************************************/
 #include <iostream>
 #include <string>
@@ -20,12 +22,13 @@
 
 using namespace std;
 
-static void basic_class(void);
+static void basic_class(void) noexcept;
 static void init_class(void);
 static void struct_class(void);
 static void noLimit_union(void);
 static void aggregate_class(void);
 static void template_class(void);
+static void over_class(void);
 
 #define FUNCTION_START()  {cout<<__func__<<":\n  ";}{
 #define FUNCTION_END()    }{cout<<"\n\n";  } 
@@ -44,10 +47,102 @@ int class_process(void)
 
     template_class();     
 
+    over_class();
     return 0;
 }
 
-static void basic_class(void)
+/*
+重写(override), 派生类覆盖了基类的虚函数(具有相同的函数签名和类型)
+重载(overload), 一个类有两个或者两个以上函数，函数名相同，签名不同
+隐藏(overwrite), 派生类出现基类的同名函数，如果签名不同，则基类函数无论是否为虚函数，都将隐藏。
+                如果签名相同，则需要确定是否为虚函数，是虚函数则重写，不是则为隐藏
+                (隐藏后，将无法调用基类的函数，如果需要使用，需要通过using引入派生类)
+*/
+static void over_class(void)
+{
+    FUNCTION_START()
+
+    //重写，重载，隐藏
+    {
+        class A{
+        public:
+            virtual void f(){
+                cout<<"A::f()"<<" | ";
+            }
+            void f(int a){  //overload 重载
+                cout<<"A::f(int)"<<" | ";
+            }
+            void f1(){
+                cout<<"A::f(1)"<<" | ";
+            }
+        };
+        class B:public A{
+        public:
+            //using A::f; //通过using，可以将所有相关函数引入派生类
+            void f(){
+                cout<<"B::f()"<<" | ";
+            }
+        };
+
+        B b;
+        b.f();
+        //b.f(1);  //编译不通过，派生类具有相同函数名，被隐藏
+        b.f1();
+        A *ptr = static_cast<A *>(&b);
+        ptr->f();  //B::f()，函数名和签名相同，重写
+    }
+
+    //override
+    {
+        class A1{
+        public:
+            virtual void f(){
+                cout<<"A1::f()"<<" | ";
+            }
+        };
+        class B1:public A1{
+        public:
+            virtual void f() override{
+                cout<<"B1::f()"<<" | ";
+            }
+        };
+
+        B1 b;
+        b.f();
+    }
+
+    //final
+    {
+        class A2{
+        public:
+            virtual void f() final{
+                cout<<"A2::f()"<<" | ";
+            }
+        };
+        class B2:public A2{
+            // void f(){  //final 不允许override
+            // }
+        };
+
+        // B2 b;
+        // b.f();
+        // B2 b;
+        // A2 *ptr = static_cast<A2 *>(&b);
+        // ptr->f();
+    }
+    FUNCTION_END()
+}
+
+class NEABase{
+};
+class NEA
+{
+public:
+    NEA() noexcept(is_aggregate_v<NEABase>) { //noexcept可以接受bool表达式
+    }
+};
+
+static void basic_class(void) noexcept
 {
     FUNCTION_START()
 
@@ -71,6 +166,7 @@ static void basic_class(void)
         a2.print();
         a3.print();
         cout<<boolalpha<<is_trivially_copyable_v<A><<" | ";
+        cout<<boolalpha<<noexcept(basic_class())<<" | ";
     }
 
     //delete

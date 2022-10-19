@@ -17,12 +17,12 @@
  * 第十二章 委托构造函数 -- finish(class)
  * 第十三章 继承构造函数 -- finish(class)
  * 第十四章 强枚举类型 -- finish(type)
- * 第十五章 扩展的聚合类型
- * 第十六章 override和final说明符
+ * 第十五章 扩展的聚合类型 -- finish(class)
+ * 第十六章 override和final说明符 -- finish(class)
  * 第十七章 基于范围的for循环 -- finish(template)
  * 第十八章 支持初始化语句的if和switch -- finish(basic)
  * 第十九章 静态断言(static_assert) -- finish(constexpr)
- * 第二十章 结构化绑定
+ * 第二十章 结构化绑定  -- finish(struct_bind)
  * 第二十一章 noexcept
  * 第二十二章 类型别名和别名模板
  * 第二十三章 指针字面量nullptr -- finish(basic)
@@ -49,6 +49,7 @@
 #include "lambda/lambda.hpp"
 #include "constexpr/constexpr.hpp"
 #include "namespace/namespace.hpp"
+#include "struct_bind/bind_process.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -91,6 +92,11 @@ int main(int argc, char *argv[])
      * namespace
     *********************************/
     //namespace_process();
+
+    /********************************
+     * tuple
+    *********************************/
+    //struct_bind_process();
 
     return 0;
 }
