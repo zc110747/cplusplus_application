@@ -18,7 +18,8 @@ objects = main.o 	\
 		constexpr/constexpr.o \
 		namespace/namespace.o \
 		type/type.o \
-		struct_bind/bind_process.o
+		struct_bind/bind_process.o \
+		type/noexcept_process.o
 
 # path for header
 include_path = -I"reference/" -I"modules/" -I"lambda/"

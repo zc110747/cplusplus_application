@@ -10,7 +10,6 @@
  * 9.C++类的类型: 聚合, POD, TrivialType, TrivialCopyable, 
  *               Standard-layout Type, 标准布局兼容
  * 10.重写，重载和隐藏
- * 11.noexcept
 ********************************************************************/
 #include <iostream>
 #include <string>
@@ -22,7 +21,7 @@
 
 using namespace std;
 
-static void basic_class(void) noexcept;
+static void basic_class(void);
 static void init_class(void);
 static void struct_class(void);
 static void noLimit_union(void);
@@ -133,16 +132,8 @@ static void over_class(void)
     FUNCTION_END()
 }
 
-class NEABase{
-};
-class NEA
-{
-public:
-    NEA() noexcept(is_aggregate_v<NEABase>) { //noexcept可以接受bool表达式
-    }
-};
 
-static void basic_class(void) noexcept
+static void basic_class(void)
 {
     FUNCTION_START()
 

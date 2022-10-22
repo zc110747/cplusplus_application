@@ -46,6 +46,7 @@
 #include "template/template.hpp"
 #include "reference/reference.hpp"
 #include "type/type.hpp"
+#include "type/noexcept_process.hpp"
 #include "lambda/lambda.hpp"
 #include "constexpr/constexpr.hpp"
 #include "namespace/namespace.hpp"
@@ -66,7 +67,12 @@ int main(int argc, char *argv[])
     /********************************
      * 类的处理
     *********************************/
-    class_process();
+    noexcept_process();
+
+    /********************************
+     * 类的处理
+    *********************************/
+    //class_process();
 
     /********************************
      * 模板
