@@ -104,6 +104,12 @@ int basic_process(void) noexcept
             cout<<"null1,"<<typeid(nul1).name()<<" | ";
         }
     }
+
+    {
+        //三元运算符目前不支持
+        //bool b = (7 <=> 10) < 0;
+        //cout<<boolalpha<<b<<" | ";
+    }
     return 0;
 }
 

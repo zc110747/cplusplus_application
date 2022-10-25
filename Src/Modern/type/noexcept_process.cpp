@@ -32,7 +32,7 @@ auto return_func() noexcept(true)
     }
     catch(const std::exception& e)
     {
-       throw(e.what()); //增加noexcept的函数，如果有throw, 将会terminate应用, 而不是抛出异常
+       //throw(e.what()); //增加noexcept的函数，如果有throw, 将会terminate应用, 而不是抛出异常
     }
     return ptr;
 }

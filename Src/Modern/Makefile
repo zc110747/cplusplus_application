@@ -19,7 +19,8 @@ objects = main.o 	\
 		namespace/namespace.o \
 		type/type.o \
 		struct_bind/bind_process.o \
-		type/noexcept_process.o
+		type/noexcept_process.o \
+		thread/thread_process.o
 
 # path for header
 include_path = -I"reference/" -I"modules/" -I"lambda/"

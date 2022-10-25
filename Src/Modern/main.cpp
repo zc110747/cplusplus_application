@@ -10,23 +10,23 @@
  * 第五章 函数返回类型后置 -- finish(type)
  * 第六章 右值引用 -- finish(reference)
  * 第七章 lambda表达式 -- finish(lambda)
- * 第八章 非静态成员默认初始化 -- finish(class)
- * 第九章 列表初始化 -- finish(class)
- * 第十章 默认和删除函数 -- finish(class)
- * 第十一章 非受限联合类型 -- finish(class)
- * 第十二章 委托构造函数 -- finish(class)
- * 第十三章 继承构造函数 -- finish(class)
+ * 第八章 非静态成员默认初始化 -- finish(modules/class)
+ * 第九章 列表初始化 -- finish(modules/class)
+ * 第十章 默认和删除函数 -- finish(modules/class)
+ * 第十一章 非受限联合类型 -- finish(modules/class)
+ * 第十二章 委托构造函数 -- finish(modules/class)
+ * 第十三章 继承构造函数 -- finish(modules/class)
  * 第十四章 强枚举类型 -- finish(type)
- * 第十五章 扩展的聚合类型 -- finish(class)
- * 第十六章 override和final说明符 -- finish(class)
+ * 第十五章 扩展的聚合类型 -- finish(modules/class)
+ * 第十六章 override和final说明符 -- finish(modules/class)
  * 第十七章 基于范围的for循环 -- finish(template)
  * 第十八章 支持初始化语句的if和switch -- finish(basic)
  * 第十九章 静态断言(static_assert) -- finish(constexpr)
  * 第二十章 结构化绑定  -- finish(struct_bind)
- * 第二十一章 noexcept
- * 第二十二章 类型别名和别名模板
- * 第二十三章 指针字面量nullptr -- finish(basic)
- * 第二十四章 三向比较(C++20)
+ * 第二十一章 noexcept -- finish(type)
+ * 第二十二章 类型别名和别名模板 -- finish(template)
+ * 第二十三章 指针字面量nullptr -- finish(modules/basic)
+ * 第二十四章 三向比较(C++20) -- future
  * 第二十五章 线程局部存储
  * 第二十六章 扩展的inline说明符
  * 第二十七章 常量表达式 -- finish(constexpr)
@@ -51,6 +51,7 @@
 #include "constexpr/constexpr.hpp"
 #include "namespace/namespace.hpp"
 #include "struct_bind/bind_process.hpp"
+#include "thread/thread_process.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -67,7 +68,7 @@ int main(int argc, char *argv[])
     /********************************
      * 类的处理
     *********************************/
-    noexcept_process();
+    //noexcept_process();
 
     /********************************
      * 类的处理
@@ -104,5 +105,9 @@ int main(int argc, char *argv[])
     *********************************/
     //struct_bind_process();
 
+    /********************************
+     * tuple
+    *********************************/
+    thread_process();
     return 0;
 }
