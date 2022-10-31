@@ -53,6 +53,7 @@
 #include "struct_bind/bind_process.hpp"
 #include "thread/thread_process.hpp"
 #include "modules/align.hpp"
+#include "attribute/attribute.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -114,6 +115,11 @@ int main(int argc, char *argv[])
     /********************************
      * align
     *********************************/
-    align_process();
+    //align_process();
+
+    /********************************
+     * attribute
+    *********************************/
+    attribute_process();
     return 0;
 }
