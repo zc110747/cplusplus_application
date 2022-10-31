@@ -27,12 +27,12 @@
  * 第二十二章 类型别名和别名模板 -- finish(template)
  * 第二十三章 指针字面量nullptr -- finish(modules/basic)
  * 第二十四章 三向比较(C++20) -- future
- * 第二十五章 线程局部存储
- * 第二十六章 扩展的inline说明符
+ * 第二十五章 线程局部存储 -- finish(thread)
+ * 第二十六章 扩展的inline说明符 -- finish(modules/class)
  * 第二十七章 常量表达式 -- finish(constexpr)
- * 第二十八章 确定的表达式求值顺序
- * 第二十九章 字面量优化
- * 第三十章   alignas和alignof
+ * 第二十八章 确定的表达式求值顺序 -- finish(modules/basic)
+ * 第二十九章 字面量优化 
+ * 第三十章   alignas和alignof -- finish(modules/align)
  * 第三十一章 属性说明符和标准属性
  * 第三十二章 新增预处理器和宏
  * 第三十三章 协程
@@ -52,6 +52,7 @@
 #include "namespace/namespace.hpp"
 #include "struct_bind/bind_process.hpp"
 #include "thread/thread_process.hpp"
+#include "modules/align.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -108,6 +109,11 @@ int main(int argc, char *argv[])
     /********************************
      * tuple
     *********************************/
-    thread_process();
+    //thread_process();
+
+    /********************************
+     * align
+    *********************************/
+    align_process();
     return 0;
 }

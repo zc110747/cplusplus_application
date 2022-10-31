@@ -2,6 +2,8 @@
  * 1.基本数据类型
  * 2.支持初始化语句的if和switch
  * 3.nullptr
+ * 4.确定的表达式顺序
+ * 5.字面量优化
 ********************************************************************/
 #include <memory.h>
 #include <climits>
@@ -9,6 +11,9 @@
 #include <iostream>
 
 using namespace std;
+
+#define FUNCTION_START()  {cout<<__func__<<":\n  ";}{
+#define FUNCTION_END()    }{cout<<"\n\n";  } 
 
 struct TestStruct {
     TestStruct(): name(__func__) {}
@@ -25,9 +30,13 @@ int bit_copy(T &a, U &b)
 
 #define LOG(...)    printf(__VA_ARGS__)
 
+static void literal_improve(void);
+
 //noexcept 表示函数不会抛出异常
 int basic_process(void) noexcept
 {
+    FUNCTION_START() 
+
     //显示标准类型
     cout<<"Standard Clib:"<<__STDC_HOSTED__<<" | ";
     cout<<"Standard C:"<<__STDC__<<" | ";
@@ -110,6 +119,54 @@ int basic_process(void) noexcept
         //bool b = (7 <=> 10) < 0;
         //cout<<boolalpha<<b<<" | ";
     }
+
+    /*
+    对于后缀表达式和移位操作符，表达式总是从左到右
+    对于赋值表达式，表达式求值总是从右到左
+    */
+    {
+        auto func = [](int i){
+            cout<<i<<" | ";
+        };
+        int a = 5;
+        func(++a);
+        cout<<a<<" | ";
+        int b = (++a);
+        cout<<b<<" | ";
+    }
+    cout<<"\n";
+
+    literal_improve();
+
+    FUNCTION_END()
     return 0;
 }
 
+static void literal_improve(void)
+{
+    double farr[] = {1.5, 35.35, 600.25};
+    for(auto &val:farr)
+    {
+        cout<<hexfloat<<val<<"="<<defaultfloat<<val<<" | ";
+    }
+
+    //2进制，8进制，10进制，16进制
+    unsigned int xarr[] = {0b111L, 063L, 25L, 0xf1L}; 
+    for(auto &val:xarr)
+    {
+        cout<<val<<" | ";
+    }
+
+    //单引号作为界定符，不影响实际数值，仅方便查看(C++14)
+    unsigned int sarr[] = {0b111'111L, 02'163L, 25'000L, 0x23'1f1L}; 
+    for(auto &val:sarr)
+    {
+        cout<<val<<" | ";
+    }
+
+    //原生字符串
+    char hello_str[] = R"(
+        "this is hello html"
+        "for test.")";
+    cout<<hello_str<<" | ";
+}

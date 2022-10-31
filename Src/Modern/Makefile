@@ -12,6 +12,7 @@
 objects = main.o 	\
 		modules/basic.o \
 		modules/class.o \
+		modules/align.o \
 		reference/reference.o \
 		template/template.o \
 		lambda/lambda.o \
@@ -20,7 +21,8 @@ objects = main.o 	\
 		type/type.o \
 		struct_bind/bind_process.o \
 		type/noexcept_process.o \
-		thread/thread_process.o
+		thread/thread_process.o \
+
 
 # path for header
 include_path = -I"reference/" -I"modules/" -I"lambda/"

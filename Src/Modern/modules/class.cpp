@@ -10,6 +10,7 @@
  * 9.C++类的类型: 聚合, POD, TrivialType, TrivialCopyable, 
  *               Standard-layout Type, 标准布局兼容
  * 10.重写，重载和隐藏
+ * 11.扩展的inline说明符
 ********************************************************************/
 #include <iostream>
 #include <string>
@@ -423,6 +424,14 @@ private:
     std::list<int> l_;
 };
 
+class A1
+{
+public:
+    //static int b{1};
+    static const int a{1};                  //常量静态成员可以在类内声明
+    static inline std::string str{"hello"}; //添加inline的静态成员可以在类内声明
+};
+
 static void template_class(void)
 {
     FUNCTION_START()
@@ -433,6 +442,7 @@ static void template_class(void)
     X x2(deque<int>{3, 4, 5}); 
     x2.print();
 
+    std::cout<<A1::a<<" | ";
+    std::cout<<A1::str<<" | ";
     FUNCTION_END()
 }
-
