@@ -52,6 +52,7 @@
 #include "namespace/namespace.hpp"
 #include "struct_bind/bind_process.hpp"
 #include "thread/thread_process.hpp"
+#include "thread/semaphore.hpp"
 #include "modules/align.hpp"
 #include "attribute/attribute.hpp"
 
@@ -108,9 +109,10 @@ int main(int argc, char *argv[])
     //struct_bind_process();
 
     /********************************
-     * tuple
+     * thread
     *********************************/
     //thread_process();
+    semaphore_process();
 
     /********************************
      * align
@@ -120,6 +122,7 @@ int main(int argc, char *argv[])
     /********************************
      * attribute
     *********************************/
-    attribute_process();
+    //attribute_process();
+    
     return 0;
 }

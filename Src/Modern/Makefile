@@ -22,6 +22,7 @@ objects = main.o 	\
 		struct_bind/bind_process.o \
 		type/noexcept_process.o \
 		thread/thread_process.o \
+		thread/semaphore.o \
 		attribute/attribute.o
 
 

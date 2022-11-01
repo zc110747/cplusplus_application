@@ -116,7 +116,7 @@ struct Empty{
 struct X2{
     int i;
     [[no_unique_address]] Empty e;
-}
+};
 
 static void nouniqueaddress(void)
 {
