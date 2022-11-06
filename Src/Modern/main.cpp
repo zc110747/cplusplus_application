@@ -3,7 +3,7 @@
  * 这些特性十分繁杂，因此这里也仅测试和展示其中的一部分。
  * 本篇参考书籍:
  * <现代C++语言核心特性解析>
- * 第一章 新基础类型 -- finish
+ * 第一章 新基础类型 -- finish(modules/basic)
  * 第二章 内联和嵌套命名空间 -- finish(namespace)
  * 第三章 auto占位符 -- finish(type)
  * 第四章 decltype说明符 -- finish(type)
@@ -33,13 +33,18 @@
  * 第二十八章 确定的表达式求值顺序 -- finish(modules/basic)
  * 第二十九章 字面量优化 
  * 第三十章   alignas和alignof -- finish(modules/align)
- * 第三十一章 属性说明符和标准属性
+ * 第三十一章 属性说明符和标准属性 -- finish(attribute)
  * 第三十二章 新增预处理器和宏
  * 第三十三章 协程
  * 第三十四章 基础特性的其它优化
- * 第三十五章 可变参数模板
+ * 第三十五章 可变参数模板      -- finish(template/temp_arg)
  * 第三十六章 typename优化
  * 第三十七章 模板参数优化
+ * 第三十八章 类模板的模板实参推导
+ * 第三十九章 用户自定义推导指引
+ * 第四十章   SFINAE
+ * 第四十一章 概念和约束
+ * 第四十二章 模板特性的其它优化  
 ********************************************************************/
 #include "modules/basic.hpp"
 #include "modules/class.hpp"
@@ -55,6 +60,7 @@
 #include "thread/semaphore.hpp"
 #include "modules/align.hpp"
 #include "attribute/attribute.hpp"
+#include "template/temp_arg.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -82,6 +88,7 @@ int main(int argc, char *argv[])
      * 模板
     *********************************/
     //template_process();
+    temp_arg_process();
 
     /********************************
      * 引用
@@ -112,7 +119,7 @@ int main(int argc, char *argv[])
      * thread
     *********************************/
     //thread_process();
-    semaphore_process();
+    //semaphore_process();
 
     /********************************
      * align

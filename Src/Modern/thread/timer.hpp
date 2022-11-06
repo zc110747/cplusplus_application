@@ -21,7 +21,7 @@ public:
     {
         milli_s = interval;
         m_task = task;
-        m_thread = std::thread(Timer::run, this);
+        m_thread = std::thread(&Timer::run, this);
         m_thread.detach();
     }
 

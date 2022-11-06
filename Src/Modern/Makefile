@@ -23,7 +23,8 @@ objects = main.o 	\
 		type/noexcept_process.o \
 		thread/thread_process.o \
 		thread/semaphore.o \
-		attribute/attribute.o
+		attribute/attribute.o \
+		template/temp_arg.o
 
 
 # path for header

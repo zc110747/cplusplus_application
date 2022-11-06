@@ -67,7 +67,10 @@
         "unordered_set": "cpp",
         "cassert": "cpp",
         "climits": "cpp",
-        "future": "cpp"
+        "future": "cpp",
+        "any": "cpp",
+        "codecvt": "cpp",
+        "csignal": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

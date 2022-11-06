@@ -37,5 +37,9 @@ run:
 	@echo ---- run complier executables ----
 	@$(executables_path)/$(executables) $(option)
 
+start:
+	@echo ---- run complier executables ----
+	@$(executables_path)/$(executables) $(option)
+	
 build:
 	@make

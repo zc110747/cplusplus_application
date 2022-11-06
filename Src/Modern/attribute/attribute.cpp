@@ -4,6 +4,7 @@
 
 using namespace std;
 
+[[noreturn]]
 static void no_return_func(void);
 static void carries_func(void);
 static void deprecated_func(void);
