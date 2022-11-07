@@ -25,7 +25,7 @@ typedef enum
 }SHOW_MODE_ENUM;
 
 void show_array_help(void);
-template<class T, size_t N>
+template<typename T, size_t N>
 void show_array(std::array<T, N> value, string qstring="", SHOW_MODE_ENUM mode=SHOW_MODE_ENUM_LAMBDA);
 
 void array_study_handle(void)
@@ -80,7 +80,7 @@ void array_study_handle(void)
     show_array(userswapstring, "swap");
 }
 
-template<class T, size_t N>
+template<typename T, size_t N>
 void show_array(std::array<T, N> value, string qstring, SHOW_MODE_ENUM mode)
 {
     //empty, size

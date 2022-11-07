@@ -24,7 +24,7 @@ typedef enum
 }SHOW_MODE_ENUM;
 
 void show_unordered_multiset_help(void);
-template<class T>
+template<typename T>
 void show_unordered_multiset(std::unordered_multiset<T>, string qstring="", SHOW_MODE_ENUM mode=SHOW_MODE_ENUM_LAMBDA);
 
 void unordered_multiset_study_handle(void)
@@ -135,7 +135,7 @@ void unordered_multiset_study_handle(void)
     cout<<"reserve:"<<swapunordered_multiset.bucket_count()<<endl;
 }
 
-template<class T>
+template<typename T>
 void show_unordered_multiset(std::unordered_multiset<T> value, string qstring, SHOW_MODE_ENUM mode)
 {
     //empty, size

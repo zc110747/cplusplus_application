@@ -26,7 +26,7 @@ typedef enum
 }SHOW_MODE_ENUM;
 
 void show_unordered_multimap_help(void);
-template<class T, class N>
+template<typename T, typename N>
 void show_unordered_multimap(std::unordered_multimap<T, N>, string qstring="", SHOW_MODE_ENUM mode=SHOW_MODE_ENUM_LAMBDA);
 
 void unordered_multimap_study_handle(void)
@@ -131,7 +131,7 @@ void unordered_multimap_study_handle(void)
     cout<<"reserve:"<<swapunordered_multimap.bucket_count()<<endl;
 }
 
-template<class T, class N>
+template<typename T, typename N>
 void show_unordered_multimap(std::unordered_multimap<T, N> value, string qstring, SHOW_MODE_ENUM mode)
 {
     //empty, size

@@ -164,16 +164,16 @@ void objMemPool_process()
 }
 
 
-template<class T>
+template<typename T>
 void RunCode(T &m){cout<<"lvalue ref"<<" | "; }
 
-template<class T>
+template<typename T>
 void RunCode(T &&m){cout<<"rvalue ref"<<" | ";}
 
-template<class T>
+template<typename T>
 void RunCode(const T &m){cout<<"const lvalue ref"<<" | "; }
 
-template<class T>
+template<typename T>
 void RunCode(const T &&m){cout<<"const rvalue ref"<<" | "; }
 
 void AutoRefProcess()

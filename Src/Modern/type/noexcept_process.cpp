@@ -15,7 +15,7 @@ int safe_func() noexcept
     return 1;
 }
 
-template<class T>
+template<typename T>
 class X
 {
 private:
@@ -37,13 +37,13 @@ auto return_func() noexcept(true)
     return ptr;
 }
 
-template<class T>
+template<typename T>
 T func_ret(T &&t) noexcept(is_fundamental_v<T>)
 {
     return t;
 }
 
-template<class T>
+template<typename T>
 T func_ret1(T &&t) noexcept(noexcept(T(t)))
 {
     return t;

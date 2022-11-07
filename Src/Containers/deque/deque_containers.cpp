@@ -25,7 +25,7 @@ typedef enum
 }SHOW_MODE_ENUM;
 
 void show_deque_help(void);
-template<class T>
+template<typename T>
 void show_deque(std::deque<T> value, string qstring="", SHOW_MODE_ENUM mode=SHOW_MODE_ENUM_LAMBDA);
 
 void deque_study_handle(void)
@@ -140,7 +140,7 @@ void deque_study_handle(void)
     show_deque(swapdeque, "pop_front");
 }
 
-template<class T>
+template<typename T>
 void show_deque(std::deque<T> value, string qstring, SHOW_MODE_ENUM mode)
 {
     //empty, size

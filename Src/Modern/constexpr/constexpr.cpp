@@ -113,7 +113,7 @@ int constexpr_process(void)
     return 0;
 }
 
-template<class T> bool is_same_value(T a, T b){
+template<typename T> bool is_same_value(T a, T b){
     return a == b;
 }
 
@@ -125,7 +125,7 @@ template<> bool is_same_value<double>(double a, double b){
     }
 }
 
-template<class T> bool is_same_value_ext(T a, T b){
+template<typename T> bool is_same_value_ext(T a, T b){
     if constexpr (std::is_same<T, double>::value) {
         if(std::abs(a - b) < 0.0001){
             return true;
@@ -138,7 +138,7 @@ template<class T> bool is_same_value_ext(T a, T b){
     }
 }
 
-template<class T> auto any2i(T t)
+template<typename T> auto any2i(T t)
 {
     if constexpr (std::is_same<T, string>::value) {
         if constexpr (T::npos == -1){

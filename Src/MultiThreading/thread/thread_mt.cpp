@@ -96,7 +96,7 @@ void show_thread_help(void)
     helpstring.append("get_id          Returns the thread id.\n");
     helpstring.append("join            This synchronizes the moment this function returns with the completion of all the operations in the thread.\n");
     helpstring.append("joinable        Returns whether the thread object is joinable.\n");
-    helpstring.append("native_handle   This member function is only present in class thread if the library implementation supports it.\n");
+    helpstring.append("native_handle   This member function is only present in typename Thread if the library implementation supports it.\n");
     helpstring.append("operator=       If the object is currently not joinable, it acquires the thread of execution represented by rhs (if any).\n");
     helpstring.append("swap            Swaps the state of the object with that of x.\n");
     

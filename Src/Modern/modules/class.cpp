@@ -429,7 +429,7 @@ public:
         cout<<" | ";
     }
 private:
-    template<class T> X(T first, T last) : l_(first, last) {}
+    template<typename T> X(T first, T last) : l_(first, last) {}
     std::list<int> l_;
 };
 

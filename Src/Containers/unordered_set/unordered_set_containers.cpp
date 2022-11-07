@@ -24,7 +24,7 @@ typedef enum
 }SHOW_MODE_ENUM;
 
 void show_unordered_set_help(void);
-template<class T>
+template<typename T>
 void show_unordered_set(std::unordered_set<T>, string qstring="", SHOW_MODE_ENUM mode=SHOW_MODE_ENUM_LAMBDA);
 
 void unordered_set_study_handle(void)
@@ -135,7 +135,7 @@ void unordered_set_study_handle(void)
     cout<<"reserve:"<<swapunordered_set.bucket_count()<<endl;
 }
 
-template<class T>
+template<typename T>
 void show_unordered_set(std::unordered_set<T> value, string qstring, SHOW_MODE_ENUM mode)
 {
     //empty, size

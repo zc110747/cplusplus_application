@@ -24,7 +24,7 @@ typedef enum
 }SHOW_MODE_ENUM;
 
 void show_set_help(void);
-template<class T>
+template<typename T>
 void show_set(std::set<T>, string qstring="", SHOW_MODE_ENUM mode=SHOW_MODE_ENUM_LAMBDA);
 
 void set_study_handle(void)
@@ -152,7 +152,7 @@ void set_study_handle(void)
     show_set(swapset, "swapset");
 }
 
-template<class T>
+template<typename T>
 void show_set(std::set<T> value, string qstring, SHOW_MODE_ENUM mode)
 {
     //empty, size

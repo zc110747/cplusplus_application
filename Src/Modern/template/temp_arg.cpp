@@ -15,13 +15,13 @@ using namespace std;
 
 namespace Template1
 {
-    template<class ...Args>
+    template<typename ...Args>
     void foo(Args ...args)
     {
         cout<<sizeof...(args)<<" | ";
     }
 
-    template<class ...Args, class T, class U = double>
+    template<typename ...Args, typename T, typename U = double>
     void foo_1(T t1, U u1, Args ...args)
     {
         cout<<t1<<" "<<u1<<" ";
@@ -30,7 +30,7 @@ namespace Template1
         cout<<x<<" "<<y<<" | ";
     }
 
-    template<class T, class ...Args> //类模板，模板形参列表必须为最后一个形参
+    template<typename T, typename ...Args> //类模板，模板形参列表必须为最后一个形参
     class bar
     {
     public:
@@ -64,17 +64,17 @@ namespace Template1
 
 namespace Template2
 {
-    template<class T, class U>
+    template<typename T, class U>
     auto baz(T t, U u) -> T
     {
         cout<<t<<" "<<u<<" | ";
         return t;
     }
 
-    template<class ...Args>
+    template<typename ...Args>
     void foo(Args ...args){}
 
-    template<class ...Args>
+    template<typename ...Args>
     class bar{
     public:
         bar(Args ...args)
@@ -83,7 +83,7 @@ namespace Template2
         }
     };
 
-    template<class ...Args>
+    template<typename ...Args>
     void foo_f(Args ...args)
     {
         auto tp = make_tuple(args...);
@@ -91,7 +91,7 @@ namespace Template2
         cout<<get<1>(tp)(4, 3)<<" | ";
     }
 
-    template<class ...Args>
+    template<typename ...Args>
     class bar_1{
     public:
         bar_1(Args ...args){
@@ -120,13 +120,13 @@ namespace Template2
 
 namespace Template3
 {
-    template<class T>
+    template<typename T>
     T sum(T arg)
     {
         return arg;
     }
 
-    template<class T1, class ...Args>
+    template<typename T1, typename ...Args>
     auto sum(T1 arg1, Args ...args)
     {
         return arg1 + sum(args...);
@@ -136,19 +136,19 @@ namespace Template3
     //args op ... 一元向右折叠
     //... op args 一元向左折叠
     //args op ... int 二元向右折叠
-    template<class ...Args>
+    template<typename ...Args>
     auto sum_m(Args ...args)
     {
         return (args + ...);
     }
 
-    template<class ...Args>
+    template<typename ...Args>
     auto sum_int(Args ...args)
     {
         return (args + ... + 0);
     }
 
-    template<class ...Args>
+    template<typename ...Args>
     auto sum_arg(Args ...args)
     {
         return (args && ...);
@@ -177,7 +177,7 @@ namespace Template3
 
 namespace Template4
 {
-    template<class T>
+    template<typename T>
     class base
     {
     public:
@@ -191,14 +191,14 @@ namespace Template4
         T t_;
     };
 
-    template<class ...Args>
+    template<typename ...Args>
     class derived: public base<Args>...
     {
     public:
         using base<Args>::base...;
     };
 
-    template<class F, class ...Args>
+    template<typename F, typename ...Args>
     auto delay_invoke(F f, Args... args)
     {
         return [f = std::move(f), tup = std::make_tuple(std::move(args)...)]() -> decltype(auto){

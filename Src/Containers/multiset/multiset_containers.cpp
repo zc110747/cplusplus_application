@@ -24,7 +24,7 @@ typedef enum
 }SHOW_MODE_ENUM;
 
 void show_multiset_help(void);
-template<class T>
+template<typename T>
 void show_multiset(std::multiset<T>, string qstring="", SHOW_MODE_ENUM mode=SHOW_MODE_ENUM_LAMBDA);
 
 void multiset_study_handle(void)
@@ -153,7 +153,7 @@ void multiset_study_handle(void)
     show_multiset(swapmultiset, "swapmultiset");
 }
 
-template<class T>
+template<typename T>
 void show_multiset(std::multiset<T> value, string qstring, SHOW_MODE_ENUM mode)
 {
     //empty, size

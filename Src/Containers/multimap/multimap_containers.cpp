@@ -26,7 +26,7 @@ typedef enum
 }SHOW_MODE_ENUM;
 
 void show_multimap_help(void);
-template<class T, class N>
+template<typename T, class N>
 void show_multimap(std::multimap<T, N>, string qstring="", SHOW_MODE_ENUM mode=SHOW_MODE_ENUM_LAMBDA);
 
 void multimap_study_handle(void)
@@ -151,7 +151,7 @@ void multimap_study_handle(void)
 
 }
 
-template<class T, class N>
+template<typename T, class N>
 void show_multimap(std::multimap<T, N> value, string qstring, SHOW_MODE_ENUM mode)
 {
     //empty, size
@@ -306,7 +306,7 @@ int main(int argc, char* argv[])
 // #include <typeinfo>
 // #include <multimap>
 
-// template<class T0, class T1>
+// template<typename T0, typename T1>
 // void show_multimap(std::multimap<T0, T1> &multimap_val)
 // {
 //     std::for_each(multimap_val.begin(), multimap_val.end(), [](const std::pair<T0, T1> &multimap_ref){

@@ -25,7 +25,7 @@ typedef enum
 }SHOW_MODE_ENUM;
 
 void show_vector_help(void);
-template<class T>
+template<typename T>
 void show_vector(std::vector<T>, string qstring="", SHOW_MODE_ENUM mode=SHOW_MODE_ENUM_LAMBDA);
 
 void vector_study_handle(void)
@@ -145,7 +145,7 @@ void vector_study_handle(void)
     show_vector(swapvector, "pop_back");
 }
 
-template<class T>
+template<typename T>
 void show_vector(std::vector<T> value, string qstring, SHOW_MODE_ENUM mode)
 {
     //empty, size

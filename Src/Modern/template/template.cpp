@@ -35,19 +35,19 @@ int template_process(void)
     return 0;
 }
 
-template<class T>
+template<typename T>
 struct intMap
 {
   typedef map<int, T> type;
 };
 
-template<class T>
+template<typename T>
 struct intMapVal
 {
   typename intMap<int>::type val;
 };
 
-template<class T>
+template<typename T>
 using intMapU = map<int, T>;
 
 static int using_process(void)

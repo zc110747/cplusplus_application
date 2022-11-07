@@ -25,7 +25,7 @@ typedef enum
 }SHOW_MODE_ENUM;
 
 void show_map_help(void);
-template<class T, class N>
+template<typename T, typename N>
 void show_map(std::map<T, N>, string qstring="", SHOW_MODE_ENUM mode=SHOW_MODE_ENUM_LAMBDA);
 
 void map_study_handle(void)
@@ -154,7 +154,7 @@ void map_study_handle(void)
 
 }
 
-template<class T, class N>
+template<typename T, typename N>
 void show_map(std::map<T, N> value, string qstring, SHOW_MODE_ENUM mode)
 {
     //empty, size

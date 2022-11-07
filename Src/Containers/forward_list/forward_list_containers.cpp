@@ -25,10 +25,10 @@ typedef enum
 }SHOW_MODE_ENUM;
 
 void show_forward_list_help(void);
-template<class T>
+template<typename T>
 void show_forward_list(std::forward_list<T>, string qstring="", SHOW_MODE_ENUM mode=SHOW_MODE_ENUM_LAMBDA);
 
-template<class T>
+template<typename T>
 bool comparsion(T first, T second){
     return first<second;
 }
@@ -142,7 +142,7 @@ void forward_list_study_handle(void)
     show_forward_list(swapforward_list, "splice");
 }
 
-template<class T>
+template<typename T>
 void show_forward_list(std::forward_list<T> value, string qstring, SHOW_MODE_ENUM mode)
 {
     //empty, size

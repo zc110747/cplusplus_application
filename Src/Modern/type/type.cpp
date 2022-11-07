@@ -186,13 +186,13 @@ struct S1
     decltype(x+y) z;
 };
 
-template<class T1, class T2>
+template<typename T1, typename T2>
 auto sum(T1 a1, T2 a2)->decltype(a1+a2)
 {
     return (a1+a2);
 }
 
-template<class T>
+template<typename T>
 auto return_ref(T& t)->decltype(t)
 {
     return t;
