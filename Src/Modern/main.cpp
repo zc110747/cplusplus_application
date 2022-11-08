@@ -37,8 +37,8 @@
  * 第三十二章 新增预处理器和宏
  * 第三十三章 协程
  * 第三十四章 基础特性的其它优化
- * 第三十五章 可变参数模板      -- finish(template/temp_arg)
- * 第三十六章 typename优化
+ * 第三十五章 可变参数模板 -- finish(template/temp_arg)
+ * 第三十六章 typename优化 -- finish(template/temp_arg) 
  * 第三十七章 模板参数优化
  * 第三十八章 类模板的模板实参推导
  * 第三十九章 用户自定义推导指引

@@ -206,6 +206,47 @@ namespace Template4
         };
     }
 
+    template<typename T>
+    struct A
+    {
+        using type = std::vector<T>;
+    };
+
+    //template <typename> 告知T是一个模板
+    template <template <typename> typename T>
+    struct B
+    {
+        T<int> a;
+    };
+
+    using AType = typename A<int>::type;
+
+    template<typename T>
+    class A1
+    {
+    public:    
+        void f()
+        {   
+            cout << "A::f()" << " | ";    
+        }
+    };
+
+    template<typename T>
+    class B1: public A1<T>
+    {
+    public:  
+        void g()
+        { 
+            /*不加this会报错
+            1.模板会二段式查找, B基类A<T>依赖模板参数T, 在定义阶段, A<T>是不存在的，于是A<T>::f也不存在，这时会认为f()是非成员函数，
+            2.当B模板实例化阶段, 可以查到A<T>::f, 但编译器仍然认为f()是非成员函数，不会回头去找
+            3.加this会告诉编译器是成员函数，实例化阶段，会先在B内查找，在去基类A1查找
+            */
+            this->f();
+            A1<T>::f();  //访问基类的函数
+        } 
+    };
+
     static void arg_template(void)
     {
         FUNCTION_START()
@@ -221,6 +262,21 @@ namespace Template4
 
         cout<<delay_invoke([](auto a, auto b)->decltype(a+b){
             return a+b;}, 1, 2)()<<" | ";
+
+        {
+            A<int>::type a;
+            B<A> b;
+            cout<<sizeof(b)<<" | ";
+        }
+
+        {
+            B1<int> b;
+            b.g();
+        }
+  
+        AType a1;
+        cout<<typeid(a1).name()<<" | ";
+
         FUNCTION_END()
     }
 }
