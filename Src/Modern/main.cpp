@@ -39,7 +39,7 @@
  * 第三十四章 基础特性的其它优化
  * 第三十五章 可变参数模板 -- finish(template/temp_arg)
  * 第三十六章 typename优化 -- finish(template/temp_arg) 
- * 第三十七章 模板参数优化
+ * 第三十七章 模板参数优化 -- finish(template/temp) 
  * 第三十八章 类模板的模板实参推导
  * 第三十九章 用户自定义推导指引
  * 第四十章   SFINAE
@@ -61,6 +61,7 @@
 #include "modules/align.hpp"
 #include "attribute/attribute.hpp"
 #include "template/temp_arg.hpp"
+#include "template/temp_improve.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -88,7 +89,8 @@ int main(int argc, char *argv[])
      * 模板
     *********************************/
     //template_process();
-    temp_arg_process();
+    //temp_arg_process();
+    template_improve();
 
     /********************************
      * 引用

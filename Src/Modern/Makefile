@@ -15,6 +15,8 @@ objects = main.o 	\
 		modules/align.o \
 		reference/reference.o \
 		template/template.o \
+		template/temp_improve.o \
+		template/temp_arg.o \
 		lambda/lambda.o \
 		constexpr/constexpr.o \
 		namespace/namespace.o \
@@ -23,8 +25,8 @@ objects = main.o 	\
 		type/noexcept_process.o \
 		thread/thread_process.o \
 		thread/semaphore.o \
-		attribute/attribute.o \
-		template/temp_arg.o
+		attribute/attribute.o 
+
 
 
 # path for header
