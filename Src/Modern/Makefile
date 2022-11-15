@@ -17,6 +17,7 @@ objects = main.o 	\
 		template/template.o \
 		template/temp_improve.o \
 		template/temp_arg.o \
+		template/temp_deduction.o \
 		lambda/lambda.o \
 		constexpr/constexpr.o \
 		namespace/namespace.o \
