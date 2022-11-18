@@ -1,5 +1,6 @@
 /******************************************************************
  * 第三十七章 模板参数优化推导
+ * 第三十九章 用户自定义推导指引
 ********************************************************************/
 
 #include <map>
@@ -127,6 +128,7 @@ namespace Template2
         });
         x(1, 5);
 
+        #if __cplusplus > 201806L   
         //别名模板的实参推导
         //C++20 future
 
@@ -135,7 +137,69 @@ namespace Template2
         cout<<s1.x<<" "<<s1.y<<" | ";
 
         X x1{{1, 2}, 3, 4};
-        cout<<x1.s1.x<<" "<<x1.s1.y<<" | ";   
+        cout<<x1.s1.x<<" "<<x1.s1.y<<" | ";  
+        #endif 
+        FUNCTION_END() 
+    }
+}
+
+namespace std
+{
+    template<class...T> vector(T&& ...t) -> vector<std::common_type_t<T...>>;
+}
+
+namespace Template3
+{
+    template<typename T1, typename T2>
+    struct MyPair
+    {
+        MyPair(const T1& x, const T2& y)
+            : first(x), second(y){}
+
+        T1 first;
+        T2 second;
+    };
+
+    template<typename T1, typename T2> MyPair(T1, T2) -> MyPair<T1, T2>;
+    MyPair(int, const char*) -> MyPair<int, std::string>;
+
+    template<class T>
+    struct Wrap
+    {
+        T t1; 
+        T t2;
+    };
+    template<class...T> Wrap(T&& ...t) -> Wrap<std::common_type_t<T...>>;
+    
+    void temp_deduction_test(void)
+    {
+        FUNCTION_START()
+
+        MyPair mp1(1, 1.5);
+        std::cout<<mp1.first<<" "<<mp1.second<<" | ";
+
+        MyPair mp2(1, "hello");
+        std::cout<<mp2.first<<" "<<mp2.second<<" | ";
+
+        MyPair mp3(1, "hel");
+        std::cout<<typeid(mp3.second).name()<<" | ";
+
+        MyPair mp4(1u, "hel");
+        std::cout<<typeid(mp4.second).name()<<" | ";
+
+        // MyPair mp5 = {2, "kwe"};
+        // std::cout<<mp5.first<<" "<<mp5.second<<" | ";
+
+        std::vector v1{1, 5u, 3.2};
+        for(auto &val:v1)
+        {
+            std::cout<<val<<" ";
+        }
+        cout<<" | ";
+
+        Wrap wp1{1, 2};
+        std::cout<<typeid(wp1.t1).name()<<" | ";
+
         FUNCTION_END() 
     }
 }
@@ -145,4 +209,6 @@ void temp_deduction(void)
     Template1::temp_deduction_test();
     
     Template2::temp_deduction_test();
+
+    Template3::temp_deduction_test();
 }

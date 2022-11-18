@@ -109,12 +109,14 @@ namespace Template2
         T v;
     };
 
+#if __cplusplus > 201806L
     template<class T=double, double N=1.5>
     void foo()
     {
         T t = N;
         cout<<t<<" | ";
     }
+#endif
 
     template <typename T, std::size_t N>
     struct basic_fixed_string
@@ -162,13 +164,15 @@ namespace Template2
         X<A> x1{{3}};   //聚合类型
         cout<<x1.v.a<<" | ";
 
+        #if __cplusplus > 201806L    
         enum {e1=10};
         X x2{e1};
         cout<<x2.v<<" | ";
-        
+
         foo<>();
 
         Z<"hello world"> z1;
+        #endif
 
         auto l = foo1<bar, 5>();
         cout<<l.a<<" | ";
