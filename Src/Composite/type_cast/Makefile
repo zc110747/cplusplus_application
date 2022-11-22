@@ -8,11 +8,11 @@
 
 # This is object should be build and will link to generate
 # the executables
-objects = memory_test.o
+objects = type_cast.o
 
 # This is the file name of the executables and path where 
 # place the executables
-executables = study_memory_test
+executables = type_cast
 executables_path = ../../../Executables
 
 # Including this file allows access to the Build System.

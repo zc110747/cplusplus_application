@@ -14,7 +14,7 @@
  * 4.委托构造函数
  * 5.继承构造函数
  * 6.非静态成员的默认初始化，位域默认初始化(C++20)
- * 7.列表初始化, initialize_list,
+ * 7.列表初始化, initializer_list,
  * 8.default - delete
  * 9.C++类的类型: 聚合, POD, TrivialType, TrivialCopyable, 
  *               Standard-layout Type, 标准布局兼容
@@ -292,7 +292,7 @@ static void init_class(void)
     }
 
     //列表初始化
-    //initialize_list, 非静态成员的默认初始化
+    //initializer_list, 非静态成员的默认初始化
     {
         class ClassWithInit
         {
