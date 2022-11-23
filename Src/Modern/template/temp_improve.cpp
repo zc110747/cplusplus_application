@@ -109,7 +109,7 @@ namespace Template2
         T v;
     };
 
-#if __cplusplus > 201806L
+#if __cplusplus > 202002L
     template<class T=double, double N=1.5>
     void foo()
     {
@@ -164,7 +164,7 @@ namespace Template2
         X<A> x1{{3}};   //聚合类型
         cout<<x1.v.a<<" | ";
 
-        #if __cplusplus > 201806L    
+        #if __cplusplus > 202002L    
         enum {e1=10};
         X x2{e1};
         cout<<x2.v<<" | ";

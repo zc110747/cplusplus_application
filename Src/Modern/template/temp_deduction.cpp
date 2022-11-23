@@ -128,7 +128,7 @@ namespace Template2
         });
         x(1, 5);
 
-        #if __cplusplus > 201806L   
+        #if __cplusplus > 202002L   
         //别名模板的实参推导
         //C++20 future
 

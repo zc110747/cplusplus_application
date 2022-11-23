@@ -20,6 +20,8 @@ C++是支持多范式不同实践的语言，往往很多应用也仅仅是C++�
 * 命名空间(namespace)
   内联命名空间
   嵌套命令空间
+  using用于声明使用命名空间
+  Code: Src/KnowledgePoint/namespace/
 
 * 引用特性  
   左值，右值，将亡值  
@@ -40,7 +42,7 @@ C++是支持多范式不同实践的语言，往往很多应用也仅仅是C++�
   构造函数(默认构造函数-default，删除构造函数-delete，显示构造函数-explicit，委托构造函数-构造函数调用其它构造函数，继承构造函数)  
   运算符重载(operator+)  
   列表初始化(initializer_list)
-  RAII(Resource Acquisition is initialization)  
+  RAII(Resource Acquisition is initialization)和std::lock_guard  
   非静态数据成员的默认初始化(=, {})，联合体
   静态数据成员(非const)的inline初始化 
   强枚举类型(enum class)
@@ -97,7 +99,9 @@ C++是支持多范式不同实践的语言，往往很多应用也仅仅是C++�
   attribute属性说明符, [[noreturn]], [[carries_dependency]],[[carries_dependency]], [[fallthrough]], [[nodiscard]], [[maybe_unused]], [[likely]], [[unlikely]], [[no_unique_address]]
   用户自定义字面量，字符串字面量，单引号作为整数分隔符  
 
-  上面总结只是列出了我目前了解的C++知识点，在后续的目录中将梳理这些知识，分类进行整理说明，如果接触了解新的C++相关知识，也会更新该文档和内容代码。
+* Boost库扩展
+
+  上面总结只是列出了我目前了解的C++知识点，在后续的学习中将梳理这些知识，分类进行整理说明，如果接触了解新的知识，也会持续更新该文档和内容代码。
 
 
 
