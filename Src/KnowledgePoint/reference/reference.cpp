@@ -14,6 +14,7 @@
  *   通过std::forward传递正确的类型到指定函数
 ***********************************************************************************/
 #include <iostream>
+#include <functional>
 
 using namespace std;
 
@@ -258,8 +259,40 @@ namespace FORWARD
         isForwad(std::move(t1));    //推导类型为A, std::forward折叠为&&，std::move转后为将亡值
         isForwad(get_a());          //推导类型为A, std::forward折叠为&&, get_a返回为纯右值
         
-
         FUNCTION_END()       
+    }
+}
+
+namespace REF
+{
+    void refer_test(void)
+    {
+        FUNCTION_START()
+
+        int a{1}, b{2}, c{3};
+        auto ref_a = std::ref(a);
+
+        ++ref_a;
+        cout<<a<<" "<<ref_a<<" | ";
+        ++a;
+        cout<<a<<" "<<ref_a.get()<<" | ";
+
+        //引用数组
+        std::reference_wrapper<int> refs[] = {a, b, c};
+        refs[1]++;
+        refs[2]+=1;
+        for(const auto& val:refs)
+        {
+            cout<<val<<" ";
+        }
+        cout<<" | ";
+
+        //const ref引用，可以查看改变，但不允许修改 
+        auto ref_a1 = std::cref(a);
+        a++;
+        cout<<a<<" "<<ref_a1.get()<<" | ";
+
+        FUNCTION_END()  
     }
 }
 
@@ -275,5 +308,6 @@ int main(void)
 
     FORWARD::refer_test();
 
+    REF::refer_test();
     return 0;
 }
