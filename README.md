@@ -47,7 +47,7 @@ C++是支持多范式不同实践的语言，往往很多应用也仅仅是C++�
   静态数据成员(非const)的inline初始化  
   强枚举类型(enum class)
 
-* C++对象模型布局  
+* C++特殊对象模型布局  
   AggregateType  
   TrivialType  
   TrivalCopyable  

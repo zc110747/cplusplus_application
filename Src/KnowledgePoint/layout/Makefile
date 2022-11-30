@@ -8,11 +8,11 @@
 
 # This is object should be build and will link to generate
 # the executables
-objects = class_layout.o
+objects = layout.o
 
 # This is the file name of the executables and path where 
 # place the executables
-executables = class_layout
+executables = layout
 executables_path = ../../../Executables
 
 # Including this file allows access to the Build System.
