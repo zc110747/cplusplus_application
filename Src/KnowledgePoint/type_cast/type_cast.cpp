@@ -7,9 +7,20 @@
  * typeid - 获取类型信息type_info
  * 四种转换方式
  * const_cast
+ * 用于设置和删除指针的const或volatile，可用于将const指针传递给非const实参函数
+ * 除非完全了解需求，不然不建议这么做
  * reinterpret_cast
+ * 用于任意类型类的转换，包含非继承类，不同类型的指针
+ * 除非完全了解需求，不然不建议这么做
  * static_cast
+ * 静态转换用于类的指针或者引用的转换，需要为有继承关系的类
+ * 运行时不执行检查对象是否时目标类型的完整对象，需要程序员来确保转换安全
  * dynamic_cast
+ * 动态转换用类的指针或者引用转换,只适用于多态类(包含virtual任意函数即可) 
+    否则会报(source type is not polymorphic)错误
+    1.支持派生类转基类，类似于隐式转换(upcast)
+    2.支持基类转派生类，转换失败返回nullptr(downcast)
+    dynamic_cast编译器需要支持RTTI(g++ -fno-rtti可关闭RTTI)
 ************************************************************/
 
 #include <iostream>
@@ -22,8 +33,6 @@ using namespace std;
 namespace CONST_CAST
 {
     //const_cast
-    //const_cast用于设置和删除指针的const或volatile，可用于将const指针传递给非const实参函数
-    //除非完全了解需求，不然不建议这么做
     void typecast_process(void)
     {
         FUNCTION_START()
@@ -47,7 +56,6 @@ namespace CONST_CAST
     }
 }
 
-
 namespace REINTERPRET_CAST
 {
     class A{};
@@ -65,7 +73,6 @@ namespace REINTERPRET_CAST
     };
 
     //reinterpret_cast
-    //reinterpret_cast用于任意类型类的转换，包含非继承类
     //reinterpret_cast类似于c的强制转换，不建议使用
     void typecast_process(void)
     {
@@ -89,95 +96,8 @@ namespace REINTERPRET_CAST
     }
 }
 
-namespace DYNAMIC_CAST
-{
-    /*
-        dynamic_cast:动态转换用类的指针或者引用转换,只适用于多态类(包含virtual任意函数即可) 
-        否则会报(source type is not polymorphic)错误
-        1.支持派生类转基类，类似于隐式转换(upcast)
-        2.支持基类转派生类，转换失败返回nullptr(downcast)
-        dynamic_cast编译器需要支持RTTI(g++ -fno-rtti可关闭RTTI)
-    */
-
-    class Base
-    {
-    public:
-        int i = 1;
-        Base() {}
-        virtual ~Base()= default;
-    };
-
-    class BaseE
-    {    
-    public:
-        int j = 2;
-        BaseE() {}
-        virtual ~BaseE()= default;
-    };
-
-    class Derived: public Base, public BaseE
-    {
-    public:
-        int k = 3;
-        void f(){
-            std::cout<<k<<" | ";
-        }
-    };
-
-    void typecast_process(void)
-    {
-        FUNCTION_START()
-        {
-            Base *pba = new Base;
-            Base *pbb = new Derived;
-            Derived *pbc;
-
-            //基类转派生类，不具有完整的派生类类型，返回nullptr
-            pbc = dynamic_cast<Derived *>(pba);
-            if(pbc == nullptr)
-                cout<<"nullptr"<<" | ";
-
-            //基类转派生类，具有完整的派生类类型，返回实际类型
-            pbc = dynamic_cast<Derived *>(pbb);
-            if(pbc != nullptr)
-                cout<<"not nullptr"<<" | ";
-
-            delete pba;
-            delete pbb;
-        }
-
-        {
-            //派生类转基类，多继承
-            BaseE *pE = dynamic_cast<BaseE *>(new Derived());
-            Derived *pd = dynamic_cast<Derived *>(pE);
-            Base *pb = dynamic_cast<Base *>(pd);
-            cout<<pE->j<<" | ";
-            pd->f();
-            cout<<pb->i<<" | ";
-
-            delete pE;
-        }
-
-        {
-            //引用的派生类和基类互转
-            Derived d;
-            Base& pb = dynamic_cast<Base&>(d);
-            Derived& d1 = dynamic_cast<Derived&>(pb);
-            cout<<pb.i<<" | ";
-            cout<<d1.i<<" | ";
-        }
-        FUNCTION_END()
-    }
-}
-
 namespace STATIC_CAST
 {
-    /*
-        static_cast:静态转换用于类的指针或者引用的转换，需要为有继承关系的类
-        仅再编译阶段检查，需要程序员保证转换的有效性，不过不会产生动态转换的开销
-        基类转派生类需要
-    */
-
     class A
     {
     public:
@@ -226,15 +146,16 @@ namespace STATIC_CAST
            
            //其中a的值不正确，B的布局识别正常
             C *pc2 = static_cast<C *>(pb);
-            cout<<pc2->get_a()<<" | ";  
+            //cout<<pc2->get_a()<<" | ";  
             cout<<pc2->get_b()<<" | ";
 
             //多重继承，派生类转基类, 工作正常
             B *pb1 = static_cast<B *>(pc);
             cout<<pb1->get_b()<<" | ";
 
+            //多重继承，派生类转基类, 工作正常
             A *pa1 = static_cast<A *>(pc);
-            cout<<pa1->get_a()<<" | ";
+            cout<<pa1->get_a()<<"\n  ";
         }
 
         {
@@ -245,12 +166,89 @@ namespace STATIC_CAST
 
             B& b = static_cast<B &>(c);
             cout<<b.get_b()<<" | ";
+
+            C&& d = static_cast<C &&>(c);
+            cout<<c.get_a()<<" | ";
+            cout<<c.get_b()<<"\n  ";
         }
 
         //enum转int
         {
             int a = static_cast<int>(E1::first);
             cout<<a<<" | ";
+        }
+        FUNCTION_END()
+    }
+}
+
+namespace DYNAMIC_CAST
+{
+    class Base
+    {
+    public:
+        int i = 1;
+        Base() {}
+        virtual ~Base()= default;
+    };
+
+    class BaseE
+    {    
+    public:
+        int j = 2;
+        BaseE() {}
+        virtual ~BaseE()= default;
+    };
+
+    class Derived: public Base, public BaseE
+    {
+    public:
+        int k = 3;
+        void f(){
+            std::cout<<k<<" | ";
+        }
+    };
+
+    void typecast_process(void)
+    {
+        FUNCTION_START()
+        {
+            Base *pba = new Base;
+            Base *pbb = new Derived;
+            Derived *pbc;
+
+            //基类转派生类，不具有完整的派生类类型，返回nullptr
+            pbc = dynamic_cast<Derived *>(pba);
+            if(pbc == nullptr)
+                cout<<"nullptr"<<" | ";
+
+            //基类转派生类，具有完整的派生类类型，返回实际类型
+            pbc = dynamic_cast<Derived *>(pbb);
+            if(pbc != nullptr)
+                cout<<"not nullptr"<<"\n  ";
+
+            delete pba;
+            delete pbb;
+        }
+
+        {
+            //派生类转基类，多继承
+            BaseE *pE = dynamic_cast<BaseE *>(new Derived());
+            Derived *pd = dynamic_cast<Derived *>(pE);
+            Base *pb = dynamic_cast<Base *>(pd);
+            cout<<pE->j<<" | ";
+            pd->f();
+            cout<<pb->i<<"\n  ";
+
+            delete pE;
+        }
+
+        {
+            //引用的派生类和基类互转
+            Derived d;
+            Base& pb = dynamic_cast<Base&>(d);
+            Derived& d1 = dynamic_cast<Derived&>(pb);
+            cout<<pb.i<<" | ";
+            cout<<d1.i<<" | ";
         }
         FUNCTION_END()
     }
@@ -351,9 +349,9 @@ int main(void)
 
     REINTERPRET_CAST::typecast_process();
 
-    DYNAMIC_CAST::typecast_process();
-
     STATIC_CAST::typecast_process();
+
+    DYNAMIC_CAST::typecast_process();
 
     TYPEID::typeid_process();
 
