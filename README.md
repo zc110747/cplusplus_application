@@ -55,6 +55,7 @@ C++是支持多范式不同实践的语言，往往很多应用也仅仅是C++�
   reinterpret_cast  
   static_cast  
   dynamic_cast  
+  Code: Src/KnowledgePoint/type_cast/  
 
 * 类的应用  
   封装, 访问控制(private, protected, public)    
@@ -116,6 +117,10 @@ C++是支持多范式不同实践的语言，往往很多应用也仅仅是C++�
   用户自定义字面量，字符串字面量，单引号作为整数分隔符  
 
 * Boost库扩展
+
+* C++读书笔记
+  现代C++语言核心特性解析  
+  Code: Src/Modern/ 
   上面总结只是列出了我目前了解的C++知识点，在后续的学习中将梳理这些知识，分类进行整理说明，如果接触了解新的知识，也会持续更新该文档和内容代码。
 
 
