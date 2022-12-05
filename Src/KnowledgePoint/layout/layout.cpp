@@ -35,6 +35,12 @@
  * 2.是标准类型布局(standard-layout)
  * 3.所有非静态成员都是POD类型
  * 可通过is_pod_v判断
+ * 
+ ***** 对象内存分布 *****
+ * 1.空类占用1个字节，以使对象占用有效地址
+ * 2.虚继承，类或者其基类有虚函数，会让类增加虚表指针
+ * 3.虚表指针的个数在基类或者单继承中最多只有一个，多重继承则跟基类中本身带虚指针对象的数目一致。
+ * 4.静态成员变量和函数不占用对象的空间
 ************************************************************/
 #include <iostream>
 #include <type_traits>
@@ -201,6 +207,89 @@ namespace STANDARD
     }
 }
 
+namespace CLASS_LAYOUT
+{
+    class Base
+    {
+    public:
+        virtual void print() {
+            cout<<"Base"<<" | ";
+        }  
+        virtual void print1(){
+            cout<<"Base1"<<" | ";
+        }
+    };
+
+    class Derive:public Base
+    {
+    public:
+        virtual void print() {
+            cout<<"Derive"<<" | ";
+        }   
+    };
+
+    using func_ptr = void(*)(void);
+
+    class A {};
+    class B {};
+    class A1:public A, public B {};
+    class A2:public A{};
+    class A3:public virtual A{};
+    class A4:public virtual A{};
+    class A5:public A3, public A4 {};
+    class A6:public virtual A, public A3 {};
+    class A7:public B, public A3 {};
+
+    class C{
+        int a;
+    };
+    class C1{
+        int a;
+        inline static int b = 0;
+    };
+    class C2{
+        int a;
+        inline static int b = 0;
+        void func(){
+        }
+    };
+
+    void layout_process(void)
+    {
+        FUNCTION_START()
+        
+        //父类指针调用基类的函数
+        Base *pBase = new Base();
+        Base *pDerive = static_cast<Base *>(new Derive());
+        pBase->print();
+        pDerive->print();
+
+        //虚表函数，占据地址范围与sizeof(func_ptr)一致
+        auto *vptr_base = reinterpret_cast<uint64_t *>(pBase);
+        cout<<vptr_base<<" | ";
+        auto vfunc = (func_ptr *)(*(uint64_t *)(vptr_base));
+        (*vfunc)();
+        (*(vfunc+1))();
+        cout<<"\n  ";
+
+        cout<<sizeof(A)<<" | ";  //空类占1字节，使对象占地址
+        cout<<sizeof(B)<<" | ";  //空类占1字节，使对象占地址
+        cout<<sizeof(A1)<<" | "; //空类占1字节
+        cout<<sizeof(A2)<<" | "; //空类占1字节
+        cout<<sizeof(A3)<<" | "; //虚继承，安插虚表指针(与指针占用空间一致)
+        cout<<sizeof(A4)<<" | "; //虚继承，安插虚表指针(与指针占用空间一致)
+        cout<<sizeof(A5)<<" | "; //多重继承，每个带虚表的继承安插虚表指针，*n
+        cout<<sizeof(A6)<<" | "; //多重继承, 虚继承可以避免重复包含，只有单个指针
+        cout<<sizeof(A7)<<"\n  "; //多重继承
+
+        //object
+        cout<<sizeof(C)<<" | "; 
+        cout<<sizeof(C1)<<" | ";  
+        cout<<sizeof(C2)<<" | ";  
+        FUNCTION_END()
+    }
+}
+
 int main(void)
 {
     AGGREGATE_TYPE::layout_process();
@@ -208,4 +297,6 @@ int main(void)
     TRIVIAL::layout_process();
 
     STANDARD::layout_process();
+
+    CLASS_LAYOUT::layout_process();
 }

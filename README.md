@@ -30,7 +30,32 @@ C++是支持多范式不同实践的语言，往往很多应用也仅仅是C++�
   万能引用和引用折叠  
   完美转发    
   std::ref引用转换  
-  
+  Code: Src/KnowledgePoint/reference/  
+
+* C++特殊对象模型布局  
+  AggregateType  
+  TrivialType  
+  TrivalCopyable  
+  Standard-layoutType  
+  POD  
+  虚表，多重继承和类的内存布局  
+  Code: Src/KnowledgePoint/layout/  
+
+* 智能指针  
+  unique_ptr  
+  shared_ptr和enable_shared_from_this
+  weak_ptr
+  Code: Src/KnowledgePoint/smart_point/  
+
+* TypeCast转换  
+  RTTI(Run-Time Type Information)  
+  显示和隐式转换(explicit关键字)  
+  typeid  
+  const_cast  
+  reinterpret_cast  
+  static_cast  
+  dynamic_cast  
+
 * 类的应用  
   封装, 访问控制(private, protected, public)    
   继承，权限控制(private, protected, public)    
@@ -47,23 +72,6 @@ C++是支持多范式不同实践的语言，往往很多应用也仅仅是C++�
   静态数据成员(非const)的inline初始化  
   强枚举类型(enum class)
 
-* C++特殊对象模型布局  
-  AggregateType  
-  TrivialType  
-  TrivalCopyable  
-  Standard-layoutType  
-  POD  
-  虚表和类的内存布局  
-    
-* TypeCast转换  
-  RTTI(Run-Time Type Information)  
-  显示和隐式转换(explicit关键字)  
-  typeid  
-  const_cast  
-  reinterpret_cast  
-  static_cast  
-  dynamic_cast  
-    
 * 模板(template)
   模板类和模板函数(class, typename)  
   模板的全特化和偏特化  
@@ -82,11 +90,6 @@ C++是支持多范式不同实践的语言，往往很多应用也仅仅是C++�
   其它标准库:string, tuple, bitset
   结构化绑定:auto[]表达式 
   for循环的扩展for(key:expression) do;
-
-* 智能指针  
-  unique_ptr  
-  shared_ptr  
-  weak_ptr
 
 * 多线程和协程
   atomic原子操作  
@@ -113,7 +116,6 @@ C++是支持多范式不同实践的语言，往往很多应用也仅仅是C++�
   用户自定义字面量，字符串字面量，单引号作为整数分隔符  
 
 * Boost库扩展
-
   上面总结只是列出了我目前了解的C++知识点，在后续的学习中将梳理这些知识，分类进行整理说明，如果接触了解新的知识，也会持续更新该文档和内容代码。
 
 
