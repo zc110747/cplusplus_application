@@ -1,123 +1,119 @@
 /******************************************************************
  * 第三十七章 模板参数优化
+ * 1.允许常量求值作为所有非类型模板的实参
+ * 2.允许局部和匿名类型作为类型模板实参
+ * 3.允许函数模板的默认模板参数
+ * 4.函数模板添加到ADL查找规则
+ * 5.允许非类型模板形参中的字面量类类型
+ * 非类型模板形参可以是整数类型，枚举类型，指针类型，引用类型和std::nullptr_t类型
 ********************************************************************/
 
 #include "temp_improve.hpp"
 #include <iostream>
 #include <algorithm>
+#include <functional>
 
 using namespace std;
 
 #define FUNCTION_START()  {cout<<__func__<<":\n  ";}{
 #define FUNCTION_END()    }{cout<<"\n\n";  }  
 
-/*
-1.允许常量求值作为所有非类型模板的实参
-2.如果对象指针作为模板实参，必须是静态或者是有内部或
-外部链接的完整对象
-3.如果函数指针作为模板实参，则必须是有链接的函数指针
-4.如果左值引用的形参作为模板实参，则必须有内部和外部链接
-5.成员指针作为模板实参，必须是静态成员
-*/
-namespace Template1
+
+//允许常量求值作为所有非类型模板的实参
+namespace TemplateParameter
 {
-    template<typename T>
-    constexpr auto get_func(T a, T b)->decltype(a+b){
-        return a+b;
-    }
-    constexpr int v = 42;
-
-    template<int N>
-    class X 
-    {
-    public:
-        int L{N};
+    //整型作为模板实参，常量表达式需要支持对模板形参类型的隐式转换
+    constexpr char vchar = 5;
+    template <int N> struct TS {
+        void print(){
+            cout<<N<<" | ";
+        }
     };
 
-    //内部链接
-    static const char str1[] = {"one"};
-    //外部链接
-    extern const char str2[] = {"two"};
-
-    template<const char *str>
-    class X1
+    //对象指针作为模板实参，需要静态或者有内部，外部链接的完整对象
+    static const char static_str[] = {"static"}; //内部链接
+    extern const char extern_str[] = {"extern"}; //外部链接
+    constexpr const char* return_ptr() {
+        return static_str;
+    }
+    template<const char *str> struct TCS
     {
-    public:
         const char *ptr{str};
+        void print(){
+            cout<<ptr<<" | ";
+        }
     };
 
-    void foo()
-    {
-        cout<<"foo"<<" | ";
-    }
-
-    template<void(*func)()>
-    class X2
-    {
-    public:
-        void(*f)() = func;
+    //函数指针作为模板形参，需要具有内部或者外部链性
+    static constexpr auto lambda_func = [](int a, int b)->int{
+        cout<<a+b<<" | ";
+        return a+b;
+    };
+    template<int (*func_N)(int, int)> struct TFS{
+        int (*func)(int, int) = func_N;
     };
 
-    class Y
-    {
-    public:
-        static constexpr int v = 1;
+    //左值引用作为模板形参，也必须具有内部或者外部链接性
+    constexpr auto& vchar_r = vchar;
+
+    //成员指针作为模板形参，则必须是静态变量
+    struct SLINK{
+        inline static constexpr int val = 6;
     };
-    const int &v1 = v;
 
     void template_test(void)
     {
         FUNCTION_START()
 
-        X<get_func(1, 2)> x1;
-        cout<<x1.L<<" | ";
+        TS<vchar> ts1;
+        ts1.print();
+        TS<vchar_r> ts2;
+        ts2.print();
 
-        X<v> x2;
-        cout<<x2.L<<" | ";
+        TS<SLINK::val> ts3;
+        ts3.print();
 
-        X1<str1> x3;
-        cout<<x3.ptr<<" | ";
+        TCS<static_str> tcs1;
+        TCS<extern_str> tcs2;
+        tcs1.print();
+        tcs2.print();
+        static constexpr char str[] = "str";
+        TCS<str> tcs3;
+        tcs3.print();
+        TCS<return_ptr()> tcs4;
+        tcs4.print();
 
-        X1<str2> x4;
-        cout<<x4.ptr<<" | ";
-
-        X2<foo> x5;
-        x5.f();
-
-        X<Y::v> x6;
-        cout<<x6.L<<" | ";
-
-        X<v1> x7;
-        cout<<x7.L<<" | ";
-
+        TFS<lambda_func> tfs1;
+        tfs1.func(1, 2);
         FUNCTION_END()
     }
 }
 
 /*
-1.允许局部和匿名类型作为模板实参
-2.允许函数模板的默认模板函数
 3.函数模板添加到ADL查找规则(C++20 future)
 4.允许非类型模板形参中的字面量类类型
 */
-namespace Template2
+namespace TemplateType
 {
     template<class T>
-    class X
-    {
-    public:
-        T v;
-    };
+    struct X{T v;};
+    
+    //允许匿名类型作为模板实参
+    struct{
+        int b;
+    }ObjB;
+    template<class T> void f(T t){
+        cout<<typeid(T).name()<<" | ";
+    }
 
-#if __cplusplus > 202002L
-    template<class T=double, double N=1.5>
-    void foo()
+    //允许函数模板的默认模板参数
+    template<class T=double, class U>
+    void func_default(U t)
     {
-        T t = N;
         cout<<t<<" | ";
     }
-#endif
 
+    #if __cplusplus > 202002L    
     template <typename T, std::size_t N>
     struct basic_fixed_string
     {
@@ -138,7 +134,8 @@ namespace Template2
             cout<<Str.data_<<" | ";
         }
     };
-    
+    #endif
+
     template <template <auto> class T, auto N>
     auto foo1() -> T<N>
     {
@@ -158,17 +155,17 @@ namespace Template2
     {
         FUNCTION_START()
 
-        struct A{
-            int a;
-        };
-        X<A> x1{{3}};   //聚合类型
-        cout<<x1.v.a<<" | ";
+        struct A{int a;};
+        
+        //允许局部类型作为模板实参
+        X<A> xa1 = {{3}};           //聚合类型
+        cout<<xa1.v.a<<" | ";
+
+        f(ObjB);
+
+        func_default(1.01);
 
         #if __cplusplus > 202002L    
-        enum {e1=10};
-        X x2{e1};
-        cout<<x2.v<<" | ";
-
         foo<>();
 
         Z<"hello world"> z1;
@@ -185,9 +182,9 @@ void template_improve(void)
 {
     FUNCTION_START()
 
-    Template1::template_test();
+    TemplateParameter::template_test();
 
-    Template2::template_test();
+    TemplateType::template_test();
 
     FUNCTION_END()
 }

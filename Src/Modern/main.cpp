@@ -46,8 +46,8 @@
  * 第四十一章 概念和约束
  * 第四十二章 模板特性的其它优化  
 ********************************************************************/
-#include "modules/basic.hpp"
-#include "modules/class.hpp"
+#include "basic/basic.hpp"
+#include "basic/class.hpp"
 #include "template/template.hpp"
 #include "reference/reference.hpp"
 #include "type/type.hpp"
@@ -58,7 +58,7 @@
 #include "struct_bind/bind_process.hpp"
 #include "thread/thread_process.hpp"
 #include "thread/semaphore.hpp"
-#include "modules/align.hpp"
+#include "basic/align.hpp"
 #include "attribute/attribute.hpp"
 #include "template/temp_arg.hpp"
 #include "template/temp_improve.hpp"
@@ -91,8 +91,8 @@ int main(int argc, char *argv[])
     *********************************/
     //template_process();
     //temp_arg_process();
-    //template_improve();
-    temp_deduction();
+    template_improve();
+    //temp_deduction();
 
     /********************************
      * 引用

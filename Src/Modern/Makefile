@@ -10,9 +10,9 @@
 # the executables
 # object for compiler
 objects = main.o 	\
-		modules/basic.o \
-		modules/class.o \
-		modules/align.o \
+		basic/basic.o \
+		basic/class.o \
+		basic/align.o \
 		reference/reference.o \
 		template/template.o \
 		template/temp_improve.o \
