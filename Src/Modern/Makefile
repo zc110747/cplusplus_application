@@ -13,6 +13,7 @@ objects = main.o 	\
 		basic/basic.o \
 		basic/class.o \
 		basic/align.o \
+		basic/assert.o \
 		reference/reference.o \
 		template/template.o \
 		template/temp_improve.o \
