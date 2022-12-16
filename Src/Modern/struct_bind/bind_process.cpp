@@ -1,190 +1,159 @@
 
+/******************************************************************
+ * 第二十章 结构化绑定
+********************************************************************/
 #include "bind_process.hpp"
 #include <tuple>
 #include <iostream>
 #include <string>
 #include <vector>
+#include <map>
 
 using namespace std;
-
-
-class BindBase{
-public:
-    int a = 1;
-};
-
-class BindTest: public BindBase{
-public:
-    double b = 1.5;
-    template<std::size_t Idex> auto& get() = delete;
-};
-
-template<> auto& BindTest::get<0>() {return a;}
-template<> auto& BindTest::get<1>() {return b;}
-
-namespace std{
-    template<> 
-    struct tuple_size<BindTest> {
-        static constexpr size_t value = 2;
-    };
-
-    template<> 
-    struct tuple_element<0, BindTest> {
-        using type = int;
-    };
-
-    template<> 
-    struct tuple_element<1, BindTest> {
-        using type = double;
-    };
-}
-
-class BindTest1{
-private:
-    int a = 1;
-    int b = 2;
-    double c = 1.2;
-public:
-    auto& get_a() {return a;}
-    auto& get_b() {return b;}
-    auto& get_c() {return c;}
-
-    template<std::size_t Idex> auto& get() = delete;
-};
-
-template<> auto& BindTest1::get<0>() {return get_a();}
-template<> auto& BindTest1::get<1>() {return get_b();}
-template<> auto& BindTest1::get<2>() {return get_c();}
-
-namespace std{
-    template<> 
-    struct tuple_size<BindTest1> {
-        static constexpr size_t value = 3;
-    };
-
-    template<> 
-    struct tuple_element<0, BindTest1> {
-        using type = int;
-    };
-
-    template<> 
-    struct tuple_element<1, BindTest1> {
-        using type = int;
-    };
-
-    template<> 
-    struct tuple_element<2, BindTest1> {
-        using type = double;
-    };
-}
 
 #define FUNCTION_START()  {cout<<__func__<<":\n  ";}{
 #define FUNCTION_END()    }{cout<<"\n\n";  }   
 
-void struct_bind_process(void)
+namespace BIND_FOR_STD
 {
-    FUNCTION_START()
-
+    struct BIND_BASE
     {
+        int a; 
+        float b;
+    };
+
+    void bind_process(void)
+    {
+        FUNCTION_START() 
+
+        //基于tie来解析tuple
         int x;
         double y;
+        std::tie(x, y) = make_tuple(1, 1.5);
+        cout<<x<<" "<<y<<" | ";
 
-        auto func = []()->std::tuple<int, double>{
-            return make_tuple(1, 2.9);
-        };
-        std::tie(x, y) = func();
-        cout<<x<<", "<<y<<" | ";
-    }
+        //结构化绑定解析tuple数据
+        auto tp1 = make_tuple(1, 1.5, "hello");
+        auto[x_tp1, y_tp1, z_tp1] = tp1;
+        cout<<x_tp1<<" "<<y_tp1<<" "<<z_tp1<<" | ";
 
-    //结构化绑定
-    {
-        auto func = []()->auto{
-            return make_tuple(1, 2, "hello");
-        };
-        auto[a, b, c] = func();
-        cout<<a<<", "<<b<<", "<<c<<" | ";
-    }
-
-    {
-        struct BindTest{
-            int a;
-            string str;
-        };
-        std::vector<BindTest> bt{
-            {11, "hello"}, {7, "C++"}, {42, "world"}
-        };
-        for(const auto&[x, y]: bt){
-            cout<<x<<", "<<y<<" | ";
+        //结构化绑定解析map表
+        std::map<int, string> mp1 = {{1, "one"}, {2, "two"}};
+        for(const auto[key, value]: mp1)
+        {
+            cout<<key<<" "<<value<<" | ";
         }
-    }
 
-    //数组的结构化绑定
+        //结构化绑定解析结构体
+        BIND_BASE bindBase1 = {1, 2.5};
+        auto[x_b1, y_b1] = bindBase1;
+        cout<<x_b1<<" "<<y_b1<<" | ";
+
+        //结构体和容器组合使用结构化绑定解析
+        std::vector<BIND_BASE> vb1 = {{1, 1.1}, {2, 2.1}};
+        for(const auto[key, value] : vb1)
+        {
+            cout<<key<<" "<<value<<" | ";
+        }
+
+        //结构化绑定解析数组，必须是原生数组，退化成指针则无效
+        int array[] = {1, 2, 3};
+        auto&[x_a, y_a, z_a] = array; 
+        cout<<x_a<<" "<<y_a<<" "<<z_a<<" | ";
+        x_a++;
+        y_a++;
+        z_a++;
+        cout<<array[0]<<" "<<array[1]<<" "<<array[2]<<" | "; 
+
+        //类和结构体支持结构化绑定的条件
+        //1.类或结构体中的非静态成员数目必须和结构化绑定列表中的标识符一致
+        //2.数据成员必须是公有的(C++20之前)
+        //3.数据成员必须在同一个类或者基类中
+        //4.类和结构体中不能包含匿名联合体
+        {
+            class A{
+            public:
+                int a;
+                float b;
+            };
+            class B:public A{
+            };
+            class C:public A{
+            public:
+                int c;
+            };
+
+            A a1 = {1, 2};
+            B b1 = {2, 4};
+            C c1 = {4, 8, 16};
+
+            auto[x_a1, y_a1] = a1;
+            cout<<x_a1<<" "<<y_a1<<" | ";
+            auto[x_b1, y_b1] = b1;
+            cout<<x_b1<<" "<<y_b1<<" | ";
+            //auto[x_c1, y_c1, z_c1] = c1;  //not allow, no static member must in one class 
+        }   
+        FUNCTION_END()
+    }
+}
+
+namespace BIND_FOR_USER
+{
+    //设计支持基类和派生类都有非静态变量的对象
+    class BIND_BASE
     {
-        int a[3] = {1, 2, 3};
-        auto[x, y, z] = a;
-        cout<<x<<", "<<y<<", "<<z<<" | "; 
-    }
+    public:
+        int value{0};
+    };
 
-    //类和结构体的结构化绑定
-    //1.结构化绑定的所有数据必须再同一个类或者基类中
-    //2.内部不能存在匿名联合体
+    class BIND_DERIVE: public BIND_BASE
     {
-        class A1{
-        public:
-            int a = 1;
-            double b = 1.1;
-        };
-        class B1: public A1{
-        };
-        class C1: public A1{
-        public:
-            int c = 2;
-            int d = 3;
-        };
+    public:
+        double value_d{1.5};
+        template<std::size_t Idex> auto& get() = delete;
+    };
 
-        B1 b{2, 3.5};
-        auto[x, y] = b;
-        cout<<x<<", "<<y<<" | ";
+    template<> auto& BIND_DERIVE::get<0>() {return value;}
+    template<> auto& BIND_DERIVE::get<1>() {return value_d;}
+}
 
-        //基类和派生类都有变量，不支持结构化绑定
-        // C1 c{1, 1.5, 3, 4};
-        // auto[x1, y1] = c;
-    }
+namespace std{
+    template<> 
+    struct tuple_size<BIND_FOR_USER::BIND_DERIVE> {
+        static constexpr size_t value = 2;
+    };
 
-    {
-        class A{
-        };
-        class B: public A{
-        public:
-            int a = 1;
-            double b = 1.5;
-        };
+    template<> 
+    struct tuple_element<0, BIND_FOR_USER::BIND_DERIVE> {
+        using type = int;
+    };
 
-        B b;
-        auto[x, y] = b;
-        cout<<x<<", "<<y<<" | ";
-    }
+    template<> 
+    struct tuple_element<1, BIND_FOR_USER::BIND_DERIVE> {
+        using type = double;
+    };
+}
 
-    /*
-    支持绑定到元组和类元组对象的条件
-    1.满足std::tuple_size<T>::value是符合语法的表达式
-    2.std::tuple_element<i, T>::type是符合语法的表达式，其中i的值小于std::tuple_size<T>::value
-    3.类型T必须存在合法的模板函数
-    */
-    {
-        BindTest bt;
-        auto& [x, y] = bt;
-        x = 3;
-        cout<<bt.a<<", "<<bt.b<<" | ";
-    }
 
-    {
-        BindTest1 bt1;
-        cout<<bt1.get_a()<<", "<<bt1.get_b()<<", "<<bt1.get_c()<<" | ";
+void bind_process(void)
+{
+    FUNCTION_START() 
 
-        auto[x, y, z] = bt1;
-        cout<<x<<", "<<y<<", "<<z<<" | ";
-    }
+    // 支持绑定到元组和类元组对象的条件
+    // 1.满足std::tuple_size<T>::value是符合语法的表达式
+    // 2.std::tuple_element<i, T>::type是符合语法的表达式，且其中每个i的值都小于std::tuple_size<T>::value
+    // 3.类型T必须存在合法的模板函数get<i>()或者get(i)(t), 返回实例t中的每个元素
+    BIND_FOR_USER::BIND_DERIVE bd1;
+    auto& [x, y] = bd1;
+    x = 3;
+    cout<<bd1.value<<" "<<bd1.value_d<<" | ";
 
-    FUNCTION_END()
+    FUNCTION_END() 
+}
+
+void struct_bind_process(void)
+{
+    BIND_FOR_STD::bind_process();
+
+    bind_process();
 }

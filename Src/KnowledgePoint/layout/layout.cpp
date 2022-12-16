@@ -286,6 +286,37 @@ namespace CLASS_LAYOUT
         cout<<sizeof(C)<<" | "; 
         cout<<sizeof(C1)<<" | ";  
         cout<<sizeof(C2)<<" | ";  
+
+        {
+            class U1{
+            public:
+                int a{-1};
+                int get_a(){
+                    return a;
+                }
+                virtual int get_v_a(){
+                    return a;
+                }
+            };
+            class U2:public U1{
+            public:
+                int a{2};
+                int get_a(){
+                    return a;
+                }
+
+                int get_v_a(){
+                    return a;
+                }
+            };
+            cout<<sizeof(U1)<<" "<<sizeof(U2)<<" | ";
+            U2 u;
+            U1 *pu = &u;
+
+            //基类指针访问派生类的接口
+            cout<<pu->get_a()<<" | ";   
+            cout<<pu->get_v_a()<<" | ";
+        }
         FUNCTION_END()
     }
 }

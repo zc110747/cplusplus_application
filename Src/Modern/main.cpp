@@ -165,7 +165,7 @@ int main(int argc, char *argv[])
     //template_process();
     //temp_arg_process();
     //template_improve();
-    temp_deduction();
+    //temp_deduction();
 
     /********************************
      * 引用
@@ -190,7 +190,7 @@ int main(int argc, char *argv[])
     /********************************
      * tuple
     *********************************/
-    //struct_bind_process();
+    struct_bind_process();
 
     /********************************
      * thread
