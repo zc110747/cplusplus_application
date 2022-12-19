@@ -13,7 +13,6 @@ objects = main.o 	\
 		basic/basic.o \
 		basic/class.o \
 		basic/align.o \
-		basic/assert.o \
 		reference/reference.o \
 		template/template.o \
 		template/temp_improve.o \
@@ -28,8 +27,6 @@ objects = main.o 	\
 		thread/thread_process.o \
 		thread/semaphore.o \
 		attribute/attribute.o 
-
-
 
 # path for header
 include_path = -I"reference/" -I"modules/" -I"lambda/"

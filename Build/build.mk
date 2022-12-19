@@ -20,7 +20,7 @@ all : $(executables)
 
 $(executables): $(objects)
 	$(CC) -o $(executables) $(objects) $(LIB) $(CFLAGS)
-# rm -f $(objects)
+#rm -f $(objects)
 	$(shell if [ -d $(executables_path) ]; then echo; else mkdir $(executables_path); fi)
 	mv $(executables) $(executables_path)
 tags :

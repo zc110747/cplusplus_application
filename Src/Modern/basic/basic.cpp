@@ -1,6 +1,7 @@
 /******************************************************************
  * 第一章 新基础类型
  * 第十八章 支持初始化语句的if和switch
+ * 第十九章 静态断言(static_assert)
  * 第二十三章 指针字面量nullptr 
  * 第二十八章 确定的表达式求值顺序 
  * 第二十九章 字面量优化 
@@ -28,7 +29,7 @@ namespace BASIC_TYPE
         //long long表示至少为64位的整型
         //unsigned long long 表示无符号类型
         long long LL0 = 1256LL;
-        long long LL1 = 65536<<16;         
+        long long LL1 = 65536<<16;        
         long long LL2 = 65536LL<<16;
         cout<<LL0<<" "<<LL1<<" "<<LL2<<" | ";
 
@@ -224,9 +225,9 @@ namespace LITERAL
         cout<<"\n";
 
         //以R"([string])"可以声明原生字符串，内部保留所有的结构
-        char hello_str[] = R"(
-this is hello html
-for test.)";
+        char hello_str[] = 
+        R"(this is hello html
+        for test.)";
         cout<<hello_str<<" | ";
 
         //可通过自定义后缀将整数，浮点数，字符或字符串转换为特定对象
@@ -272,6 +273,34 @@ namespace DEFINED
         FUNCTION_END() 
     }
 }
+
+//在编译期能够执行，且能够提供诊断信息的断言
+namespace ASSERT
+{
+    class X
+    {
+    public:
+        int a;
+    };
+
+    class VX
+    {
+        virtual void func(){
+        }
+    };
+
+    void process(void)
+    {
+        FUNCTION_START() 
+
+        static_assert(true, "Not Right!");
+        static_assert(sizeof(X) == sizeof(X::a), "Not Equal!");
+        static_assert(sizeof(VX) == sizeof(void *), "not equal ptr");
+
+        FUNCTION_END()
+    }
+}
+
 int basic_process(void)
 {
     BASIC_TYPE::process();
@@ -283,5 +312,8 @@ int basic_process(void)
     LITERAL::process();
 
     DEFINED::process();
+
+    ASSERT::process();
+    
     return 0;
 }

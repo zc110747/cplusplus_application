@@ -121,7 +121,6 @@
 ********************************************************************/
 #include "basic/basic.hpp"
 #include "basic/class.hpp"
-#include "basic/assert.hpp"
 #include "template/template.hpp"
 #include "reference/reference.hpp"
 #include "type/type.hpp"
@@ -143,8 +142,7 @@ int main(int argc, char *argv[])
     /********************************
      * 基础
     *********************************/
-    basic_process();
-    //assert_process();
+    //basic_process();
 
     /********************************
      * type
@@ -203,7 +201,7 @@ int main(int argc, char *argv[])
     /********************************
      * align
     *********************************/
-    //align_process();
+    align_process();
 
     /********************************
      * attribute
