@@ -71,7 +71,8 @@
         "any": "cpp",
         "codecvt": "cpp",
         "csignal": "cpp",
-        "queue": "cpp"
+        "queue": "cpp",
+        "*.ipp": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
