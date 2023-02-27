@@ -13,11 +13,13 @@ objects = main.o 	\
 		basic/basic.o \
 		basic/class.o \
 		basic/align.o \
+		basic/other_improve.o \
 		reference/reference.o \
 		template/template.o \
 		template/temp_improve.o \
 		template/temp_arg.o \
 		template/temp_deduction.o \
+		template/template_SFINAE.o \
 		lambda/lambda.o \
 		constexpr/constexpr.o \
 		namespace/namespace.o \

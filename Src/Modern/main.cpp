@@ -115,12 +115,15 @@
  * 第三十九章 用户自定义推导指引
  *           template/temp_deduction
  * 
- * 第四十章   @SFINAE
+ * 第四十章   SFINAE
+ *           template/template_SFINAE
+ * 
  * 第四十一章 @概念和约束
  * 第四十二章 @模板特性的其它优化  
 ********************************************************************/
 #include "basic/basic.hpp"
 #include "basic/class.hpp"
+#include "basic/other_improve.hpp"
 #include "template/template.hpp"
 #include "reference/reference.hpp"
 #include "type/type.hpp"
@@ -136,6 +139,7 @@
 #include "template/temp_arg.hpp"
 #include "template/temp_improve.hpp"
 #include "template/temp_deduction.hpp"
+#include "template/template_SFINAE.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -143,6 +147,7 @@ int main(int argc, char *argv[])
      * 基础
     *********************************/
     //basic_process();
+    //other_improve_process();
 
     /********************************
      * type
@@ -166,6 +171,7 @@ int main(int argc, char *argv[])
     //temp_arg_process();
     //template_improve();
     //temp_deduction();
+    template_sfinae();
 
     /********************************
      * 引用
@@ -201,7 +207,7 @@ int main(int argc, char *argv[])
     /********************************
      * align
     *********************************/
-    align_process();
+    //align_process();
 
     /********************************
      * attribute
