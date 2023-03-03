@@ -20,6 +20,7 @@ objects = main.o 	\
 		template/temp_arg.o \
 		template/temp_deduction.o \
 		template/template_SFINAE.o \
+		template/template_concept.o \
 		lambda/lambda.o \
 		constexpr/constexpr.o \
 		namespace/namespace.o \

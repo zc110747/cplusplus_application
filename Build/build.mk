@@ -9,7 +9,7 @@
 # this place define the compile and flags, CC complie should be g++ and 
 # option could be add in place
 CC = g++
-CFLAGS  += -std=c++2a -lpthread -lm
+CFLAGS  += -std=c++2a -lpthread -lm -fconcepts
 
 # this is the rule how to complie file with type .cpp to middle file .o 
 # then link the object and generate the executables.

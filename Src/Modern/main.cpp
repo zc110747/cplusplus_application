@@ -140,6 +140,7 @@
 #include "template/temp_improve.hpp"
 #include "template/temp_deduction.hpp"
 #include "template/template_SFINAE.hpp"
+#include "template/template_concept.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -171,7 +172,8 @@ int main(int argc, char *argv[])
     //temp_arg_process();
     //template_improve();
     //temp_deduction();
-    template_sfinae();
+    //template_sfinae();
+    template_concept();
 
     /********************************
      * 引用
