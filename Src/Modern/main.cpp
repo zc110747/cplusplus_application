@@ -163,7 +163,7 @@ int main(int argc, char *argv[])
     /********************************
      * 类的处理
     *********************************/
-    //class_process();
+    class_process();
 
     /********************************
      * 模板
@@ -173,7 +173,7 @@ int main(int argc, char *argv[])
     //template_improve();
     //temp_deduction();
     //template_sfinae();
-    template_concept();
+    //template_concept();
 
     /********************************
      * 引用

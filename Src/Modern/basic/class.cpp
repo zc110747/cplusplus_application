@@ -156,6 +156,27 @@ namespace OVER_CLASS
     // class A1_Derive:A_Derive{
     // };
     
+    class C_Base
+    {
+    public:
+        void show() {
+            a = 1;
+            cout<<"show C base:"<<a<<" | ";
+        }
+    protected:
+        int a{0};
+    };
+
+    class C_Extern: public C_Base
+    {
+    public:
+        void show() {
+            a = 5;
+            C_Base::show();
+            cout<<"show C Extend:"<<a<<" | ";
+        }  
+    };
+
     void process(void)
     {
         FUNCTION_START()
@@ -184,6 +205,8 @@ namespace OVER_CLASS
         //1.配合虚函数使用，表示此函数不能够被其派生类override
         //2.配合类使用，表示类不能被继承
 
+        C_Extern c;
+        c.show();
         FUNCTION_END()
     }
 }
@@ -452,5 +475,6 @@ int class_process(void)
     AGGREGATE_CLSS::process();
 
     OVER_CLASS::process();
+    cout<<__func__<<endl;
     return 0;
 }
