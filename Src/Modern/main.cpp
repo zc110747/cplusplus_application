@@ -85,12 +85,6 @@
  * 第二十八章 确定的表达式求值顺序 
  *           basic/basic.cpp
  * 
- * 第二十九章 字面量优化 
- *           basic/basic.cpp
- * 
- * 第三十章   alignas和alignof 
- *           basic/align.cpp
- * 
  * 第三十一章 属性说明符和标准属性 
  *           attribute/attribute.cpp
  * 
@@ -142,79 +136,21 @@
 #include "template/template_SFINAE.hpp"
 #include "template/template_concept.hpp"
 
+#include "Chapter-29/literal.hpp"
+#include "Chapter-30/align.hpp"
+
+#define CHAPTER_29_STUDY_RUN   0
+#define CHAPTER_30_STUDY_RUN   1
+
 int main(int argc, char *argv[])
 {
-    /********************************
-     * 基础
-    *********************************/
-    //basic_process();
-    //other_improve_process();
+#if CHAPTER_29_STUDY_RUN
+    LITERAL::test_study();
+#endif
 
-    /********************************
-     * type
-    *********************************/
-    //type_process();
+#if CHAPTER_30_STUDY_RUN
+    ALIGN::test_study();
+#endif
 
-    /********************************
-     * 类的处理
-    *********************************/
-    //noexcept_process();
-
-    /********************************
-     * 类的处理
-    *********************************/
-    class_process();
-
-    /********************************
-     * 模板
-    *********************************/
-    //template_process();
-    //temp_arg_process();
-    //template_improve();
-    //temp_deduction();
-    //template_sfinae();
-    //template_concept();
-
-    /********************************
-     * 引用
-    *********************************/
-    //reference_process();
-
-    /********************************
-     * lambda标识符
-    *********************************/
-    //lambda_process();
-
-    /********************************
-     * constexpr
-    *********************************/
-    //constexpr_process();
-
-    /********************************
-     * namespace
-    *********************************/
-    //namespace_process();
-
-    /********************************
-     * tuple
-    *********************************/
-    //struct_bind_process();
-
-    /********************************
-     * thread
-    *********************************/
-    //thread_process();
-    //semaphore_process();
-
-    /********************************
-     * align
-    *********************************/
-    //align_process();
-
-    /********************************
-     * attribute
-    *********************************/
-    //attribute_process();
-    
     return 0;
 }

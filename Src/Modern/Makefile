@@ -10,9 +10,10 @@
 # the executables
 # object for compiler
 objects = main.o 	\
+		Chapter-29/literal.o \
+		Chapter-30/align.o \
 		basic/basic.o \
 		basic/class.o \
-		basic/align.o \
 		basic/other_improve.o \
 		reference/reference.o \
 		template/template.o \
