@@ -18,8 +18,6 @@
  * 第五章 函数返回类型后置 
  *          type/type.cpp
  * 
- * 第六章 右值引用
- *          reference/reference.cpp
  * 
  * 第七章 lambda表达式 
  *          lambda/lambda.cpp
@@ -125,42 +123,48 @@
 #include "template/temp_improve.hpp"
 #include "template/temp_deduction.hpp"
 #include "template/template_SFINAE.hpp"
-#include "template/template_concept.hpp"
 
+#include "Chapter-05/postf_return.hpp"
 #include "Chapter-06/reference.hpp"
+#include "Chapter-14/strong_enum.hpp"
 #include "Chapter-27/constexpr.hpp"
 #include "Chapter-28/eval_order.hpp"
 #include "Chapter-29/literal.hpp"
 #include "Chapter-30/align.hpp"
 
-#define CHAPTER_6_STUDY_RUN     1
-#define CHAPTER_27_STUDY_RUN    0
-#define CHAPTER_28_STUDY_RUN    0
-#define CHAPTER_29_STUDY_RUN    0
-#define CHAPTER_30_STUDY_RUN    0
+constexpr int chapter = 14;
 
 int main(int argc, char *argv[])
 {
+    if constexpr(chapter == 5)
+    {
+       POSTF_RETURN::test_study(); 
+    }
+    else if constexpr(chapter == 6)
+    {
+        REFERENCE::test_study();
+    }
+    else if constexpr(chapter == 14)
+    {
+        STRONG_ENUM::test_study();
+    }
+    else if constexpr(chapter == 27)
+    {
+        CONSTEXPR::test_study();
+    }
+    else if constexpr(chapter == 28)
+    {
+        EVAL_ORDER::test_study();
+    }
+    else if constexpr(chapter == 29)
+    {
+        LITERAL::test_study();
+    }
+    else if constexpr(chapter == 30)
+    {
+        ALIGN::test_study();
+    }
 
-#if CHAPTER_6_STUDY_RUN
-    REFERENCE::test_study();
-#endif
-
-#if CHAPTER_27_STUDY_RUN
-    CONSTEXPR::test_study();
-#endif
-
-#if CHAPTER_28_STUDY_RUN
-    EVAL_ORDER::test_study();
-#endif
-
-#if CHAPTER_29_STUDY_RUN
-    LITERAL::test_study();
-#endif
-
-#if CHAPTER_30_STUDY_RUN
-    ALIGN::test_study();
-#endif
 
     return 0;
 }

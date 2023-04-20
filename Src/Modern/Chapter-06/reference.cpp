@@ -132,6 +132,10 @@ namespace REFERENCE
     template<typename T>
     void RunCode(const T &&m){cout<<"const rvalue ref"<<" | "; }
 
+    void perfect_forword(auto&& t){
+        RunCode(std::forward<decltype(t)>(t));
+    };
+
     void test_study()
     {
         FUNCTION_START()
@@ -223,17 +227,26 @@ namespace REFERENCE
         //T&&       R&          R&
         //T&&       R&&         R&&       
         cout<<"\nchapter6.8\n  ";
-        int x_8 = 0;
+        int x_8 = 1;
         int &y_8 = x_8;
         int &&z_8 = std::move(x_8);
         RunCode(x_8);
         RunCode(y_8);
         RunCode(z_8);
         RunCode(std::move(x_8));
-        RunCode(std::move(y_8));
-        RunCode(std::move(z_8));
+        RunCode<int &>(x_8);
         cout<<"\n  ";
 
+        //6.9 完美转发
+        cout<<"\nchapter6.9\n  ";
+        int x_9 = 1;
+        int &y_9 = x_9;
+        int &&z_9 = std::move(x_9);
+        perfect_forword(x_9);
+        perfect_forword(y_9);
+        perfect_forword(z_9);
+        perfect_forword(std::move(x_9));
+        perfect_forword<int &>(x_8);
 
         FUNCTION_END()
     }

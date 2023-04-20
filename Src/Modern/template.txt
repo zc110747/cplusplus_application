@@ -1,0 +1,59 @@
+//////////////////////////////////////////////////////////////////////////////
+//  (c) copyright 2022-by Persional Inc.  
+//  All Rights Reserved
+//
+//  Name:
+//      x.hpp
+//
+//  Purpose:
+//
+//  Author:
+//     	@听心跳的声音
+//
+//  Assumptions:
+//
+//  Revision History:
+//      4/19/2023   Create New Version
+/////////////////////////////////////////////////////////////////////////////
+_Pragma("once")
+
+namespace x
+{
+    void test_study();
+}
+
+//////////////////////////////////////////////////////////////////////////////
+//  (c) copyright 2022-by Persional Inc.  
+//  All Rights Reserved
+//
+//  Name:
+//      x.cpp
+//
+//  Purpose:
+//
+//  Author:
+//     	@听心跳的声音
+//
+//  Assumptions:
+//
+//  Revision History:
+//      4/19/2023   Create New Version
+/////////////////////////////////////////////////////////////////////////////
+#include "x.hpp"
+#include "../includes.hpp"
+
+using namespace std;
+
+namespace REFERENCE
+{
+    void test_study()
+    {
+        FUNCTION_START()
+
+        //
+        cout<<"\nchapter6.1\n  ";
+
+        
+        FUNCTION_END()
+    }
+}

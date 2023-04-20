@@ -131,11 +131,7 @@ namespace CLASS_IMPROVE
             std::cout<<"X destory"<<" | ";
         }
         
-        #if __cplusplus > 201709
-        void operator delete(void *ptr, std::destorying_delete_t)
-        #else
         void operator delete(void *ptr)
-        #endif
         {
             std::cout<<"call delete"<<" | ";
             ::operator delete(ptr);

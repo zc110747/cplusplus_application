@@ -6,8 +6,9 @@
 //      eval_order.cpp
 //
 //  Purpose:
+//      第28章 确定的表达式求值顺序
 //
-// Author:
+//  Author:
 //     	@听心跳的声音
 //
 //  Assumptions:

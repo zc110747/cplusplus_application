@@ -6,9 +6,9 @@
 //      literal.cpp
 //
 //  Purpose:
-//      字面量优化
+//      第29章 字面量优化
 //
-// Author:
+//  Author:
 //     	@听心跳的声音
 //
 //  Assumptions:

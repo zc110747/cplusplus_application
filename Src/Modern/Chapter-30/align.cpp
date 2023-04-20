@@ -6,9 +6,9 @@
 //      align.cpp
 //
 //  Purpose:
-//      alignas 和 alignof
+//      第30章 alignas 和 alignof
 //
-// Author:
+//  Author:
 //     	@听心跳的声音
 //
 //  Assumptions:

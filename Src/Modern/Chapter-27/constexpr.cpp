@@ -6,8 +6,9 @@
 //      constexpr.cpp
 //
 //  Purpose:
+//      第27章 常量表达式
 //
-// Author:
+//  Author:
 //     	@听心跳的声音
 //
 //  Assumptions:

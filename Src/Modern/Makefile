@@ -10,7 +10,9 @@
 # the executables
 # object for compiler
 objects = main.o 	\
+		Chapter-05/postf_return.cpp \
 		Chapter-06/reference.o \
+		Chapter-14/strong_enum.o \
 		Chapter-27/constexpr.o \
 		Chapter-28/eval_order.o \
 		Chapter-29/literal.o \
@@ -23,7 +25,6 @@ objects = main.o 	\
 		template/temp_arg.o \
 		template/temp_deduction.o \
 		template/template_SFINAE.o \
-		template/template_concept.o \
 		lambda/lambda.o \
 		namespace/namespace.o \
 		type/type.o \

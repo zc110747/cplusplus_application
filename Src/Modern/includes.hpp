@@ -19,6 +19,7 @@ _Pragma("once")
 
 #include <iostream>
 #include <string>
+#include <cstring>
 
 #include <vector>
 #include <tuple>
