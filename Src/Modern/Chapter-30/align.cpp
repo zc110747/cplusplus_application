@@ -115,12 +115,16 @@ namespace ALIGN
         //aligned_storage_t用来分配指定对齐长度和大小的一块内存
         //aligned_union_t用来分配指定对齐长度的内存，长度则选取对齐最大的变量
         cout<<"chapter 30.5\n  ";
+        #if __MORE_THAN_CPP17__
         cout<<std::alignment_of<int>::value<<" "<<std::alignment_of<int>()<<" | ";  //4, 4
         std::aligned_storage_t<256, 8> buffer;
         cout<<sizeof(buffer)<<" "<<alignof(buffer)<<" | ";                          //256 8
         std::aligned_union_t<64, int, char, double> union_b;
         cout<<sizeof(union_b)<<" "<<alignof(union_b)<<" | ";                        //64 8
-        
+        #else
+        __LOWRE_THAN_CPP17_RUN;
+        #endif
+
         FUNCTION_END()
     }
 }

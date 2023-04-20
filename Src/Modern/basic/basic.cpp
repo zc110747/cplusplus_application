@@ -48,25 +48,6 @@ namespace BASIC_TYPE
         u16string str1 = {u"测试"};
         u32string str2 = {U"测试"};
 
-        // 对于后缀表达式和移位操作符，表达式总是从左到右
-        // 对于赋值表达式，表达式求值总是从右到左
-        // new表达式的内存分配优先于构造函数中参数的E的求值 -- C++17
-        auto E1 = [](){
-            cout<<"E1"<<" | ";
-            return 1;
-        };
-        auto E2 = [](){
-            cout<<"E2"<<" | ";
-            return 1;
-        };
-        cout<<(E1()<<E2())<<" | "; //先执行E1,再执行E2
-        
-        auto E3 = [](){
-            char *ptr = new char(1);
-            cout<<"E3"<<" | ";
-            return ptr;
-        };
-        *E3() = E2();              //先执行E2,再执行E3
         
         FUNCTION_END()
     }

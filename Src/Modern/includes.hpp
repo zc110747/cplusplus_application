@@ -19,7 +19,9 @@ _Pragma("once")
 
 #include <iostream>
 #include <string>
+
 #include <vector>
+#include <tuple>
 #include <type_traits>
 
 #define FUNCTION_START()  {std::cout<<__func__<<":\n";}{
@@ -30,7 +32,9 @@ _Pragma("once")
 #define _CPP17  201703
 #define _CPP20  202002
 
-#define MORE_THAN_CPP14   (__cplusplus>=_CPP14)
-#define MORE_THAN_CPP17   (__cplusplus>=_CPP17)
-#define MORE_THAN_CPP20   (__cplusplus>=_CPP20)
-
+#define __MORE_THAN_CPP14__   (__cplusplus>=_CPP14)
+#define __LOWRE_THAN_CPP14_RUN {std::cout<<"This function need supoort by cpp-14, use new g++ or --std=c++14";}
+#define __MORE_THAN_CPP17__   (__cplusplus>=_CPP17)
+#define __LOWRE_THAN_CPP17_RUN {std::cout<<"This function need supoort by cpp-17, use new g++ or --std=c++17";}
+#define __MORE_THAN_CPP20__   (__cplusplus>=_CPP20)
+#define __LOWRE_THAN_CPP20_RUN {std::cout<<"This function need supoort by cpp-20, use new g++ or --std=c++2a";}

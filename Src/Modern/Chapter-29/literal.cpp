@@ -54,41 +54,41 @@ namespace LITERAL
         {
             cout<<std::hexfloat<<value<<"="<<std::defaultfloat<<value<<" | ";
         }
-        cout<<"\n  ";
         
         //在源代码中使用十六进制浮点字面量
+        #if __MORE_THAN_CPP17__
         double float_array[]{0xb.8p-1, 0xf.ap+6, 0x9.61p+6};
         for(const auto &value:float_array)
         {
             cout<<std::hexfloat<<value<<"="<<std::defaultfloat<<value<<" | ";
         }
-        cout<<"\n  ";
+        #else
+        __LOWRE_THAN_CPP17_RUN;
+        #endif
 
         //29.2 二进制整数字面量
         //二进制 0b或0B开头
         //八进制 0开头
         //十六进制 0x或0X开头
-        cout<<"chapter 29.2\n  ";
+        cout<<"\nchapter 29.2\n  ";
         unsigned int binary_array[] = {0b11011101L, 063L, 25L, 0xf1L}; 
         for(const auto &value:binary_array)
         {
             cout<<value<<" | ";
         } 
-        cout<<"\n  ";
 
         //29.3 单引号作为整数分隔符
         //单引号作为界定符，用于整数分隔符, 可任意间隔，不影响原数值.
-        cout<<"chapter 29.3\n  ";
-        #if MORE_THAN_CPP14
+        cout<<"\nchapter 29.3\n  ";
+        #if __MORE_THAN_CPP14__
             unsigned int separation_array[] = {0b111'111L, 2'50'00L, 0x23'1f1L}; 
             for(const auto &value:separation_array)
             {
                 cout<<value<<" | ";
             }
         #else
-            cout<<"分隔符功能在cpp14后支持!";
+            __LOWRE_THAN_CPP14_RUN;
         #endif
-            cout<<"\n  ";
 
 
         //29.4 原生字符串字面量
@@ -96,7 +96,7 @@ namespace LITERAL
         //外部添加cpp可以支持内部嵌套
         //另外支持u8-char8_t, u-char16_t, U-char32_t, L-wchar-t
         //格式用于表示字面量存储格式
-        cout<<"chapter 29.4\n  ";
+        cout<<"\nchapter 29.4\n  ";
         char hello_HTML[] = R"cpp(<!DOCTYPE HTML
             <html lang="en">
             <head>
@@ -108,17 +108,19 @@ namespace LITERAL
             </html>
         )cpp";
         cout<<hello_HTML;
-        char16_t u8v[] = uR"(你好，世界!)";
-        cout<<u8v<<"\n  ";
-        
+
+        #if __MORE_THAN_CPP20__
+        char8_t u8v[] = u8R"(hello world!)";
+        #endif
+        char16_t u16v[] = uR"(hello world!)";
+        char32_t u32v[] = UR"(hello world!)";
+
         //29.5 用户自定义字面量
         //可通过自定义后缀，将整数、浮点数、字符及字符串转成特定对象
-        cout<<"chapter 29.5\n  ";
+        cout<<"\nchapter 29.5\n  ";
         auto x = 12.3_w;
-        cout<<x<<"\n  ";
-
         auto y = "123"_string;
-        cout<<y<<"\n  ";
+        cout<<x<<" | "<<y<<" | ";
 
         FUNCTION_END() 
     }

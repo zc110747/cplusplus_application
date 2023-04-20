@@ -78,13 +78,7 @@
  * 
  * 第二十六章 扩展的inline说明符
  *           basic/class.cpp
- * 
- * 第二十七章 常量表达式
- *           constexpr/constexpr.cpp
- * 
- * 第二十八章 确定的表达式求值顺序 
- *           basic/basic.cpp
- * 
+
  * 第三十一章 属性说明符和标准属性 
  *           attribute/attribute.cpp
  * 
@@ -119,16 +113,13 @@
 #include "basic/class.hpp"
 #include "basic/other_improve.hpp"
 #include "template/template.hpp"
-#include "reference/reference.hpp"
 #include "type/type.hpp"
 #include "type/noexcept_process.hpp"
 #include "lambda/lambda.hpp"
-#include "constexpr/constexpr.hpp"
 #include "namespace/namespace.hpp"
 #include "struct_bind/bind_process.hpp"
 #include "thread/thread_process.hpp"
 #include "thread/semaphore.hpp"
-#include "basic/align.hpp"
 #include "attribute/attribute.hpp"
 #include "template/temp_arg.hpp"
 #include "template/temp_improve.hpp"
@@ -136,14 +127,33 @@
 #include "template/template_SFINAE.hpp"
 #include "template/template_concept.hpp"
 
+#include "Chapter-06/reference.hpp"
+#include "Chapter-27/constexpr.hpp"
+#include "Chapter-28/eval_order.hpp"
 #include "Chapter-29/literal.hpp"
 #include "Chapter-30/align.hpp"
 
-#define CHAPTER_29_STUDY_RUN   0
-#define CHAPTER_30_STUDY_RUN   1
+#define CHAPTER_6_STUDY_RUN     1
+#define CHAPTER_27_STUDY_RUN    0
+#define CHAPTER_28_STUDY_RUN    0
+#define CHAPTER_29_STUDY_RUN    0
+#define CHAPTER_30_STUDY_RUN    0
 
 int main(int argc, char *argv[])
 {
+
+#if CHAPTER_6_STUDY_RUN
+    REFERENCE::test_study();
+#endif
+
+#if CHAPTER_27_STUDY_RUN
+    CONSTEXPR::test_study();
+#endif
+
+#if CHAPTER_28_STUDY_RUN
+    EVAL_ORDER::test_study();
+#endif
+
 #if CHAPTER_29_STUDY_RUN
     LITERAL::test_study();
 #endif

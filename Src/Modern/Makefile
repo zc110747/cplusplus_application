@@ -10,12 +10,14 @@
 # the executables
 # object for compiler
 objects = main.o 	\
+		Chapter-06/reference.o \
+		Chapter-27/constexpr.o \
+		Chapter-28/eval_order.o \
 		Chapter-29/literal.o \
 		Chapter-30/align.o \
 		basic/basic.o \
 		basic/class.o \
 		basic/other_improve.o \
-		reference/reference.o \
 		template/template.o \
 		template/temp_improve.o \
 		template/temp_arg.o \
@@ -23,7 +25,6 @@ objects = main.o 	\
 		template/template_SFINAE.o \
 		template/template_concept.o \
 		lambda/lambda.o \
-		constexpr/constexpr.o \
 		namespace/namespace.o \
 		type/type.o \
 		struct_bind/bind_process.o \
