@@ -119,24 +119,31 @@
 #include "template/temp_deduction.hpp"
 #include "template/template_SFINAE.hpp"
 
+#include "Chapter-01/base_type.hpp"
 #include "Chapter-02/namespace.hpp"
 #include "Chapter-05/postf_return.hpp"
 #include "Chapter-06/reference.hpp"
 #include "Chapter-08/initialization.hpp"
 #include "Chapter-13/inherit.hpp"
 #include "Chapter-14/strong_enum.hpp"
+#include "Chapter-17/for_loop.hpp"
 #include "Chapter-19/static_assert.hpp"
+#include "Chapter-23/nullptr.hpp"
 #include "Chapter-27/constexpr.hpp"
 #include "Chapter-28/eval_order.hpp"
 #include "Chapter-29/literal.hpp"
 #include "Chapter-30/align.hpp"
 #include "Chapter-36/typename.hpp"
 
-constexpr int chapter = 19;
+constexpr int chapter = 17;
 
 int main(int argc, char *argv[])
 {
-    if constexpr(chapter == 2)
+    if constexpr(chapter == 1)
+    {
+        BASE_TYPE::test_study();
+    }
+    else if constexpr(chapter == 2)
     {
         NAMESPACE::test_study();
     }
@@ -160,9 +167,17 @@ int main(int argc, char *argv[])
     {
         STRONG_ENUM::test_study();
     }
+    else if constexpr(chapter == 17)
+    {
+        FOR_LOOP::test_study();
+    }
     else if constexpr(chapter == 19)
     {
         STATIC_ASSERT::test_study();
+    }
+    else if constexpr(chapter == 23)
+    {
+        NULLPTR::test_study();
     }
     else if constexpr(chapter == 27)
     {

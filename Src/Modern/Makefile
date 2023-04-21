@@ -10,13 +10,16 @@
 # the executables
 # object for compiler
 objects = main.o 	\
+		Chapter-01/base_type.o \
 		Chapter-02/namespace.o \
 		Chapter-05/postf_return.o \
 		Chapter-06/reference.o \
 		Chapter-08/initialization.o \
 		Chapter-13/inherit.o \
 		Chapter-14/strong_enum.o \
+		Chapter-17/for_loop.o \
 		Chapter-19/static_assert.o \
+		Chapter-23/nullptr.o \
 		Chapter-27/constexpr.o \
 		Chapter-28/eval_order.o \
 		Chapter-29/literal.o \

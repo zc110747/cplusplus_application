@@ -20,10 +20,16 @@ _Pragma("once")
 #include <iostream>
 #include <string>
 #include <cstring>
+#include <climits>
+#include <limits>
 
 #include <vector>
+#include <map>
 #include <tuple>
 #include <type_traits>
+#include <ostream>
+#include <fstream>
+#include <algorithm>
 
 #define FUNCTION_START()  {std::cout<<__func__<<":\n";}{
 #define FUNCTION_END()    }{std::cout<<"\n\n";  } 
