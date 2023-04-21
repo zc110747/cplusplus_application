@@ -11,15 +11,17 @@
 # object for compiler
 objects = main.o 	\
 		Chapter-02/namespace.o \
-		Chapter-05/postf_return.cpp \
+		Chapter-05/postf_return.o \
 		Chapter-06/reference.o \
 		Chapter-08/initialization.o \
 		Chapter-13/inherit.o \
 		Chapter-14/strong_enum.o \
+		Chapter-19/static_assert.o \
 		Chapter-27/constexpr.o \
 		Chapter-28/eval_order.o \
 		Chapter-29/literal.o \
 		Chapter-30/align.o \
+		Chapter-36/typename.o \
 		basic/basic.o \
 		basic/class.o \
 		basic/other_improve.o \

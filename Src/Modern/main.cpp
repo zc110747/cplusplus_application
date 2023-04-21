@@ -6,9 +6,6 @@
  * 第一章 新基础类型
  *          basic/basic.cpp
  * 
- * 第二章 内联和嵌套命名空间
- *          namespace/namespace.cpp
- * 
  * 第三章 auto占位符
  *          type/type.cpp
  * 
@@ -17,7 +14,6 @@
  * 
  * 第五章 函数返回类型后置 
  *          type/type.cpp
- * 
  * 
  * 第七章 lambda表达式 
  *          lambda/lambda.cpp
@@ -129,12 +125,14 @@
 #include "Chapter-08/initialization.hpp"
 #include "Chapter-13/inherit.hpp"
 #include "Chapter-14/strong_enum.hpp"
+#include "Chapter-19/static_assert.hpp"
 #include "Chapter-27/constexpr.hpp"
 #include "Chapter-28/eval_order.hpp"
 #include "Chapter-29/literal.hpp"
 #include "Chapter-30/align.hpp"
+#include "Chapter-36/typename.hpp"
 
-constexpr int chapter = 2;
+constexpr int chapter = 19;
 
 int main(int argc, char *argv[])
 {
@@ -162,6 +160,10 @@ int main(int argc, char *argv[])
     {
         STRONG_ENUM::test_study();
     }
+    else if constexpr(chapter == 19)
+    {
+        STATIC_ASSERT::test_study();
+    }
     else if constexpr(chapter == 27)
     {
         CONSTEXPR::test_study();
@@ -178,7 +180,10 @@ int main(int argc, char *argv[])
     {
         ALIGN::test_study();
     }
-
+    else if constexpr(chapter == 36)
+    {
+        TYPENAME::test_study();
+    }
 
     return 0;
 }
