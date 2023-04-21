@@ -114,7 +114,6 @@
 #include "type/type.hpp"
 #include "type/noexcept_process.hpp"
 #include "lambda/lambda.hpp"
-#include "namespace/namespace.hpp"
 #include "struct_bind/bind_process.hpp"
 #include "thread/thread_process.hpp"
 #include "thread/semaphore.hpp"
@@ -124,25 +123,40 @@
 #include "template/temp_deduction.hpp"
 #include "template/template_SFINAE.hpp"
 
+#include "Chapter-02/namespace.hpp"
 #include "Chapter-05/postf_return.hpp"
 #include "Chapter-06/reference.hpp"
+#include "Chapter-08/initialization.hpp"
+#include "Chapter-13/inherit.hpp"
 #include "Chapter-14/strong_enum.hpp"
 #include "Chapter-27/constexpr.hpp"
 #include "Chapter-28/eval_order.hpp"
 #include "Chapter-29/literal.hpp"
 #include "Chapter-30/align.hpp"
 
-constexpr int chapter = 14;
+constexpr int chapter = 2;
 
 int main(int argc, char *argv[])
 {
-    if constexpr(chapter == 5)
+    if constexpr(chapter == 2)
     {
-       POSTF_RETURN::test_study(); 
+        NAMESPACE::test_study();
+    }
+    else if constexpr(chapter == 5)
+    {
+        POSTF_RETURN::test_study(); 
     }
     else if constexpr(chapter == 6)
     {
         REFERENCE::test_study();
+    }
+    else if constexpr(chapter == 8)
+    {
+        INITIALIZATION::test_study();
+    }
+    else if constexpr(chapter == 13)
+    {
+        INHERIT::test_study();
     }
     else if constexpr(chapter == 14)
     {

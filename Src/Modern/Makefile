@@ -10,8 +10,11 @@
 # the executables
 # object for compiler
 objects = main.o 	\
+		Chapter-02/namespace.o \
 		Chapter-05/postf_return.cpp \
 		Chapter-06/reference.o \
+		Chapter-08/initialization.o \
+		Chapter-13/inherit.o \
 		Chapter-14/strong_enum.o \
 		Chapter-27/constexpr.o \
 		Chapter-28/eval_order.o \
@@ -26,7 +29,6 @@ objects = main.o 	\
 		template/temp_deduction.o \
 		template/template_SFINAE.o \
 		lambda/lambda.o \
-		namespace/namespace.o \
 		type/type.o \
 		struct_bind/bind_process.o \
 		type/noexcept_process.o \
