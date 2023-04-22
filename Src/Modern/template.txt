@@ -44,7 +44,7 @@ namespace x
 
 using namespace std;
 
-namespace REFERENCE
+namespace x
 {
     void test_study()
     {

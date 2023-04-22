@@ -107,7 +107,6 @@
 #include "basic/class.hpp"
 #include "basic/other_improve.hpp"
 #include "template/template.hpp"
-#include "type/type.hpp"
 #include "type/noexcept_process.hpp"
 #include "lambda/lambda.hpp"
 #include "struct_bind/bind_process.hpp"
@@ -121,8 +120,11 @@
 
 #include "Chapter-01/base_type.hpp"
 #include "Chapter-02/namespace.hpp"
+#include "Chapter-03/auto.hpp"
+#include "Chapter-04/decltype.hpp"
 #include "Chapter-05/postf_return.hpp"
 #include "Chapter-06/reference.hpp"
+#include "Chapter-07/lambda.hpp"
 #include "Chapter-08/initialization.hpp"
 #include "Chapter-13/inherit.hpp"
 #include "Chapter-14/strong_enum.hpp"
@@ -135,7 +137,7 @@
 #include "Chapter-30/align.hpp"
 #include "Chapter-36/typename.hpp"
 
-constexpr int chapter = 17;
+constexpr int chapter = 7;
 
 int main(int argc, char *argv[])
 {
@@ -147,6 +149,14 @@ int main(int argc, char *argv[])
     {
         NAMESPACE::test_study();
     }
+    else if constexpr(chapter == 3)
+    {
+        AUTO::test_study();
+    }
+    else if constexpr(chapter == 4)
+    {
+        DECLTYPE::test_study();
+    }
     else if constexpr(chapter == 5)
     {
         POSTF_RETURN::test_study(); 
@@ -154,6 +164,10 @@ int main(int argc, char *argv[])
     else if constexpr(chapter == 6)
     {
         REFERENCE::test_study();
+    }
+    else if constexpr(chapter == 7)
+    {
+        LAMBDA::test_study();
     }
     else if constexpr(chapter == 8)
     {

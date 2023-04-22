@@ -6,6 +6,7 @@
 //      base_type.cpp
 //
 //  Purpose:
+//      第1章 新基础类型
 //
 //  Author:
 //     	@听心跳的声音

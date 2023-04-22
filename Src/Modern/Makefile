@@ -12,8 +12,11 @@
 objects = main.o 	\
 		Chapter-01/base_type.o \
 		Chapter-02/namespace.o \
+		Chapter-03/auto.o \
+		Chapter-04/decltype.o \
 		Chapter-05/postf_return.o \
 		Chapter-06/reference.o \
+		Chapter-07/lambda.o \
 		Chapter-08/initialization.o \
 		Chapter-13/inherit.o \
 		Chapter-14/strong_enum.o \
@@ -34,7 +37,6 @@ objects = main.o 	\
 		template/temp_deduction.o \
 		template/template_SFINAE.o \
 		lambda/lambda.o \
-		type/type.o \
 		struct_bind/bind_process.o \
 		type/noexcept_process.o \
 		thread/thread_process.o \

@@ -6,6 +6,7 @@
 //      namespace.cpp
 //
 //  Purpose:
+//      第2章 内联和嵌套命名空间
 //
 //  Author:
 //     	@听心跳的声音
