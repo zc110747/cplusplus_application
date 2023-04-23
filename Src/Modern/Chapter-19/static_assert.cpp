@@ -53,7 +53,7 @@ namespace STATIC_ASSERT
     };
     template<class T>
     class E{
-        static_assert(std::is_base_of_v<A, T>, "T is not Base of A");
+        static_assert(std::is_base_of<A, T>::value, "T is not Base of A");
     };
 
     void test_study()

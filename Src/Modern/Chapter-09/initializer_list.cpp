@@ -101,18 +101,23 @@ namespace INITIALIZE_LIST
         ptr2->print();
         delete ptr2;
         ptr2 = nullptr;
-
         cout<<"\n  ";
-        auto func_print = [](auto value){
-            for(const auto& val:value)
-            {
-                cout<<val<<" | ";
-            }
-        };
-        vector<int> vec2 = {1, 2, 3, 4, 5};
-        func_print(vec2);
-        list<int> list2 = {1, 2, 3, 4, 5};    
-        func_print(list2);
+        
+        #if __MORE_THAN_CPP14__
+            auto func_print = [](auto value){
+                for(const auto& val:value)
+                {
+                    cout<<val<<" | ";
+                }
+            };
+            vector<int> vec2 = {1, 2, 3, 4, 5};
+            func_print(vec2);
+            list<int> list2 = {1, 2, 3, 4, 5};    
+            func_print(list2);
+        #else
+            __LOWRE_THAN_CPP14_RUN;
+        #endif
+        
         int arr2[] = {1, 2, 3, 4};
         for(const auto& val:arr2)
         {

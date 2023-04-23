@@ -59,7 +59,6 @@ namespace BASE_TYPE
 
         //1.2 新字符类型char16_t和char32_t
         cout<<"\nchapter1.2\n  ";
-        char ch0 = u8'a';       //c++20可使用char8_t
         char16_t ch1 = u'好';
         char32_t ch2 = U'好';
         u16string str1 = {u"测试"};
@@ -68,6 +67,7 @@ namespace BASE_TYPE
         //1.3 新字符类型char8_t
         cout<<"\nchapter1.3\n  ";
         #if __MORE_THAN_CPP20__
+            char ch0 = u8'a';       //c++20可使用char8_t
             char8_t char8_3[] = u8"text";
             u8string str3(char8_3);
             cout<<str3.length()<<" | ";

@@ -144,7 +144,7 @@ namespace AUTO
                 cout<<val<<" | ";
             }
         #else
-            __MORE_THAN_CPP17__
+            __MORE_THAN_CPP17__;
         #endif
         
         //3.3 什么时候使用auto
@@ -184,7 +184,7 @@ namespace AUTO
             x2 = 3;
             cout<<x1<<" | "<<x2<<" | ";
         #else
-            __MORE_THAN_CPP14__
+            __MORE_THAN_CPP14__;
         #endif
 
         //3.6 非类型模板形参占位符
@@ -195,7 +195,7 @@ namespace AUTO
             f<5>();
             f<'c'>();
         #else
-            __MORE_THAN_CPP17__
+            __MORE_THAN_CPP17__;
         #endif
         FUNCTION_END()
     }

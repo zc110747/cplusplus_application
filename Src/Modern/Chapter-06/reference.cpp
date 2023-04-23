@@ -119,7 +119,7 @@ namespace REFERENCE
         return x;
     }
 
-    //6.7 万能引用和引用折叠
+    //6.8 万能引用和引用折叠
     template<typename T>
     void RunCode(T &m){cout<<"lvalue ref"<<" | "; }
 
@@ -132,9 +132,12 @@ namespace REFERENCE
     template<typename T>
     void RunCode(const T &&m){cout<<"const rvalue ref"<<" | "; }
 
+    //6.9 完美转发
+    #if __MORE_THAN_CPP14__
     void perfect_forword(auto&& t){
         RunCode(std::forward<decltype(t)>(t));
     };
+    #endif
 
     void test_study()
     {
@@ -239,6 +242,7 @@ namespace REFERENCE
 
         //6.9 完美转发
         cout<<"\nchapter6.9\n  ";
+        #if __MORE_THAN_CPP14__
         int x_9 = 1;
         int &y_9 = x_9;
         int &&z_9 = std::move(x_9);
@@ -247,7 +251,9 @@ namespace REFERENCE
         perfect_forword(z_9);
         perfect_forword(std::move(x_9));
         perfect_forword<int &>(x_8);
-
+        #else
+         __LOWRE_THAN_CPP14_RUN;
+        #endif
         FUNCTION_END()
     }
 

@@ -42,11 +42,11 @@ namespace BASIC_TYPE
         //char, char16_t, char32_t
         //u8,   u,         U        --C++17
         //多字节字符串和宽字符串的转换C++17不推荐使用
-        char ch0 = u8'a';       //c++20可使用char8_t
-        char16_t ch1 = u'好';
-        char32_t ch2 = U'好';
-        u16string str1 = {u"测试"};
-        u32string str2 = {U"测试"};
+        // char ch0 = u8'a';       //c++20可使用char8_t
+        // char16_t ch1 = u'好';
+        // char32_t ch2 = U'好';
+        // u16string str1 = {u"测试"};
+        // u32string str2 = {U"测试"};
 
         
         FUNCTION_END()
@@ -181,8 +181,8 @@ namespace DEFINED
 
         //用于判断atrribute是否支持, __has_cpp_attribute
         //如果支持返回加如时间，否则返回0
-        cout<<__has_cpp_attribute(fallthrough)<<" | ";
-        cout<<__cpp_aggregate_bases<<" | ";
+        // cout<<__has_cpp_attribute(fallthrough)<<" | ";
+        // cout<<__cpp_aggregate_bases<<" | ";
 
         //通过__VA_ARGS实现可变变量
         LOG("Hello %d | ", 2022);

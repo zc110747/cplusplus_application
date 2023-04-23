@@ -58,6 +58,7 @@ namespace DECLTYPE
     };
 
     //4.5 decltype(auto)
+    #if __MORE_THAN_CPP14__
     int &&f();
 
     template<class T>
@@ -65,13 +66,16 @@ namespace DECLTYPE
     {
         return t;
     }
+    #endif
 
     //4.6 decltype(auto)作为非类型模板形参占位符
+    #if __MORE_THAN_CPP14__
     template<decltype(auto) N>
     void func_6()
     {
         cout<<N<<" | ";
     }
+    #endif
 
     void test_study()
     {
@@ -112,7 +116,7 @@ namespace DECLTYPE
         auto sum_2 = sum_e(5, 10.5);
         cout<<sum_2<<" | ";
 
-        cout<<std::is_reference_v<decltype(return_ref(sum_2))><<" | ";
+        cout<<std::is_reference<decltype(return_ref(sum_2))>::value<<" | ";
 
         //4.3 推导规则
         //1.如果e是一个未加括号的标识符表达式（结构化绑定除外）或者未加括号的类成员访问，
@@ -162,18 +166,25 @@ namespace DECLTYPE
 
         //4.5 decltype(auto)
         //C++14标准支持decltyp(auto),救赎告知编译器用decltype的格式推导auto
+        #if __MORE_THAN_CPP14__
         cout<<"\nchapter4.5\n  ";
         decltype(auto) x_5 = 1;
         int i_5 = 5;
         decltype(auto) y_5 = i_5;
         decltype(foo()) z_5 = 6;
         cout<<std::is_reference_v<decltype(return_ref_1(i_5))>;
+        #else
+        __LOWRE_THAN_CPP14_RUN;
+        #endif
 
         //4.6 decltype(auto)作为非类型模板形参占位符
+        #if __MORE_THAN_CPP14__
         cout<<"\nchapter4.6\n  ";
         func_6<5>();
         func_6<4>();
-
+        #else
+        __LOWRE_THAN_CPP14_RUN;
+        #endif
         FUNCTION_END()
     }
 }

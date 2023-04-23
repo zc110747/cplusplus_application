@@ -19,30 +19,19 @@ objects = main.o 	\
 		Chapter-07/lambda.o \
 		Chapter-08/initialization.o \
 		Chapter-09/initializer_list.o \
+		Chapter-10/construct.o \
 		Chapter-13/inherit.o \
 		Chapter-14/strong_enum.o \
 		Chapter-17/for_loop.o \
 		Chapter-19/static_assert.o \
+		Chapter-21/noexcept.o \
 		Chapter-23/nullptr.o \
+		Chapter-24/spaceship.o \
 		Chapter-27/constexpr.o \
 		Chapter-28/eval_order.o \
 		Chapter-29/literal.o \
 		Chapter-30/align.o \
-		Chapter-36/typename.o \
-		basic/basic.o \
-		basic/class.o \
-		basic/other_improve.o \
-		template/template.o \
-		template/temp_improve.o \
-		template/temp_arg.o \
-		template/temp_deduction.o \
-		template/template_SFINAE.o \
-		lambda/lambda.o \
-		struct_bind/bind_process.o \
-		type/noexcept_process.o \
-		thread/thread_process.o \
-		thread/semaphore.o \
-		attribute/attribute.o 
+		Chapter-36/typename.o 
 
 # path for header
 include_path = -I"reference/" -I"modules/" -I"lambda/"
