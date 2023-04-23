@@ -18,6 +18,7 @@ objects = main.o 	\
 		Chapter-06/reference.o \
 		Chapter-07/lambda.o \
 		Chapter-08/initialization.o \
+		Chapter-09/initializer_list.o \
 		Chapter-13/inherit.o \
 		Chapter-14/strong_enum.o \
 		Chapter-17/for_loop.o \

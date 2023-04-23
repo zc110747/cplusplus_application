@@ -3,9 +3,10 @@
 //  All Rights Reserved
 //
 //  Name:
-//      x.cpp
+//      initialization.cpp
 //
 //  Purpose:
+//      第8章 非静态数据成员默认初始化(C++ 11)      
 //
 //  Author:
 //     	@听心跳的声音

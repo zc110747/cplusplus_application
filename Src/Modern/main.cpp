@@ -3,23 +3,7 @@
  * 这些特性十分繁杂，因此这里也仅测试和展示其中的一部分。
  * 本篇参考书籍:
  * <现代C++语言核心特性解析>
- * 第一章 新基础类型
- *          basic/basic.cpp
  * 
- * 第三章 auto占位符
- *          type/type.cpp
- * 
- * 第四章 decltype说明符
- *          type/type.cpp
- * 
- * 第五章 函数返回类型后置 
- *          type/type.cpp
- * 
- * 第七章 lambda表达式 
- *          lambda/lambda.cpp
- * 
- * 第八章 非静态成员默认初始化
- *          basic/class.cpp
  * 
  * 第九章 列表初始化
  *          basic/class.cpp
@@ -33,20 +17,11 @@
  * 第十二章 委托构造函数
  *          basic/class.cpp
  * 
- * 第十三章 继承构造函数
- *          basic/class.cpp
- * 
- * 第十四章 强枚举类型
- *          type/type.cpp
- * 
  * 第十五章 扩展的聚合类型 
  *          basic/class.cpp
  * 
  * 第十六章 override和final说明符 
  *          basic/class.cpp
- * 
- * 第十七章 基于范围的for循环
- *          template/template.cpp
  * 
  * 第十八章 支持初始化语句的if和switch
  *           basic/basic.cpp
@@ -126,6 +101,7 @@
 #include "Chapter-06/reference.hpp"
 #include "Chapter-07/lambda.hpp"
 #include "Chapter-08/initialization.hpp"
+#include "Chapter-09/initializer_list.hpp"
 #include "Chapter-13/inherit.hpp"
 #include "Chapter-14/strong_enum.hpp"
 #include "Chapter-17/for_loop.hpp"
@@ -137,7 +113,7 @@
 #include "Chapter-30/align.hpp"
 #include "Chapter-36/typename.hpp"
 
-constexpr int chapter = 7;
+constexpr int chapter = 9;
 
 int main(int argc, char *argv[])
 {
@@ -172,6 +148,10 @@ int main(int argc, char *argv[])
     else if constexpr(chapter == 8)
     {
         INITIALIZATION::test_study();
+    }
+    else if constexpr(chapter == 9)
+    {
+        INITIALIZE_LIST::test_study();
     }
     else if constexpr(chapter == 13)
     {

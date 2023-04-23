@@ -22,25 +22,17 @@
 
 using namespace std;
 
-void *operator new(size_t size)
-{
-    void *pT = static_cast<void *>(malloc(size));
+// void *operator new(size_t size)
+// {
+//     void *pT = static_cast<void *>(malloc(size));
     
-    cout<<"malloc memory!"<<" | ";
+//     cout<<"malloc memory!"<<" | ";
     
-    if(pT == NULL)
-        return NULL;
+//     if(pT == NULL)
+//         return NULL;
 
-    return pT;
-}
-
-void operator delete(void *ptr)
-{
-    if(ptr != NULL)
-    {
-        free(ptr);
-    }
-}
+//     return pT;
+// }
 
 namespace EVAL_ORDER
 {
