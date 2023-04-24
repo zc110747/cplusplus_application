@@ -85,13 +85,15 @@
 #include "Chapter-21/noexcept.hpp"
 #include "Chapter-23/nullptr.hpp"
 #include "Chapter-24/spaceship.hpp"
+#include "Chapter-26/inline.hpp"
 #include "Chapter-27/constexpr.hpp"
 #include "Chapter-28/eval_order.hpp"
 #include "Chapter-29/literal.hpp"
 #include "Chapter-30/align.hpp"
 #include "Chapter-36/typename.hpp"
+#include "Chapter-39/derivation.hpp"
 
-constexpr int chapter = 24;
+constexpr int chapter = 39;
 
 int main(int argc, char *argv[])
 {
@@ -163,6 +165,10 @@ int main(int argc, char *argv[])
     {
         SPACESHIP::test_study();
     }  
+    else if (chapter == 26)
+    {
+        INLINE::test_study();
+    }
     else if (chapter == 27)
     {
         CONSTEXPR::test_study();
@@ -183,6 +189,9 @@ int main(int argc, char *argv[])
     {
         TYPENAME::test_study();
     }
-
+    else if (chapter == 39)
+    {
+        DERIVATION::test_study();
+    }
     return 0;
 }

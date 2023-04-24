@@ -42,8 +42,39 @@ namespace SPACESHIP
     private:
         int a_;
     };
+
+    enum color{
+        red = 10
+    };
     #endif
     
+    class TCompare
+    {
+    public:
+        TCompare(int n):a_(n){
+        }
+
+        bool operator== (const TCompare& b) const{
+            return a_ == b.a_;
+        }
+        bool operator< (const TCompare& b) const{
+            return a_ < b.a_;
+        }
+    private:
+        int a_;
+    };
+
+    #if __MORE_THAN_CPP20__
+    class GlobalCompare
+    {
+    public:
+        TCompare t{5};
+        std::strong_ordering operator<=>(const GlobalCompare& ) const = default;
+    };
+    #endif
+
+    using namespace std::rel_ops;
+
     void test_study()
     {
         FUNCTION_START()
@@ -80,7 +111,61 @@ namespace SPACESHIP
             __LOWRE_THAN_CPP20_RUN;
         #endif
 
+        //24.3 对基础类型的支持
+        //1.对两个算数类型的操作数一般进行算术转换, 整型结果是strong_ordering， 浮点是partial_ordering
+        //2.无作用域枚举类型和整型操作数比较，枚举转换成整型比较，不能和浮点类型比较
+        //3.不同枚举类型的值，不能互相比较
+        //4.bool类型互相比较，结果是std::strong_ordering
+        //5.不支持数组的比较
+        //6.指针可以进行相互比较，结果是std::strong_ordering
+        cout<<"\nchapter24.3\n  ";
+        #if __MORE_THAN_CPP20__
+        cout<<typeid(decltype(1.5<=>5)).name()<<" | ";
+        cout<<typeid(decltype(red<=>10)).name()<<" | ";
+        auto val3 = true <=> false;
+        cout<<typeid(decltype(val3)).name()<<" | ";
+        cout<<(val3<0)<<" | ";
+        int num3 = 10;
+        auto ptr3 = &num3;
+        auto ptrx3 = &num3;
+        cout<<(ptr3<=>ptrx3 == 0)<<" | ";
+        #else
+        __LOWRE_THAN_CPP20_RUN;
+        #endif
+
+        //24.4 自动生成比较运算符
+        //标准库提供std::rel_ops的命令空间
+        //在用户自定义类型提供==和<运算符的情况下
+        //生成!=, >, <=和>=
+        //C++20后，如果有三向运算符，自动生成>=, <=, >, <
+        cout<<"\nchapter24.4\n  ";
+        TCompare t4{1}, f4{2};
+        cout<<(t4 == f4)<<" | ";
+        cout<<(t4 < f4)<<" | ";
+        cout<<(t4 != f4)<<" | ";
+        cout<<(t4 > f4)<<" | ";
+        cout<<(t4 <= f4)<<" | ";
+        cout<<(t4 >= f4)<<" | ";
+        #if __MORE_THAN_CPP20__
+        weakCompare w4(2), l4(3);
+        cout<<(w4 < l4)<<" | ";
+        cout<<(w4 > l4)<<" | ";
+        cout<<(w4 <= l4)<<" | ";
+        cout<<(w4 >= l4)<<" | ";
+        #else
+        cout<<"\n  ";
+        __LOWRE_THAN_CPP20_RUN;
+        #endif
+
+        //24.5 兼容旧代码
+        //如果用户自定义类型实现了<, ==运算符函数，生成三向比较符的时候会使用这些运算符
+        cout<<"\nchapter24.5\n  ";
+        #if __MORE_THAN_CPP20__
+        GlobalCompare g5, s5;
+        cout<<(g5 <=> s5 < 0)<<" | ";
+        #else
+        __LOWRE_THAN_CPP20_RUN;
+        #endif
         FUNCTION_END()
     }
 }
-

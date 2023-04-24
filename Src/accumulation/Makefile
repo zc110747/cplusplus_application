@@ -10,30 +10,8 @@
 # the executables
 # object for compiler
 objects = main.o 	\
-		Chapter-01/base_type.o \
-		Chapter-02/namespace.o \
-		Chapter-03/auto.o \
-		Chapter-04/decltype.o \
-		Chapter-05/postf_return.o \
-		Chapter-06/reference.o \
-		Chapter-07/lambda.o \
-		Chapter-08/initialization.o \
-		Chapter-09/initializer_list.o \
-		Chapter-10/construct.o \
-		Chapter-13/inherit.o \
-		Chapter-14/strong_enum.o \
-		Chapter-17/for_loop.o \
-		Chapter-19/static_assert.o \
-		Chapter-21/noexcept.o \
-		Chapter-23/nullptr.o \
-		Chapter-24/spaceship.o \
-		Chapter-26/inline.o \
-		Chapter-27/constexpr.o \
-		Chapter-28/eval_order.o \
-		Chapter-29/literal.o \
-		Chapter-30/align.o \
-		Chapter-36/typename.o \
-		Chapter-39/derivation.o
+		Chapter-001/basic_any.o \
+		Chapter-002/enable_share.o
 
 # path for header
 include_path = -I"reference/" -I"modules/" -I"lambda/"
