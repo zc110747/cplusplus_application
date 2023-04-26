@@ -37,12 +37,18 @@ namespace ENABLE_SHARE
     {
         FUNCTION_START()
 
-        //
-        cout<<"\nchapter1.1\n  ";
         share_point_ptr gp1 = make_shared<Point>();
         share_point_ptr gp2 = gp1->get_share();
+        share_point_ptr gp3 = gp1->shared_from_this();
+
         cout<<gp1->a<<" | "<<gp2->a<<" | ";
-        
+        cout<<gp1.use_count()<<" | ";
+        cout<<gp2.use_count()<<" | ";
+
+        //the object belongs to the same owner group as x, this function returns false
+        if(!gp1.owner_before(gp2) && !gp2.owner_before(gp1))
+            cout<<"gp1 and gp2 share ownership";
+
         FUNCTION_END()
     }
 }

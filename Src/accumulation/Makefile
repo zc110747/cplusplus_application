@@ -11,10 +11,11 @@
 # object for compiler
 objects = main.o 	\
 		Chapter-001/basic_any.o \
-		Chapter-002/enable_share.o
+		Chapter-002/enable_share.o \
+		Chapter-003/enable_if.o
 
 # path for header
-include_path = -I"reference/" -I"modules/" -I"lambda/"
+include_path = 
 
 # This is the file name of the executables and path where 
 # place the executables
