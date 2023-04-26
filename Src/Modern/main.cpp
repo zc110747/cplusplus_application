@@ -3,70 +3,30 @@
  * 这些特性十分繁杂，因此这里也仅测试和展示其中的一部分。
  * 本篇参考书籍:
  * <现代C++语言核心特性解析>
- * 
- * 第十一章 非受限联合类型
- *          basic/class.cpp
- * 
- * 第十二章 委托构造函数
- *          basic/class.cpp
- * 
- * 第十五章 扩展的聚合类型 
- *          basic/class.cpp
- * 
- * 第十六章 override和final说明符 
- *          basic/class.cpp
- * 
- * 第十八章 支持初始化语句的if和switch
- *           basic/basic.cpp
- * 
- * 第二十章 结构化绑定
- *          struct_bind/bind_process.cpp
- * 
- * 第二十一章 noexcept关键字
- *          type/noexcept_process.cpp
- * 
- * 第二十二章 类型别名和别名模板 
- *          template/template.cpp
- * 
- * 第二十三章 指针字面量nullptr -- finish(modules/basic)
- *          basic/basic.cpp
- * 
- * 第二十四章 @三向比较(C++20)
- * 第二十五章 线程局部存储 
- *          thread/thread_process.cpp
- * 
- * 第二十六章 扩展的inline说明符
- *           basic/class.cpp
-
- * 第三十一章 属性说明符和标准属性 
- *           attribute/attribute.cpp
- * 
- * 第三十二章 新增预处理器和宏
- *           basic/basic.cpp 
- * 
- * 第三十三章 @协程
- * 第三十四章 @基础特性的其它优化
- * 
- * 第三十五章 可变参数模板
- *           template/temp_arg
- * 
- * 第三十六章 typename优化
- *           template/temp_arg
- * 
- * 第三十七章 模板参数优化    
- *           template/temp_improve
- * 
- * 第三十八章 类模板的模板实参推导
- *           template/temp_deduction
- * 
- * 第三十九章 用户自定义推导指引
- *           template/temp_deduction
- * 
- * 第四十章   SFINAE
- *           template/template_SFINAE
- * 
- * 第四十一章 @概念和约束
- * 第四十二章 @模板特性的其它优化  
+ * 第01章 新基础类型
+ * 第02章 内联和嵌套命名空间
+ * 第03章 auto占位符
+ * 第04章 decltype说明符
+ * 第05章 函数返回类型后置
+ * 第06章 右值引用
+ * 第07章 lambda表达式
+ * 第08章 非静态数据成员默认初始化
+ * 第09章 列表初始化
+ * 第10章 默认和删除函数
+ * 第13章 继承构造函数
+ * 第14章 强枚举类型
+ * 第17章 基于范围的for循环
+ * 第19章 static_assert声明
+ * 第21章 noexecpt关键字
+ * 第23章 指针字面量nullptr
+ * 第24章 三向比较
+ * 第26章 扩展的inline说明符
+ * 第27章 常量表达式
+ * 第28章 确定的表达式求值顺序
+ * 第29章 字面量优化
+ * 第30章 alignas和alignof
+ * 第36章 typename优化
+ * 第39章 用户自定义推导指引
 ********************************************************************/
 #include "Chapter-01/base_type.hpp"
 #include "Chapter-02/namespace.hpp"
