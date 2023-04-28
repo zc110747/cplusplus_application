@@ -32,6 +32,7 @@ objects = main.o 	\
 		Chapter-28/eval_order.o \
 		Chapter-29/literal.o \
 		Chapter-30/align.o \
+		Chapter-32/preprocess.o \
 		Chapter-36/typename.o \
 		Chapter-39/derivation.o
 

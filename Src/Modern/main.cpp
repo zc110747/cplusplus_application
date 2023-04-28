@@ -50,10 +50,11 @@
 #include "Chapter-28/eval_order.hpp"
 #include "Chapter-29/literal.hpp"
 #include "Chapter-30/align.hpp"
+#include "Chapter-32/preprocess.hpp"
 #include "Chapter-36/typename.hpp"
 #include "Chapter-39/derivation.hpp"
 
-constexpr int chapter = 39;
+constexpr int chapter = 32;
 
 int main(int argc, char *argv[])
 {
@@ -144,6 +145,10 @@ int main(int argc, char *argv[])
     else if (chapter == 30)
     {
         ALIGN::test_study();
+    }
+    else if(chapter == 32)
+    {
+        PREPROCESS::test_study();
     }
     else if (chapter == 36)
     {
