@@ -22,6 +22,7 @@ _Pragma("once")
 #include <cstring>
 #include <climits>
 #include <limits>
+#include <memory>
 
 #include <vector>
 #include <list>

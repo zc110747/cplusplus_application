@@ -93,7 +93,6 @@ namespace PREPROCESS
         cout<<"\n  library feature:\n  ";
         #if __MORE_THAN_CPP17__
         cout<<__cpp_lib_addressof_constexpr<<" | ";  //<memory>
-        cout<<__cpp_lib_allocator_is_always_equal<<" | ";
         cout<<__cpp_lib_apply<<" | ";
         cout<<__cpp_lib_array_constexpr<<" | ";
         cout<<__cpp_lib_as_const<<" | ";

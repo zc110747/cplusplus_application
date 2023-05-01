@@ -38,6 +38,7 @@
 #include "Chapter-08/initialization.hpp"
 #include "Chapter-09/initializer_list.hpp"
 #include "Chapter-10/construct.hpp"
+#include "Chapter-11/union.hpp"
 #include "Chapter-13/inherit.hpp"
 #include "Chapter-14/strong_enum.hpp"
 #include "Chapter-17/for_loop.hpp"
@@ -54,7 +55,7 @@
 #include "Chapter-36/typename.hpp"
 #include "Chapter-39/derivation.hpp"
 
-constexpr int chapter = 32;
+constexpr int chapter = 11;
 
 int main(int argc, char *argv[])
 {
@@ -97,6 +98,10 @@ int main(int argc, char *argv[])
     else if (chapter == 10)
     {
         CONSTRUCT::test_study();
+    }
+    else if(chapter == 11)
+    {
+        UNION::test_study();
     }
     else if (chapter == 13)
     {
