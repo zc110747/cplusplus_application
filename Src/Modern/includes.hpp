@@ -28,6 +28,7 @@ _Pragma("once")
 #include <list>
 #include <map>
 #include <tuple>
+#include <deque>
 #include <type_traits>
 #include <ostream>
 #include <fstream>

@@ -21,6 +21,7 @@ objects = main.o 	\
 		Chapter-09/initializer_list.o \
 		Chapter-10/construct.o \
 		Chapter-11/union.o \
+		Chapter-12/delegation.o \
 		Chapter-13/inherit.o \
 		Chapter-14/strong_enum.o \
 		Chapter-17/for_loop.o \
