@@ -42,7 +42,9 @@
 #include "Chapter-12/delegation.hpp"
 #include "Chapter-13/inherit.hpp"
 #include "Chapter-14/strong_enum.hpp"
+#include "Chapter-16/override.hpp"
 #include "Chapter-17/for_loop.hpp"
+#include "Chapter-18/choose_init.hpp"
 #include "Chapter-19/static_assert.hpp"
 #include "Chapter-21/noexcept.hpp"
 #include "Chapter-23/nullptr.hpp"
@@ -56,7 +58,7 @@
 #include "Chapter-36/typename.hpp"
 #include "Chapter-39/derivation.hpp"
 
-constexpr int chapter = 12;
+constexpr int chapter = 18;
 
 int main(int argc, char *argv[])
 {
@@ -116,9 +118,17 @@ int main(int argc, char *argv[])
     {
         STRONG_ENUM::test_study();
     }
+    else if (chapter == 16)
+    {
+        OVERRIDE::test_study();
+    }
     else if (chapter == 17)
     {
         FOR_LOOP::test_study();
+    }
+    else if (chapter == 18)
+    {
+        CHOOSE_INIT::test_study();
     }
     else if (chapter == 19)
     {
