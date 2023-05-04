@@ -39,7 +39,8 @@ objects = main.o 	\
 		Chapter-30/align.o \
 		Chapter-32/preprocess.o \
 		Chapter-36/typename.o \
-		Chapter-39/derivation.o
+		Chapter-39/derivation.o \
+		Chapter-42/template_optimize.o
 
 # path for header
 include_path = -I"reference/" -I"modules/" -I"lambda/"

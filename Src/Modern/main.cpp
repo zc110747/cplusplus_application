@@ -58,8 +58,9 @@
 #include "Chapter-32/preprocess.hpp"
 #include "Chapter-36/typename.hpp"
 #include "Chapter-39/derivation.hpp"
+#include "Chapter-42/template_optimize.hpp"
 
-constexpr int chapter = 20;
+constexpr int chapter = 42;
 
 int main(int argc, char *argv[])
 {
@@ -182,6 +183,10 @@ int main(int argc, char *argv[])
     else if (chapter == 39)
     {
         DERIVATION::test_study();
+    }
+    else if (chapter == 42)
+    {
+        TEMPLATE_OPTIMIZE::test_study();
     }
     return 0;
 }
