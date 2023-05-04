@@ -34,6 +34,7 @@ objects = main.o 	\
 		Chapter-22/template_alias.o \
 		Chapter-23/nullptr.o \
 		Chapter-24/spaceship.o \
+		Chapter-25/thread_local.o \
 		Chapter-26/inline.o \
 		Chapter-27/constexpr.o \
 		Chapter-28/eval_order.o \

@@ -52,6 +52,7 @@
 #include "Chapter-22/template_alias.hpp"
 #include "Chapter-23/nullptr.hpp"
 #include "Chapter-24/spaceship.hpp"
+#include "Chapter-25/thread_local.hpp"
 #include "Chapter-26/inline.hpp"
 #include "Chapter-27/constexpr.hpp"
 #include "Chapter-28/eval_order.hpp"
@@ -62,7 +63,7 @@
 #include "Chapter-39/derivation.hpp"
 #include "Chapter-42/template_optimize.hpp"
 
-constexpr int chapter = 15;
+constexpr int chapter = 25;
 
 int main(int argc, char *argv[])
 {
@@ -162,6 +163,10 @@ int main(int argc, char *argv[])
     {
         SPACESHIP::test_study();
     }  
+    else if (chapter == 25)
+    {
+        THREAD_LOCAL::test_study();
+    }
     else if (chapter == 26)
     {
         INLINE::test_study();
