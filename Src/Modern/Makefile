@@ -28,6 +28,7 @@ objects = main.o 	\
 		Chapter-17/for_loop.o \
 		Chapter-18/choose_init.o \
 		Chapter-19/static_assert.o \
+		Chapter-20/struct_bind.o \
 		Chapter-21/noexcept.o \
 		Chapter-23/nullptr.o \
 		Chapter-24/spaceship.o \

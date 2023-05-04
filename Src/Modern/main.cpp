@@ -46,6 +46,7 @@
 #include "Chapter-17/for_loop.hpp"
 #include "Chapter-18/choose_init.hpp"
 #include "Chapter-19/static_assert.hpp"
+#include "Chapter-20/struct_bind.hpp"
 #include "Chapter-21/noexcept.hpp"
 #include "Chapter-23/nullptr.hpp"
 #include "Chapter-24/spaceship.hpp"
@@ -58,7 +59,7 @@
 #include "Chapter-36/typename.hpp"
 #include "Chapter-39/derivation.hpp"
 
-constexpr int chapter = 18;
+constexpr int chapter = 20;
 
 int main(int argc, char *argv[])
 {
@@ -133,6 +134,10 @@ int main(int argc, char *argv[])
     else if (chapter == 19)
     {
         STATIC_ASSERT::test_study();
+    }
+    else if (chapter == 20)
+    {
+        STRUCT_BIND::test_study();   
     }
     else if (chapter == 21)
     {
