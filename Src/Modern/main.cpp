@@ -48,6 +48,7 @@
 #include "Chapter-19/static_assert.hpp"
 #include "Chapter-20/struct_bind.hpp"
 #include "Chapter-21/noexcept.hpp"
+#include "Chapter-22/template_alias.hpp"
 #include "Chapter-23/nullptr.hpp"
 #include "Chapter-24/spaceship.hpp"
 #include "Chapter-26/inline.hpp"
@@ -60,7 +61,7 @@
 #include "Chapter-39/derivation.hpp"
 #include "Chapter-42/template_optimize.hpp"
 
-constexpr int chapter = 42;
+constexpr int chapter = 22;
 
 int main(int argc, char *argv[])
 {
@@ -143,6 +144,10 @@ int main(int argc, char *argv[])
     else if (chapter == 21)
     {
         NOEXCEPT::test_study();
+    }
+    else if(chapter == 22)
+    {
+        TEMPLATE_ALIAS::test_study();
     }
     else if (chapter == 23)
     {
