@@ -24,6 +24,7 @@ objects = main.o 	\
 		Chapter-12/delegation.o \
 		Chapter-13/inherit.o \
 		Chapter-14/strong_enum.o \
+		Chapter-15/aggregate.o \
 		Chapter-16/override.o \
 		Chapter-17/for_loop.o \
 		Chapter-18/choose_init.o \

@@ -42,6 +42,7 @@
 #include "Chapter-12/delegation.hpp"
 #include "Chapter-13/inherit.hpp"
 #include "Chapter-14/strong_enum.hpp"
+#include "Chapter-15/aggregate.hpp"
 #include "Chapter-16/override.hpp"
 #include "Chapter-17/for_loop.hpp"
 #include "Chapter-18/choose_init.hpp"
@@ -61,7 +62,7 @@
 #include "Chapter-39/derivation.hpp"
 #include "Chapter-42/template_optimize.hpp"
 
-constexpr int chapter = 22;
+constexpr int chapter = 15;
 
 int main(int argc, char *argv[])
 {
@@ -120,6 +121,10 @@ int main(int argc, char *argv[])
     else if (chapter == 14)
     {
         STRONG_ENUM::test_study();
+    }
+    else if(chapter == 15)
+    {
+        AGGREGATE::test_study();
     }
     else if (chapter == 16)
     {
