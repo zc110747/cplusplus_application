@@ -59,11 +59,12 @@
 #include "Chapter-29/literal.hpp"
 #include "Chapter-30/align.hpp"
 #include "Chapter-32/preprocess.hpp"
+#include "Chapter-35/template_var.hpp"
 #include "Chapter-36/typename.hpp"
 #include "Chapter-39/derivation.hpp"
 #include "Chapter-42/template_optimize.hpp"
 
-constexpr int chapter = 25;
+constexpr int chapter = 35;
 
 int main(int argc, char *argv[])
 {
@@ -190,6 +191,10 @@ int main(int argc, char *argv[])
     else if(chapter == 32)
     {
         PREPROCESS::test_study();
+    }
+    else if(chapter == 35)
+    {
+        TEMPLATE_VAR::test_study();
     }
     else if (chapter == 36)
     {
