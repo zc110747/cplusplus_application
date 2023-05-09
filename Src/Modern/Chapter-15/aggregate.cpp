@@ -3,7 +3,7 @@
 //  All Rights Reserved
 //
 //  Name:
-//      x.cpp
+//      aggregate.cpp
 //
 //  Purpose:
 //
@@ -89,18 +89,26 @@ namespace AGGREGATE
         //4.必须公开的基类，不能是私有或者受保护的基类
         //5.必须是非虚继承
         cout<<"\nchapter15.1\n  ";
+        #if __MORE_THAN_CPP17__
         cout<<std::boolalpha<<std::is_aggregate<T1>::value<<" | ";
         cout<<std::boolalpha<<std::is_aggregate<U1>::value<<" | ";
         cout<<std::boolalpha<<std::is_aggregate<std::string>::value<<" | ";
         cout<<std::boolalpha<<std::is_aggregate<MyString>::value<<" | ";
+        #else
+        __LOWRE_THAN_CPP17_RUN;
+        #endif
         
         //15.2 聚合类型的初始化
         //对于聚合类型，按照继承的顺序进行初始化
         cout<<"\nchapter15.2\n  ";
+        #if __MORE_THAN_CPP17__
         MyStringWithIndex s2 = {"hello", 5, 11};
         cout<<s2<<" | ";
         MyStringWithIndex val2{"world", 2, 3};
         cout<<val2<<" | ";
+        #else
+        __LOWRE_THAN_CPP17_RUN;
+        #endif
 
         //15.3 扩展聚合类型的兼容性问题
         //对于聚合类型会调用基类的构造函数，
@@ -108,9 +116,13 @@ namespace AGGREGATE
 
         //15.4 禁止聚合类型使用用户声明的构造函数
         cout<<"\nchapter15.4\n  ";
+        #if __MORE_THAN_CPP17__
         cout<<std::boolalpha<<std::is_aggregate<X4>::value<<" | ";
         cout<<std::boolalpha<<std::is_aggregate<Y4>::value<<" | ";
-
+        #else
+        __LOWRE_THAN_CPP17_RUN;
+        #endif
+        
         //15.5 使用带小括号的列表初始化聚合类型
         //聚合类型可以使用小括号初始化
         cout<<"\nchapter15.5\n  ";
