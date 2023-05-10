@@ -40,6 +40,7 @@ objects = main.o 	\
 		Chapter-28/eval_order.o \
 		Chapter-29/literal.o \
 		Chapter-30/align.o \
+		Chapter-31/attribute.o \
 		Chapter-32/preprocess.o \
 		Chapter-35/template_var.o \
 		Chapter-36/typename.o \

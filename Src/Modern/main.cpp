@@ -58,13 +58,14 @@
 #include "Chapter-28/eval_order.hpp"
 #include "Chapter-29/literal.hpp"
 #include "Chapter-30/align.hpp"
+#include "Chapter-31/attribute.hpp"
 #include "Chapter-32/preprocess.hpp"
 #include "Chapter-35/template_var.hpp"
 #include "Chapter-36/typename.hpp"
 #include "Chapter-39/derivation.hpp"
 #include "Chapter-42/template_optimize.hpp"
 
-constexpr int chapter = 35;
+constexpr int chapter = 31;
 
 int main(int argc, char *argv[])
 {
@@ -187,6 +188,10 @@ int main(int argc, char *argv[])
     else if (chapter == 30)
     {
         ALIGN::test_study();
+    }
+    else if (chapter == 31)
+    {
+        ATTRIBUTE::test_study();
     }
     else if(chapter == 32)
     {
