@@ -35,6 +35,7 @@ _Pragma("once")
 #include <algorithm>
 #include <utility>
 
+#include <functional>
 #include <thread>
 #include <mutex>
 

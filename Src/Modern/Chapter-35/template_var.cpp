@@ -191,7 +191,12 @@ namespace TEMPLATE_VAR
 
     //35.8 lambda表达式初始化捕获的包展开
     #if __MORE_THAN_CPP17__
-
+    template<class F, class... Args>
+    auto delay_invoke8(F f, Args... args){
+        return [f, args...]() -> decltype(auto) {
+            return std::invoke(f, args...);
+        };
+    }
     #endif
 
     void test_study()
@@ -289,7 +294,10 @@ namespace TEMPLATE_VAR
         //35.8 lambda表达式初始化捕获的包展开
         cout<<"\nchapter35.8\n  ";
         #if __MORE_THAN_CPP17__
-        
+        auto lambda8 = delay_invoke8([](int a, int b, int c){
+            cout<<a<<b<<c<<" | ";
+        }, 1, 2, 3);
+        lambda8();
         #else
         __LOWRE_THAN_CPP17_RUN;
         #endif
