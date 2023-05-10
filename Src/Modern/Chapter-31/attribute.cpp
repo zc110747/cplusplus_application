@@ -186,15 +186,19 @@ namespace ATTRIBUTE
         #if __MORE_THAN_CPP14__
         deprecated_func();
         #endif
+        
         #if __MORE_THAN_CPP17__
         fallthrough_func(0);
         cout<<nodiscard_func()<<" | ";
         #endif
+
         cout<<may_unused_func()<<" | ";
+
         #if __MORE_THAN_CPP20__
         cout<<likely_func()<<" | ";
         nouniqueaddress();
         #else
+        cout<<"\n  ";
         __LOWRE_THAN_CPP20_RUN;   
         #endif
         FUNCTION_END()
