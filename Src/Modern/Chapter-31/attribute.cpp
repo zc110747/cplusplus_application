@@ -120,6 +120,7 @@ namespace ATTRIBUTE
     struct empty8
     {
     };
+
     struct x8
     {
         int i;
@@ -128,8 +129,8 @@ namespace ATTRIBUTE
 
     void nouniqueaddress(void)
     {
-        X2 x;
-        cout<<sizeof(X)<<" | ";
+        x8 x;
+        cout<<sizeof(x)<<" | ";
         cout<<"addr:0x"<<std::hex<<(long long)&(x.i);
         cout<<"addr:0x"<<std::hex<<(long long)&(x.e);
         cout<<" | ";
@@ -195,7 +196,7 @@ namespace ATTRIBUTE
         cout<<may_unused_func()<<" | ";
 
         #if __MORE_THAN_CPP20__
-        cout<<likely_func()<<" | ";
+        cout<<likely_func(1)<<" | ";
         nouniqueaddress();
         #else
         cout<<"\n  ";

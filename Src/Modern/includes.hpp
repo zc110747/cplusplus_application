@@ -38,6 +38,7 @@ _Pragma("once")
 #include <functional>
 #include <thread>
 #include <mutex>
+#include <new>
 
 #define FUNCTION_START()  {std::cout<<__func__<<":\n";}{
 #define FUNCTION_END()    }{std::cout<<"\n\n";  } 

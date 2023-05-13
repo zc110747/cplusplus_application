@@ -60,12 +60,13 @@
 #include "Chapter-30/align.hpp"
 #include "Chapter-31/attribute.hpp"
 #include "Chapter-32/preprocess.hpp"
+#include "Chapter-34/other_optimize.hpp"
 #include "Chapter-35/template_var.hpp"
 #include "Chapter-36/typename.hpp"
 #include "Chapter-39/derivation.hpp"
 #include "Chapter-42/template_optimize.hpp"
 
-constexpr int chapter = 31;
+constexpr int chapter = 34;
 
 int main(int argc, char *argv[])
 {
@@ -196,6 +197,10 @@ int main(int argc, char *argv[])
     else if(chapter == 32)
     {
         PREPROCESS::test_study();
+    }
+    else if(chapter == 34)
+    {
+        OTHER_OPTIMIZE::test_study();
     }
     else if(chapter == 35)
     {
