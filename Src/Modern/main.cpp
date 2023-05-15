@@ -39,7 +39,7 @@
  * 第34章 基础特性的其它优化
  * 第35章 可变参数模板
  * 第36章 typename优化
- * 第37章
+ * 第37章 模板参数优化
  * 第38章 类模板的模板实参推导
  * 第39章 用户自定义推导指引
  * 第40章 SFINAE
@@ -81,12 +81,13 @@
 #include "Chapter-34/other_optimize.hpp"
 #include "Chapter-35/template_var.hpp"
 #include "Chapter-36/typename.hpp"
+#include "Chapter-37/template_improve.hpp"
 #include "Chapter-38/template_derive.hpp"
 #include "Chapter-39/derivation.hpp"
 #include "Chapter-40/sfinae.hpp"
 #include "Chapter-42/template_optimize.hpp"
 
-constexpr int chapter = 38;
+constexpr int chapter = 37;
 
 int main(int argc, char *argv[])
 {
@@ -229,6 +230,10 @@ int main(int argc, char *argv[])
     else if (chapter == 36)
     {
         TYPENAME::test_study();
+    }
+    else if (chapter == 37)
+    {
+        TEMPLATE_IMPROVE::test_study();
     }
     else if (chapter == 38)
     {
