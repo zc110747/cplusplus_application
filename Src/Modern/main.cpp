@@ -13,20 +13,38 @@
  * 第08章 非静态数据成员默认初始化
  * 第09章 列表初始化
  * 第10章 默认和删除函数
+ * 第11章 非受限联合类型
+ * 第12章 委托构造函数
  * 第13章 继承构造函数
  * 第14章 强枚举类型
+ * 第15章 扩展的聚合类型
+ * 第16章 override和final运算符
  * 第17章 基于范围的for循环
+ * 第18章 支持初始化语句的if和switch
  * 第19章 static_assert声明
+ * 第20章 结构化绑定
  * 第21章 noexecpt关键字
+ * 第22章 类型别名和别名模板
  * 第23章 指针字面量nullptr
  * 第24章 三向比较
+ * 第25章 线程局部存储
  * 第26章 扩展的inline说明符
  * 第27章 常量表达式
  * 第28章 确定的表达式求值顺序
  * 第29章 字面量优化
  * 第30章 alignas和alignof
+ * 第31章 属性说明符和标准属性
+ * 第32章 新增预处理器和宏
+ * 第33章 
+ * 第34章 基础特性的其它优化
+ * 第35章 可变参数模板
  * 第36章 typename优化
+ * 第37章
+ * 第38章 类模板的模板实参推导
  * 第39章 用户自定义推导指引
+ * 第40章 SFINAE
+ * 第41章 
+ * 第42章 模板特性的其它优化
 ********************************************************************/
 #include "Chapter-01/base_type.hpp"
 #include "Chapter-02/namespace.hpp"
@@ -63,11 +81,12 @@
 #include "Chapter-34/other_optimize.hpp"
 #include "Chapter-35/template_var.hpp"
 #include "Chapter-36/typename.hpp"
+#include "Chapter-38/template_derive.hpp"
 #include "Chapter-39/derivation.hpp"
 #include "Chapter-40/sfinae.hpp"
 #include "Chapter-42/template_optimize.hpp"
 
-constexpr int chapter = 40;
+constexpr int chapter = 38;
 
 int main(int argc, char *argv[])
 {
@@ -210,6 +229,10 @@ int main(int argc, char *argv[])
     else if (chapter == 36)
     {
         TYPENAME::test_study();
+    }
+    else if (chapter == 38)
+    {
+        TEMPLATE_DERIVE::test_study();
     }
     else if (chapter == 39)
     {
