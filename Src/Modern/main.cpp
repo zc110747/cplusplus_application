@@ -64,9 +64,10 @@
 #include "Chapter-35/template_var.hpp"
 #include "Chapter-36/typename.hpp"
 #include "Chapter-39/derivation.hpp"
+#include "Chapter-40/sfinae.hpp"
 #include "Chapter-42/template_optimize.hpp"
 
-constexpr int chapter = 34;
+constexpr int chapter = 40;
 
 int main(int argc, char *argv[])
 {
@@ -213,6 +214,10 @@ int main(int argc, char *argv[])
     else if (chapter == 39)
     {
         DERIVATION::test_study();
+    }
+    else if (chapter == 40)
+    {
+        SFINAE::test_study();
     }
     else if (chapter == 42)
     {

@@ -46,6 +46,7 @@ objects = main.o 	\
 		Chapter-35/template_var.o \
 		Chapter-36/typename.o \
 		Chapter-39/derivation.o \
+		Chapter-40/sfinae.o \
 		Chapter-42/template_optimize.o
 
 # path for header
