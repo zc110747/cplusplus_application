@@ -20,8 +20,6 @@
 
 using namespace std;
 
-//gcc -std=c++11 -lpthread
-//msvc 
 namespace ATTRIBUTE
 {
   //31.1 GCC的属性语法
