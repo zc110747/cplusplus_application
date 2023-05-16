@@ -40,7 +40,6 @@
  * 第31章 属性说明符和标准属性
  * 第32章 新增预处理器和宏
  * 第33章 协程
- * 协程编译器支持问题，以及个人理解进度问题，先不进行整理。
  * 第34章 基础特性的其它优化
  * 第35章 可变参数模板
  * 第36章 typename优化
@@ -83,6 +82,7 @@
 #include "Chapter-30/align.hpp"
 #include "Chapter-31/attribute.hpp"
 #include "Chapter-32/preprocess.hpp"
+#include "Chapter-33/coroutines.hpp"
 #include "Chapter-34/other_optimize.hpp"
 #include "Chapter-35/template_var.hpp"
 #include "Chapter-36/typename.hpp"
@@ -93,7 +93,7 @@
 #include "Chapter-41/concept.hpp"
 #include "Chapter-42/template_optimize.hpp"
 
-constexpr int chapter = 41;
+constexpr int chapter = 33;
 
 int main(int argc, char *argv[])
 {
@@ -224,6 +224,10 @@ int main(int argc, char *argv[])
     else if(chapter == 32)
     {
         PREPROCESS::test_study();
+    }
+    else if(chapter == 33)
+    {
+        COROUTINES::test_study();
     }
     else if(chapter == 34)
     {

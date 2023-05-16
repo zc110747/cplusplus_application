@@ -42,6 +42,7 @@ objects = main.o 	\
 		Chapter-30/align.o \
 		Chapter-31/attribute.o \
 		Chapter-32/preprocess.o \
+		Chapter-33/coroutines.o \
 		Chapter-34/other_optimize.o \
 		Chapter-35/template_var.o \
 		Chapter-36/typename.o \
