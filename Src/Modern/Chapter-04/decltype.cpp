@@ -69,7 +69,7 @@ namespace DECLTYPE
     #endif
 
     //4.6 decltype(auto)作为非类型模板形参占位符
-    #if __MORE_THAN_CPP14__
+    #if __MORE_THAN_CPP17__
     template<decltype(auto) N>
     void func_6()
     {
@@ -172,18 +172,18 @@ namespace DECLTYPE
         int i_5 = 5;
         decltype(auto) y_5 = i_5;
         decltype(foo()) z_5 = 6;
-        cout<<std::is_reference_v<decltype(return_ref_1(i_5))>;
+        cout<<std::is_reference<decltype(return_ref_1(i_5))>::value;
         #else
         __LOWRE_THAN_CPP14_RUN;
         #endif
 
         //4.6 decltype(auto)作为非类型模板形参占位符
-        #if __MORE_THAN_CPP14__
+        #if __MORE_THAN_CPP17__
         cout<<"\nchapter4.6\n  ";
         func_6<5>();
         func_6<4>();
         #else
-        __LOWRE_THAN_CPP14_RUN;
+        __LOWRE_THAN_CPP17_RUN;
         #endif
         FUNCTION_END()
     }

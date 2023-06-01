@@ -44,6 +44,7 @@ namespace TEMPLATE_IMPROVE
         }
     };
 
+    #if __MORE_THAN_CPP17__
     static constexpr auto lambda_func = [](int a, int b)->int
     {
         cout<<a+b<<" | ";
@@ -56,11 +57,12 @@ namespace TEMPLATE_IMPROVE
         int (*func)(int, int) = func_N;
     };
 
-    constexpr auto& vchar_r = v1;
-
     struct init_struct{
         inline static constexpr int val = 6;
     };
+    #endif
+
+    constexpr auto& vchar_r = v1;
 
     //37.2 允许局部和匿名类型作为模板实参
     template<class T>
@@ -164,13 +166,18 @@ namespace TEMPLATE_IMPROVE
         tcs1.print();
         tcs2.print();
 
-        TFS<lambda_func> tfs1;
-        tfs1.func(1, 2);
-
         X1<vchar_r> z1;
         cout<<z1.value<<" | ";
+
+        #if __MORE_THAN_CPP17__
         X1<init_struct::val> s1;
         cout<<s1.value<<" | ";
+
+        TFS<lambda_func> tfs1;
+        tfs1.func(1, 2);
+        #else
+        __LOWRE_THAN_CPP17_RUN;
+        #endif
 
         //37.2 允许局部和匿名类型作为模板实参
         cout<<"\nchapter37.2\n  ";
