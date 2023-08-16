@@ -44,7 +44,7 @@ namespace TEMPLATE_IMPROVE
         }
     };
 
-    #if __MORE_THAN_CPP17__
+    #if __MORE_THAN_CPP20__
     static constexpr auto lambda_func = [](int a, int b)->int
     {
         cout<<a+b<<" | ";
@@ -169,14 +169,14 @@ namespace TEMPLATE_IMPROVE
         X1<vchar_r> z1;
         cout<<z1.value<<" | ";
 
-        #if __MORE_THAN_CPP17__
+        #if __MORE_THAN_CPP20__
         X1<init_struct::val> s1;
         cout<<s1.value<<" | ";
 
         TFS<lambda_func> tfs1;
         tfs1.func(1, 2);
         #else
-        __LOWRE_THAN_CPP17_RUN;
+        __LOWRE_THAN_CPP20_RUN;
         #endif
 
         //37.2 允许局部和匿名类型作为模板实参

@@ -92,178 +92,35 @@
 #include "Chapter-40/sfinae.hpp"
 #include "Chapter-41/concept.hpp"
 #include "Chapter-42/template_optimize.hpp"
+#include <iostream>
 
-constexpr int chapter = 33;
+#ifndef __CHAPTER 
+#define __CHAPTER          1
+#endif
+
+typedef void (*pfunc)(void);
+
+pfunc function_list[] = {
+    BASE_TYPE::test_study,          NAMESPACE::test_study,        AUTO::test_study,             DECLTYPE::test_study,
+    POSTF_RETURN::test_study,       REFERENCE::test_study,        LAMBDA::test_study,           INITIALIZATION::test_study,
+    INITIALIZE_LIST::test_study,    CONSTRUCT::test_study,        UNION::test_study,            DELEGATION::test_study,
+    INHERIT::test_study,            STRONG_ENUM::test_study,      AGGREGATE::test_study,        OVERRIDE::test_study,
+    FOR_LOOP::test_study,           CHOOSE_INIT::test_study,      STATIC_ASSERT::test_study,    STRUCT_BIND::test_study,
+    NOEXCEPT::test_study,           TEMPLATE_ALIAS::test_study,   NULLPTR::test_study,          SPACESHIP::test_study,
+    THREAD_LOCAL::test_study,       INLINE::test_study,           CONSTEXPR::test_study,        EVAL_ORDER::test_study,
+    LITERAL::test_study,            ALIGN::test_study,            ATTRIBUTE::test_study,        PREPROCESS::test_study,
+    COROUTINES::test_study,         OTHER_OPTIMIZE::test_study,   TEMPLATE_VAR::test_study,     TYPENAME::test_study,
+    TEMPLATE_IMPROVE::test_study,   TEMPLATE_DERIVE::test_study,  DERIVATION::test_study,       SFINAE::test_study,
+    CONCEPT::test_study,            TEMPLATE_OPTIMIZE::test_study
+};
 
 int main(int argc, char *argv[])
 {
-    if(chapter == 1)
-    {
-        BASE_TYPE::test_study();
-    }
-    else if (chapter == 2)
-    {
-        NAMESPACE::test_study();
-    }
-    else if (chapter == 3)
-    {
-        AUTO::test_study();
-    }
-    else if (chapter == 4)
-    {
-        DECLTYPE::test_study();
-    }
-    else if (chapter == 5)
-    {
-        POSTF_RETURN::test_study(); 
-    }
-    else if (chapter == 6)
-    {
-        REFERENCE::test_study();
-    }
-    else if (chapter == 7)
-    {
-        LAMBDA::test_study();
-    }
-    else if (chapter == 8)
-    {
-        INITIALIZATION::test_study();
-    }
-    else if (chapter == 9)
-    {
-        INITIALIZE_LIST::test_study();
-    }
-    else if (chapter == 10)
-    {
-        CONSTRUCT::test_study();
-    }
-    else if(chapter == 11)
-    {
-        UNION::test_study();
-    }
-    else if(chapter == 12)
-    {
-        DELEGATION::test_study();
-    }
-    else if (chapter == 13)
-    {
-        INHERIT::test_study();
-    }
-    else if (chapter == 14)
-    {
-        STRONG_ENUM::test_study();
-    }
-    else if(chapter == 15)
-    {
-        AGGREGATE::test_study();
-    }
-    else if (chapter == 16)
-    {
-        OVERRIDE::test_study();
-    }
-    else if (chapter == 17)
-    {
-        FOR_LOOP::test_study();
-    }
-    else if (chapter == 18)
-    {
-        CHOOSE_INIT::test_study();
-    }
-    else if (chapter == 19)
-    {
-        STATIC_ASSERT::test_study();
-    }
-    else if (chapter == 20)
-    {
-        STRUCT_BIND::test_study();   
-    }
-    else if (chapter == 21)
-    {
-        NOEXCEPT::test_study();
-    }
-    else if(chapter == 22)
-    {
-        TEMPLATE_ALIAS::test_study();
-    }
-    else if (chapter == 23)
-    {
-        NULLPTR::test_study();
-    }
-    else if (chapter == 24)
-    {
-        SPACESHIP::test_study();
-    }  
-    else if (chapter == 25)
-    {
-        THREAD_LOCAL::test_study();
-    }
-    else if (chapter == 26)
-    {
-        INLINE::test_study();
-    }
-    else if (chapter == 27)
-    {
-        CONSTEXPR::test_study();
-    }
-    else if (chapter == 28)
-    {
-        EVAL_ORDER::test_study();
-    }
-    else if (chapter == 29)
-    {
-        LITERAL::test_study();
-    }
-    else if (chapter == 30)
-    {
-        ALIGN::test_study();
-    }
-    else if (chapter == 31)
-    {
-        ATTRIBUTE::test_study();
-    }
-    else if(chapter == 32)
-    {
-        PREPROCESS::test_study();
-    }
-    else if(chapter == 33)
-    {
-        COROUTINES::test_study();
-    }
-    else if(chapter == 34)
-    {
-        OTHER_OPTIMIZE::test_study();
-    }
-    else if(chapter == 35)
-    {
-        TEMPLATE_VAR::test_study();
-    }
-    else if (chapter == 36)
-    {
-        TYPENAME::test_study();
-    }
-    else if (chapter == 37)
-    {
-        TEMPLATE_IMPROVE::test_study();
-    }
-    else if (chapter == 38)
-    {
-        TEMPLATE_DERIVE::test_study();
-    }
-    else if (chapter == 39)
-    {
-        DERIVATION::test_study();
-    }
-    else if (chapter == 40)
-    {
-        SFINAE::test_study();
-    }
-    else if (chapter == 41)
-    {
-        CONCEPT::test_study();
-    }
-    else if (chapter == 42)
-    {
-        TEMPLATE_OPTIMIZE::test_study();
-    }
+    std::cout<<"cpp version:"<<__cplusplus<<std::endl;
+
+    //must max than 1(include)
+    if(__CHAPTER >= 1)
+        function_list[__CHAPTER-1]();
+
     return 0;
 }

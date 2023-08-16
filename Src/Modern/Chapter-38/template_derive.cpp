@@ -120,7 +120,7 @@ namespace TEMPLATE_DERIVE
 
         //38.2 拷贝初始化优先
         cout<<"\nchapter38.2\n  ";
-        #if __MORE_THAN_CPP17__
+        #if __MORE_THAN_CPP20__
         std::vector v2{1, 3, 5};
         std::vector c2{v2};     //vector<int>
         cout<<c2[0]<<" "<<c2[1]<<" "<<c2[2]<<" | ";
@@ -132,7 +132,7 @@ namespace TEMPLATE_DERIVE
         cout<<f2[0]<<" | ";
         cout<<l2[0][0]<<" | ";
         #else
-        __LOWRE_THAN_CPP17_RUN;
+        __LOWRE_THAN_CPP20_RUN;
         #endif
 
         //38.3 lambda类型的用途
