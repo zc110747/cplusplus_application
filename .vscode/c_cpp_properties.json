@@ -4,7 +4,6 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${env.includePath}"
             ],
             "defines": [
                 "_DEBUG",
@@ -14,7 +13,7 @@
                 "_GLIBCXX_USE_C99_STDINT_TR1"
             ],
             "windowsSdkVersion": "8.1",
-            "compilerPath": "${env.CppComplier}", //��CppComplierָ��Ϊg++·���������ӵ��û�����������
+            "compilerPath": "${env.CppComplier}",
             "cStandard": "c17",
             "cppStandard": "c++20",
             "intelliSenseMode": "gcc-x64"

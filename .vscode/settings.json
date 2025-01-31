@@ -73,7 +73,19 @@
         "csignal": "cpp",
         "queue": "cpp",
         "*.ipp": "cpp",
-        "cfenv": "cpp"
+        "cfenv": "cpp",
+        "bit": "cpp",
+        "compare": "cpp",
+        "concepts": "cpp",
+        "numbers": "cpp",
+        "span": "cpp",
+        "charconv": "cpp",
+        "coroutine": "cpp",
+        "format": "cpp",
+        "semaphore": "cpp",
+        "stop_token": "cpp",
+        "regex": "cpp"
     },
-    "C_Cpp.errorSquiggles": "Disabled"
+    "C_Cpp.errorSquiggles": "Disabled",
+    "marscode.chatLanguage": "cn"
 }

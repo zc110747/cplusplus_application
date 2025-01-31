@@ -1,0 +1,807 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+A	Chapter-04/decltype.cpp	/^    struct A{$/;"	s	namespace:DECLTYPE	file:
+A	Chapter-07/lambda.cpp	/^    class A$/;"	c	namespace:LAMBDA	file:
+A	Chapter-19/static_assert.cpp	/^    class A{$/;"	c	namespace:STATIC_ASSERT	file:
+A	Chapter-37/template_improve.cpp	/^        struct A{};$/;"	s	namespace:TEMPLATE_IMPROVE::N	file:
+A4	Chapter-41/concept.cpp	/^    struct A4$/;"	s	namespace:CONCEPT	file:
+AGGREGATE	Chapter-15/aggregate.cpp	/^namespace AGGREGATE$/;"	n	file:
+AGGREGATE	Chapter-15/aggregate.hpp	/^namespace AGGREGATE$/;"	n
+ALIGN	Chapter-30/align.cpp	/^namespace ALIGN$/;"	n	file:
+ALIGN	Chapter-30/align.hpp	/^namespace ALIGN$/;"	n
+ALIGNOF	Chapter-30/align.cpp	37;"	d	file:
+ATTRIBUTE	Chapter-31/attribute.cpp	/^namespace ATTRIBUTE$/;"	n	file:
+ATTRIBUTE	Chapter-31/attribute.hpp	/^namespace ATTRIBUTE$/;"	n
+AUTO	Chapter-03/auto.cpp	/^namespace AUTO$/;"	n	file:
+AUTO	Chapter-03/auto.hpp	/^namespace AUTO$/;"	n
+A_Base	Chapter-16/override.cpp	/^    class A_Base$/;"	c	namespace:OVERRIDE	file:
+Arg8	Chapter-41/concept.cpp	/^    struct Arg8$/;"	s	namespace:CONCEPT	file:
+B	Chapter-19/static_assert.cpp	/^    class B:public A{$/;"	c	namespace:STATIC_ASSERT	file:
+B	Chapter-24/spaceship.cpp	/^    struct B$/;"	s	namespace:SPACESHIP	file:
+B	Chapter-25/thread_local.cpp	/^    class B$/;"	c	namespace:THREAD_LOCAL	file:
+B	Chapter-36/typename.cpp	/^    template<template <typename> class T> struct B {$/;"	s	namespace:TYPENAME	file:
+BASE_TYPE	Chapter-01/base_type.cpp	/^namespace BASE_TYPE$/;"	n	file:
+BASE_TYPE	Chapter-01/base_type.hpp	/^namespace BASE_TYPE$/;"	n
+Bar	Chapter-07/lambda.cpp	/^        Bar(int x, int y):x_(x), y_(y) {}$/;"	f	class:LAMBDA::Bar
+Bar	Chapter-07/lambda.cpp	/^    class Bar$/;"	c	namespace:LAMBDA	file:
+Base	Chapter-13/inherit.cpp	/^        Base() : x_(0), y_(1.2) {}$/;"	f	class:INHERIT::Base
+Base	Chapter-13/inherit.cpp	/^        Base(double y) : x_(0), y_(y) {}$/;"	f	class:INHERIT::Base
+Base	Chapter-13/inherit.cpp	/^        Base(int x) : x_(x), y_(0) {}$/;"	f	class:INHERIT::Base
+Base	Chapter-13/inherit.cpp	/^        Base(int x, double y) : x_(x), y_(y) {}$/;"	f	class:INHERIT::Base
+Base	Chapter-13/inherit.cpp	/^    class Base$/;"	c	namespace:INHERIT	file:
+Base	Chapter-21/noexcept.cpp	/^    class Base{$/;"	c	namespace:NOEXCEPT	file:
+Base2	Chapter-16/override.cpp	/^    class Base2$/;"	c	namespace:OVERRIDE	file:
+Base4	Chapter-16/override.cpp	/^    class Base4{$/;"	c	namespace:OVERRIDE	file:
+BaseWithFileLog	Chapter-16/override.cpp	/^    class BaseWithFileLog: public Base4{$/;"	c	namespace:OVERRIDE	file:
+BindBase3	Chapter-20/struct_bind.cpp	/^    class BindBase3$/;"	c	namespace:STRUCT_BIND	file:
+BindBase3_1	Chapter-20/struct_bind.cpp	/^    class BindBase3_1{};$/;"	c	namespace:STRUCT_BIND	file:
+BindBase4	Chapter-20/struct_bind.cpp	/^class BindBase4$/;"	c	file:
+BindTest1	Chapter-20/struct_bind.cpp	/^    struct BindTest1$/;"	s	namespace:STRUCT_BIND	file:
+BindTest3	Chapter-20/struct_bind.cpp	/^    class BindTest3 : public BindBase3$/;"	c	namespace:STRUCT_BIND	file:
+BindTest3_1	Chapter-20/struct_bind.cpp	/^    class BindTest3_1 : public BindBase3_1$/;"	c	namespace:STRUCT_BIND	file:
+BindTest4	Chapter-20/struct_bind.cpp	/^class BindTest4: public BindBase4$/;"	c	file:
+C	Chapter-02/namespace.cpp	/^    namespace A::B::C{$/;"	n	class:NAMESPACE::A::B	file:
+C	Chapter-09/initializer_list.cpp	/^        C(int a):x_(a) {}$/;"	f	class:INITIALIZE_LIST::C
+C	Chapter-09/initializer_list.cpp	/^        C(std::string str):str_(str) {}$/;"	f	class:INITIALIZE_LIST::C
+C	Chapter-09/initializer_list.cpp	/^    class C$/;"	c	namespace:INITIALIZE_LIST	file:
+C	Chapter-19/static_assert.cpp	/^    class C{$/;"	c	namespace:STATIC_ASSERT	file:
+C	Chapter-36/typename.cpp	/^    template<template <typename> typename T> struct C {$/;"	s	namespace:TYPENAME	file:
+C	Chapter-42/template_optimize.cpp	/^    class C$/;"	c	namespace:TEMPLATE_OPTIMIZE	file:
+C3	Chapter-09/initializer_list.cpp	/^        C3(std::initializer_list<std::string> list)$/;"	f	struct:INITIALIZE_LIST::C3
+C3	Chapter-09/initializer_list.cpp	/^        C3(std::string c)$/;"	f	struct:INITIALIZE_LIST::C3
+C3	Chapter-09/initializer_list.cpp	/^    struct C3$/;"	s	namespace:INITIALIZE_LIST	file:
+C4	Chapter-34/other_optimize.cpp	/^    struct C4 {$/;"	s	namespace:OTHER_OPTIMIZE	file:
+C4	Chapter-38/template_derive.cpp	/^        C4(T t1, U u1)$/;"	f	struct:TEMPLATE_DERIVE::C4
+C4	Chapter-38/template_derive.cpp	/^    struct C4$/;"	s	namespace:TEMPLATE_DERIVE	file:
+C5	Chapter-20/struct_bind.cpp	/^    class C5$/;"	c	namespace:STRUCT_BIND	file:
+C7	Chapter-41/concept.cpp	/^    concept C7 = is_integral_v<T>;$/;"	m	namespace:CONCEPT	file:
+CHOOSE_INIT	Chapter-18/choose_init.cpp	/^namespace CHOOSE_INIT$/;"	n	file:
+CHOOSE_INIT	Chapter-18/choose_init.hpp	/^namespace CHOOSE_INIT$/;"	n
+CLASS_IMPROVE	basic/other_improve.cpp	/^namespace CLASS_IMPROVE$/;"	n	file:
+CONCEPT	Chapter-41/concept.cpp	/^namespace CONCEPT$/;"	n	file:
+CONCEPT	Chapter-41/concept.hpp	/^namespace CONCEPT$/;"	n
+CONCEPT_1	template/template_concept.cpp	/^namespace CONCEPT_1$/;"	n	file:
+CONSTEXPR	Chapter-27/constexpr.cpp	/^namespace CONSTEXPR$/;"	n	file:
+CONSTEXPR	Chapter-27/constexpr.hpp	/^namespace CONSTEXPR$/;"	n
+CONSTRUCT	Chapter-10/construct.cpp	/^namespace CONSTRUCT$/;"	n	file:
+CONSTRUCT	Chapter-10/construct.hpp	/^namespace CONSTRUCT$/;"	n
+COROUTINES	Chapter-33/coroutines.cpp	/^namespace COROUTINES$/;"	n	file:
+COROUTINES	Chapter-33/coroutines.hpp	/^namespace COROUTINES$/;"	n
+Child1	Chapter-02/namespace.cpp	/^        namespace Child1 {$/;"	n	namespace:NAMESPACE::S1	file:
+Child2	Chapter-02/namespace.cpp	/^        inline namespace Child2 {$/;"	n	namespace:NAMESPACE::S1	file:
+Color	Chapter-14/strong_enum.cpp	/^    enum class Color{$/;"	c	class:STRONG_ENUM::E2	file:
+Company	Chapter-14/strong_enum.cpp	/^    enum Company{$/;"	g	namespace:STRONG_ENUM	file:
+Count	Chapter-15/aggregate.cpp	/^    class Count{$/;"	c	namespace:AGGREGATE	file:
+D	Chapter-36/typename.cpp	/^        D() : T::B() {$/;"	f	struct:TYPENAME::D
+D	Chapter-36/typename.cpp	/^    struct D: T::B{$/;"	s	namespace:TYPENAME	file:
+DECLTYPE	Chapter-04/decltype.cpp	/^namespace DECLTYPE$/;"	n	file:
+DECLTYPE	Chapter-04/decltype.hpp	/^namespace DECLTYPE$/;"	n
+DELEGATION	Chapter-12/delegation.cpp	/^namespace DELEGATION$/;"	n	file:
+DELEGATION	Chapter-12/delegation.hpp	/^namespace DELEGATION$/;"	n
+DERIVATION	Chapter-39/derivation.cpp	/^namespace DERIVATION$/;"	n	file:
+DERIVATION	Chapter-39/derivation.hpp	/^namespace DERIVATION$/;"	n
+Derived	Chapter-13/inherit.cpp	/^        Derived() {}$/;"	f	class:INHERIT::Derived
+Derived	Chapter-13/inherit.cpp	/^        Derived(double y):Base(y) {}$/;"	f	class:INHERIT::Derived
+Derived	Chapter-13/inherit.cpp	/^        Derived(int x):Base(x) {}$/;"	f	class:INHERIT::Derived
+Derived	Chapter-13/inherit.cpp	/^        Derived(int x, double y):Base(x, y) {}$/;"	f	class:INHERIT::Derived
+Derived	Chapter-13/inherit.cpp	/^    class Derived : public Base$/;"	c	namespace:INHERIT	file:
+Derived	Chapter-21/noexcept.cpp	/^    class Derived:public Base$/;"	c	namespace:NOEXCEPT	file:
+Derived2	Chapter-16/override.cpp	/^    class Derived2: public Base2 {$/;"	c	namespace:OVERRIDE	file:
+Derived3	Chapter-16/override.cpp	/^    class Derived3: public Base2 {$/;"	c	namespace:OVERRIDE	file:
+Derived_Extend	Chapter-13/inherit.cpp	/^        Derived_Extend(int x){$/;"	f	class:INHERIT::Derived_Extend
+Derived_Extend	Chapter-13/inherit.cpp	/^    class Derived_Extend : public Base$/;"	c	namespace:INHERIT	file:
+E	Chapter-14/strong_enum.cpp	/^    enum E{$/;"	g	namespace:STRONG_ENUM	file:
+E	Chapter-19/static_assert.cpp	/^    class E{$/;"	c	namespace:STATIC_ASSERT	file:
+E2	Chapter-14/strong_enum.cpp	/^    enum class E2:unsigned int{$/;"	c	namespace:STRONG_ENUM	file:
+EVAL_ORDER	Chapter-28/eval_order.cpp	/^namespace EVAL_ORDER$/;"	n	file:
+EVAL_ORDER	Chapter-28/eval_order.hpp	/^namespace EVAL_ORDER$/;"	n
+EXPLICIT_TYPE	basic/other_improve.cpp	/^namespace EXPLICIT_TYPE$/;"	n	file:
+FOR_LOOP	Chapter-17/for_loop.cpp	/^namespace FOR_LOOP$/;"	n	file:
+FOR_LOOP	Chapter-17/for_loop.hpp	/^namespace FOR_LOOP$/;"	n
+FUNCTION_END	basic/other_improve.cpp	34;"	d	file:
+FUNCTION_END	includes.hpp	45;"	d
+FUNCTION_START	basic/other_improve.cpp	33;"	d	file:
+FUNCTION_START	includes.hpp	44;"	d
+Foo	Chapter-27/constexpr.cpp	/^    union Foo{$/;"	u	namespace:CONSTEXPR	file:
+G6	Chapter-41/concept.cpp	/^    struct G6$/;"	s	namespace:CONCEPT	file:
+G61	Chapter-41/concept.cpp	/^    struct G61$/;"	s	namespace:CONCEPT	file:
+GlobalCompare	Chapter-24/spaceship.cpp	/^    class GlobalCompare$/;"	c	namespace:SPACESHIP	file:
+Green	Chapter-14/strong_enum.cpp	/^        Green,$/;"	m	class:STRONG_ENUM::E2::Color	file:
+HighSchool	Chapter-14/strong_enum.cpp	/^    enum class HighSchool : unsigned int$/;"	c	namespace:STRONG_ENUM	file:
+INHERIT	Chapter-13/inherit.cpp	/^namespace INHERIT$/;"	n	file:
+INHERIT	Chapter-13/inherit.hpp	/^namespace INHERIT$/;"	n
+INITIALIZATION	Chapter-08/initialization.cpp	/^namespace INITIALIZATION$/;"	n	file:
+INITIALIZATION	Chapter-08/initialization.hpp	/^namespace INITIALIZATION$/;"	n
+INITIALIZE_LIST	Chapter-09/initializer_list.cpp	/^namespace INITIALIZE_LIST$/;"	n	file:
+INITIALIZE_LIST	Chapter-09/initializer_list.hpp	/^namespace INITIALIZE_LIST$/;"	n
+INLINE	Chapter-26/inline.cpp	/^namespace INLINE$/;"	n	file:
+INLINE	Chapter-26/inline.hpp	/^namespace INLINE$/;"	n
+Impl	Chapter-36/typename.cpp	/^        Impl(){$/;"	f	struct:TYPENAME::Impl
+Impl	Chapter-36/typename.cpp	/^    struct Impl {$/;"	s	namespace:TYPENAME	file:
+IntegerFloatingType	Chapter-41/concept.cpp	/^    concept IntegerFloatingType = std::is_integral_v<T> || std::is_floating_point_v<T>;$/;"	m	namespace:CONCEPT	file:
+IntegerType2	Chapter-41/concept.cpp	/^    concept IntegerType2 = std::is_integral_v<T>;$/;"	m	namespace:CONCEPT	file:
+IntegerType9	Chapter-41/concept.cpp	/^    concept IntegerType9 = std::is_integral_v<T>;$/;"	m	namespace:CONCEPT	file:
+L	Chapter-36/typename.cpp	/^    struct L{$/;"	s	namespace:TYPENAME	file:
+LAMBDA	Chapter-07/lambda.cpp	/^namespace LAMBDA$/;"	n	file:
+LAMBDA	Chapter-07/lambda.hpp	/^namespace LAMBDA$/;"	n
+LITERAL	Chapter-29/literal.cpp	/^namespace LITERAL$/;"	n	file:
+LITERAL	Chapter-29/literal.hpp	/^namespace LITERAL$/;"	n
+LOG	Chapter-32/preprocess.cpp	105;"	d	file:
+LOG_OPT	Chapter-32/preprocess.cpp	109;"	d	file:
+LambdaWarp	Chapter-38/template_derive.cpp	/^        LambdaWarp(T t): func(t) {};$/;"	f	struct:TEMPLATE_DERIVE::LambdaWarp
+LambdaWarp	Chapter-38/template_derive.cpp	/^    struct LambdaWarp$/;"	s	namespace:TEMPLATE_DERIVE	file:
+M	Chapter-21/noexcept.cpp	/^    struct M{$/;"	s	namespace:NOEXCEPT	file:
+ML	Chapter-21/noexcept.cpp	/^    struct ML{$/;"	s	namespace:NOEXCEPT	file:
+MemoryPool	Chapter-06/reference.cpp	/^        MemoryPool(): pool_(new char[PoolSize]){$/;"	f	class:REFERENCE::MemoryPool
+MemoryPool	Chapter-06/reference.cpp	/^        MemoryPool(const MemoryPool& other): pool_(new char [PoolSize]){$/;"	f	class:REFERENCE::MemoryPool
+MemoryPool	Chapter-06/reference.cpp	/^    class MemoryPool$/;"	c	namespace:REFERENCE	file:
+MyCountOf	Chapter-38/template_derive.cpp	/^    struct MyCountOf$/;"	s	namespace:TEMPLATE_DERIVE	file:
+MyPair	Chapter-39/derivation.cpp	/^        MyPair(const T1& x, const T2& y):$/;"	f	struct:DERIVATION::MyPair
+MyPair	Chapter-39/derivation.cpp	/^    MyPair(T1, T2)->MyPair<T1, T2>;$/;"	m	namespace:DERIVATION	file:
+MyPair	Chapter-39/derivation.cpp	/^    MyPair(int, const char*) -> MyPair<int, std::string>;$/;"	m	namespace:DERIVATION	file:
+MyPair	Chapter-39/derivation.cpp	/^    MyPair(unsigned int, const char*) -> MyPair<int, std::string>;$/;"	m	namespace:DERIVATION	file:
+MyPair	Chapter-39/derivation.cpp	/^    struct MyPair{$/;"	s	namespace:DERIVATION	file:
+MyString	Chapter-15/aggregate.cpp	/^    class MyString:public std::string$/;"	c	namespace:AGGREGATE	file:
+MyStringWithIndex	Chapter-15/aggregate.cpp	/^    class MyStringWithIndex:$/;"	c	namespace:AGGREGATE	file:
+MyType	Chapter-34/other_optimize.cpp	/^        MyType(MyType &) {}$/;"	f	struct:OTHER_OPTIMIZE::MyType
+MyType	Chapter-34/other_optimize.cpp	/^    struct MyType{$/;"	s	namespace:OTHER_OPTIMIZE	file:
+N	Chapter-37/template_improve.cpp	/^    namespace N$/;"	n	namespace:TEMPLATE_IMPROVE	file:
+NAMESPACE	Chapter-02/namespace.cpp	/^namespace NAMESPACE$/;"	n	file:
+NAMESPACE	Chapter-02/namespace.hpp	/^namespace NAMESPACE$/;"	n
+NEW_INFER	basic/other_improve.cpp	/^namespace NEW_INFER$/;"	n	file:
+NOEXCEPT	Chapter-21/noexcept.cpp	/^namespace NOEXCEPT$/;"	n	file:
+NOEXCEPT	Chapter-21/noexcept.hpp	/^namespace NOEXCEPT$/;"	n
+NULLPTR	Chapter-23/nullptr.cpp	/^namespace NULLPTR$/;"	n	file:
+NULLPTR	Chapter-23/nullptr.hpp	/^namespace NULLPTR$/;"	n
+OTHER_OPTIMIZE	Chapter-34/other_optimize.cpp	/^namespace OTHER_OPTIMIZE$/;"	n	file:
+OTHER_OPTIMIZE	Chapter-34/other_optimize.hpp	/^namespace OTHER_OPTIMIZE$/;"	n
+OVERRIDE	Chapter-16/override.cpp	/^namespace OVERRIDE$/;"	n	file:
+OVERRIDE	Chapter-16/override.hpp	/^namespace OVERRIDE$/;"	n
+Obj2	Chapter-37/template_improve.cpp	/^    }Obj2;$/;"	m	namespace:TEMPLATE_IMPROVE	typeref:struct:TEMPLATE_IMPROVE::__anon3	file:
+PI	Chapter-42/template_optimize.cpp	/^    struct PI$/;"	s	namespace:TEMPLATE_OPTIMIZE	file:
+PI4	Chapter-42/template_optimize.cpp	/^    constexpr T PI4 = static_cast<T>(3.1415926535L);$/;"	m	namespace:TEMPLATE_OPTIMIZE	file:
+POSTF_RETURN	Chapter-05/postf_return.cpp	/^namespace POSTF_RETURN$/;"	n	file:
+POSTF_RETURN	Chapter-05/postf_return.hpp	/^namespace POSTF_RETURN$/;"	n
+PREPROCESS	Chapter-32/preprocess.cpp	/^namespace PREPROCESS$/;"	n	file:
+PREPROCESS	Chapter-32/preprocess.hpp	/^namespace PREPROCESS$/;"	n
+PRINT_NOEXCEPT	Chapter-21/noexcept.cpp	72;"	d	file:
+Point	Chapter-09/initializer_list.cpp	/^    struct Point$/;"	s	namespace:INITIALIZE_LIST	file:
+PoolSize	Chapter-06/reference.cpp	/^    constexpr auto PoolSize = 4096;$/;"	m	namespace:REFERENCE	file:
+REFERENCE	Chapter-06/reference.cpp	/^namespace REFERENCE$/;"	n	file:
+REFERENCE	Chapter-06/reference.hpp	/^namespace REFERENCE$/;"	n
+RVO_PROCESS	basic/other_improve.cpp	/^namespace RVO_PROCESS$/;"	n	file:
+Red	Chapter-14/strong_enum.cpp	/^        Red,$/;"	m	class:STRONG_ENUM::E2::Color	file:
+RunCode	Chapter-06/reference.cpp	/^    void RunCode(T &&m){cout<<"rvalue ref"<<" | ";}$/;"	f	namespace:REFERENCE
+RunCode	Chapter-06/reference.cpp	/^    void RunCode(T &m){cout<<"lvalue ref"<<" | "; }$/;"	f	namespace:REFERENCE
+RunCode	Chapter-06/reference.cpp	/^    void RunCode(const T &&m){cout<<"const rvalue ref"<<" | "; }$/;"	f	namespace:REFERENCE
+RunCode	Chapter-06/reference.cpp	/^    void RunCode(const T &m){cout<<"const lvalue ref"<<" | "; }$/;"	f	namespace:REFERENCE
+S	Chapter-08/initialization.cpp	/^    struct S{$/;"	s	namespace:INITIALIZATION	file:
+S1	Chapter-02/namespace.cpp	/^    namespace S1 {$/;"	n	namespace:NAMESPACE	file:
+S1	Chapter-04/decltype.cpp	/^    struct S1$/;"	s	namespace:DECLTYPE	file:
+S2	Chapter-02/namespace.cpp	/^    namespace S2 {$/;"	n	namespace:NAMESPACE	file:
+S4	Chapter-41/concept.cpp	/^    struct S4$/;"	s	namespace:CONCEPT	file:
+S5	Chapter-38/template_derive.cpp	/^    struct S5{$/;"	s	namespace:TEMPLATE_DERIVE	file:
+S7	Chapter-41/concept.cpp	/^        S7()$/;"	f	struct:CONCEPT::S7
+S7	Chapter-41/concept.cpp	/^    struct S7$/;"	s	namespace:CONCEPT	file:
+S8	Chapter-41/concept.cpp	/^        S8(){$/;"	f	struct:CONCEPT::S8
+S8	Chapter-41/concept.cpp	/^    struct S8$/;"	s	namespace:CONCEPT	file:
+SFINAE	Chapter-40/sfinae.cpp	/^namespace SFINAE$/;"	n	file:
+SFINAE	Chapter-40/sfinae.hpp	/^namespace SFINAE$/;"	n
+SPACESHIP	Chapter-24/spaceship.cpp	/^namespace SPACESHIP$/;"	n	file:
+SPACESHIP	Chapter-24/spaceship.hpp	/^namespace SPACESHIP$/;"	n
+STATIC_ASSERT	Chapter-19/static_assert.cpp	/^namespace STATIC_ASSERT$/;"	n	file:
+STATIC_ASSERT	Chapter-19/static_assert.hpp	/^namespace STATIC_ASSERT$/;"	n
+STATIC_ASSERT2	Chapter-19/static_assert.cpp	44;"	d	file:
+STRONG_ENUM	Chapter-14/strong_enum.cpp	/^namespace STRONG_ENUM$/;"	n	file:
+STRONG_ENUM	Chapter-14/strong_enum.hpp	/^namespace STRONG_ENUM$/;"	n
+STRUCT_BIND	Chapter-20/struct_bind.cpp	/^namespace STRUCT_BIND$/;"	n	file:
+STRUCT_BIND	Chapter-20/struct_bind.hpp	/^namespace STRUCT_BIND$/;"	n
+School	Chapter-14/strong_enum.cpp	/^    enum School{$/;"	g	namespace:STRONG_ENUM	file:
+SignedIntegerType3	Chapter-41/concept.cpp	/^    concept SignedIntegerType3 = std::is_integral_v<T> && std::is_signed_v<T>;$/;"	m	namespace:CONCEPT	file:
+SomeStorage	Chapter-34/other_optimize.cpp	/^        SomeStorage(std::initializer_list<T> l) : data_(l) {};$/;"	f	class:OTHER_OPTIMIZE::SomeStorage
+SomeStorage	Chapter-34/other_optimize.cpp	/^    class SomeStorage$/;"	c	namespace:OTHER_OPTIMIZE	file:
+Storage	basic/other_improve.cpp	/^        Storage(std::initializer_list<T> l): data_(l){$/;"	f	class:EXPLICIT_TYPE::Storage
+Storage	basic/other_improve.cpp	/^    class Storage{$/;"	c	namespace:EXPLICIT_TYPE	file:
+T	Chapter-17/for_loop.cpp	/^    class T$/;"	c	namespace:FOR_LOOP	file:
+T1	Chapter-15/aggregate.cpp	/^    class T1$/;"	c	namespace:AGGREGATE	file:
+TCS	Chapter-37/template_improve.cpp	/^    template<const char *str> struct TCS$/;"	s	namespace:TEMPLATE_IMPROVE	file:
+TCompare	Chapter-24/spaceship.cpp	/^        TCompare(int n):a_(n){$/;"	f	class:SPACESHIP::TCompare
+TCompare	Chapter-24/spaceship.cpp	/^    class TCompare$/;"	c	namespace:SPACESHIP	file:
+TEMPLATE_ALIAS	Chapter-22/template_alias.cpp	/^namespace TEMPLATE_ALIAS$/;"	n	file:
+TEMPLATE_ALIAS	Chapter-22/template_alias.hpp	/^namespace TEMPLATE_ALIAS$/;"	n
+TEMPLATE_DERIVE	Chapter-38/template_derive.cpp	/^namespace TEMPLATE_DERIVE$/;"	n	file:
+TEMPLATE_DERIVE	Chapter-38/template_derive.hpp	/^namespace TEMPLATE_DERIVE$/;"	n
+TEMPLATE_IMPROVE	Chapter-37/template_improve.cpp	/^namespace TEMPLATE_IMPROVE$/;"	n	file:
+TEMPLATE_IMPROVE	Chapter-37/template_improve.hpp	/^namespace TEMPLATE_IMPROVE$/;"	n
+TEMPLATE_OPTIMIZE	Chapter-42/template_optimize.cpp	/^namespace TEMPLATE_OPTIMIZE$/;"	n	file:
+TEMPLATE_OPTIMIZE	Chapter-42/template_optimize.hpp	/^namespace TEMPLATE_OPTIMIZE$/;"	n
+TEMPLATE_VAR	Chapter-35/template_var.cpp	/^namespace TEMPLATE_VAR$/;"	n	file:
+TEMPLATE_VAR	Chapter-35/template_var.hpp	/^namespace TEMPLATE_VAR$/;"	n
+TFS	Chapter-37/template_improve.cpp	/^    struct TFS$/;"	s	namespace:TEMPLATE_IMPROVE	file:
+THREAD_LOCAL	Chapter-25/thread_local.cpp	/^namespace THREAD_LOCAL$/;"	n	file:
+THREAD_LOCAL	Chapter-25/thread_local.hpp	/^namespace THREAD_LOCAL$/;"	n
+TYPENAME	Chapter-36/typename.cpp	/^namespace TYPENAME$/;"	n	file:
+TYPENAME	Chapter-36/typename.hpp	/^namespace TYPENAME$/;"	n
+T_9	Chapter-07/lambda.cpp	/^    class T_9$/;"	c	namespace:LAMBDA	file:
+Trivial	Chapter-10/construct.cpp	/^        Trivial(int n):i_(n) {}$/;"	f	class:CONSTRUCT::Trivial
+Trivial	Chapter-10/construct.cpp	/^    class Trivial$/;"	c	namespace:CONSTRUCT	file:
+U	basic/other_improve.cpp	/^    union U{$/;"	u	namespace:EXPLICIT_TYPE	file:
+U1	Chapter-11/union.cpp	/^    union U1$/;"	u	namespace:UNION	file:
+U1	Chapter-15/aggregate.cpp	/^    class U1:public T1$/;"	c	namespace:AGGREGATE	file:
+U2	Chapter-11/union.cpp	/^        U2(){}$/;"	f	union:UNION::U2
+U2	Chapter-11/union.cpp	/^    union U2$/;"	u	namespace:UNION	file:
+U2	Chapter-34/other_optimize.cpp	/^    union U2$/;"	u	namespace:OTHER_OPTIMIZE	file:
+U3	Chapter-11/union.cpp	/^    union U3$/;"	u	namespace:UNION	file:
+UNION	Chapter-11/union.cpp	/^namespace UNION$/;"	n	file:
+UNION	Chapter-11/union.hpp	/^namespace UNION$/;"	n
+University	Chapter-14/strong_enum.cpp	/^    enum class University: unsigned int$/;"	c	namespace:STRONG_ENUM	file:
+User	Chapter-10/construct.cpp	/^    class User$/;"	c	namespace:CONSTRUCT	file:
+UserObject	Chapter-17/for_loop.cpp	/^        UserObject(std::initializer_list<int> list)$/;"	f	class:FOR_LOOP::UserObject
+UserObject	Chapter-17/for_loop.cpp	/^    class UserObject$/;"	c	namespace:FOR_LOOP	file:
+V1	Chapter-02/namespace.cpp	/^        namespace V1{$/;"	n	namespace:NAMESPACE::S2	file:
+V2	Chapter-02/namespace.cpp	/^        inline namespace V2{$/;"	n	namespace:NAMESPACE::S2	file:
+VX	Chapter-19/static_assert.cpp	/^    class VX$/;"	c	namespace:STATIC_ASSERT	file:
+Widget	Chapter-23/nullptr.cpp	/^        Widget(){$/;"	f	class:NULLPTR::Widget
+Widget	Chapter-23/nullptr.cpp	/^    class Widget$/;"	c	namespace:NULLPTR	file:
+Widget	Chapter-23/nullptr.cpp	/^    class Widget<std::nullptr_t>$/;"	c	namespace:NULLPTR	file:
+Work	Chapter-07/lambda.cpp	/^        class Work$/;"	c	namespace:LAMBDA	file:
+Wrap	Chapter-36/typename.cpp	/^    struct Wrap {$/;"	s	namespace:TYPENAME	file:
+Wrap	Chapter-39/derivation.cpp	/^    struct Wrap$/;"	s	namespace:DERIVATION	file:
+Wrap	Chapter-39/derivation.cpp	/^    template<class...T> Wrap(T&& ...t) -> Wrap<std::common_type_t<T...>>;$/;"	m	namespace:DERIVATION	file:
+Wrapper	Chapter-34/other_optimize.cpp	/^    struct Wrapper{$/;"	s	namespace:OTHER_OPTIMIZE	file:
+X	Chapter-03/auto.cpp	/^    struct X$/;"	s	namespace:AUTO	file:
+X	Chapter-06/reference.cpp	/^        X() {$/;"	f	class:REFERENCE::X
+X	Chapter-06/reference.cpp	/^        X(const X&) {$/;"	f	class:REFERENCE::X
+X	Chapter-06/reference.cpp	/^    class X$/;"	c	namespace:REFERENCE	file:
+X	Chapter-08/initialization.cpp	/^        X() {}$/;"	f	class:INITIALIZATION::X
+X	Chapter-08/initialization.cpp	/^        X(const std::string &c) : c_(c) {}$/;"	f	class:INITIALIZATION::X
+X	Chapter-08/initialization.cpp	/^        X(double b) : b_(b) {}$/;"	f	class:INITIALIZATION::X
+X	Chapter-08/initialization.cpp	/^        X(int a) : a_(a) {}$/;"	f	class:INITIALIZATION::X
+X	Chapter-08/initialization.cpp	/^    class X$/;"	c	namespace:INITIALIZATION	file:
+X	Chapter-19/static_assert.cpp	/^    class X$/;"	c	namespace:STATIC_ASSERT	file:
+X	Chapter-21/noexcept.cpp	/^    struct X{$/;"	s	namespace:NOEXCEPT	file:
+X	Chapter-26/inline.cpp	/^    class X$/;"	c	namespace:INLINE	file:
+X	Chapter-40/sfinae.cpp	/^    template<int I> struct X{};$/;"	s	namespace:SFINAE	file:
+X	Chapter-41/concept.cpp	/^    struct X{$/;"	s	namespace:CONCEPT	file:
+X	Chapter-42/template_optimize.cpp	/^    struct X$/;"	s	namespace:TEMPLATE_OPTIMIZE	file:
+X	Chapter-42/template_optimize.cpp	/^    struct X<0>$/;"	s	namespace:TEMPLATE_OPTIMIZE	file:
+X	basic/other_improve.cpp	/^        X() {cout<<"x construct"<<" | ";}$/;"	f	class:RVO_PROCESS::X
+X	basic/other_improve.cpp	/^        X() {}$/;"	f	struct:CLASS_IMPROVE::X
+X	basic/other_improve.cpp	/^        X(const X& x) {cout<<"x copy construct"<<" | ";}$/;"	f	class:RVO_PROCESS::X
+X	basic/other_improve.cpp	/^    class X$/;"	c	namespace:RVO_PROCESS	file:
+X	basic/other_improve.cpp	/^    struct X{$/;"	s	namespace:CLASS_IMPROVE	file:
+X	basic/other_improve.cpp	/^    struct X{$/;"	s	namespace:EXPLICIT_TYPE	file:
+X	template/template_concept.cpp	/^    struct X{};$/;"	s	namespace:CONCEPT_1	file:
+X1	Chapter-12/delegation.cpp	/^        X1():a_(0), b_(0.) {common_init();}$/;"	f	class:DELEGATION::X1
+X1	Chapter-12/delegation.cpp	/^        X1(double b):a_(0), b_(b) {common_init();}$/;"	f	class:DELEGATION::X1
+X1	Chapter-12/delegation.cpp	/^        X1(int a):a_(a), b_(0.) {common_init();}$/;"	f	class:DELEGATION::X1
+X1	Chapter-12/delegation.cpp	/^        X1(int a, double b):a_(a), b_(b) {common_init();}$/;"	f	class:DELEGATION::X1
+X1	Chapter-12/delegation.cpp	/^    class X1$/;"	c	namespace:DELEGATION	file:
+X1	Chapter-31/attribute.cpp	/^    class X1 {int i;};$/;"	c	namespace:ATTRIBUTE	file:
+X1	Chapter-37/template_improve.cpp	/^    struct X1$/;"	s	namespace:TEMPLATE_IMPROVE	file:
+X1	template/template_concept.cpp	/^    struct X1{};$/;"	s	namespace:CONCEPT_1	file:
+X2	Chapter-12/delegation.cpp	/^        X2():X2(0, 0.) {}$/;"	f	class:DELEGATION::X2
+X2	Chapter-12/delegation.cpp	/^        X2(const X2& other): X2(other.a_, other.b_) {$/;"	f	class:DELEGATION::X2
+X2	Chapter-12/delegation.cpp	/^        X2(double b):X2(0, b) {$/;"	f	class:DELEGATION::X2
+X2	Chapter-12/delegation.cpp	/^        X2(int a):X2(a, 0.) {$/;"	f	class:DELEGATION::X2
+X2	Chapter-12/delegation.cpp	/^        X2(int a, double b):a_(a), b_(b) {$/;"	f	class:DELEGATION::X2
+X2	Chapter-12/delegation.cpp	/^    class X2$/;"	c	namespace:DELEGATION	file:
+X2	Chapter-34/other_optimize.cpp	/^    struct X2$/;"	s	namespace:OTHER_OPTIMIZE	file:
+X2	Chapter-37/template_improve.cpp	/^    struct X2$/;"	s	namespace:TEMPLATE_IMPROVE	file:
+X2	Chapter-41/concept.cpp	/^    struct X2{$/;"	s	namespace:CONCEPT	file:
+X3	Chapter-12/delegation.cpp	/^        X3(std::deque<int>& v): X3(v.begin(), v.end()) {};$/;"	f	class:DELEGATION::X3
+X3	Chapter-12/delegation.cpp	/^        X3(std::vector<short>& v): X3(v.begin(), v.end()) {};$/;"	f	class:DELEGATION::X3
+X3	Chapter-12/delegation.cpp	/^        template<class T> X3(T first, T last): l_(first, last) {}$/;"	f	class:DELEGATION::X3	file:
+X3	Chapter-12/delegation.cpp	/^    class X3$/;"	c	namespace:DELEGATION	file:
+X3	Chapter-34/other_optimize.cpp	/^        X3() {cout<<"x3 ctor"<<" | ";}$/;"	f	class:OTHER_OPTIMIZE::X3
+X3	Chapter-34/other_optimize.cpp	/^        X3(const X3 &x) {cout<<"copy x3 ctor"<<" | ";}$/;"	f	class:OTHER_OPTIMIZE::X3
+X3	Chapter-34/other_optimize.cpp	/^    class X3$/;"	c	namespace:OTHER_OPTIMIZE	file:
+X3	Chapter-40/sfinae.cpp	/^    struct X3{};$/;"	s	namespace:SFINAE	file:
+X3	Chapter-41/concept.cpp	/^    struct X3{$/;"	s	namespace:CONCEPT	file:
+X3	Chapter-42/template_optimize.cpp	/^    class X3$/;"	c	namespace:TEMPLATE_OPTIMIZE	file:
+X4	Chapter-12/delegation.cpp	/^        X4() try: X4(0) {}$/;"	f	class:DELEGATION::X4
+X4	Chapter-12/delegation.cpp	/^        X4(double b): X4(0, b) {}$/;"	f	class:DELEGATION::X4
+X4	Chapter-12/delegation.cpp	/^        X4(int a) try: X4(a, 0.) {}$/;"	f	class:DELEGATION::X4
+X4	Chapter-12/delegation.cpp	/^        X4(int a, double b) : a_(a), b_(b){$/;"	f	class:DELEGATION::X4
+X4	Chapter-12/delegation.cpp	/^    class X4$/;"	c	namespace:DELEGATION	file:
+X4	Chapter-15/aggregate.cpp	/^    struct X4$/;"	s	namespace:AGGREGATE	file:
+X4	Chapter-41/concept.cpp	/^    struct X4 $/;"	s	class:CONCEPT::std	file:
+X5	Chapter-15/aggregate.cpp	/^    struct X5$/;"	s	namespace:AGGREGATE	file:
+X5	Chapter-31/attribute.cpp	/^    struct [[deprecated("need use new class")]] X5$/;"	s	namespace:ATTRIBUTE	file:
+X5	Chapter-38/template_derive.cpp	/^    struct X5{$/;"	s	namespace:TEMPLATE_DERIVE	file:
+X7	Chapter-34/other_optimize.cpp	/^        X7() {$/;"	f	struct:OTHER_OPTIMIZE::X7
+X7	Chapter-34/other_optimize.cpp	/^    struct X7$/;"	s	namespace:OTHER_OPTIMIZE	file:
+Y	Chapter-40/sfinae.cpp	/^    struct Y{ Y(X3){} };$/;"	f	struct:SFINAE::Y
+Y	Chapter-40/sfinae.cpp	/^    struct Y{ Y(X3){} };$/;"	s	namespace:SFINAE	file:
+Y	Chapter-42/template_optimize.cpp	/^    struct Y$/;"	s	namespace:TEMPLATE_OPTIMIZE	file:
+Y	template/template_concept.cpp	/^    struct Y{};$/;"	s	class:CONCEPT_1::std	file:
+Y2	Chapter-41/concept.cpp	/^    struct Y2{$/;"	s	class:CONCEPT::std	file:
+Y3	Chapter-41/concept.cpp	/^    struct Y3{$/;"	s	namespace:CONCEPT	file:
+Y3	Chapter-42/template_optimize.cpp	/^    class Y3 $/;"	c	namespace:TEMPLATE_OPTIMIZE	file:
+Y4	Chapter-15/aggregate.cpp	/^    struct Y4$/;"	s	namespace:AGGREGATE	file:
+Z	Chapter-37/template_improve.cpp	/^        Z() {$/;"	f	struct:TEMPLATE_IMPROVE::Z
+Z	Chapter-37/template_improve.cpp	/^    struct  Z$/;"	s	namespace:TEMPLATE_IMPROVE	file:
+Z	template/template_concept.cpp	/^    struct Z{};$/;"	s	class:CONCEPT_1::std	file:
+_CPP14	includes.hpp	48;"	d
+_CPP17	includes.hpp	49;"	d
+_CPP20	includes.hpp	50;"	d
+_EXTERN	Chapter-42/template_optimize.cpp	18;"	d	file:
+__LOWRE_THAN_CPP14_RUN	includes.hpp	53;"	d
+__LOWRE_THAN_CPP17_RUN	includes.hpp	55;"	d
+__LOWRE_THAN_CPP20_RUN	includes.hpp	57;"	d
+__MORE_THAN_CPP14__	includes.hpp	52;"	d
+__MORE_THAN_CPP17__	includes.hpp	54;"	d
+__MORE_THAN_CPP20__	includes.hpp	56;"	d
+_string	Chapter-29/literal.cpp	/^    std::string operator "" _string(const char* str, size_t len)$/;"	f	namespace:LITERAL
+_w	Chapter-29/literal.cpp	/^    std::string operator "" _w()$/;"	f	namespace:LITERAL
+a	Chapter-09/initializer_list.cpp	/^        int a;$/;"	m	union:INITIALIZE_LIST::u	file:
+a	Chapter-15/aggregate.cpp	/^        int a = 1;$/;"	m	class:AGGREGATE::T1	file:
+a	Chapter-19/static_assert.cpp	/^        int a;$/;"	m	class:STATIC_ASSERT::X	file:
+a	Chapter-20/struct_bind.cpp	/^        T1 a;$/;"	m	struct:STRUCT_BIND::BindTest1	file:
+a	Chapter-20/struct_bind.cpp	/^        int a = 21;$/;"	m	class:STRUCT_BIND::BindTest3_1	file:
+a	Chapter-20/struct_bind.cpp	/^        int a = 42;$/;"	m	class:STRUCT_BIND::BindBase3	file:
+a	Chapter-20/struct_bind.cpp	/^        int a = 5;$/;"	m	class:STRUCT_BIND::C5	file:
+a	Chapter-20/struct_bind.cpp	/^    int a = 42;$/;"	m	class:BindBase4	file:
+a	Chapter-24/spaceship.cpp	/^        int a;$/;"	m	struct:SPACESHIP::B	file:
+a	Chapter-30/align.cpp	/^        char a;$/;"	m	struct:ALIGN::a_default	file:
+a	Chapter-30/align.cpp	/^        char a;$/;"	m	struct:ALIGN::b_default	file:
+a	Chapter-30/align.cpp	/^        char a;$/;"	m	struct:ALIGN::b_with_align	file:
+a	Chapter-31/attribute.cpp	/^        int a;$/;"	m	struct:ATTRIBUTE::X5	file:
+a	Chapter-42/template_optimize.cpp	/^        int a = 5;$/;"	m	class:TEMPLATE_OPTIMIZE::C	file:
+a1	Chapter-04/decltype.cpp	/^    decltype(x) sum(decltype(x) a1, decltype(x) a2)$/;"	m	namespace:DECLTYPE	file:
+a1	Chapter-31/attribute.cpp	/^    int a1 __attribute__((aligned(8)));$/;"	m	namespace:ATTRIBUTE	file:
+a_	Chapter-08/initialization.cpp	/^        int a_ = 0;$/;"	m	class:INITIALIZATION::X	file:
+a_	Chapter-12/delegation.cpp	/^        int a_;$/;"	m	class:DELEGATION::X1	file:
+a_	Chapter-12/delegation.cpp	/^        int a_;$/;"	m	class:DELEGATION::X2	file:
+a_	Chapter-12/delegation.cpp	/^        int a_;$/;"	m	class:DELEGATION::X4	file:
+a_	Chapter-24/spaceship.cpp	/^        int a_;$/;"	m	class:SPACESHIP::TCompare	file:
+a_	Chapter-24/spaceship.cpp	/^        int a_;$/;"	m	class:SPACESHIP::weakCompare	file:
+a_default	Chapter-30/align.cpp	/^    struct a_default$/;"	s	namespace:ALIGN	file:
+abs	Chapter-27/constexpr.cpp	/^    constexpr int abs(int x)    {return x>0?x:-x;} $/;"	f	namespace:CONSTEXPR
+abs_update	Chapter-27/constexpr.cpp	/^    constexpr int abs_update(int x){$/;"	f	namespace:CONSTEXPR
+add	Chapter-14/strong_enum.cpp	/^    struct add{$/;"	s	namespace:STRONG_ENUM	file:
+add	Chapter-35/template_var.cpp	/^    int add(int a, int b) {return a+b;}$/;"	f	namespace:TEMPLATE_VAR
+alignof_tick	Chapter-30/align.cpp	/^    template<class T> struct alignof_tick { char c; T member; };$/;"	s	namespace:ALIGN	file:
+any2i	Chapter-27/constexpr.cpp	/^    template<class T> auto any2i(T t)$/;"	f	namespace:CONSTEXPR
+as_coroutine	Chapter-33/coroutines.cpp	/^struct as_coroutine {};$/;"	s	file:
+b	Chapter-09/initializer_list.cpp	/^        const char* b;$/;"	m	union:INITIALIZE_LIST::u	file:
+b	Chapter-15/aggregate.cpp	/^        float b = 1.5;$/;"	m	class:AGGREGATE::T1	file:
+b	Chapter-20/struct_bind.cpp	/^        double b = 1.5;$/;"	m	class:STRUCT_BIND::BindTest3_1	file:
+b	Chapter-20/struct_bind.cpp	/^        double b = 11.7;$/;"	m	class:STRUCT_BIND::BindBase3	file:
+b	Chapter-20/struct_bind.cpp	/^        double b = 6.1;$/;"	m	class:STRUCT_BIND::C5	file:
+b	Chapter-20/struct_bind.cpp	/^    double b = 11.7;$/;"	m	class:BindTest4	file:
+b	Chapter-30/align.cpp	/^        alignas(4) short b;$/;"	m	struct:ALIGN::b_with_align	file:
+b	Chapter-30/align.cpp	/^        short b;$/;"	m	struct:ALIGN::a_default	file:
+b	Chapter-30/align.cpp	/^        short b;$/;"	m	struct:ALIGN::b_default	file:
+b	Chapter-36/typename.cpp	/^        T::B b;$/;"	m	struct:TYPENAME::L	file:
+b	Chapter-37/template_improve.cpp	/^        int b;$/;"	m	struct:TEMPLATE_IMPROVE::__anon3	file:
+b_	Chapter-12/delegation.cpp	/^        double b_;$/;"	m	class:DELEGATION::X1	file:
+b_	Chapter-12/delegation.cpp	/^        double b_;$/;"	m	class:DELEGATION::X2	file:
+b_	Chapter-12/delegation.cpp	/^        double b_;$/;"	m	class:DELEGATION::X4	file:
+b_default	Chapter-30/align.cpp	/^    struct b_default$/;"	s	namespace:ALIGN	file:
+b_with_align	Chapter-30/align.cpp	/^    struct b_with_align{$/;"	s	namespace:ALIGN	file:
+bar	Chapter-16/override.cpp	/^        virtual void bar() const {$/;"	f	class:OVERRIDE::Base2
+bar	Chapter-16/override.cpp	/^        virtual void bar() {$/;"	f	class:OVERRIDE::Derived2
+bar	Chapter-33/coroutines.cpp	/^    std::future<std::future<int>> bar(as_coroutine)$/;"	f	namespace:COROUTINES
+bar	Chapter-35/template_var.cpp	/^        bar(Args ...args)$/;"	f	class:TEMPLATE_VAR::bar
+bar	Chapter-35/template_var.cpp	/^    class bar{$/;"	c	namespace:TEMPLATE_VAR	file:
+bar	Chapter-42/template_optimize.hpp	/^    class bar$/;"	c	namespace:TEMPLATE_OPTIMIZE
+bar	template/template_concept.cpp	/^    constexpr bool bar() {$/;"	f	namespace:CONCEPT_1
+bar2	Chapter-35/template_var.cpp	/^        bar2(Args ...args)$/;"	f	class:TEMPLATE_VAR::bar2
+bar2	Chapter-35/template_var.cpp	/^    class bar2$/;"	c	namespace:TEMPLATE_VAR	file:
+bar2	Chapter-40/sfinae.cpp	/^        bar2() {};$/;"	f	class:SFINAE::bar2
+bar2	Chapter-40/sfinae.cpp	/^        bar2(bar2 &&) {};    $/;"	f	class:SFINAE::bar2
+bar2	Chapter-40/sfinae.cpp	/^    class bar2$/;"	c	namespace:SFINAE	file:
+bar21	Chapter-35/template_var.cpp	/^        bar21(Args ...args)$/;"	f	class:TEMPLATE_VAR::bar21
+bar21	Chapter-35/template_var.cpp	/^    class bar21$/;"	c	namespace:TEMPLATE_VAR	file:
+bar3	Chapter-35/template_var.cpp	/^        bar3(){$/;"	f	class:TEMPLATE_VAR::bar3
+bar3	Chapter-35/template_var.cpp	/^    class bar3$/;"	c	namespace:TEMPLATE_VAR	file:
+bar4	Chapter-41/concept.cpp	/^    constexpr bool bar4() {$/;"	f	namespace:CONCEPT
+bar7	Chapter-37/template_improve.cpp	/^    class bar7$/;"	c	namespace:TEMPLATE_IMPROVE	file:
+base7	Chapter-35/template_var.cpp	/^        base7() {}$/;"	f	class:TEMPLATE_VAR::base7
+base7	Chapter-35/template_var.cpp	/^        base7(T t): t_(t) {}$/;"	f	class:TEMPLATE_VAR::base7
+base7	Chapter-35/template_var.cpp	/^    class base7$/;"	c	namespace:TEMPLATE_VAR	file:
+basic_fixed_string	Chapter-37/template_improve.cpp	/^    struct basic_fixed_string$/;"	s	namespace:TEMPLATE_IMPROVE	file:
+baz	Chapter-16/override.cpp	/^        virtual void baz() {$/;"	f	class:OVERRIDE::Base2
+baz	Chapter-16/override.cpp	/^        virtual void baz() {$/;"	f	class:OVERRIDE::Derived2
+baz	Chapter-35/template_var.cpp	/^    T baz(T t, U u)$/;"	f	namespace:TEMPLATE_VAR
+baz21	Chapter-35/template_var.cpp	/^    int baz21(T ...t)$/;"	f	namespace:TEMPLATE_VAR
+begin	Chapter-17/for_loop.cpp	/^        int *begin(){$/;"	f	class:FOR_LOOP::UserObject
+c	Chapter-30/align.cpp	/^        double c;$/;"	m	struct:ALIGN::a_default	file:
+c	Chapter-30/align.cpp	/^    template<class T> struct alignof_tick { char c; T member; };$/;"	m	struct:ALIGN::alignof_tick	file:
+c	Chapter-42/template_optimize.cpp	/^        static int const c = 2;$/;"	m	struct:TEMPLATE_OPTIMIZE::X	file:
+c	Chapter-42/template_optimize.cpp	/^        static int const c = 3;$/;"	m	struct:TEMPLATE_OPTIMIZE::Y	file:
+c	Chapter-42/template_optimize.cpp	/^        typedef int c;$/;"	t	struct:TEMPLATE_OPTIMIZE::X	file:
+c	Chapter-42/template_optimize.cpp	/^static int const c = 4;$/;"	v	file:
+carries_func	Chapter-31/attribute.cpp	/^    static void carries_func(void)$/;"	f	namespace:ATTRIBUTE
+chairman	Chapter-14/strong_enum.cpp	/^        chairman,$/;"	e	enum:STRONG_ENUM::Company	file:
+chapter	main.cpp	/^constexpr int chapter = 2;$/;"	v
+check6	Chapter-41/concept.cpp	/^    concept check6 = requires {$/;"	m	namespace:CONCEPT	file:
+color	Chapter-24/spaceship.cpp	/^    enum color{$/;"	g	namespace:SPACESHIP	file:
+command	Makefile	/^command = $(executables_path)\/$(executables)$/;"	m
+common_init	Chapter-12/delegation.cpp	/^        void common_init() {$/;"	f	class:DELEGATION::X2	file:
+common_init	Chapter-12/delegation.cpp	/^        void common_init() {}$/;"	f	class:DELEGATION::X1	file:
+compute	Chapter-33/coroutines.cpp	/^    std::future<int> compute(as_coroutine) $/;"	f	namespace:COROUTINES
+coroutine_traits	Chapter-33/coroutines.cpp	/^struct std::coroutine_traits<std::future<T>, as_coroutine, Args...> {$/;"	s	class:std	file:
+coroutine_traits	Chapter-33/coroutines.cpp	/^struct std::coroutine_traits<std::future<void>, as_coroutine, Args...> {$/;"	s	class:std	file:
+count_	Chapter-15/aggregate.cpp	/^        int count_ = 0;$/;"	m	class:AGGREGATE::Count	file:
+dat	Chapter-35/template_var.cpp	/^        dat(T t, Args ...args)$/;"	f	class:TEMPLATE_VAR::dat
+dat	Chapter-35/template_var.cpp	/^    class dat{$/;"	c	namespace:TEMPLATE_VAR	file:
+data_	Chapter-17/for_loop.cpp	/^        int data_[array_size];$/;"	m	class:FOR_LOOP::UserObject	file:
+data_	Chapter-34/other_optimize.cpp	/^        std::vector<T> data_;$/;"	m	class:OTHER_OPTIMIZE::SomeStorage	file:
+data_	Chapter-37/template_improve.cpp	/^        T data_[N+1];$/;"	m	struct:TEMPLATE_IMPROVE::basic_fixed_string	file:
+data_	basic/other_improve.cpp	/^        vector<T> data_;$/;"	m	class:EXPLICIT_TYPE::Storage	file:
+decltype	Chapter-04/decltype.cpp	/^    auto return_ref(T& t)->decltype(t)$/;"	f	namespace:DECLTYPE
+delay_invoke8	Chapter-35/template_var.cpp	/^    auto delay_invoke8(F f, Args... args){$/;"	f	namespace:TEMPLATE_VAR
+deprecated_func	Chapter-31/attribute.cpp	/^    void deprecated_func(void)$/;"	f	namespace:ATTRIBUTE
+derived7	Chapter-35/template_var.cpp	/^    class derived7: public base7<Args>...$/;"	c	namespace:TEMPLATE_VAR	file:
+e	Chapter-31/attribute.cpp	/^        [[no_unique_address]] empty8 e;$/;"	m	struct:ATTRIBUTE::x8	file:
+e1	Chapter-14/strong_enum.cpp	/^        e1 = 1,$/;"	e	enum:STRONG_ENUM::E	file:
+e2	Chapter-14/strong_enum.cpp	/^        e2 = 2,$/;"	e	enum:STRONG_ENUM::E	file:
+e2_1	Chapter-14/strong_enum.cpp	/^        e2_1 = 1,$/;"	m	class:STRONG_ENUM::E2	file:
+e2_2	Chapter-14/strong_enum.cpp	/^        e2_2,$/;"	m	class:STRONG_ENUM::E2	file:
+e2_3	Chapter-14/strong_enum.cpp	/^        e2_3 = 0xfffffff0$/;"	m	class:STRONG_ENUM::E2	file:
+e3	Chapter-14/strong_enum.cpp	/^        e3 = 0xfffffff0$/;"	e	enum:STRONG_ENUM::E	file:
+echo	Chapter-03/auto.cpp	/^    void echo(auto str)$/;"	f	namespace:AUTO
+employee	Chapter-14/strong_enum.cpp	/^        employee,$/;"	e	enum:STRONG_ENUM::Company	file:
+empty8	Chapter-31/attribute.cpp	/^    struct empty8$/;"	s	namespace:ATTRIBUTE	file:
+end	Chapter-17/for_loop.cpp	/^        int *end(){$/;"	f	class:FOR_LOOP::UserObject
+executables	Makefile	/^executables = ModernCpp$/;"	m
+executables_path	Makefile	/^executables_path = ..\/..\/..\/executables$/;"	m
+extend	Chapter-26/inline.cpp	/^    class extend$/;"	c	namespace:INLINE	file:
+extern_str	Chapter-37/template_improve.cpp	/^    extern const char extern_str[] = {"extern"}; \/\/外部链接$/;"	m	namespace:TEMPLATE_IMPROVE	file:
+f	Chapter-03/auto.cpp	/^    void f()$/;"	f	namespace:AUTO
+f	Chapter-07/lambda.cpp	/^    void f(void(*func)(int a)){$/;"	f	namespace:LAMBDA
+f	Chapter-15/aggregate.cpp	/^        float f;$/;"	m	struct:AGGREGATE::X5	file:
+f	Chapter-16/override.cpp	/^        virtual void f() {$/;"	f	class:OVERRIDE::A_Base
+f	Chapter-16/override.cpp	/^        void f(int a){  $/;"	f	class:OVERRIDE::A_Base
+f	Chapter-23/nullptr.cpp	/^    void f(int *)$/;"	f	namespace:NULLPTR
+f	Chapter-23/nullptr.cpp	/^    void f(int)$/;"	f	namespace:NULLPTR
+f	Chapter-27/constexpr.cpp	/^        constexpr virtual int f() const {return 1;}$/;"	f	struct:CONSTEXPR::x_virtual
+f	Chapter-27/constexpr.cpp	/^        float f;$/;"	m	union:CONSTEXPR::Foo	file:
+f	Chapter-34/other_optimize.cpp	/^        float f;$/;"	m	union:OTHER_OPTIMIZE::U2	file:
+f	Chapter-34/other_optimize.cpp	/^    void f(int(&)[1]) {$/;"	f	namespace:OTHER_OPTIMIZE
+f	Chapter-34/other_optimize.cpp	/^    void f(int(&)[]) {$/;"	f	namespace:OTHER_OPTIMIZE
+f	Chapter-36/typename.cpp	/^        T::B &f(){$/;"	f	struct:TYPENAME::L
+f	Chapter-36/typename.cpp	/^    template<class T> void f(typename T::R){}$/;"	f	namespace:TYPENAME
+f	Chapter-40/sfinae.cpp	/^    X<sizeof(foo((T)0))> f(T)$/;"	f	namespace:SFINAE
+f	Chapter-41/concept.cpp	/^        void f(){$/;"	f	struct:CONCEPT::Arg8
+f	basic/other_improve.cpp	/^        float f;$/;"	m	union:EXPLICIT_TYPE::U	file:
+f1	Chapter-07/lambda.cpp	/^    void f1(void(&func)()){$/;"	f	namespace:LAMBDA
+f1	Chapter-16/override.cpp	/^        void f1(){$/;"	f	class:OVERRIDE::A_Base
+f1	Chapter-16/override.cpp	/^        void f1(){$/;"	f	class:OVERRIDE::final
+f2	Chapter-37/template_improve.cpp	/^    template<class T> void f2(T t){$/;"	f	namespace:TEMPLATE_IMPROVE
+f4	Chapter-31/attribute.cpp	/^    inline int f4()$/;"	f	namespace:ATTRIBUTE
+f4	Chapter-37/template_improve.cpp	/^        template<class T> void f4(T) {$/;"	f	namespace:TEMPLATE_IMPROVE::N
+f41	Chapter-31/attribute.cpp	/^    inline int f41()$/;"	f	namespace:ATTRIBUTE
+factorial	Chapter-27/constexpr.cpp	/^    constexpr int factorial(int x)    {return x>0?x*factorial(x-1):1;};$/;"	f	namespace:CONSTEXPR
+fail	Chapter-33/coroutines.cpp	/^    std::future<void> fail(as_coroutine) {$/;"	f	namespace:COROUTINES
+fallthrough_func	Chapter-31/attribute.cpp	/^    void fallthrough_func(int a)$/;"	f	namespace:ATTRIBUTE
+final	Chapter-16/override.cpp	/^    class A_Derive final:public A_Base$/;"	c	namespace:OVERRIDE	file:
+first	Chapter-39/derivation.cpp	/^        T1 first;$/;"	m	struct:DERIVATION::MyPair	file:
+first_	Chapter-42/template_optimize.cpp	/^        T1 first_;$/;"	m	struct:TEMPLATE_OPTIMIZE::pair5	file:
+first_	Chapter-42/template_optimize.cpp	/^        T1 first_;$/;"	m	struct:TEMPLATE_OPTIMIZE::pair51	file:
+foo	Chapter-02/namespace.cpp	/^            void foo() {$/;"	f	namespace:NAMESPACE::S1::Child1
+foo	Chapter-02/namespace.cpp	/^            void foo() {$/;"	f	namespace:NAMESPACE::S2::V1
+foo	Chapter-02/namespace.cpp	/^            void foo() {$/;"	f	namespace:NAMESPACE::S2::V2
+foo	Chapter-02/namespace.cpp	/^        void foo() {$/;"	f	namespace:NAMESPACE::A::B::C
+foo	Chapter-02/namespace.cpp	/^        void foo() {$/;"	f	namespace:NAMESPACE::S1
+foo	Chapter-07/lambda.cpp	/^        void foo(){$/;"	f	class:LAMBDA::T_9
+foo	Chapter-09/initializer_list.cpp	/^    void foo(C c) $/;"	f	namespace:INITIALIZE_LIST
+foo	Chapter-10/construct.cpp	/^    void foo(type_explict t)$/;"	f	namespace:CONSTRUCT
+foo	Chapter-16/override.cpp	/^        virtual void foo(int &x) {$/;"	f	class:OVERRIDE::Derived2
+foo	Chapter-16/override.cpp	/^        virtual void foo(int x) {$/;"	f	class:OVERRIDE::Base2
+foo	Chapter-17/for_loop.cpp	/^    T foo()$/;"	f	namespace:FOR_LOOP
+foo	Chapter-20/struct_bind.cpp	/^    void foo(const C5& other)$/;"	f	namespace:STRUCT_BIND
+foo	Chapter-21/noexcept.cpp	/^        virtual void foo(){$/;"	f	class:NOEXCEPT::Base
+foo	Chapter-35/template_var.cpp	/^    void foo(Args ...args)$/;"	f	namespace:TEMPLATE_VAR
+foo	Chapter-38/template_derive.cpp	/^    void foo(T1 t1, T2 t2)$/;"	f	namespace:TEMPLATE_DERIVE
+foo	Chapter-40/sfinae.cpp	/^    char foo(float)$/;"	f	namespace:SFINAE
+foo	Chapter-40/sfinae.cpp	/^    char foo(int)$/;"	f	namespace:SFINAE
+foo	Chapter-42/template_optimize.hpp	/^        T foo(T t){$/;"	f	class:TEMPLATE_OPTIMIZE::bar
+foo1	Chapter-37/template_improve.cpp	/^    constexpr char foo1() {return 53;}$/;"	f	namespace:TEMPLATE_IMPROVE
+foo11	Chapter-35/template_var.cpp	/^    void foo11(T t, Args ...args)$/;"	f	namespace:TEMPLATE_VAR
+foo12	Chapter-35/template_var.cpp	/^    void foo12()$/;"	f	namespace:TEMPLATE_VAR
+foo2	Chapter-35/template_var.cpp	/^    void foo2(Args ...args)$/;"	f	namespace:TEMPLATE_VAR
+foo2	Chapter-40/sfinae.cpp	/^    T foo2(T& t)$/;"	f	namespace:SFINAE
+foo2	Chapter-40/sfinae.cpp	/^    void foo2(...)$/;"	f	namespace:SFINAE
+foo21	Chapter-35/template_var.cpp	/^    void foo21(Args (*...args)(int, int))$/;"	f	namespace:TEMPLATE_VAR
+foo3	Chapter-35/template_var.cpp	/^    void foo3(Args ...args)$/;"	f	namespace:TEMPLATE_VAR
+foo3	Chapter-40/sfinae.cpp	/^    X3 foo3(Y, Y) {$/;"	f	namespace:SFINAE
+foo4	Chapter-40/sfinae.cpp	/^    template<int I> void foo4(char(*)[I%2 == 0] = 0){$/;"	f	namespace:SFINAE
+foo4	Chapter-40/sfinae.cpp	/^    template<int I> void foo4(char(*)[I%2 == 1] = 0){$/;"	f	namespace:SFINAE
+foo5	Chapter-31/attribute.cpp	/^    void foo5(void) {$/;"	f	namespace:ATTRIBUTE
+foo_inline	Chapter-02/namespace.cpp	/^            void foo_inline() {$/;"	f	namespace:NAMESPACE::S1::Child2
+foo_work6	Chapter-07/lambda.cpp	/^        std::future<int> foo_work6()$/;"	f	namespace:LAMBDA
+foo_work8	Chapter-07/lambda.cpp	/^    std::future<int> foo_work8()$/;"	f	namespace:LAMBDA
+fp	Chapter-21/noexcept.cpp	/^    void (*fp)() = nullptr;$/;"	m	namespace:NOEXCEPT	file:
+func	Chapter-19/static_assert.cpp	/^        virtual void func(){$/;"	f	class:STATIC_ASSERT::VX	file:
+func	Chapter-37/template_improve.cpp	/^        int (*func)(int, int) = func_N;$/;"	m	struct:TEMPLATE_IMPROVE::TFS	file:
+func	Chapter-38/template_derive.cpp	/^        T func;$/;"	m	struct:TEMPLATE_DERIVE::LambdaWarp	file:
+func_6	Chapter-04/decltype.cpp	/^    void func_6()$/;"	f	namespace:DECLTYPE
+func_const	Chapter-27/constexpr.cpp	/^    constexpr int func_const(int x)$/;"	f	namespace:CONSTEXPR
+func_default2	Chapter-37/template_improve.cpp	/^    void func_default2(U u1)$/;"	f	namespace:TEMPLATE_IMPROVE
+funct_1	Chapter-21/noexcept.cpp	/^    void funct_1() {}$/;"	f	namespace:NOEXCEPT
+functh_1	Chapter-21/noexcept.cpp	/^    void functh_1() throw()$/;"	f	namespace:NOEXCEPT
+g4	Chapter-37/template_improve.cpp	/^        template<class T> void g4(T) {$/;"	f	namespace:TEMPLATE_IMPROVE::N
+g4	Chapter-37/template_improve.cpp	/^    void g4()$/;"	f	namespace:TEMPLATE_IMPROVE
+get	Chapter-15/aggregate.cpp	/^        int get() {return count_;}$/;"	f	class:AGGREGATE::Count
+get	Chapter-20/struct_bind.cpp	/^auto& get<0>(BindTest4 &bt) {$/;"	f
+get	Chapter-20/struct_bind.cpp	/^auto& get<1>(BindTest4 &bt) {$/;"	f
+get	Chapter-27/constexpr.cpp	/^        constexpr int get() const{$/;"	f	class:CONSTEXPR::y_const
+get_color	Chapter-14/strong_enum.cpp	/^    const char* get_color(Color c)$/;"	f	class:STRONG_ENUM::E2	file:
+get_color1	Chapter-14/strong_enum.cpp	/^    const char* get_color1(Color c)$/;"	f	class:STRONG_ENUM::E2	file:
+get_x	Chapter-06/reference.cpp	/^    int get_x()$/;"	f	namespace:REFERENCE
+get_x	Chapter-27/constexpr.cpp	/^        constexpr int get_x() const {$/;"	f	class:CONSTEXPR::x_const
+h4	Chapter-37/template_improve.cpp	/^        template<class T> void h4(T) {$/;"	f	namespace:TEMPLATE_IMPROVE::N
+h4	Chapter-37/template_improve.cpp	/^    int h4 = 0;$/;"	m	namespace:TEMPLATE_IMPROVE	file:
+have_optional	Chapter-32/preprocess.cpp	/^        constexpr auto have_optional = true;$/;"	m	namespace:PREPROCESS	file:
+i	Chapter-03/auto.cpp	/^        static const auto i = 9;$/;"	m	struct:AUTO::X	file:
+i	Chapter-15/aggregate.cpp	/^        int i;$/;"	m	struct:AGGREGATE::X5	file:
+i	Chapter-27/constexpr.cpp	/^        int i;$/;"	m	union:CONSTEXPR::Foo	file:
+i	Chapter-31/attribute.cpp	/^        int i;$/;"	m	struct:ATTRIBUTE::x8	file:
+i	Chapter-31/attribute.cpp	/^    class X1 {int i;};$/;"	m	class:ATTRIBUTE::X1	file:
+i	Chapter-34/other_optimize.cpp	/^        int i;$/;"	m	struct:OTHER_OPTIMIZE::C4	file:
+i_	Chapter-10/construct.cpp	/^        int i_;$/;"	m	class:CONSTRUCT::Trivial	file:
+inc	Chapter-25/thread_local.cpp	/^        thread_local static int inc;$/;"	m	class:THREAD_LOCAL::B	file:
+inc	Chapter-25/thread_local.cpp	/^    thread_local int B::inc = 10;$/;"	m	class:THREAD_LOCAL::B	file:
+inc	Chapter-25/thread_local.cpp	/^    thread_local int inc = 1;$/;"	m	namespace:THREAD_LOCAL	file:
+include_path	Makefile	/^include_path = -I"reference\/" -I"modules\/" -I"lambda\/"$/;"	m
+index_	Chapter-15/aggregate.cpp	/^        int index_ = 0;$/;"	m	class:AGGREGATE::MyStringWithIndex	file:
+init_struct	Chapter-37/template_improve.cpp	/^    struct init_struct{$/;"	s	namespace:TEMPLATE_IMPROVE	file:
+is_pool_valid	Chapter-06/reference.cpp	/^        bool is_pool_valid(){$/;"	f	class:REFERENCE::MemoryPool
+is_same_value	Chapter-27/constexpr.cpp	/^    template<class T> bool is_same_value(T a, T b)$/;"	f	namespace:CONSTEXPR
+items	Chapter-17/for_loop.cpp	/^        std::vector<int> &items() {return data_;};$/;"	f	class:FOR_LOOP::T
+j	Chapter-03/auto.cpp	/^        static inline auto j = 42;$/;"	m	struct:AUTO::X	file:
+l_	Chapter-12/delegation.cpp	/^        std::list<int> l_;$/;"	m	class:DELEGATION::X3	file:
+lambda_func	Chapter-37/template_improve.cpp	/^    static constexpr auto lambda_func = [](int a, int b)->int$/;"	m	namespace:TEMPLATE_IMPROVE	file:
+likely_func	Chapter-31/attribute.cpp	/^    int likely_func(int i)$/;"	f	namespace:ATTRIBUTE
+log	Chapter-16/override.cpp	/^        virtual void log(const char *) const {$/;"	f	class:OVERRIDE::Base4
+main	main.cpp	/^int main(int argc, char *argv[])$/;"	f
+make_pool	Chapter-06/reference.cpp	/^    auto make_pool = []()->MemoryPool{$/;"	m	namespace:REFERENCE	file:
+make_widget	Chapter-23/nullptr.cpp	/^    Widget<T> *make_widget(T)$/;"	f	namespace:NULLPTR
+make_x	Chapter-06/reference.cpp	/^    auto make_x = []()->X{ return X();};$/;"	m	namespace:REFERENCE	file:
+make_x	Chapter-34/other_optimize.cpp	/^    X3 make_x()$/;"	f	namespace:OTHER_OPTIMIZE
+make_x	basic/other_improve.cpp	/^    X make_x(){$/;"	f	namespace:RVO_PROCESS
+make_y_const	Chapter-27/constexpr.cpp	/^    constexpr y_const make_y_const(int x)$/;"	f	namespace:CONSTEXPR
+manage	Chapter-14/strong_enum.cpp	/^        manage,$/;"	e	enum:STRONG_ENUM::Company	file:
+may_unused_func	Chapter-31/attribute.cpp	/^    int may_unused_func()$/;"	f	namespace:ATTRIBUTE
+member	Chapter-30/align.cpp	/^    template<class T> struct alignof_tick { char c; T member; };$/;"	m	struct:ALIGN::alignof_tick	file:
+multi	Chapter-27/constexpr.cpp	/^    constexpr int multi(int x)  {return x*x;}$/;"	f	namespace:CONSTEXPR
+n	Chapter-34/other_optimize.cpp	/^        const int n;$/;"	m	struct:OTHER_OPTIMIZE::X2	file:
+n	basic/other_improve.cpp	/^        const int n;$/;"	m	struct:EXPLICIT_TYPE::X	file:
+nodiscard_func	Chapter-31/attribute.cpp	/^    int nodiscard_func()$/;"	f	namespace:ATTRIBUTE
+noexcept	Chapter-21/noexcept.cpp	/^        ~ML() noexcept(false){$/;"	f	struct:NOEXCEPT::ML
+noexcept	Chapter-21/noexcept.cpp	/^    T func1_1(const T& o) noexcept(std::is_fundamental<T>::value)$/;"	f	namespace:NOEXCEPT
+noexcept	Chapter-21/noexcept.cpp	/^    int func_1() noexcept(false)$/;"	f	namespace:NOEXCEPT
+noexcept	Chapter-21/noexcept.cpp	/^    noexcept(noexcept(T(std::move(a))) && noexcept(a.operator=(std::move(b))))$/;"	f	namespace:NOEXCEPT
+noexcept	Chapter-33/coroutines.cpp	/^    noexcept(std::is_nothrow_copy_constructible_v<T>) {$/;"	f	struct:std::coroutine_traits::promise_type
+noexcept	Chapter-33/coroutines.cpp	/^    noexcept(std::is_nothrow_move_constructible_v<T>) {$/;"	f	struct:std::coroutine_traits::promise_type
+not_sad	Chapter-41/concept.cpp	/^    concept not_sad = !sad<T>;$/;"	m	namespace:CONCEPT	file:
+nouniqueaddress	Chapter-31/attribute.cpp	/^    void nouniqueaddress(void)$/;"	f	namespace:ATTRIBUTE
+objects	Makefile	/^objects = main.o 	\\$/;"	m
+operator ()	Chapter-07/lambda.cpp	/^        int operator() ()$/;"	f	class:LAMBDA::Bar
+operator ()	Chapter-38/template_derive.cpp	/^        void operator() (Args&& ... arg)$/;"	f	struct:TEMPLATE_DERIVE::LambdaWarp
+operator <	Chapter-24/spaceship.cpp	/^        bool operator< (const TCompare& b) const{$/;"	f	class:SPACESHIP::TCompare
+operator <<	Chapter-08/initialization.cpp	/^    ostream& operator<<(ostream& os, const X& x)$/;"	f	namespace:INITIALIZATION
+operator <<	Chapter-15/aggregate.cpp	/^    std::ostream& operator<<(std::ostream& os, MyStringWithIndex& s)$/;"	f	namespace:AGGREGATE
+operator <<	Chapter-41/concept.cpp	/^    std::ostream &operator<<(std::ostream& os, X<int>& x)$/;"	f	namespace:CONCEPT
+operator <=>	Chapter-24/spaceship.cpp	/^        std::weak_ordering operator<=>(const weakCompare& b) const{$/;"	f	class:SPACESHIP::weakCompare
+operator =	Chapter-06/reference.cpp	/^        MemoryPool& operator= (const MemoryPool& other){$/;"	f	class:REFERENCE::MemoryPool
+operator =	Chapter-06/reference.cpp	/^        X& operator = (const X&){$/;"	f	class:REFERENCE::X
+operator ==	Chapter-24/spaceship.cpp	/^        bool operator== (const TCompare& b) const{$/;"	f	class:SPACESHIP::TCompare
+operator bool	Chapter-34/other_optimize.cpp	/^        explicit operator bool() const { return !data_.empty(); }$/;"	f	class:OTHER_OPTIMIZE::SomeStorage
+operator bool	basic/other_improve.cpp	/^        explicit operator bool() const {return !data_.empty();}$/;"	f	class:EXPLICIT_TYPE::Storage
+operator delete	Chapter-34/other_optimize.cpp	/^        void operator delete(X7 *ptr, std::destroying_delete_t)$/;"	f	struct:OTHER_OPTIMIZE::X7
+operator delete	basic/other_improve.cpp	/^        void operator delete(void *ptr)$/;"	f	struct:CLASS_IMPROVE::X
+operator new	Chapter-34/other_optimize.cpp	/^        void* operator new(size_t s)$/;"	f	struct:OTHER_OPTIMIZE::X7
+other_improve_process	basic/other_improve.cpp	/^int other_improve_process(void)$/;"	f
+pair5	Chapter-42/template_optimize.cpp	/^        constexpr pair5(U1&& u1, U2&& u2): first_(u1), second_(u2)$/;"	f	struct:TEMPLATE_OPTIMIZE::pair5
+pair5	Chapter-42/template_optimize.cpp	/^    struct pair5$/;"	s	namespace:TEMPLATE_OPTIMIZE	file:
+pair51	Chapter-42/template_optimize.cpp	/^        constexpr pair51(U1&& u1, U2&& u2): first_(u1), second_(u2)$/;"	f	struct:TEMPLATE_OPTIMIZE::pair51
+pair51	Chapter-42/template_optimize.cpp	/^    struct pair51$/;"	s	namespace:TEMPLATE_OPTIMIZE	file:
+perfect_forword	Chapter-06/reference.cpp	/^    void perfect_forword(auto&& t){$/;"	f	namespace:REFERENCE
+pool_	Chapter-06/reference.cpp	/^        char *pool_;$/;"	m	class:REFERENCE::MemoryPool	file:
+principal	Chapter-14/strong_enum.cpp	/^        principal,$/;"	e	enum:STRONG_ENUM::School	file:
+principal	Chapter-14/strong_enum.cpp	/^        principal,$/;"	m	class:STRONG_ENUM::HighSchool	file:
+principal	Chapter-14/strong_enum.cpp	/^        principal,$/;"	m	class:STRONG_ENUM::University	file:
+print	Chapter-07/lambda.cpp	/^        void print()$/;"	f	class:LAMBDA::A
+print	Chapter-09/initializer_list.cpp	/^        void print()$/;"	f	class:INITIALIZE_LIST::C
+print	Chapter-10/construct.cpp	/^        void print()$/;"	f	class:CONSTRUCT::User
+print	Chapter-10/construct.cpp	/^        void print()$/;"	f	struct:CONSTRUCT::type
+print	Chapter-10/construct.cpp	/^        void print()$/;"	f	struct:CONSTRUCT::type_delete
+print	Chapter-10/construct.cpp	/^        void print()$/;"	f	struct:CONSTRUCT::type_explict
+print	Chapter-17/for_loop.cpp	/^    void print(std::map<int, std::string>::const_reference e)$/;"	f	namespace:FOR_LOOP
+print	Chapter-36/typename.cpp	/^        void print(){$/;"	f	struct:TYPENAME::B
+print	Chapter-36/typename.cpp	/^        void print(){$/;"	f	struct:TYPENAME::C
+print	Chapter-37/template_improve.cpp	/^        void print(){$/;"	f	struct:TEMPLATE_IMPROVE::TCS
+print	Chapter-39/derivation.cpp	/^        void print()$/;"	f	struct:DERIVATION::MyPair
+process	basic/other_improve.cpp	/^    void process()$/;"	f	namespace:EXPLICIT_TYPE
+process	basic/other_improve.cpp	/^    void process()$/;"	f	namespace:NEW_INFER
+process	basic/other_improve.cpp	/^    void process()$/;"	f	namespace:RVO_PROCESS
+process	basic/other_improve.cpp	/^    void process(void)$/;"	f	namespace:CLASS_IMPROVE
+promise_type	Chapter-33/coroutines.cpp	/^  struct promise_type : std::promise<T> {$/;"	s	struct:std::coroutine_traits	file:
+promise_type	Chapter-33/coroutines.cpp	/^  struct promise_type : std::promise<void> {$/;"	s	struct:std::coroutine_traits	file:
+red	Chapter-24/spaceship.cpp	/^        red = 10$/;"	e	enum:SPACESHIP::color	file:
+requires	Chapter-41/concept.cpp	/^        S8() requires requires(T t) {t.f();} {$/;"	f	struct:CONCEPT::S8
+requires	Chapter-41/concept.cpp	/^    int foo5(T ) requires (not_sad<T>)$/;"	f	namespace:CONCEPT
+result	Chapter-14/strong_enum.cpp	/^            result = a+b$/;"	e	enum:STRONG_ENUM::add::__anon2	file:
+return_ptr	Chapter-37/template_improve.cpp	/^    constexpr const char* return_ptr() {$/;"	f	namespace:TEMPLATE_IMPROVE
+return_ref_1	Chapter-04/decltype.cpp	/^    decltype(auto) return_ref_1(T& t)$/;"	f	namespace:DECLTYPE
+s1	Chapter-38/template_derive.cpp	/^        S5<T> s1;$/;"	m	struct:TEMPLATE_DERIVE::X5	file:
+sad	Chapter-41/concept.cpp	/^    concept sad = false;$/;"	m	namespace:CONCEPT	file:
+second	Chapter-39/derivation.cpp	/^        T2 second;$/;"	m	struct:DERIVATION::MyPair	file:
+second_	Chapter-42/template_optimize.cpp	/^        T2 second_;$/;"	m	struct:TEMPLATE_OPTIMIZE::pair5	file:
+second_	Chapter-42/template_optimize.cpp	/^        T2 second_;$/;"	m	struct:TEMPLATE_OPTIMIZE::pair51	file:
+set	Chapter-27/constexpr.cpp	/^        constexpr void set(int i){$/;"	f	class:CONSTEXPR::y_const
+set_val	Chapter-06/reference.cpp	/^    void set_val(int val)$/;"	f	namespace:REFERENCE
+show	Chapter-06/reference.cpp	/^        void show()$/;"	f	class:REFERENCE::X
+show	Chapter-12/delegation.cpp	/^        void show()$/;"	f	class:DELEGATION::X1
+show	Chapter-12/delegation.cpp	/^        void show()$/;"	f	class:DELEGATION::X2
+show	Chapter-12/delegation.cpp	/^        void show()$/;"	f	class:DELEGATION::X3
+show	Chapter-13/inherit.cpp	/^        void show() {$/;"	f	class:INHERIT::Base
+show	Chapter-35/template_var.cpp	/^        void show()$/;"	f	class:TEMPLATE_VAR::base7
+show	Chapter-42/template_optimize.cpp	/^        static void show()$/;"	f	class:TEMPLATE_OPTIMIZE::X3
+show	Chapter-42/template_optimize.cpp	/^        static void show()$/;"	f	class:TEMPLATE_OPTIMIZE::Y3
+size_t	Chapter-10/construct.cpp	/^        void* operator new(std::size_t) = delete;$/;"	m	struct:CONSTRUCT::type_delete	file:
+some_func	Chapter-16/override.cpp	/^        virtual void some_func() {$/;"	f	class:OVERRIDE::Base2
+sone_func	Chapter-16/override.cpp	/^        virtual void sone_func() {$/;"	f	class:OVERRIDE::Derived2
+spawn	Chapter-07/lambda.cpp	/^            std::future<int> spawn()$/;"	f	class:LAMBDA::Work
+spawn	Chapter-07/lambda.cpp	/^        std::future<int> spawn()$/;"	f	class:LAMBDA::work_e
+sqr_evel	Chapter-27/constexpr.cpp	/^    consteval int sqr_evel(int n){$/;"	f	namespace:CONSTEXPR
+static_assert_st	Chapter-19/static_assert.cpp	/^    struct static_assert_st<true> {};$/;"	s	namespace:STATIC_ASSERT	file:
+static_str	Chapter-37/template_improve.cpp	/^    static const char static_str[] = {"static"}; \/\/内部链接$/;"	m	namespace:TEMPLATE_IMPROVE	file:
+std	Chapter-20/struct_bind.cpp	/^namespace std$/;"	n	file:
+str	Chapter-11/union.cpp	/^        string str;$/;"	m	union:UNION::U2	file:
+str	Chapter-20/struct_bind.cpp	/^        T2 str;$/;"	m	struct:STRUCT_BIND::BindTest1	file:
+student	Chapter-14/strong_enum.cpp	/^        student = 1,$/;"	m	class:STRONG_ENUM::HighSchool	file:
+student	Chapter-14/strong_enum.cpp	/^        student = 1,$/;"	m	class:STRONG_ENUM::University	file:
+student	Chapter-14/strong_enum.cpp	/^        student$/;"	e	enum:STRONG_ENUM::School	file:
+sub	Chapter-35/template_var.cpp	/^    int sub(int a, int b) {return a-b;}$/;"	f	namespace:TEMPLATE_VAR
+sum	Chapter-03/auto.cpp	/^    auto sum(long a1, long a2)$/;"	f	namespace:AUTO
+sum	Chapter-27/constexpr.cpp	/^    constexpr double sum(double x)$/;"	f	namespace:CONSTEXPR
+sum	Chapter-27/constexpr.cpp	/^    constexpr int sum(int x)    {return x>0?x+sum(x-1):0;};$/;"	f	namespace:CONSTEXPR
+sum4	Chapter-35/template_var.cpp	/^    T sum4(T arg)$/;"	f	namespace:TEMPLATE_VAR
+sum4	Chapter-35/template_var.cpp	/^    auto sum4(T1 arg1, Args ...args)$/;"	f	namespace:TEMPLATE_VAR
+sum5	Chapter-35/template_var.cpp	/^    auto sum5(Args ...args)$/;"	f	namespace:TEMPLATE_VAR
+sum51	Chapter-35/template_var.cpp	/^    auto sum51(Args ...args)$/;"	f	namespace:TEMPLATE_VAR
+sum6	Chapter-35/template_var.cpp	/^    auto sum6(Args ...args)$/;"	f	namespace:TEMPLATE_VAR
+sum_update	Chapter-27/constexpr.cpp	/^    constexpr int sum_update(int x){$/;"	f	namespace:CONSTEXPR
+sumo_2	Chapter-05/postf_return.cpp	/^    decltype(declval<T1>() + declval<T2>()) sumo_2(T1 t1, T2 t2)$/;"	f	namespace:POSTF_RETURN
+sys_mutex	Chapter-25/thread_local.cpp	/^    std::mutex sys_mutex;$/;"	m	namespace:THREAD_LOCAL	file:
+t	Chapter-34/other_optimize.cpp	/^        T t;$/;"	m	struct:OTHER_OPTIMIZE::Wrapper	file:
+t1	Chapter-39/derivation.cpp	/^        T t1; $/;"	m	struct:DERIVATION::Wrap	file:
+t2	Chapter-39/derivation.cpp	/^        T t2;$/;"	m	struct:DERIVATION::Wrap	file:
+t_	Chapter-35/template_var.cpp	/^        T t_;$/;"	m	class:TEMPLATE_VAR::base7	file:
+teacher	Chapter-14/strong_enum.cpp	/^        teacher,$/;"	e	enum:STRONG_ENUM::School	file:
+teacher	Chapter-14/strong_enum.cpp	/^        teacher,$/;"	m	class:STRONG_ENUM::HighSchool	file:
+teacher	Chapter-14/strong_enum.cpp	/^        teacher,$/;"	m	class:STRONG_ENUM::University	file:
+template_concept	template/template_concept.cpp	/^void template_concept(void)$/;"	f
+test	Chapter-07/lambda.cpp	/^        void test()$/;"	f	class:LAMBDA::A
+test	template/template_concept.cpp	/^    void test(void)$/;"	f	namespace:CONCEPT_1
+test_run	Chapter-01/base_type.cpp	/^    void test_run()$/;"	f	namespace:BASE_TYPE
+test_run	Chapter-02/namespace.cpp	/^    void test_run()$/;"	f	class:NAMESPACE::A::B
+test_run	Chapter-03/auto.cpp	/^    void test_run()$/;"	f	namespace:AUTO
+test_run	Chapter-04/decltype.cpp	/^    void test_run()$/;"	f	namespace:DECLTYPE
+test_run	Chapter-05/postf_return.cpp	/^    void test_run()$/;"	f	namespace:POSTF_RETURN
+test_run	Chapter-06/reference.cpp	/^    void test_run()$/;"	f	namespace:REFERENCE
+test_run	Chapter-07/lambda.cpp	/^    void test_run()$/;"	f	namespace:LAMBDA
+test_run	Chapter-08/initialization.cpp	/^    void test_run()$/;"	f	namespace:INITIALIZATION
+test_run	Chapter-09/initializer_list.cpp	/^    void test_run()$/;"	f	namespace:INITIALIZE_LIST
+test_run	Chapter-10/construct.cpp	/^    void test_run()$/;"	f	namespace:CONSTRUCT
+test_run	Chapter-11/union.cpp	/^    void test_run()$/;"	f	namespace:UNION
+test_run	Chapter-12/delegation.cpp	/^    void test_run()$/;"	f	namespace:DELEGATION
+test_run	Chapter-13/inherit.cpp	/^    void test_run()$/;"	f	namespace:INHERIT
+test_run	Chapter-14/strong_enum.cpp	/^    void test_run()$/;"	f	class:STRONG_ENUM::E2	file:
+test_run	Chapter-15/aggregate.cpp	/^    void test_run()$/;"	f	namespace:AGGREGATE
+test_run	Chapter-16/override.cpp	/^    void test_run()$/;"	f	namespace:OVERRIDE
+test_run	Chapter-17/for_loop.cpp	/^    void test_run()$/;"	f	namespace:FOR_LOOP
+test_run	Chapter-18/choose_init.cpp	/^    void test_run()$/;"	f	namespace:CHOOSE_INIT
+test_run	Chapter-19/static_assert.cpp	/^    void test_run()$/;"	f	namespace:STATIC_ASSERT
+test_run	Chapter-20/struct_bind.cpp	/^    void test_run()$/;"	f	namespace:STRUCT_BIND
+test_run	Chapter-21/noexcept.cpp	/^    void test_run()$/;"	f	namespace:NOEXCEPT
+test_run	Chapter-22/template_alias.cpp	/^    void test_run()$/;"	f	namespace:TEMPLATE_ALIAS
+test_run	Chapter-23/nullptr.cpp	/^    void test_run()$/;"	f	namespace:NULLPTR
+test_run	Chapter-24/spaceship.cpp	/^    void test_run()$/;"	f	namespace:SPACESHIP
+test_run	Chapter-25/thread_local.cpp	/^    void test_run()$/;"	f	namespace:THREAD_LOCAL
+test_run	Chapter-26/inline.cpp	/^    void test_run()$/;"	f	namespace:INLINE
+test_run	Chapter-27/constexpr.cpp	/^    void test_run()$/;"	f	namespace:CONSTEXPR
+test_run	Chapter-28/eval_order.cpp	/^    void test_run()$/;"	f	namespace:EVAL_ORDER
+test_run	Chapter-29/literal.cpp	/^    void test_run()$/;"	f	namespace:LITERAL
+test_run	Chapter-30/align.cpp	/^    void test_run()$/;"	f	namespace:ALIGN
+test_run	Chapter-31/attribute.cpp	/^    void test_run()$/;"	f	namespace:ATTRIBUTE
+test_run	Chapter-32/preprocess.cpp	/^    void test_run()$/;"	f	namespace:PREPROCESS
+test_run	Chapter-33/coroutines.cpp	/^    void test_run()$/;"	f	namespace:COROUTINES
+test_run	Chapter-34/other_optimize.cpp	/^    void test_run()$/;"	f	namespace:OTHER_OPTIMIZE
+test_run	Chapter-35/template_var.cpp	/^    void test_run()$/;"	f	namespace:TEMPLATE_VAR
+test_run	Chapter-36/typename.cpp	/^    void test_run()$/;"	f	namespace:TYPENAME
+test_run	Chapter-37/template_improve.cpp	/^    void test_run()$/;"	f	namespace:TEMPLATE_IMPROVE
+test_run	Chapter-38/template_derive.cpp	/^    void test_run()$/;"	f	namespace:TEMPLATE_DERIVE
+test_run	Chapter-39/derivation.cpp	/^    void test_run()$/;"	f	namespace:DERIVATION
+test_run	Chapter-40/sfinae.cpp	/^    void test_run()$/;"	f	namespace:SFINAE
+test_run	Chapter-41/concept.cpp	/^    void test_run()$/;"	f	namespace:CONCEPT
+test_run	Chapter-42/template_optimize.cpp	/^    void test_run()$/;"	f	namespace:TEMPLATE_OPTIMIZE
+text	Chapter-26/inline.cpp	/^        static std::string text;$/;"	m	class:INLINE::X	file:
+tuple_element	Chapter-20/struct_bind.cpp	/^    struct tuple_element<0, BindTest4>{$/;"	s	namespace:std	file:
+tuple_element	Chapter-20/struct_bind.cpp	/^    struct tuple_element<1, BindTest4>{$/;"	s	namespace:std	file:
+tuple_size	Chapter-20/struct_bind.cpp	/^    struct tuple_size<BindTest4> {$/;"	s	namespace:std	file:
+type	Chapter-10/construct.cpp	/^    struct type$/;"	s	namespace:CONSTRUCT	file:
+type_delete	Chapter-10/construct.cpp	/^    struct type_delete$/;"	s	namespace:CONSTRUCT	file:
+type_explict	Chapter-10/construct.cpp	/^        type_explict(long long) {}$/;"	f	struct:CONSTRUCT::type_explict
+type_explict	Chapter-10/construct.cpp	/^    struct type_explict$/;"	s	namespace:CONSTRUCT	file:
+u	Chapter-09/initializer_list.cpp	/^    union u{$/;"	u	namespace:INITIALIZE_LIST	file:
+union_func	Chapter-27/constexpr.cpp	/^    constexpr int union_func()$/;"	f	namespace:CONSTEXPR
+v	Chapter-37/template_improve.cpp	/^        T v;$/;"	m	struct:TEMPLATE_IMPROVE::X2	file:
+v1	Chapter-37/template_improve.cpp	/^    constexpr char v1 = 42;$/;"	m	namespace:TEMPLATE_IMPROVE	file:
+val	Chapter-37/template_improve.cpp	/^        inline static constexpr int val = 6;$/;"	m	struct:TEMPLATE_IMPROVE::init_struct	file:
+val	Chapter-41/concept.cpp	/^        T val;$/;"	m	struct:CONCEPT::A4	file:
+val	Chapter-41/concept.cpp	/^        T val;$/;"	m	struct:CONCEPT::G6	file:
+val	Chapter-41/concept.cpp	/^        T val;$/;"	m	struct:CONCEPT::G61	file:
+val	Chapter-41/concept.cpp	/^        T val;$/;"	m	struct:CONCEPT::S4	file:
+val	Chapter-41/concept.cpp	/^        T val;$/;"	m	struct:CONCEPT::X	file:
+val	Chapter-41/concept.cpp	/^        T val;$/;"	m	struct:CONCEPT::X2	file:
+val	Chapter-41/concept.cpp	/^        T val;$/;"	m	struct:CONCEPT::X3	file:
+val	Chapter-41/concept.cpp	/^        T val;$/;"	m	struct:CONCEPT::Y3	file:
+val	Chapter-41/concept.cpp	/^        T val;$/;"	m	struct:CONCEPT::std::X4	file:
+val	Chapter-41/concept.cpp	/^        T val;$/;"	m	struct:CONCEPT::std::Y2	file:
+value	Chapter-20/struct_bind.cpp	/^        static constexpr size_t value = 2;$/;"	m	struct:std::tuple_size	file:
+value	Chapter-37/template_improve.cpp	/^        int value = N;$/;"	m	struct:TEMPLATE_IMPROVE::X1	file:
+value	Chapter-38/template_derive.cpp	/^        std::size_t value = N;$/;"	m	struct:TEMPLATE_DERIVE::MyCountOf	file:
+value	Chapter-42/template_optimize.cpp	/^        static constexpr T value = static_cast<T>(3.14155926535);$/;"	m	struct:TEMPLATE_OPTIMIZE::PI	file:
+vchar_r	Chapter-37/template_improve.cpp	/^    constexpr auto& vchar_r = v1;$/;"	m	namespace:TEMPLATE_IMPROVE	file:
+vec	Chapter-11/union.cpp	/^        vector<int> vec;$/;"	m	union:UNION::U2	file:
+weakCompare	Chapter-24/spaceship.cpp	/^        weakCompare(int n):a_(n){$/;"	f	class:SPACESHIP::weakCompare
+weakCompare	Chapter-24/spaceship.cpp	/^    class weakCompare$/;"	c	namespace:SPACESHIP	file:
+work_e	Chapter-07/lambda.cpp	/^    class work_e$/;"	c	namespace:LAMBDA	file:
+x	Chapter-04/decltype.cpp	/^        double x;$/;"	m	struct:DECLTYPE::A	file:
+x	Chapter-04/decltype.cpp	/^    int x = 5;$/;"	m	namespace:DECLTYPE	file:
+x	Chapter-07/lambda.cpp	/^        int x;$/;"	m	class:LAMBDA::A	file:
+x	Chapter-09/initializer_list.cpp	/^        int x;$/;"	m	struct:INITIALIZE_LIST::Point	file:
+x	Chapter-11/union.cpp	/^        int x;$/;"	m	union:UNION::U1	file:
+x	Chapter-11/union.cpp	/^        int x;$/;"	m	union:UNION::U2	file:
+x	Chapter-11/union.cpp	/^        static int x;$/;"	m	union:UNION::U3	file:
+x	Chapter-11/union.cpp	/^    int U3::x = 5;$/;"	m	class:UNION::U3	file:
+x	Chapter-27/constexpr.cpp	/^        int x = 1;$/;"	m	struct:CONSTEXPR::x_trivial	file:
+x	Chapter-34/other_optimize.cpp	/^        X2 x;$/;"	m	union:OTHER_OPTIMIZE::U2	file:
+x	Chapter-38/template_derive.cpp	/^        T x;$/;"	m	struct:TEMPLATE_DERIVE::S5	file:
+x	Chapter-38/template_derive.cpp	/^        U x;$/;"	m	struct:TEMPLATE_DERIVE::X5	file:
+x	basic/other_improve.cpp	/^        X x;$/;"	m	union:EXPLICIT_TYPE::U	file:
+x1	Chapter-04/decltype.cpp	/^        int x1;$/;"	m	struct:DECLTYPE::S1	file:
+x1	Chapter-31/attribute.cpp	/^    __attribute__((aligned(16))) X1 x1;$/;"	m	namespace:ATTRIBUTE	file:
+x2	Chapter-04/decltype.cpp	/^        decltype(x1) x2;$/;"	m	struct:DECLTYPE::S1	file:
+x3	Chapter-04/decltype.cpp	/^        double x3;$/;"	m	struct:DECLTYPE::S1	file:
+x4	Chapter-04/decltype.cpp	/^        decltype(x2+x3) x4;$/;"	m	struct:DECLTYPE::S1	file:
+x8	Chapter-31/attribute.cpp	/^    struct x8$/;"	s	namespace:ATTRIBUTE	file:
+x_	Chapter-07/lambda.cpp	/^        int x_;$/;"	m	class:LAMBDA::Bar	file:
+x_	Chapter-27/constexpr.cpp	/^        int x_;$/;"	m	class:CONSTEXPR::x_const	file:
+x_const	Chapter-27/constexpr.cpp	/^        constexpr x_const():x_(5){$/;"	f	class:CONSTEXPR::x_const
+x_const	Chapter-27/constexpr.cpp	/^        constexpr x_const(int i):x_(i){$/;"	f	class:CONSTEXPR::x_const
+x_const	Chapter-27/constexpr.cpp	/^    class x_const$/;"	c	namespace:CONSTEXPR	file:
+x_trivial	Chapter-27/constexpr.cpp	/^    struct x_trivial$/;"	s	namespace:CONSTEXPR	file:
+x_trivial_func	Chapter-27/constexpr.cpp	/^    constexpr int x_trivial_func()$/;"	f	namespace:CONSTEXPR
+x_virtual	Chapter-27/constexpr.cpp	/^    struct x_virtual$/;"	s	namespace:CONSTEXPR	file:
+y	Chapter-08/initialization.cpp	/^        int y:8 = 11;$/;"	m	struct:INITIALIZATION::S	file:
+y	Chapter-09/initializer_list.cpp	/^        int y;$/;"	m	struct:INITIALIZE_LIST::Point	file:
+y	Chapter-11/union.cpp	/^        float y;$/;"	m	union:UNION::U1	file:
+y	Chapter-11/union.cpp	/^        float y;$/;"	m	union:UNION::U2	file:
+y	Chapter-27/constexpr.cpp	/^        int y;$/;"	m	class:CONSTEXPR::y_const	file:
+y	Chapter-38/template_derive.cpp	/^        T y;    \/\/必须由y推导整个类型，S<T>不参与推导$/;"	m	struct:TEMPLATE_DERIVE::X5	file:
+y	Chapter-38/template_derive.cpp	/^        T y;$/;"	m	struct:TEMPLATE_DERIVE::S5	file:
+y_	Chapter-07/lambda.cpp	/^        int y_;$/;"	m	class:LAMBDA::Bar	file:
+y_const	Chapter-27/constexpr.cpp	/^        constexpr y_const():y(1){$/;"	f	class:CONSTEXPR::y_const
+y_const	Chapter-27/constexpr.cpp	/^        constexpr y_const(int i):y(i){$/;"	f	class:CONSTEXPR::y_const
+y_const	Chapter-27/constexpr.cpp	/^    class y_const$/;"	c	namespace:CONSTEXPR	file:
+z	Chapter-08/initialization.cpp	/^        int z:4 = 7;$/;"	m	struct:INITIALIZATION::S	file:
+z_const	Chapter-27/constexpr.cpp	/^    class z_const$/;"	c	namespace:CONSTEXPR	file:
+~M	Chapter-21/noexcept.cpp	/^        ~M(){$/;"	f	struct:NOEXCEPT::M
+~MemoryPool	Chapter-06/reference.cpp	/^        ~MemoryPool(){$/;"	f	class:REFERENCE::MemoryPool
+~U2	Chapter-11/union.cpp	/^        ~U2(){}$/;"	f	union:UNION::U2
+~X	Chapter-06/reference.cpp	/^        ~X(){$/;"	f	class:REFERENCE::X
+~X	basic/other_improve.cpp	/^        ~X() {$/;"	f	struct:CLASS_IMPROVE::X
+~X	basic/other_improve.cpp	/^        ~X() {cout<<"x destory"<<" | ";}$/;"	f	class:RVO_PROCESS::X
+~X3	Chapter-34/other_optimize.cpp	/^        ~X3() {cout<<"x3 dtor"<<" | "; }$/;"	f	class:OTHER_OPTIMIZE::X3
+~X7	Chapter-34/other_optimize.cpp	/^        ~X7() $/;"	f	struct:OTHER_OPTIMIZE::X7

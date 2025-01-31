@@ -9,7 +9,7 @@
 # this place define the compile and flags, CC complie should be g++ and 
 # option could be add in place
 CC = g++
-CFLAGS  += -std=c++14 -lpthread -lm -fconcepts $(gdef)
+CFLAGS  += -std=c++2a -lpthread -lm -fconcepts $(gdef)
 
 # this is the rule how to complie file with type .cpp to middle file .o 
 # then link the object and generate the executables.
@@ -20,7 +20,7 @@ all : $(executables)
 
 $(executables): $(objects)
 	$(CC) -o $(executables) $(objects) $(LIB) $(CFLAGS)
-#rm -f $(objects)
+	rm -f $(objects)
 	$(shell if [ -d $(executables_path) ]; then echo; else mkdir $(executables_path); fi)
 	mv $(executables) $(executables_path)
 tags :
@@ -29,13 +29,12 @@ tags :
 # this is the rule how to clean all the file
 clean:
 	rm -f $(objects)
-	rm -f $(executables_path)/$(executables)
 
 # this tags let the make can execute the executabls.
 # command: make execute option="-h"
-run:
-	@make clean
+ex:
 	@make -j4 gdef=$(gdef)
+	@make clean
 	@echo ---- run complier executables ----
 	@$(executables_path)/$(executables) $(option)
 
