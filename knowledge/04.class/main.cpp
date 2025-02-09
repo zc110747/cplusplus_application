@@ -55,41 +55,56 @@ mutable关键字是一个属性修饰符，它允许类的某个数据成员在�
 接口类是一个只包含纯虚函数的类，它定义了一组操作，而不提供具体的实现。
 
 overwrite关键字
-overwrite是一个标识符，它用于指示某个函数或变量是从基类继承而来的，并且在派生类中被重新定义。
+overwrite是一个标识符，它用于指示某个函数是从基类继承而来的，并且在派生类中被重新定义。
+- 函数需要声明在派生类中
+- 函数需要重写基类中的虚函数(基类中标明为虚函数，否则无法重写)
 
 final关键字
 final是一个关键字，用于指定某个类、虚函数或虚函数的重载不能被继承或重写。
 - 当final用于类时，表示该类不能被继承
-- 当final用于虚函数时，表示该虚函数不能在派生类中被重写
+- 当final用于函数时，表示该虚函数不能在派生类中被重写
 
 类的重写，重载，隐藏
 重写(overwrite)是指在派生类中重新定义基类的虚函数，以改变其行为。
 重载(overload)是指在同一个作用域内定义多个同名函数，它们的参数列表不同。
 隐藏(overhide)是指在派生类中定义一个与基类同名的函数，以改变其行为。
 
-4. 列表初始化
+4.类的参数初始化
 列表初始化是一种在C++中初始化对象的方法，它允许你使用花括号{}来初始化对象的成员。
 列表初始化的语法如下：
 ClassName object = {value1, value2, ...};
 
-非静态数据成员的默认初始化(=, {})
+非静态成员的立即初始化(=, {})
+非静态成员的立即初始化是指在类的定义中为非静态成员变量提供初始值，非静态成员的立即初始化可以在类的定义中使用等号=或者花括号{}来进行初始化。
+另外类也支持在构造函数中进行初始化，会在立即初始化后执行，覆盖相应数据
+
 静态数据成员(非const)的inline初始化
+类的静态数据成员如果是const类型，可以直接立即初始化
+类的静态数据成员如果是非const类型，可以使用inline进行立即初始化
 
 单例模式
 单例模式是一种设计模式，它确保一个类只有一个实例，并提供一个全局访问点来访问该实例。
 
-5. RAII(Resource Acquisition is initialization)
+非静态数据成员的sizeof
+在C++11后，类的非静态数据成员的长度可以使用sizeof运算符来计算。
+
+6. RAII(Resource Acquisition is initialization)
 RAII（Resource Acquisition Is Initialization）是一种C++编程技术，用于管理资源的生命周期。
 RAII的核心思想是将资源的获取和释放与对象的生命周期绑定在一起，确保资源在对象创建时被获取，在对象销毁时被释放。
 RAII的重要应用是智能指针和std::lock_guard，会在后面说明
 
-6. 强枚举类型(enum class)
+7. 其它类相关知识
+强枚举类型(enum class)
 强枚举类型（enum class）是C++11引入的一种新的枚举类型，它提供了更强的类型安全性和更好的封装性
+
+非受限联合体(union)
+任何非引用类型都可以成为联合体的数据成员，这样的联合体即所谓的非受限联合。
 */
 #include <iostream>
 #include <cstdio>
 #include <stdexcept>
 #include <vector>
+#include <map>
 
 using namespace std;
 
@@ -212,7 +227,7 @@ private:
    mutable int val_b_;                  //声明为mutable，可以在const函数内修改
 public:
     using A::A;                         // 继承构造函数
-    B(int a, int b): A(a), val_b_(b) {} // 委托构造函数
+    B(int a, int b): A(a), val_b_(b) {} // 委托构造函数，可以在构造函数中调用其它构造函数(包含基类构造函数)
     void set_a_val(int a) {
         set_value(a);
     }
@@ -310,6 +325,7 @@ void test(void)
 }
 }
 
+// 类的参数初始化
 namespace INITIALIZATION
 {
 class user_initialize
@@ -327,9 +343,11 @@ public:
     }
 
     inline static int val1_ = 1;     //静态数据成员(非const)的inline初始化
-    static const int const_val_ = 2; //静态数据const成员初始化
+    const static  int const_val_ = 2; //静态数据const成员初始化
+
+    int val_ = 0;                     //非静态数据成员的立即初始化(=, {})
 private:
-    std::vector<int> vec_{0};       //非静态数据成员的默认初始化
+    std::vector<int> vec_{0};        //非静态数据成员的默认初始化
 };
 
 class Singleton {
@@ -360,6 +378,11 @@ void test(void)
     }
     cout<<"\n";
 
+    std::map<int, float> m = {{1, 0.1f}, {2, 2.0f}};
+    for (const auto &pair : m) {
+        std::cout << pair.first << ": " << pair.second << std::endl;
+    }
+
     user_initialize val{1, 2, 3};
     val.show();
 
@@ -367,6 +390,9 @@ void test(void)
     cout<<user_initialize::const_val_<<endl;
     
     Singleton::getInstance().show();
+
+    //非静态数据成员的sizeof
+    cout<<"sizeof :"<<sizeof(user_initialize::val_)<<endl;
 }
 }
 
@@ -416,6 +442,22 @@ union ColorUnion {
     Color color;
 };
 
+//联合体T拥有一个非POD的成员s。
+//而string有非平凡的构造函数，因此T的构造函数被删除，其类型的变量t也就无法声明成功。
+//解决这个问题的办法是，由程序员自己为非受限联合体定义构造函数
+union T
+{
+    int i;
+    std::string s;
+public:
+    T() { new (&s) std::string("hello world!");}
+    ~T() { s.~string();}
+
+    void show(void) {
+        cout<<s<<endl;
+    }
+};
+
 void test(void) 
 {
     Color c = Color::Red;
@@ -430,6 +472,9 @@ void test(void)
     if(cu.color == Color::Green) {
         std::cout << "The color is green." << std::endl;
     }
+
+    T t;
+    t.show();
 }
 }
 

@@ -179,6 +179,12 @@ int main(int argc, char **argv)
         printf("sum = %d\n", sum);
     }
 
+    //预定义宏
+    {
+        printf("__STDC__ = %d\n", __STDC__);
+        printf("__DATE__ = %s\n", __DATE__);
+        printf("__TIME__ = %s\n", __TIME__);
+        printf("__FILE__ = %s\n", __FILE__);
+    }
     return 0;
-
 }

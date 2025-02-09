@@ -34,14 +34,18 @@ class和typename都可以用来声明类型模板参数，主要区别如下。
 ADL查找规则，ADL（Argument-Dependent Lookup），也称为Koenig查找，是C++中用于查找函数名称的一种规则。
 ADL的主要目的是在调用函数时，不仅在当前作用域中查找函数定义，还会在函数参数的命名空间中查找
 具体规则如下：
-1. 当前作用域：首先在当前作用域中查找函数名称。
-2. 参数类型的命名空间：如果在当前作用域中没有找到函数名称，则在函数参数的类型所在的命名空间中查找。
-3. 关联命名空间：对于类类型的参数，还会在类的关联命名空间中查找。关联命名空间包括类本身的命名空间，以及类的基类的命名空间。
+- 当前作用域：首先在当前作用域中查找函数名称。
+- 参数类型的命名空间：如果在当前作用域中没有找到函数名称，则在函数参数的类型所在的命名空间中查找。
+- 关联命名空间：对于类类型的参数，还会在类的关联命名空间中查找。关联命名空间包括类本身的命名空间，以及类的基类的命名空间。
 
 用户自定义推导指引（User-Defined Deduction Guides）是C++17引入的一项特性，它允许程序员为类模板的构造函数提供自定义的类型推导规则。
 
-SFINAE（Substitution Failure Is Not An Error）是C++中的一个重要概念，它是模板元编程中的一种技术，
-用于在编译时根据模板参数的类型来选择不同的函数重载或模板特化
+SFINAE（Substitution Failure Is Not An Error）是C++中的一个重要概念，它是模板元编程中的一种技术，用于在编译时根据模板参数的类型来选择不同的函数重载或模板特化.
+C++中，函数模板与同名的非模板函数重载时，应遵循下列调用原则：
+- 寻找一个参数完全匹配的函数，若找到就调用它。若参数完全匹配的函数多于一个，则这个调用是一个错误的调用。
+- 寻找一个函数模板，若找到就将其实例化生成一个匹配的模板函数并调用它。
+- 若上面两条都失败，则使用函数重载的方法，通过类型转换产生参数匹配，若找到就调用它。
+- 若上面三条都失败，还没有找都匹配的函数，则这个调用是一个错误的调用。
 
 外部模板（Explicit Template Instantiation）是C++中的一个特性，它允许程序员在一个编译单元中显式地实例化一个模板，
 而在其他编译单元中使用这个实例化的模板，而不需要再次实例化
@@ -146,7 +150,7 @@ void test(void)
 
 namespace APPLICATION
 {
-// 模板模板参数
+// 模板参数
 template <template <typename, typename> class Container, typename T>
 class Stack {
 private:
@@ -199,8 +203,15 @@ First sum(First first, Rest... rest) {
     return first + sum(rest...);
 }
 
+//默认模板参数
+template<class T, class U = int>
+void f(T t, U u= 0)
+{
+    std::cout<<"t= "<<t<<" u= "<<u<<std::endl;
+}
+
 // 模板特化
-// 通用类模板，默认模板参数
+// 通用类模板
 template <typename T1 = int, typename T2 = int>
 class Pair {
 public:
@@ -263,13 +274,18 @@ void test(void)
     p1.print(); // 使用通用模板
 
     Pair p2(1, 2);
-    p2.print(); // 使用通用模板，默认模板参数
+    p2.print(); // 使用通用模板
 
     Pair<std::string, int> p3("Hello", 42);
     p3.print(); // 使用特化模板
     
     Pair<std::string, std::vector<int>> p4("Numbers", {1, 2, 3, 4, 5});
     p4.print(); // 使用偏特化模板
+
+    //默认模板参数
+    f(1, 2);
+    f(1);
+    f("c", 1);
 }
 }
 
