@@ -15,6 +15,12 @@ constexpr 和 const 的区别
 2. 整个函数的函数体中，除了可以包含 using 指令、typedef 语句以及 static_assert 断言外，只能包含一条 return 返回语句
 3. return 返回的表达式必须是常量表达式
 4. 函数在使用之前，必须有对应的定义语句
+
+编译期条件判断
+编译期条件判断能让程序在编译阶段就依据特定条件来选择执行不同代码，从而提高程序性能与灵活性
+1. if constexpr(C++17)
+2. switch constexpr(C++20)
+3. 模板特化
 */
 #include <iostream>
 #include <type_traits>
@@ -70,6 +76,40 @@ constexpr auto add(T x, T y) -> decltype(x+y)
     return x+y;
 }
 
+//if constexpr 编译期if条件判断
+template <typename T>
+auto get_value(T value) {
+    if constexpr (std::is_integral_v<T>) {
+        return value * 2;
+    } else {
+        return value;
+    }
+}
+
+// //switch constexpr 编译期switch条件判断
+// template <int N>
+// constexpr int get_result() {
+//     switch constexpr (N) {
+//         case 1:
+//             return 10;
+//         case 2:
+//             return 20;
+//         default:
+//             return 0;
+//     }
+// }
+
+//模板特化
+template <typename T>
+struct is_pointer {
+    static constexpr bool value = false;
+};
+
+template <typename T>
+struct is_pointer<T*> {
+    static constexpr bool value = true;
+};
+
 int main(int argc, char *argv[])
 {
     char val0[add_sum<2, 4, 6>()];
@@ -108,5 +148,20 @@ int main(int argc, char *argv[])
     }
     std::cout<<std::endl;
     
+    //编译期条件判断
+    std::cout << "\n===== 编译期条件判断 ===== \n";
+    int int_value = 5;
+    double double_value = 3.14;
+
+    std::cout << get_value(int_value) << std::endl;
+    std::cout << get_value(double_value) << std::endl;
+
+    // std::cout << get_result<1>() << std::endl;
+    // std::cout << get_result<2>() << std::endl;
+    // std::cout << get_result<3>() << std::endl;
+
+    std::cout << std::boolalpha;
+    std::cout << is_pointer<int>::value << std::endl;
+    std::cout << is_pointer<int*>::value << std::endl;
     return 0;
 }

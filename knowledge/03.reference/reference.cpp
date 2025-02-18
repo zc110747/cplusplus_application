@@ -35,7 +35,7 @@ T&&            R&&             R&&
 万能引用（Universal Reference）是C++11中引入的一个概念，它是一种特殊的引用类型，可以绑定到左值或右值。
 万能引用通常用于模板函数中，以实现完美转发（Perfect Forwarding）
 
-完美转发是指在模板函数中，通过 std::forward 函数将参数以原始的左值或右值类型传递给另一个函数，从而保留参数的原始属性。
+完美转发是指在模板函数中，通过std::forward函数将参数以原始的左值或右值类型传递给另一个函数，从而保留参数的原始属性。
 语法: std::forward<T>(t)
 
 std::ref 和 std::cref 是 C++ 标准库中的函数模板，用于创建 std::reference_wrapper 对象，

@@ -1,11 +1,10 @@
-﻿/************************************************************************************
- * std::chrono
- * chrono是一个非常重要的库，它提供了一套时间和日期的处理工具。chrono依赖于系统时钟，修改系统时钟
- * 可能会影响chrono的行为
- * std::chrono::second定义时间
- * std::duration用于保存时间点差值
- * std::duration_cast用于时间转换
-***********************************************************************************/
+﻿/*
+std::chrono
+chrono是一个非常重要的库，它提供了一套时间和日期的处理工具。chrono依赖于系统时钟，修改系统时钟可能会影响chrono的行为
+std::chrono::second定义时间
+std::duration用于保存时间点差值
+std::duration_cast用于时间转换
+*/
 #include <iostream>
 #include <thread>
 #include <unistd.h>

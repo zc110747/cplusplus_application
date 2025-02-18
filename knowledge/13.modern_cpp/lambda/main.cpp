@@ -4,8 +4,7 @@ lambda
 lambda表达式通常用于简化代码，特别是在需要传递函数作为参数的情况下。
 [capture list](parameters) -> return_type {
 // 函数体
-}
- 
+} 
 capture list: 捕获列表，用于捕获外部变量
 [] 无捕获的lambda表达式.
 [=] 值捕获，lambda表达式通过值捕获所有外部变量.
@@ -15,6 +14,15 @@ capture list: 捕获列表，用于捕获外部变量
 [this] 捕获当前类中的this指针.
 [=, &var] 捕获所有外部变量的lambda表达式.
 [&, var] 捕获所有外部变量的lambda表达式，但是var是通过值捕获的.
+
+函数对象
+函数对象是一个类，该类重载了函数调用运算符()。通过重载()运算符，我们可以像调用函数一样调用对象。
+
+std::function
+std::function 是一个功能强大的可调用对象包装器，可以包装任何类型的可调用对象（函数、函数对象、lambda、bind 表达式等）。
+
+std::bind
+std::bind 是 C++ 标准库中的一个函数模板，它位于 <functional> 头文件中。其主要作用是将一个可调用对象（如函数、函数对象、成员函数等）与一组参数绑定，生成一个新的可调用对象。这个新的可调用对象可以在后续的代码中被调用，而不需要再次提供已经绑定的参数。
 */
 #include <vector>
 #include <algorithm>
@@ -45,10 +53,16 @@ public:
     }
 };
 
+void callback_func(int a, std::function<void(int a)> callback) 
+{
+    if (callback) {
+        callback(a);
+    }
+}
+
 void lambda_test(void)
 {
     //泛型lambda
-    std::cout<<"=========================\n\n";
     auto func = [](auto a, auto b) {
         return a+b;
     };
@@ -71,12 +85,29 @@ void lambda_test(void)
     lambdafunc(vec);
 }
 
-void callback_func(int a, std::function<void(int a)> callback) 
+class func_obj
 {
-    if (callback) {
-        callback(a);
+public:
+    func_obj(int x = 0, int y = 0):m_x(x), m_y(y){}
+    void operator()(int a)
+    {
+        cout<<m_x<<" "<<m_y<<" "<<a<<endl;
     }
-}
+private:
+    int m_x;
+    int m_y;
+};
+
+class Hello {
+public:
+    void hello(const std::string& value) {
+        std::cout << "Hello, " << value << "!" << std::endl;
+    }
+};
+
+std::function<int(int, int)> add = [](int a, int b) {
+    return a + b;
+};
 
 int main(int argc, char* argv[])
 {
@@ -126,5 +157,25 @@ int main(int argc, char* argv[])
         cout<<"callback func:"<<a<<endl;
     });
 
+    // 定义函数对象
+    std::cout<<"\n=======function object=======\n";
+    func_obj obj(1, 2);
+    obj(3);
+
+    // std::function
+    std::cout<<"\n=======std::function=======\n";
+    const auto& func1 = add;
+    std::cout<<func1(1, 2)<<std::endl;
+    
+    // 使用std::bind绑定成员函数
+    Hello hello_;
+    std::function<void(const std::string&)> func2 = std::bind(&Hello::hello, hello_, std::placeholders::_1);
+    func2("world");
+    
+    // 使用std::bind绑定成员参数
+    auto addTwo = std::bind(add, 2, std::placeholders::_1);
+
+    int result = addTwo(3);
+    std::cout << "Result: " << result << std::endl;
     return 0;
 } 

@@ -22,12 +22,16 @@ test: 检查指定位是否被设置为1。
 to_string: 将位序列转换为字符串。
 to_ullong: 将位序列转换为无符号长整数。
 to_ulong: 将位序列转换为无符号整数。
+
+std::bitcast
+std::bit_cast 是 C++20 引入的一个函数模板，定义在 <bit> 头文件中，用于在不同类型之间进行位级别的转换。它提供了一种类型安全的方式来重新解释对象的位模式，避免了传统的类型转换（如 reinterpret_cast）可能带来的未定义行为
 */
 #include <bitset>
 #include <iostream>
 #include <algorithm>
 #include <string>
 #include <unistd.h>
+#include <bit>
 
 using std::cout;
 using std::endl;
@@ -94,6 +98,18 @@ int main(int argc, char* argv[])
     auto val = lowbitset.to_ulong();
     std::bitset<8> bitsetval{lowbitset.to_ulong()};
     cout<<"bitset:"<<bitsetval<<endl;
+
+    // bit_cast
+    float f = 3.14f;
+    // 将 float 类型的 f 转换为 uint32_t 类型
+    std::uint32_t u = std::bit_cast<std::uint32_t>(f);
+
+    std::cout << "Float value: " << f << std::endl;
+    std::cout << "Bit-casted uint32_t value: " << u << std::endl;
+
+    // 将 uint32_t 类型的 u 转换回 float 类型
+    float f_back = std::bit_cast<float>(u);
+    std::cout << "Back to float value: " << f_back << std::endl;
 
     return 0;
 } 

@@ -1,7 +1,7 @@
 /*
 扩展的C++语法糖
 
-1. if和switch语句支持初始化
+1. 带初始化的条件语句if, switch
 在C++17中，if和switch语句支持在条件判断之前进行初始化。这是通过在if或switch关键字后面直接添加一个初始化语句来实现的
 
 2. nullptr
@@ -39,7 +39,8 @@ int main(int argc, char* argv[])
 {
     std::vector<int> vecs = {1, 2, 3, 4, 5};
 
-    // if和switch语句支持初始化
+    // 带初始化的条件语句if, switch
+    std::cout<<"\n===== 带初始化的条件语句if, switch ===== \n";
     if (auto it = std::find(vecs.begin(), vecs.end(), 3); it != vecs.end()) {
         std::cout << "Found 3 at position: " << std::distance(vecs.begin(), it) << std::endl;
     } else {
@@ -56,12 +57,14 @@ int main(int argc, char* argv[])
     }
 
     // nullptr
+    std::cout<<"\n===== nullptr ===== \n";
     int* ptr = nullptr;
     if (ptr == nullptr) {
         std::cout << "ptr is null" << std::endl;
     }
 
     // 结构化绑定
+    std::cout<<"\n===== 结构化绑定 ===== \n";
     auto [x, y] = std::make_pair(10, 20);
     std::cout << "x: " << x << ", y: " << y << std::endl;
 
@@ -72,13 +75,14 @@ int main(int argc, char* argv[])
     auto [first, second, third, fourth, fifth] = arr;
     std::cout << "Array: " << first << ", " << second << ", " << third << ", " << fourth << ", " << fifth << std::endl;
 
-    // 扩展的for表达式
+  
     std::map<std::string, int> scores = {
         {"Alice", 90},
         {"Bob", 85},
         {"Charlie", 95}
     };
 
+    // 扩展的for表达式
     for (const auto& [name, score] : scores) {
         std::cout << name << ": " << score << std::endl;
     }

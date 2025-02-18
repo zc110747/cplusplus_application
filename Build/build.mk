@@ -8,7 +8,7 @@
 
 # this place define the compile and flags, CC complie should be g++ and 
 # option could be add in place
-CC = g++
+CC = $(CROSS_COMPILE)g++
 CFLAGS  += -std=c++2a -lpthread -lm -fconcepts $(gdef)
 
 # this is the rule how to complie file with type .cpp to middle file .o 

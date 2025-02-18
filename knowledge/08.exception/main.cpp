@@ -23,6 +23,11 @@ try {
 - noexcept：表示函数不会抛出任何异常。
 - noexcept(expression)：表示函数是否抛出异常取决于expression的值。如果expression为true，则函数不会抛出异常；如果expression为false，则函数可能抛出异常。
 
+异常安全等级
+- 基本异常安全级别：当异常抛出时，程序的状态可能会改变，但不会出现资源泄漏，所有对象依然处于有效状态，不过程序的某些数据可能已被修改。
+- 强异常安全级别：当异常抛出时，程序的状态不会改变，所有对象依然处于有效状态。
+- 无异常安全级别：当异常抛出时，程序的状态可能会改变，所有对象都处于无效状态(noexcept)。
+
 4. 异常类和用户自定义异常类
 - std::exception：所有标准异常类的基类，提供了一个虚函数what()，用于返回异常的描述信息
 - std::bad_alloc：当new操作符无法分配内存时抛出。
@@ -37,6 +42,9 @@ try {
 - std::overflow_error: 当数值溢出时抛出
 - std::underflow_error: 当数值下溢时抛出
 - std::system_error: 当系统错误发生时抛出
+
+5. std::expected
+std::expected 是 C++23 标准库引入的一个模板类，定义在 <expected> 头文件中。它用于表示一个操作可能成功返回一个值，也可能失败并返回一个错误信息，为处理函数可能失败的情况提供了一种更安全、更清晰的方式，替代了传统的错误码或者异常处理机制。
 */
 
 #include <iostream>
@@ -45,6 +53,10 @@ try {
 #include <bitset>
 #include <typeinfo>
 #include <locale>
+
+#if __cplusplus >= 202302L
+#include <expected>
+#endif
 
 void exception_variable()
 {
@@ -233,6 +245,16 @@ void exception_user(void) {
     } 
 }
 
+#if __cplusplus >= 202302L
+// 模拟一个可能失败的函数
+std::expected<int, std::string> divide(int a, int b) {
+    if (b == 0) {
+        return std::unexpected("Division by zero");
+    }
+    return a / b;
+}
+#endif
+
 int main(int argc, char *argv[])
 {
     exception_variable();
@@ -256,5 +278,25 @@ int main(int argc, char *argv[])
     exception_underflow();
 
     exception_user();
+
+    #if __cplusplus >= 202302L
+    {
+        auto result = divide(10, 2);
+        if (result) {
+            std::cout << "Result: " << *result << std::endl;
+        } else {
+            std::cerr << "Error: " << result.error() << std::endl;
+        }
+    
+        auto bad_result = divide(10, 0);
+        if (bad_result) {
+            std::cout << "Result: " << *bad_result << std::endl;
+        } else {
+            std::cerr << "Error: " << bad_result.error() << std::endl;
+        }
+    
+        return 0;
+    }
+    #endif
     return 0;
 }

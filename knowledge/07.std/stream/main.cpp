@@ -1,6 +1,16 @@
 /*
-std::istream 是 C++ 标准库中的一个输入流类，它是所有输入流类的基类，
-包括 std::cin、std::ifstream、std::istringstream 等。std::istream
+输入输出流
+
+std::istream是C++标准库中的输入流类，它是所有输入流类的基类。它提供了一组函数，用于从输入流中读取数据
+std::ostream是C++标准库中的输出流类，它是所有输出流类的基类。它提供了一组函数，用于向输出流中写入数据
+std::ofstream是std::ostream的子类，它用于向文件写入数据
+std::ifstream是std::istream的子类，它用于从文件读取数据
+std::stringstream是std::iostream的一个子类，它用于在内存中读写数据
+std::cin是std::istream的实例，它是标准输入流，用于从标准输入读取数据
+std::cout是std::ostream的实例，它是标准输出流，用于向标准输出写入数据
+std::cerr是std::ostream的实例，它是标准错误输出流，用于向标准错误输出写入数据
+std::clog是std::ostream的实例，它是标准日志输出流，用于向标准日志输出写入数据
+std::ios::sync_with_stdio 设置 std::cin 和 std::cout 的同步状态，以提高输入输出的性能
 */
 #include <iostream>
 #include <istream>
@@ -9,6 +19,7 @@ std::istream 是 C++ 标准库中的一个输入流类，它是所有输入流�
 #include <fstream>
 #include <string>
 #include <vector>
+#include <cstdio>
 
 void istream_test(void)
 {
@@ -126,6 +137,9 @@ int ffstream_test(void)
 
     return 0;
 }
+void log_info(std::ostream& os, const std::string& str) {
+    os << "\"" << str << "\"" << std::endl;
+}
 
 int main(int argc, char* argv[]) 
 {
@@ -134,5 +148,36 @@ int main(int argc, char* argv[])
     sstream_test();
 
     ffstream_test();
+
+    std::cerr << "err test!" << std::endl;
+
+    std::clog << "log test!" << std::endl;
+
+    // 输出ostream
+    log_info(std::cout, "log info");
+
+    // 输出ofstream
+    {
+        std::ofstream outFile("example.txt");
+        log_info(outFile, "log info step-1");
+        log_info(outFile, "log info step-2");
+    }
+
+    // 输出stringstream
+    {
+        std::stringstream ss;
+        log_info(ss, "log info step-1");
+        log_info(ss, "log info step-2");
+        std::cout << ss.str();
+    }
+
+    // sync_with_stdio设置C++和C同步
+    std::ios::sync_with_stdio(true);
+    {
+        for(int i=0; i<3; i++) {
+            printf("c out:%d\n", i);
+            std::cout << "c++ out:" << i << std::endl;
+        }
+    }
     return 0;
 }

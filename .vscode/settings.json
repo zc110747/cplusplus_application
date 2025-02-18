@@ -1,5 +1,6 @@
 {
     "files.associations": {
+        "*.cmd": "shellscript",
         "atomic": "cpp",
         "xtree": "cpp",
         "vector": "cpp",
@@ -84,7 +85,9 @@
         "format": "cpp",
         "semaphore": "cpp",
         "stop_token": "cpp",
-        "regex": "cpp"
+        "regex": "cpp",
+        "shared_mutex": "cpp",
+        "locale": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled",
     "marscode.chatLanguage": "cn"

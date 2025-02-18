@@ -1,2 +1,2 @@
-Hello, World!
-This is a test file.
+"log info step-1"
+"log info step-2"
