@@ -82,7 +82,8 @@ RGBA operator "" _C(const char *col, size_t n) {
     return RGBA(result[0], result[1], result[2]);
 }
 
-int main() {
+int main() 
+{
     // 使用原生字符串字面量
     const char* str = R"(This is a raw string literal.
 It can contain "quotes" and \backslashes without escaping.)";

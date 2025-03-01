@@ -17,6 +17,12 @@
 模板模板参数是一种特殊的模板参数，它允许你在模板中使用另一个模板作为参数。这种参数化的模板可以让你在编写代码时更加灵活，
 因为你可以将模板的行为委托给另一个模板。
 
+模板类型的显示指定和自动推断
+必须显示指定的模板类型
+1. 模板函数调用时，参数无法提供足够信息
+2. 模板类实例化时，类型无法提供足够信息或类型推导存在歧义
+3. 模板类型推导存在歧义时
+
 class和typename都可以用来声明类型模板参数，主要区别如下。
 - 在模板内部，如果一个名称是依赖于模板参数的，并且它是一个类型，那么在使用这个名称时，必须使用typename来告诉编译器这是一个类型
 - 在声明模板模板参数时，必须使用class，而不能使用typename
@@ -59,9 +65,9 @@ C++中，函数模板与同名的非模板函数重载时，应遵循下列调�
 #include <type_traits>
 #include <vector>
 
+// 模板类型基础
 namespace TYPE
 {
-
 // 函数模板，类型模板
 template <typename T>
 T max(T a, T b) {
@@ -148,6 +154,7 @@ void test(void)
 }
 }
 
+// 模板应用
 namespace APPLICATION
 {
 // 模板参数
@@ -192,6 +199,7 @@ void print(Args... args) {
     
     static_cast<void>(dummy); // 避免编译器警告
 }
+
 
 template<typename T>
 T sum(T arg) {
@@ -258,6 +266,33 @@ public:
     }
 };
 
+template<typename T>
+T get_value() {
+    return T();
+}
+
+template<typename T>
+auto add(T a, T b) -> decltype(a + b) {
+    return a + b;
+}
+
+template<typename T>
+class Container {
+public:
+    Container(T val1, T val2) : data1_(val1), data2_(val2) {}
+
+    T getData(int index = 0) const {
+        if (index == 0) {
+            return data1_; 
+        }
+        return data2_;
+    }
+
+private:
+    T data1_;
+    T data2_;
+};
+
 void test(void)
 {
     std::cout<<"=== APPLICATION ===\n";
@@ -265,6 +300,7 @@ void test(void)
     s1.push(1);
     s1.show();
 
+    // 可变参数模板
     print(1, 2, 3, 4, 5);
     print("hello", "world");
 
@@ -286,9 +322,26 @@ void test(void)
     f(1, 2);
     f(1);
     f("c", 1);
+
+    //模板的自动推断和显示指定
+    //模板函数调用时，参数无法提供足够信息，需要指定
+    int value = get_value<int>();
+    std::cout << "Value: " << value << std::endl;
+
+    auto result = add(1, 2);
+    std::cout << "Result: " << result << std::endl;
+    
+    //模板函数类型推导存在歧义
+    result = add<int>(1, 2.5);
+    std::cout << "Result: " << result << std::endl;
+
+    //模板类类型推导存在歧义
+    Container<int> Container(2, 3.2);
+    std::cout << "Data: " << Container.getData() << std::endl;
 }
 }
 
+// 模板规则
 namespace RULE
 {
 // ADL查找规则
@@ -360,6 +413,7 @@ void test(void)
 
 }
 
+// 模板元编程
 namespace MEATPROGRAMING
 {
 // 模板元编程
