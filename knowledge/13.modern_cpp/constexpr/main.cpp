@@ -110,6 +110,17 @@ struct is_pointer<T*> {
     static constexpr bool value = true;
 };
 
+constexpr int fubonacci(int n) {
+    return (n==1)?1:((n==2)?1:fubonacci(n-1)+fubonacci(n-2));
+}
+
+template <long num>
+struct Fibonacci{
+    static const long val = Fibonacci<num-1>::val + Fibonacci<num-2>::val;
+};
+template<> struct Fibonacci<2> {static const long val = 1;};
+template<> struct Fibonacci<1> {static const long val = 1;};
+
 int main(int argc, char *argv[])
 {
     char val0[add_sum<2, 4, 6>()];
@@ -163,5 +174,27 @@ int main(int argc, char *argv[])
     std::cout << std::boolalpha;
     std::cout << is_pointer<int>::value << std::endl;
     std::cout << is_pointer<int*>::value << std::endl;
+
+    int fib[] = {
+        fubonacci(11), fubonacci(12),
+        fubonacci(13), fubonacci(14),
+        fubonacci(15), fubonacci(16)
+    };
+    std::cout<<"fib: ";
+    for (const auto &val : fib) {
+        std::cout<<val<<" ";
+    }
+    std::cout<<std::endl;
+
+    int fib1[] = {
+        Fibonacci<11>::val,  Fibonacci<12>::val,
+        Fibonacci<13>::val,  Fibonacci<14>::val,
+    };
+    std::cout<<"fib1: ";
+    for (const auto &val : fib1) {
+        std::cout<<val<<" ";
+    }
+    std::cout<<std::endl; 
+
     return 0;
 }

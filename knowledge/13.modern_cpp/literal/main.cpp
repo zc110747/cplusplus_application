@@ -16,6 +16,7 @@
 #include <vector>
 #include <cstdint>
 #include <sstream>
+#include <string>
 
 // 自定义字符串类
 class MyString {
@@ -82,6 +83,28 @@ RGBA operator "" _C(const char *col, size_t n) {
     return RGBA(result[0], result[1], result[2]);
 }
 
+struct volt{
+    unsigned int d;
+};
+volt operator "" _v(unsigned long long d) {
+    return {(unsigned int)d};
+}
+
+std::ostream &operator<<(std::ostream &out, volt &vol){
+    return out<<vol.d;
+}
+
+size_t operator "" _len(char const *ch, size_t l)
+{
+    return l;
+}
+
+std::string operator "" _add(const char *ch, size_t l)
+{
+    return "happy " + std::string(ch);
+}
+
+
 int main() 
 {
     // 使用原生字符串字面量
@@ -121,6 +144,19 @@ It can contain "quotes" and \backslashes without escaping.)";
     std::cout << "Large number: " << largeNumber << std::endl;
 
     auto val = "r121 g234 b123"_C;
-    std::cout<<val<<std::endl;
+    std::cout << val;
+
+    /*
+        1.字面量为整型，只接受unsigned long long 或者const char*
+        2.字面量为浮点型数，只接受long double和const char *
+        3.字面量为字符串，只接受const char *
+        4.字面量为字符，只接受一个char 参数
+        5.operator, "",和后缀之间都需要空格
+    */
+    volt power = 5_v;
+    std::cout << power << std::endl;
+    std::cout<< "str size:" << "happy"_len << std::endl;
+    std::cout<< "day"_add << std::endl;
+
     return 0;
 }

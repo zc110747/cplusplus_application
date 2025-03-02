@@ -12,7 +12,7 @@ objects = main.o
 
 # This is the file name of the executables and path where 
 # place the executables
-executables = studyasio
+executables = studyclock
 executables_path = ../../../executables
 
 # Including this file allows access to the Build System.

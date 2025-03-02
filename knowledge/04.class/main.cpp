@@ -105,12 +105,16 @@ RAII的重要应用是智能指针和std::lock_guard，会在后面说明
 
 非受限联合体(union)
 任何非引用类型都可以成为联合体的数据成员，这样的联合体即所谓的非受限联合。
+
+函数局部类
+在C++里，允许在函数内部定义类，这种类被称作局部类。局部类定义在函数作用域内，其作用域也局限于该函数，外部无法直接访问
 */
 #include <iostream>
 #include <cstdio>
 #include <stdexcept>
 #include <vector>
 #include <map>
+#include <algorithm>
 
 using namespace std;
 
@@ -346,6 +350,7 @@ void test(void)
 // 类的参数初始化
 namespace INITIALIZATION
 {
+// 列表初始化
 class user_initialize
 {
 public:
@@ -386,6 +391,46 @@ public:
     }
 };
 
+template<typename T>
+class InitObj{
+public:
+    InitObj() = default;
+    InitObj(std::initializer_list<T> l){
+        for (auto obj: l)
+        {
+            data.push_back(std::move(obj));
+        }
+    }
+
+    InitObj &operator [] (std::initializer_list<int> l){
+        for (auto obj:l) {
+            idx.push_back(obj);
+        }
+        return *this;
+    }
+
+    InitObj &operator = (int value) {
+        if (idx.empty() != true) {
+            for (auto len:idx){
+                data.resize(((unsigned int)len > data.size())? len:data.size());
+                data[len - 1] = value;
+            }
+            idx.clear();
+        }
+        return *this;
+    }
+
+    void show_val(void) {
+        for_each(data.begin(), data.end(), [](T &t){
+                std::cout<<t<<" ";
+        });
+        std::cout<<std::endl;
+    }
+private:
+    std::vector<int> idx;
+    std::vector<T> data;
+};
+
 void test(void)
 {
     std::cout<<"=== INITIALIZATION ===\n";
@@ -401,15 +446,23 @@ void test(void)
         std::cout << pair.first << ": " << pair.second << std::endl;
     }
 
+    // 列表初始化
     user_initialize val{1, 2, 3};
     val.show();
 
     cout<<user_initialize::val1_<<endl;
     cout<<user_initialize::const_val_<<endl;
     
+    InitObj<int> ibj2;
+    ibj2[{1, 2, 5}] = 3;
+    ibj2[{3, 4, 6, 7}] = 1;
+    ibj2.show_val();
+
+    // 单例模式
     Singleton::getInstance().show();
 
     //非静态数据成员的sizeof
+    cout<<"sizeof :"<<sizeof(((user_initialize*)0)->val_)<<endl;
     cout<<"sizeof :"<<sizeof(user_initialize::val_)<<endl;
 }
 }
@@ -476,6 +529,32 @@ public:
     }
 };
 
+template<typename T = char>
+class info_object{
+public:
+    friend T;
+    info_object():name_(__func__){
+        std::cout<<"info_object Init No Parameter!"<<std::endl;
+    }
+    ~info_object(){
+        std::cout<<"Dispose info_object"<<std::endl;
+    }
+    virtual const char *show_parameter(void)
+    {
+        cout<<"name: "<<this->name_<<" ";
+        cout<<"version: "<<this->version_<<" ";
+        cout<<"extra: "<<this->extra_<<endl;
+        return __func__;
+    }
+
+protected:
+    std::string name_;
+
+private:
+    std::string version_{"0.0.1"};
+    int extra_{1};
+};
+
 void test(void) 
 {
     Color c = Color::Red;
@@ -493,6 +572,18 @@ void test(void)
 
     T t;
     t.show();
+
+    // 在C++里，允许在函数内部定义类，这种类被称作局部类
+    class locality:public info_object<locality>{
+    public:
+        using info_object<locality>::info_object;
+        locality() : info_object<locality>(){
+            name_ = __func__;
+        }
+    };
+
+    locality loc;
+    loc.show_parameter();
 }
 }
 

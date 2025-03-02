@@ -85,6 +85,7 @@ void lambda_test(void)
     lambdafunc(vec);
 }
 
+// 仿函数，函数对象
 class func_obj
 {
 public:

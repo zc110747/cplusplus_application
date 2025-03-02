@@ -50,7 +50,10 @@ strlen 返回字符串或者字符串数组的长度，以'\0'截止，不包含
 4.全局/静态存储区，全局变量或者静态的局部变量，C中分为初始化(RW)和未初始化(ZI)区域，C++则占用同一块区域。
 5.常量存储区，定义为只读的数据存储区，一般不允许修改。
 
-c函数
+c++函数
+- 函数声明，函数定义，函数调用
+- 函数的默认参数允许你为函数的一个或多个参数提供默认值
+  - 在C++中，函数的默认参数允许你为函数的一个或多个参数提供默认值。当调用该函数时，如果没有为这些参数提供值，那么将使用默认值
 
 strlen
 说明: 用于统计字符串的长度。
@@ -87,16 +90,27 @@ sprintf
 sscanf
 说明：从字符串中格式化读取数据
 函数原型:  int sscanf ( const char * s, const char * format, ...);
+
+__func__: 获取函数名称
+__VA_ARGS__: 获取可变参数
+__FILE__: 获取文件名称
+__LINE__: 获取行号
+__DATE__: 获取编译日期
 */
 
 #include <iostream>
 #include <cstdio>
+#include <climits>
+#include <stdlib.h>
+#include <stdarg.h>
 
 using namespace std;
 
+void standard_improve(void);
+
 int main(int argc, char **argv)
 {
-    //1. 基础数据类型
+    // 1. 基础数据类型
     {
         char a = '0';
         short b = 1;
@@ -113,7 +127,7 @@ int main(int argc, char **argv)
             sizeof(a), sizeof(b), sizeof(c), sizeof(d), sizeof(e), sizeof(f));
     }
 
-    //2.数组, 指针
+    // 2.数组, 指针
     {
         int a[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
         int b[2][5] = {
@@ -151,7 +165,7 @@ int main(int argc, char **argv)
 
     }
 
-    //3.循环
+    // 3.循环
     {
         int sum = 0;
         int i;
@@ -186,5 +200,69 @@ int main(int argc, char **argv)
         printf("__TIME__ = %s\n", __TIME__);
         printf("__FILE__ = %s\n", __FILE__);
     }
+
+    standard_improve();
     return 0;
+}
+
+struct struct_test
+{
+    struct_test():name_(__func__) {
+    }
+    const char *name_;
+};
+
+#define ToCharArr(x)            #x
+#define PR(...)                 printf(__VA_ARGS__);
+#define LOG(...)                do { \
+    fprintf(stderr, "%s: Line %d:\t", __FILE__, __LINE__);\
+    fprintf(stderr, __VA_ARGS__); \
+    fprintf(stderr, "\n");  \
+}while(0);
+
+// 函数声明
+void printMessage(const std::string& message = "Hello, World!");
+
+// 函数定义
+void printMessage(const std::string& message) {
+    std::cout << message << std::endl;
+}
+
+double SumOfFloat(int cont, ...){
+    va_list ap;
+    double sum = 0;
+    va_start(ap, cont);
+
+    for(int i=0; i<cont; i++)
+        sum += va_arg(ap, double);
+
+    va_end(ap);
+    return sum;
+}
+
+void standard_improve(void)
+{
+    std::cout<<"Standard Clib: "<< __STDC_HOSTED__<<std::endl;
+    std::cout<<"Standard C: "<<__STDC__<<std::endl;
+    
+    // __func__获取函数的名称
+    std::cout<<struct_test().name_<<std::endl;
+
+    // __VA_ARGS__获取可变参数
+    LOG("Hello World!");
+    LOG("%s", "NO ERR!");
+    PR("Hello World!\n");
+
+    // long long int: 64位整型
+    long long int lli = -90000000000LL;
+    unsigned long long int ulli = 9000000000000ULL;
+    cout<<"LLONG_MIN: "<<LLONG_MIN<<endl;    //LLONG_MIN: -9223372036854775808
+    cout<<"LLONG_MAX: "<<LLONG_MAX<<endl;    //LLONG_MAX: 9223372036854775807
+    cout<<"ULLONG_MAX: "<<ULLONG_MAX<<endl;  //ULLONG_MAX: 18446744073709551615
+    cout<<"ULLONG_INT: "<<ulli<<endl;
+
+    printMessage();
+    printMessage("Hello, C++!");
+
+    cout<<SumOfFloat(3, 1.2f, 3.4, 5.6)<<endl;
 }

@@ -387,6 +387,20 @@ print(T value) {
     std::cout << "Value: " << value << std::endl;
 }
 
+struct Test{
+    typedef int foo;
+};
+
+template<typename T>
+void f(T) {
+    std::cout << "T" << std::endl;
+}
+
+template<typename T>
+void f(typename T::foo) {
+    std::cout << "T:foo" << std::endl;
+}
+
 // 备用函数模板，当T不支持operator<<时调用
 template <typename T>
 typename std::enable_if<!has_output_operator<T>::value, void>::type
@@ -400,6 +414,10 @@ void test(void)
     MyNamespace::MyString str("Hello, world!");
     print(str); //使用ADL规则查找print函数
 
+    // SFINAE
+    f<Test>(10);
+    f<int>(10);
+
     Pair p1(1, 2.5);
     p1.show();
 
@@ -410,7 +428,6 @@ void test(void)
     print(std::string("Hello")); // 调用第一个print，因为std::string支持operator<<
     print(std::vector<int>{1, 2, 3}); // 调用第二个print，因为std::vector<int>不支持operator<<
 }
-
 }
 
 // 模板元编程
