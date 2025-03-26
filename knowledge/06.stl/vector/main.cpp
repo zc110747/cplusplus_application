@@ -49,6 +49,10 @@ size        返回向量中的元素数量。
 swap        交换两个向量的元素
 operator[]  返回对指定位置的矢量元素的引用。
 operator=   用另一个向量的副本替换该向量中的元素
+
+总结:
+push_back: 当传入的是对象实例时，它会调用对象的拷贝构造函数或者移动构造函数，把传入的对象复制或者移动到容器里。如果是临时对象，则会调用对象的移动构造函数。
+emplace_back: 它会在容器的末尾直接构造对象，也就是就地构造，不需要进行对象的拷贝或者移动操作，或者直接使用传入的参数调用对象的构造函数，性能更优。
 */
 #include <vector>
 #include <iostream>
@@ -109,6 +113,19 @@ void show_vector(std::vector<T> value, string qlabel, SHOW_MODE_ENUM mode = SHOW
             cout<<value[index]<<" ";
     }
     cout<<endl;
+}
+
+struct MyStruct
+{
+    int a;
+    int b;
+    MyStruct(int a, int b):a(a), b(b){}
+};
+
+std::ostream& operator<<(std::ostream& os, const MyStruct& obj)
+{
+    os << obj.a << " " << obj.b;
+    return os;
 }
 
 int main(int argc, char* argv[])
@@ -179,6 +196,15 @@ int main(int argc, char* argv[])
     cout<<"empalce iterator:"<<*it<<endl;
     uservector.emplace_back(9);
     show_vector(uservector, "emplace_back");
+
+    std::vector<MyStruct> myvector;
+    myvector.emplace_back(MyStruct(1, 2));
+    myvector.emplace_back(3, 4);
+    for (const auto& element : myvector)
+    {
+        std::cout << element << " ";
+    }
+    std::cout << std::endl;
 
     //erase
     auto iter=uservector.begin();

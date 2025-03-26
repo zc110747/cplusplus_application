@@ -8,17 +8,12 @@
 
 # This is object should be build and will link to generate
 # the executables
-# object for compiler
 objects = main.o
-		
-# path for header
-include_path = 
 
 # This is the file name of the executables and path where 
 # place the executables
-executables = ModernCpp
-executables_path = ../executables
-command = $(executables_path)/$(executables)
+executables = studylogger
+executables_path = ./
 
 # Including this file allows access to the Build System.
-include ../build/build.mk
+include ../../../build/build.mk

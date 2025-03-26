@@ -1,4 +1,6 @@
 executables/*
+asio_book/asio/*
 
 *.o
 Src/Modern/tags
+knowledge/14.tools/logger/studylogger

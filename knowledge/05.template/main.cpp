@@ -11,6 +11,7 @@
 模板按照参数分为非类型模板和类型模板。
 - 类型模板是最常见的模板类型，它允许你定义一个通用的类或函数，其中某些类型可以在实例化时指定
 - 非类型模板参数允许你在模板中使用非类型的值，如整数、指针或引用
+  - 引用作为参数需要满足以下条件：必须是const引用，引用对象必须是全局或者静态变量
 
 2. 模板的使用
 
@@ -23,9 +24,16 @@
 2. 模板类实例化时，类型无法提供足够信息或类型推导存在歧义
 3. 模板类型推导存在歧义时
 
-class和typename都可以用来声明类型模板参数，主要区别如下。
+class和typename都可以用来声明类型模板参数。
+- 声明模板参数，两者都可以使用
 - 在模板内部，如果一个名称是依赖于模板参数的，并且它是一个类型，那么在使用这个名称时，必须使用typename来告诉编译器这是一个类型
+template <class T>
+class MyClass {
+    typename T::value_type val;  // 必须使用typename
+};
 - 在声明模板模板参数时，必须使用class，而不能使用typename
+template <template <typename> class Container>  // Container前必须使用class
+class MyClass {};
 
 可变参数模板是一种特殊的模板，它允许你在模板中使用可变数量的参数。
 
@@ -127,6 +135,14 @@ public:
     }  
 };
 
+template <const int &N>
+class ArrayRef {
+public:
+    void print() {
+        std::cout<<"Value: "<<N<<std::endl;
+    }
+};
+
 void test(void)
 {
     std::cout<<"=== TYPE ===\n";
@@ -151,13 +167,17 @@ void test(void)
         std::cout<<arr[i]<<" ";
     }
     std::cout<<std::endl;
+
+    const static int value = 10;
+    ArrayRef<value> arrRef;
+    arrRef.print();             //10
 }
 }
 
 // 模板应用
 namespace APPLICATION
 {
-// 模板参数
+// 模板作为模板的参数，需要使用class指定
 template <template <typename, typename> class Container, typename T>
 class Stack {
 private:

@@ -87,7 +87,8 @@
         "stop_token": "cpp",
         "regex": "cpp",
         "shared_mutex": "cpp",
-        "locale": "cpp"
+        "locale": "cpp",
+        "ranges": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled",
     "marscode.chatLanguage": "cn"

@@ -1,7 +1,7 @@
 ﻿/*
 std::map
 https://www.cplusplus.com/reference/map/map/
-std::map 是 C++ 标准库中的一个关联容器，它存储的元素是键值对（key-value pairs）。每个元素由一个键（key）和一个值（value）组成，键是唯一的，每个键对应一个值。std::map 中的元素按照键的顺序自动排序，默认情况下是按照升序排列。
+std::map 是 C++ 标准库中的一个关联容器，它存储的元素是键值对（key-value pairs）。每个元素由一个键（key）和一个值（value）组成，键是唯一的，每个键对应一个值。std::map 中的元素按照键的顺序自动排序，默认情况下是按照升序排列，支持自定义比较函数进行键值的比较排序。
 
 特性:
 1. 有序性：std::map 中的元素按照键的顺序排列，这使得查找、插入和删除操作的时间复杂度为对数级别（O(log n)）
@@ -98,12 +98,22 @@ void show_map(std::map<T, N> value, string qstring, SHOW_MODE_ENUM mode = SHOW_M
     cout<<endl;
 }
 
+struct CompareByLength {
+    bool operator()(const std::string& a, const std::string& b) const {
+        if (a.length() == b.length())
+        {
+            return a < b;
+        }
+        return a.length() < b.length();
+    }
+};
+
 int main(int argc, char* argv[])
 {
     std::map<string, int> usermap = {
-        {"alpha", 0},
-        {"beta", 0}, 
-        {"gamma", 1},   
+        {"alpha", 4},
+        {"beta", 2}, 
+        {"gamma", 3},   
     };
     auto copymap = usermap;
 
@@ -221,5 +231,18 @@ int main(int argc, char* argv[])
     //swap
     swapmap.swap(usermap);
     show_map(swapmap, "swap");
+
+    // key compare
+    std::map<string, int, CompareByLength> compare_map = {
+        {"alpha1", 3},
+        {"beta2", 4},
+        {"gamma3", 1},
+    };
+    std::cout<<"compare_map: ";
+    for(auto &x:compare_map) {
+        cout<<x.first<<"=>"<<x.second<<" ";
+    }
+    cout<<endl;
+
     return 0;
 } 

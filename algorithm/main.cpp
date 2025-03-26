@@ -1,33 +1,28 @@
 /******************************************************************
 
 ********************************************************************/
-#include "megre.hpp"
-#include "reserved.hpp"
-#include "linelist.hpp"
-#include "SingleList.hpp"
-
-namespace DOUBLE_LIST
-{
-    void test_run();
-}
-
-namespace MAXNUM
-{
-    void run();
-}
+#include "001.megre.hpp"
+#include "002.reserved.hpp"
+#include "003.linelist.hpp"
+#include "004.singlelist.hpp"
+#include "005.doublelist.hpp"
+#include "006.mostgive.hpp"
+#include "007.mediatwo.hpp"
 
 int main(int argc, char *argv[])
 {
-    MEGRE::test_run();
+    ALG_MEGRE::test();
 
-    RESERVED::test_run();
+    ALG_RESERVED::test();
 
-    LINE_LIST::test_run();
+    ALG_LINE_LIST::test();
 
-    SINGLE_LIST::test_run();
+    ALG_SINGAL_LIST::test();
 
-    DOUBLE_LIST::test_run();
+    ALG_DOUBLE_LIST::test();
 
-    MAXNUM::run();
+    ALG_MOSTGIVE::test();
+
+    ALG_MEDIATWO::test();
     return 0;
 }
