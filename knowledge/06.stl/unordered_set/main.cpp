@@ -1,41 +1,21 @@
-﻿/*
-std::unordered_set 是 C++ 标准库中的一个容器，它提供了一种无序的、不允许重复元素的集合。
-
-主要特点：
-1. 无序性：元素在容器中的存储顺序是无序的，即元素的存储位置不依赖于其值。
-2. 不允许重复元素：每个元素在容器中只能出现一次。
-3. 快速查找：由于使用哈希表实现，查找操作非常高效。
-4. 动态内存管理：容器会自动管理内存，根据需要动态分配和释放内存。
-
-成员函数：
-begin：返回指向容器中第一个元素的迭代器。
-bucket：返回给定元素所在的桶的索引。
-bucket_count：返回桶的数量。
-bucket_size：返回给定桶中的元素数量。
-cbegin：返回指向容器中第一个元素的常量迭代器。
-cend：返回指向容器中最后一个元素的下一个位置的常量迭代器。
-clear：清除容器中的所有元素。
-contains(c++20):检查容器是否包含指定元素。
-emplace(c++11):在容器中直接构造元素。
-emplace_hint(c++11):在指定位置构造元素。
-empty：检查容器是否为空。
-end：返回指向容器中最后一个元素的下一个位置的迭代器。
-equal_range：返回一个包含等于给定值的元素范围的迭代器对。
-erase：从容器中删除指定元素或范围内的元素。
-find：查找容器中等于给定值的元素。
-get_allocator：返回用于分配内存的分配器。
-hash_function：返回用于计算哈希值的函数对象。
-insert：向容器中插入元素。
-key_eq：返回用于比较键的函数对象。
-load_factor：返回当前负载因子。
-max_bucket_count：返回最大桶数。
-max_load_factor：返回最大负载因子。
-max_size：返回容器可以容纳的最大元素数量。
-rehash：重新分配桶的数量。
-reserve：为容器预留足够的空间。
-size：返回容器中元素的数量。
-swap：交换两个容器的内容。
-*/
+﻿//////////////////////////////////////////////////////////////////////////////
+//  (c) copyright 2025-by ZC Inc.  
+//  All Rights Reserved
+//
+//  Name:
+//      main.cpp
+//
+//  Purpose:
+//      1. std::unordered_set声明
+//      2. std::unordered_set方法
+//      3. std::unordered_set常用算法配合
+//
+// Author:
+//      @zc
+//
+// Revision History:
+//      Version V1.0b1 Create.
+/////////////////////////////////////////////////////////////////////////////
 #include <unordered_set>
 #include <iostream>
 #include <algorithm>

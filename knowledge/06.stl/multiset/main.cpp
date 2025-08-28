@@ -1,45 +1,21 @@
-﻿/*
-std::multiset std::multiset 是 C++ 标准库中的一个关联容器，它类似于 std::set，但允许存储多个具有相同键的元素
-
-主要特点:
-自动排序：元素在插入时会自动按照排序准则进行排序。
-允许重复元素：与 std::set 不同，std::multiset 允许存储多个具有相同键的元素。
-高效查找：由于元素是有序的，查找操作的时间复杂度为对数级别。
-
-构造函数：
-std::multiset<T>：创建一个空的 std::multiset。
-std::multiset<T>(const std::multiset<T>& other)：创建一个与另一个 std::multiset 相同的 std::multiset。
-std::multiset<T>(std::multiset<T>&& other)：创建一个从另一个 std::multiset 移动的 std::multiset。
-std::multiset<T>(std::initializer_list<T> ilist)：创建一个包含初始值列表中元素的 std::multiset。
-
-成员函数：
-begin: 返回指向容器中第一个元素的迭代器。
-cbegin: 返回指向容器中第一个元素的常量迭代器。
-cend: 返回指向容器中最后一个元素之后位置的常量迭代器。
-clear: 清除容器中的所有元素。
-contains(c++20): 检查容器中是否包含特定元素。
-count: 返回容器中具有特定键的元素数量。
-crbegin: 返回指向容器中第一个元素的常量反向迭代器。
-crend: 返回指向容器中最后一个元素之后位置的常量反向迭代器。
-emplace: 在容器中直接构造元素。
-emplace_hint: 在容器中的指定位置直接构造元素。
-empty: 检查容器是否为空。
-end: 返回指向容器中最后一个元素之后位置的迭代器。
-equal_range: 返回一个范围，其中包含具有特定键的所有元素。
-erase: 从容器中删除一个或多个元素。
-find: 在容器中查找具有特定键的元素。
-get_allocator: 返回用于构造容器的分配器对象的副本。
-insert: 在容器中插入一个或多个元素。
-key_comp: 返回用于比较键的函数对象。
-lower_bound: 返回指向容器中第一个不小于给定键的元素的迭代器。
-max_size: 返回容器可容纳的最大元素数量。
-rbegin: 返回指向容器中第一个元素的反向迭代器。
-rend: 返回指向容器中最后一个元素之后位置的反向迭代器。
-size: 返回容器中的元素数量。
-swap: 交换两个 std::multiset 的内容。
-upper_bound: 返回指向容器中第一个大于给定键的元素的迭代器。
-value_comp: 返回用于比较值的函数对象。
-*/
+﻿//////////////////////////////////////////////////////////////////////////////
+//  (c) copyright 2025-by ZC Inc.  
+//  All Rights Reserved
+//
+//  Name:
+//      main.cpp
+//
+//  Purpose:
+//      1. std::multiset声明
+//      2. std::multiset方法
+//      3. std::multiset常用算法配合
+//
+// Author:
+//      @zc
+//
+// Revision History:
+//      Version V1.0b1 Create.
+/////////////////////////////////////////////////////////////////////////////
 #include <set>
 #include <iostream>
 #include <algorithm>

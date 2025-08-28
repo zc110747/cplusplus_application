@@ -11,6 +11,9 @@
 
 std::string command = "curl 'https://devapi.qweather.com/v7/weather/now?location=101210301&key=***' --compressed";
 
+int func_add(int a, int b) {
+    return a+b;
+}
 int main(int argc, char *argv[])
 {
     std::array<char, 256> buffer;
@@ -24,6 +27,12 @@ int main(int argc, char *argv[])
         result += buffer.data();
     }
     std::cout<<result<<std::endl;
+
+    int a = ({
+        int b = 3;
+        func_add(b, 2);
+    });
+    std::cout<<a<<std::endl;
     return 0;
 }
 

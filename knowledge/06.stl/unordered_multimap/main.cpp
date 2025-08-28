@@ -1,41 +1,21 @@
-﻿/*
-std::unordered_multimap 是 C++ 标准库中的一个关联容器，它允许存储多个具有相同键的键值对。
-
-主要特点：
-1. 无序性：元素在容器中的存储顺序是无序的，即元素的存储位置不依赖于键的顺序。
-2. 快速查找：由于使用哈希表实现，查找操作非常高效。
-3. 键可重复：每个键可以在容器中出现多次。
-4. 动态内存管理：容器会自动管理内存，根据需要动态分配和释放内存。
-
-成员函数：
-begin：返回指向容器中第一个元素的迭代器。
-bucket：返回给定键所在的桶的索引。
-bucket_count：返回容器中桶的数量。
-bucket_size：返回给定桶中的元素数量。
-cbegin：返回指向容器中第一个元素的常量迭代器。
-cend：返回指向容器中最后一个元素的常量迭代器。
-clear：移除容器中的所有元素。
-contains(c++20)：检查容器是否包含具有给定键的元素。
-count：返回容器中具有给定键的元素数量。
-emplace：在容器中直接构造元素。
-emplace_hint：在给定位置构造元素。
-empty：检查容器是否为空。
-end：返回指向容器中最后一个元素的迭代器。
-equal_range：返回一个包含容器中具有给定键的所有元素的迭代器范围。
-erase：移除容器中具有给定键的元素。
-find：查找具有给定键的元素。
-get_allocator：返回用于分配内存的分配器对象。
-hash_function：返回用于计算哈希值的函数对象。
-insert：插入元素到容器中。
-key_eq：返回用于比较键的函数对象。
-load_factor：返回当前容器的负载因子。
-max_bucket_count：返回容器中桶的最大数量。
-max_load_factor：返回容器的最大负载因子。
-max_size：返回容器中可容纳的最大元素数量。
-rehash：重新哈希容器。
-size：返回容器中元素的数量。
-swap：交换两个容器的内容。
-*/
+﻿//////////////////////////////////////////////////////////////////////////////
+//  (c) copyright 2025-by ZC Inc.  
+//  All Rights Reserved
+//
+//  Name:
+//      main.cpp
+//
+//  Purpose:
+//      1. std::unordered_multimap声明
+//      2. std::unordered_multimap方法
+//      3. std::unordered_multimap常用算法配合
+//
+// Author:
+//      @zc
+//
+// Revision History:
+//      Version V1.0b1 Create.
+/////////////////////////////////////////////////////////////////////////////
 #include <unordered_map>
 #include <iostream>
 #include <algorithm>

@@ -1,42 +1,21 @@
-﻿/*
-std::unordered_multiset 是 C++ 标准库中的一个容器，它类似于
-std::unordered_set，但允许存储多个具有相同值的元素
-
-主要特点：
-1. 无序性：元素在容器中的存储顺序是无序的，即元素的存储位置不依赖于其值。
-2. 允许重复元素：与 std::unordered_set 不同，std::unordered_multiset 允许存储多个具有相同值的元素。
-3. 快速查找：由于使用哈希表实现，查找操作的平均时间复杂度为常数时间 O(1)。
-4. 动态内存管理：容器会自动管理内存，根据需要动态分配和释放内存。
-
-成员函数：
-begin: 返回指向容器中第一个元素的迭代器。
-bucket: 返回给定值所在的桶的索引。
-bucket_count: 返回桶的数量。
-bucket_size: 返回给定桶中的元素数量。
-cbegin: 返回指向容器中第一个元素的常量迭代器。
-cend: 返回指向容器中最后一个元素的下一个位置的常量迭代器。
-clear: 移除容器中的所有元素。
-count: 返回容器中具有给定值的元素数量。
-contains: 检查容器中是否存在具有给定值的元素。
-emplace: 在容器中构造并插入一个新元素。
-emplace_hint: 在容器中构造并插入一个新元素，使用给定的提示位置。
-empty: 检查容器是否为空。
-end: 返回指向容器中最后一个元素的下一个位置的迭代器。
-equal_range: 返回一个范围，其中包含具有给定值的所有元素。
-erase: 移除容器中具有给定值的所有元素。
-find: 查找容器中具有给定值的元素。
-get_allocator: 返回用于分配内存的分配器对象。
-hash_function: 返回用于计算哈希值的哈希函数对象。
-insert: 插入元素到容器中。
-key_eq: 返回用于比较键的相等性谓词。
-load_factor: 返回当前的负载因子。
-max_bucket_count: 返回最大桶数。
-max_load_factor: 返回最大负载因子。
-max_size: 返回容器可容纳的最大元素数量。
-rehash: 重新哈希容器，以减少冲突。
-size: 返回容器中的元素数量。
-swap: 交换两个容器的内容。
-*/
+﻿//////////////////////////////////////////////////////////////////////////////
+//  (c) copyright 2025-by ZC Inc.  
+//  All Rights Reserved
+//
+//  Name:
+//      main.cpp
+//
+//  Purpose:
+//      1. std::unordered_multiset声明
+//      2. std::unordered_multiset方法
+//      3. std::unordered_multiset常用算法配合
+//
+// Author:
+//      @zc
+//
+// Revision History:
+//      Version V1.0b1 Create.
+/////////////////////////////////////////////////////////////////////////////
 #include <unordered_set>
 #include <iostream>
 #include <algorithm>

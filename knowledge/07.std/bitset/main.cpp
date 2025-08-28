@@ -1,12 +1,12 @@
 ﻿/*
-std::bitset 是 C++ 标准库中的一个类模板，用于表示固定大小的位序列。
+std::bitset是 C++ 标准库中的一个类模板，用于表示固定大小的位序列。
 它提供了一种方便的方式来处理二进制数据，例如位操作、位计数、位测试等
 
 主要特点：
-1. 固定大小：std::bitset 的大小在编译时确定，因此它适用于需要固定大小的位序列的场景。
-2. 高效操作：std::bitset 提供了高效的位操作，例如位设置、位清除、位翻转、位测试等。
-3. 类型安全：std::bitset 是类型安全的，它确保所有操作都是在位级别上进行的，避免了类型错误。
-4. 易于使用：std::bitset 提供了直观的接口，使得位操作变得简单易懂
+1. 固定大小：std::bitset的大小在编译时确定，因此它适用于需要固定大小的位序列的场景。
+2. 高效操作：std::bitset提供了高效的位操作，例如位设置、位清除、位翻转、位测试等。
+3. 类型安全：std::bitset是类型安全的，它确保所有操作都是在位级别上进行的，避免了类型错误。
+4. 易于使用：std::bitset提供了直观的接口，使得位操作变得简单易懂
 
 成员函数：
 all: 检查所有位是否都设置为1。
@@ -99,10 +99,11 @@ int main(int argc, char* argv[])
     std::bitset<8> bitsetval{lowbitset.to_ulong()};
     cout<<"bitset:"<<bitsetval<<endl;
 
+#if __cplusplus >= 202002L
     // bit_cast
     float f = 3.14f;
     // 将 float 类型的 f 转换为 uint32_t 类型
-    std::uint32_t u = std::bit_cast<std::uint32_t>(f);
+    uint32_t u = std::bit_cast<uint32_t>(f);
 
     std::cout << "Float value: " << f << std::endl;
     std::cout << "Bit-casted uint32_t value: " << u << std::endl;
@@ -110,6 +111,7 @@ int main(int argc, char* argv[])
     // 将 uint32_t 类型的 u 转换回 float 类型
     float f_back = std::bit_cast<float>(u);
     std::cout << "Back to float value: " << f_back << std::endl;
+#endif
 
     return 0;
 } 

@@ -1,11 +1,11 @@
 /*
 const和constexpr
-constexpr 是 C++11 引入的一个关键字，用于声明常量表达式。
+constexpr是C++11 引入的一个关键字，用于声明常量表达式。
 常量表达式是指在编译时就能计算出结果的表达式。
 使用 constexpr 关键字可以让编译器在编译时就对表达式进行求值，从而提高程序的性能
 const 支持运行时和编译期的只读声明
 
-constexpr 和 const 的区别
+constexpr和const 的区别
 1. const可以用于声明运行时和编译时的常量，而constexpr 只能用于声明编译时的常量。
 2. const变量的值可以在运行时改变，而constexpr变量的值必须在编译时确定。
 4. constexpr函数必须满足一定的条件才能被编译器识别为常量表达式函数，而const函数没有这样的限制。
@@ -15,6 +15,13 @@ constexpr 和 const 的区别
 2. 整个函数的函数体中，除了可以包含 using 指令、typedef 语句以及 static_assert 断言外，只能包含一条 return 返回语句
 3. return 返回的表达式必须是常量表达式
 4. 函数在使用之前，必须有对应的定义语句
+
+C++14放宽了对constexpr函数的限制
+1. 允许局部变量和赋值语句
+2. 支持if和switch条件语句
+3. 支持修改对象的非const成员
+
+支持constexpr的编译时lambda表达式
 
 编译期条件判断
 编译期条件判断能让程序在编译阶段就依据特定条件来选择执行不同代码，从而提高程序性能与灵活性
@@ -121,6 +128,38 @@ struct Fibonacci{
 template<> struct Fibonacci<2> {static const long val = 1;};
 template<> struct Fibonacci<1> {static const long val = 1;};
 
+//C++14放宽限制
+// 支持局部变量和赋值语句
+constexpr int sum_nums(int n)
+{
+    int result = 0;
+    for (int i = 1; i <= n; i++) {
+        result += i;
+    }
+    return result;
+}
+
+// 支持if和switch条件语句
+constexpr int absValue(int x) {
+    if (x < 0) {
+        return -x;
+    } else {
+        return x;
+    }
+}
+
+struct Point {
+    int x;
+    int y;
+
+    // C++14 constexpr 成员函数可修改非 const 成员
+    constexpr void move(int dx, int dy) {
+        x += dx;
+        y += dy;
+    }
+};
+
+
 int main(int argc, char *argv[])
 {
     char val0[add_sum<2, 4, 6>()];
@@ -196,5 +235,32 @@ int main(int argc, char *argv[])
     }
     std::cout<<std::endl; 
 
+    auto identity = [](auto x) constexpr { return x; };
+    static_assert(identity(5) == 5, "identity(5) should be 5");
+
+    constexpr auto add = [](int x, int y) {
+        auto x_func = [&] {return x;};
+        auto y_func = [&] {return y;};
+        return x_func() + y_func();
+    };
+    static_assert(add(1, 2) == 3, "add(1, 2) should be 3");
+
+    // 支持局部变量和赋值语句 
+    char values[sum_nums(5)];
+    std::cout << "sum_nums: " <<sizeof(values)<< std::endl;
+
+    // constexpr函数支持if语句
+    char values_1[absValue(-5)];
+    std::cout << "absValue: " <<sizeof(values_1)<< std::endl;
+
+    // 支持修改对象的非const成员
+    constexpr Point p1 = {1, 2};
+    constexpr Point p2 = [p1](){
+        Point temp = p1;
+        temp.move(3, 4);
+        return temp;
+    }();
+    char values_2[p2.x];
+    std::cout << "Point: " <<sizeof(values_2)<< std::endl;
     return 0;
 }

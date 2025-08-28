@@ -20,10 +20,10 @@ ranges 库还引入了一系列新的算法，这些算法可以直接作用于�
 */
 #include <iostream>
 #include <vector>
-#include <ranges>
 #include <algorithm>
 
-using namespace std;
+#if __cplusplus > 202002L
+#include <ranges>
 
 // 模板元编程：计算乘法表的一行
 template<int N>
@@ -54,9 +54,11 @@ template<int N, int... Ns>
 constexpr auto make_multiplication_table(index_sequence<Ns...>) {
     return MultiplicationTable<Ns...>::value();
 }
+#endif
 
 int main(int argc, char* argv[])
 {
+#if __cplusplus > 202002L
     std::vector<int> numbers = {1, 4, 3, 6, 5, 2, 4, 1, 0, 8};
 
     // 使用视图过滤偶数并转换为字符串
@@ -79,5 +81,8 @@ int main(int argc, char* argv[])
     std::ranges::for_each(make_multiplication_table<9>(index_sequence<1, 2, 3, 4, 5, 6, 7, 8, 9>{}), [](const std::string& row) {
         std::cout << row << std::endl;
     });
+#else
+    std::cout << "C++20 or later is required for this example." << std::endl;
+#endif
     return 0;
 }

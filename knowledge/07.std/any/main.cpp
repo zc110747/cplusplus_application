@@ -3,17 +3,17 @@ std::any 是 C++17 标准库中引入的一个类型安全的通用容器，它�
 
 主要特点：
 1. 类型安全：std::any 确保存储的值的类型是已知的，并且在运行时进行类型检查。
-2. 动态类型：std::any 可以存储任何类型的值，包括基本类型、自定义类型、甚至是其他 std::any 对象。
+2. 动态类型：std::any 可以存储任何类型的值，包括基本类型、自定义类型、甚至是其他std::any对象。
 3. 轻量级：std::any 的实现通常是基于类型擦除技术，这使得它在存储和访问值时具有较低的开销。
 
 成员函数:
-emplace: 用给定的参数构造一个新的值，并将其存储在 std::any 中。
-has_value: 检查 std::any 是否包含一个值。
-reset: 清除 std::any 中的值。
-swap: 交换两个 std::any 对象的值。
-type: 返回 std::any 中存储的值的类型。
+emplace: 用给定的参数构造一个新的值，并将其存储在std::any中。
+has_value: 检查std::any是否包含一个值。
+reset: 清除std::any中的值。
+swap: 交换两个std::any对象的值。
+type: 返回std::any中存储的值的类型。
 
-any_cast: 从 std::any 中提取值，并将其转换为指定的类型。
+any_cast: 从std::any中提取值，并将其转换为指定的类型。
 */
 #include <any>
 #include <string>

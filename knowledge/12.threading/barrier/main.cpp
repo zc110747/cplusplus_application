@@ -4,10 +4,13 @@ std::barrier 是C++20引入的同步原语，定义在 <barrier> 头文件，用
 std::latch 是 C++20 引入的同步原语，定义在 <latch> 头文件中，用于多线程同步，可让一组线程等待直到某个事件完成。它的工作模式是一次性的，一旦计数器减到 0，就不能再重置
 */
 #include <iostream>
-#include <barrier>
 #include <thread>
 #include <vector>
+
+#if __cplusplus > 202002L
 #include <latch>
+#include <barrier>
+#endif
 
 // 完成回调函数
 void completion_callback() {
@@ -16,6 +19,7 @@ void completion_callback() {
 
 int main() 
 {
+#if __cplusplus > 202002L
     // std::barrier 示例
     {
         const int num_threads = 3;
@@ -71,5 +75,8 @@ int main()
             t.join();
         }     
     }
+#else
+    std::cout << "当前 C++ 版本不支持 std::barrier 和 std::latch" << std::endl;
+#endif
     return 0;
 }

@@ -1,4 +1,9 @@
 executables/*
+asio_book/asio/*
 
 *.o
-Src/Modern/tags
+target
+
+knowledge/*/build/*
+knowledge/*/*/build/*
+modern_book/build/*

@@ -22,7 +22,9 @@ $(executables): $(objects)
 	$(CC) -o $(executables) $(objects) $(LIB) $(CFLAGS)
 	rm -f $(objects)
 	$(shell if [ -d $(executables_path) ]; then echo; else mkdir $(executables_path); fi)
+ifneq ($(executables_path),./)
 	mv $(executables) $(executables_path)
+endif
 tags :
 	ctags -R *
 

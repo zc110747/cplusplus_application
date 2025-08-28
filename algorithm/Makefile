@@ -9,22 +9,16 @@
 # This is object should be build and will link to generate
 # the executables
 # object for compiler
-objects = main.o 	\
-		[001]megre.o \
-		[002]reserved.o \
-		[003]linelist.o \
-		[004]singlelist.o \
-		[005]doublelist.o \
-		[006]maxnum.o 
+objects = main.o
 		
 # path for header
-include_path = -I"includes/"
+include_path = 
 
 # This is the file name of the executables and path where 
 # place the executables
 executables = ModernCpp
-executables_path = ../../executables
+executables_path = ../executables
 command = $(executables_path)/$(executables)
 
 # Including this file allows access to the Build System.
-include ../../build/build.mk
+include ../build/build.mk

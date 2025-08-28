@@ -1,50 +1,5 @@
 /*
-C++ 异常处理是一种机制，用于在程序运行时处理错误和异常情况。
-它允许程序在遇到错误时抛出异常，并在适当的地方捕获和处理这些异常，从而避免程序崩溃或产生不可预测的行为。
 
-1. 异常的基本语法：
-try {
-    // 可能会抛出异常的代码
-} catch (ExceptionType1& e) {
-    // 处理 ExceptionType1 类型的异常
-} catch (ExceptionType2& e) {
-    // 处理 ExceptionType2 类型的异常
-} catch (...) {
-    // 处理其他类型的异常
-}
-
-2. throw关键字
-在C++中，throw关键字用于抛出异常。throw关键字后面跟着一个表达式，该表达式的值将作为异常对象被抛出。
-异常对象可以是任何类型，但通常是从std::exception类派生的类的实例
-
-3. 异常传递和noexcept关键字
-在C++中，异常传递是指在函数调用链中，异常从抛出点向上传递，直到被捕获并处理的过程
-在C++中，noexcept关键字用于指定一个函数是否可能抛出异常。它是C++11引入的一个特性，用于优化代码和提高程序的健壮性
-- noexcept：表示函数不会抛出任何异常。
-- noexcept(expression)：表示函数是否抛出异常取决于expression的值。如果expression为true，则函数不会抛出异常；如果expression为false，则函数可能抛出异常。
-
-异常安全等级
-- 基本异常安全级别：当异常抛出时，程序的状态可能会改变，但不会出现资源泄漏，所有对象依然处于有效状态，不过程序的某些数据可能已被修改。
-- 强异常安全级别：当异常抛出时，程序的状态不会改变，所有对象依然处于有效状态。
-- 无异常安全级别：当异常抛出时，程序的状态可能会改变，所有对象都处于无效状态(noexcept)。
-
-4. 异常类和用户自定义异常类
-- std::exception：所有标准异常类的基类，提供了一个虚函数what()，用于返回异常的描述信息
-- std::bad_alloc：当new操作符无法分配内存时抛出。
-- std::bad_cast: 当dynamic_cast转换失败时抛出
-- std::bad_typeid: 当typeid操作符无法获取类型信息时抛出
-- std::bad_function_call: 当std::function对象无法调用时抛出
-- std::invalid_argument: 当传递给函数的参数无效时抛出
-- std::out_of_range: 当访问容器或数组时超出范围时抛出
-- std::length_error: 当字符串长度超过允许的最大值时抛出
-- std::logic_error: 当逻辑错误发生时抛出
-- std::runtime_error: 当运行时错误发生时抛出
-- std::overflow_error: 当数值溢出时抛出
-- std::underflow_error: 当数值下溢时抛出
-- std::system_error: 当系统错误发生时抛出
-
-5. std::expected
-std::expected 是 C++23 标准库引入的一个模板类，定义在 <expected> 头文件中。它用于表示一个操作可能成功返回一个值，也可能失败并返回一个错误信息，为处理函数可能失败的情况提供了一种更安全、更清晰的方式，替代了传统的错误码或者异常处理机制。
 */
 
 #include <iostream>

@@ -1,53 +1,30 @@
-/*
-std::array 它提供了固定大小的数组功能
-
-构造函数
-std::array<T, N>()：默认构造函数，创建一个包含 N 个默认初始化元素的数组
-std::array<T, N>(const T& value)：创建一个包含 N 个值为 value 的元素的数组
-std::array<T, N>(std::initializer_list<T> ilist)：使用初始化列表创建数组
-
-成员函数
-at(size_type pos)：返回指定位置的元素的引用，如果越界则抛出 std::out_of_range 异常
-operator[](size_type pos)：返回指定位置的元素的引用，不进行越界检查
-front()：返回第一个元素的引用
-back()：返回最后一个元素的引用
-data()：返回指向数组第一个元素的指针
-empty()：检查数组是否为空，返回 bool 类型
-size()：返回数组中元素的数量
-max_size()：返回数组可以容纳的最大元素数量，通常与 size() 相同
-fill(const T& value)：将数组中的所有元素设置为指定的值
-swap(std::array<T, N>& other)：交换两个数组的内容
-
-迭代器
-begin()：返回指向数组第一个元素的迭代器
-end()：返回指向数组最后一个元素的后一个位置的迭代器
-rbegin()：返回指向数组最后一个元素的反向迭代器
-rend()：返回指向数组第一个元素的前一个位置的反向迭代器
-cbegin()：返回指向数组第一个元素的常量迭代器
-cend()：返回指向数组最后一个元素的后一个位置的常量迭代器
-crbegin()：返回指向数组最后一个元素的常量反向迭代器
-crend()：返回指向数组第一个元素的前一个位置的常量反向迭代器
-*/
+//////////////////////////////////////////////////////////////////////////////
+//  (c) copyright 2023-by ZC Inc.  
+//  All Rights Reserved
+//
+//  Name:
+//      main.cpp
+//
+//  Purpose:
+//      1. std::array声明
+//      2. std::array方法
+//      3. std::array常用算法配合
+//
+// Author:
+//      @zc
+//
+// Revision History:
+//      Version V1.0b1 Create.
+/////////////////////////////////////////////////////////////////////////////
 #include <array>
 #include <iostream>
 #include <algorithm>
 #include <string>
 #include <unistd.h>
+#include <numeric>
 
-using std::string;
-using std::cout;
-using std::endl;
-
-typedef enum
-{
-    SHOW_MODE_ENUM_LAMBDA = 0,
-    SHOW_MODE_ENUM_TYPE_AUTO,
-    SHOW_MODE_ENUM_TYPE_ITERATOR,
-    SHOW_MODE_ENUM_TYPE_OPERATOR
-}SHOW_MODE_ENUM;
-
-template<typename T, size_t N>
-void show_array(std::array<T, N> value, string qstring, SHOW_MODE_ENUM mode=SHOW_MODE_ENUM_LAMBDA)
+template<typename T>
+void show_container(T container_val, std::string qstring)
 {
     //empty, size
     if(!qstring.empty())
@@ -55,91 +32,236 @@ void show_array(std::array<T, N> value, string qstring, SHOW_MODE_ENUM mode=SHOW
         for(auto index=qstring.size(); index<13; index++)
             qstring.push_back(' ');
         qstring += ":";
-        cout<<qstring;
+        std::cout<<qstring;
     }
 
-    //begin, end
-    if(mode == SHOW_MODE_ENUM_LAMBDA)
-    {
-        std::for_each(value.begin(), value.end(), [](const T &ref_value){
-            cout<<ref_value<<" ";
-        });
+    for(const auto &ref : container_val) {
+        std::cout<<ref<<" ";
     }
-    //auto
-    else if(mode == SHOW_MODE_ENUM_TYPE_AUTO)
-    {
-        for(auto &ref : value)
-            cout<<ref<<" ";
+
+    std::cout<<std::endl;
+}
+
+void algorithm_process(void)
+{
+    std::cout<<"==================== algorithm_process ===================="<<std::endl;
+
+    // 查找算法
+    std::cout<<"======= search ======="<<std::endl;
+    std::array<int, 7> vcon_0{2, 3, 3, 5, 7, 7, 1};
+    std::array<int, 2> vcon_1{4, 6};
+    std::cout<<"all_of:"<<std::all_of(vcon_0.begin(), vcon_0.end(), [](const auto &ref_value){
+        return ref_value >= 1;
+    })<<std::endl;
+    std::cout<<"any_of:"<<std::any_of(vcon_0.begin(), vcon_0.end(), [](const auto &ref_value){
+        return ref_value > 5;
+    })<<std::endl;
+
+    auto val = std::find(vcon_0.begin(), vcon_0.end(), 3);
+    if(val != vcon_0.end()) {
+        std::cout<<"find:"<<*val<<std::endl;
     }
-    //iterator
-    else if(mode == SHOW_MODE_ENUM_TYPE_ITERATOR)
-    {
-        for(typename std::array<T, N>::iterator iter=value.begin(); iter!=value.end(); iter++)
-            cout<<*iter<<" ";
+    val = std::find_if(vcon_0.begin(), vcon_0.end(), [](const auto &ref_value){
+        return ref_value > 5;
+    });
+    if(val != vcon_0.end()) {
+        std::cout<<"find_if:"<<*val<<std::endl;
     }
-    //operator[], size
-    else if(mode == SHOW_MODE_ENUM_TYPE_OPERATOR)
-    {
-        for(int index=0; index<value.size(); index++)
-            cout<<value[index]<<" ";
+
+    val = std::search(vcon_0.begin(), vcon_0.end(), std::array<int, 2>{3, 5}.begin(), std::array<int, 2>{3, 5}.end());
+    if(val != vcon_0.end()) {
+        std::cout<<"search:"<<*val<<std::endl;
     }
-    cout<<endl;
+
+    // 排序算法
+    std::cout<<"======= sort ======="<<std::endl;
+    std::cout<<"is sort:"<<std::is_sorted(vcon_0.begin(), vcon_0.end())<<std::endl;
+    
+    val = std::is_sorted_until(vcon_0.begin(), vcon_0.end());
+    if(val != vcon_0.end()) {
+        std::cout<<"is_sorted_until:"<<*val<<std::endl;
+    }
+    std::sort(vcon_0.begin(), vcon_0.end());
+    std::cout<<"is sort:"<<std::is_sorted(vcon_0.begin(), vcon_0.end())<<std::endl;
+
+    std::reverse(vcon_0.begin(), vcon_0.end());
+    show_container(vcon_0, "reverse");
+    std::rotate(vcon_0.begin(), vcon_0.begin()+1, vcon_0.end());
+    show_container(vcon_0, "rotate");
+    std::random_shuffle(vcon_0.begin(), vcon_0.end());
+    show_container(vcon_0, "random_shuffle");
+
+    // 变换算法
+    std::cout<<"======= transform ======="<<std::endl;
+    std::transform(vcon_0.begin(), vcon_0.end(), vcon_0.begin(), [](const auto &ref_value){
+        return ref_value*ref_value;
+    });
+    show_container(vcon_0, "transform");
+
+    std::replace(vcon_0.begin(), vcon_0.end(), 9, 100);
+    show_container(vcon_0, "replace");
+
+    std::replace_if(vcon_0.begin(), vcon_0.end(), [](const auto &ref_value){
+        return ref_value == 100;
+    }, 10);
+    show_container(vcon_0, "replace_if");
+
+    // 计数算法
+    std::cout<<"======= count ======="<<std::endl;
+    std::cout<<"count:"<<std::count(vcon_0.begin(), vcon_0.end(), 9)<<std::endl;
+    std::cout<<"count if:"<<std::count_if(vcon_0.begin(), vcon_0.end(), [](const auto &ref_value){
+        return ref_value > 5;
+    })<<std::endl; //满足元素的个数
+    std::vector<int> destination;
+    std::partial_sum(vcon_0.begin(), vcon_0.end(), std::back_inserter(destination)); //元素累加和
+    show_container(destination, "partial_sum");
+
+    destination.clear();
+    std::adjacent_difference(vcon_0.begin(), vcon_0.end(), std::back_inserter(destination)); //相邻元素的差
+    show_container(destination, "adjacent_difference");
+
+    // 比较算法
+    std::cout<<"======= compare ======="<<std::endl;
+    std::cout<<"equal:"<<std::equal(vcon_0.begin(), vcon_0.end(), destination.begin())<<std::endl;
+    auto val_1 = std::mismatch(vcon_1.begin(), vcon_1.end(), vcon_0.begin());
+    if (val_1.first != vcon_1.end()) {
+        std::cout<<"mismatch:"<<*val_1.first<<" "<<*val_1.second<<std::endl;
+    }
+    auto val_2 = std::mismatch(vcon_0.begin(), vcon_0.end(), vcon_1.begin(), [](const auto &ref_value_0, const auto &ref_value_1){
+        return ref_value_0%2 == ref_value_1%2;
+    });
+    if (val_2.first != vcon_0.end()) {
+        std::cout<<"mismatch:"<<*val_2.first<<" "<<*val_2.second<<std::endl;
+    }
+    
+    // 生成算法
+    std::cout<<"======= generate ======="<<std::endl;
+    std::fill(vcon_0.begin(), vcon_0.end(), 5);
+    show_container(vcon_0, "fill");
+
+    std::generate(vcon_0.begin(), vcon_0.end(), [](){
+        return rand()%100;
+    });
+    show_container(vcon_0, "generate");
+
+    std::array<int, 7> vcon_2;
+    std::fill(vcon_2.begin(), vcon_2.end(), 0);
+    std::copy_if(vcon_0.begin(), vcon_0.end(), vcon_2.begin(), [](const auto &ref_value){
+        return ref_value < 50;
+    });
+    show_container(vcon_2, "copy");
+
+    // 移除算法
+    // std::array是固定长度格式，移除算法不适用
+
+    // 分割算法
+    std::cout<<"======= partition ======="<<std::endl;
+    std::array<int, 7> vcon_3 = {1, 2, 3, 4, 5, 6, 7};
+    std::stable_partition(vcon_3.begin(), vcon_3.end(), [](const auto &ref_value){
+        return ref_value % 2 == 0;
+    });
+    show_container(vcon_3, "stable_partition");
+    std::partition(vcon_3.begin(), vcon_3.end(), [](const auto &ref_value){
+        return ref_value % 2 == 0;
+    });
+    show_container(vcon_3, "partition");
+
+    // 归并算法
+    std::cout<<"======= merge ======="<<std::endl;
+    std::array<int, 3> vcon_4 = {1, 3, 5};
+    std::array<int, 4> vcon_5 = {2, 4, 6, 8};
+    std::array<int, 7> vcon_6;
+    std::merge(vcon_4.begin(), vcon_4.end(), vcon_5.begin(), vcon_5.end(), vcon_6.begin());
+    show_container(vcon_6, "merge");
+    std::fill(vcon_6.begin(), vcon_6.end(), 0);
+    std::set_difference(vcon_4.begin(), vcon_4.end(), vcon_5.begin(), vcon_5.end(), vcon_6.begin());
+    show_container(vcon_6, "set_union");
+
+    // 堆算法
+    // std::greater<>() 执行大于比较操作
+    // std::less<>() 执行小于比较操作
+    // std::less_equal<>() 执行小于等于比较操作
+    // std::greater_equal<>() 执行大于等于比较操作
+    // std::equal_to<>() 执行等于比较操作
+    // std::not_equal_to<>() 执行不等于比较操作
+    std::cout<<"======= heap ======="<<std::endl;
+    std::make_heap(vcon_4.begin(), vcon_4.end());
+    std::push_heap(vcon_4.begin(), vcon_4.end());
+    std::sort_heap(vcon_4.begin(), vcon_4.end(), std::less<>());
+    show_container(vcon_4, "make_heap");
+
+    // 其它算法
+    // std::plus<>() 执行加法操作
+    // std::minus<>() 执行减法操作
+    // std::multiplies<>() 执行乘法操作
+    // std::divides<>() 执行除法操作
+    // std::modulus<>() 执行取模操作
+    // std::negate<>() 执行取反操作
+    std::cout<<"======= other ======="<<std::endl;
+    auto result = std::reduce(vcon_4.begin(), vcon_4.end(), 0, std::plus<>());
+    std::cout<<"reduce:"<<result<<std::endl;
+    result = std::reduce(vcon_4.begin(), vcon_4.end(), 1, std::multiplies<>());
+    std::cout<<"reduce:"<<result<<std::endl;
+    result = std::transform_reduce(vcon_4.begin(), vcon_4.end(), vcon_4.begin(), 0, std::plus<>(), std::multiplies<>());     //先转换后归约
+    std::cout<<"transform_reduce:"<<result<<std::endl;
 }
 
 int main(int argc, char* argv[])
 {
-    std::array<int, 5> u_arr = {1, 2, 3, 4, 5};
+    std::array<int, 5> vcon_0 = {1, 2, 3, 4, 5};
 
-    show_array(u_arr, "u_arr:");
+    show_container(vcon_0, "vcon_0:");
     
     // at
-    u_arr.at(0) = 6;
-    show_array(u_arr, "u_arr:");
+    vcon_0.at(0) = 6;
+    show_container(vcon_0, "vcon_0:");
     
     // begin, end, rbegin, rend, cbegin, cend, crbegin, crend
-    auto itbegin = u_arr.begin();
-    std::array<int, 5>::iterator itend = u_arr.end();
-    std::array<int, 5>::reverse_iterator itrbegin = u_arr.rbegin();
-    std::array<int, 5>::reverse_iterator itrend = u_arr.rend();
-    std::array<int, 5>::const_iterator itconstbegin = u_arr.cbegin();
-    std::array<int, 5>::const_iterator itconstend = u_arr.cend();
-    std::array<int, 5>::const_reverse_iterator itconstrbegin = u_arr.crbegin();
-    std::array<int, 5>::const_reverse_iterator itconstrend = u_arr.crend();
-    cout<<"begin:"<<*itbegin<<" "<<"end:"<<*(itend-1)<<endl;
-    cout<<"rbegin:"<<*itrbegin<<" "<<"rend:"<<*(itrend-1)<<endl;
-    cout<<"cbegin:"<<*itconstbegin<<" "<<"cend:"<<*(itconstend-1)<<endl;
-    cout<<"crbegin:"<<*itconstrbegin<<" "<<"crend:"<<*(itconstrend-1)<<endl;
+    auto itbegin = vcon_0.begin();
+    std::array<int, 5>::iterator itend = vcon_0.end();
+    std::array<int, 5>::reverse_iterator itrbegin = vcon_0.rbegin();
+    std::array<int, 5>::reverse_iterator itrend = vcon_0.rend();
+    std::array<int, 5>::const_iterator itconstbegin = vcon_0.cbegin();
+    std::array<int, 5>::const_iterator itconstend = vcon_0.cend();
+    std::array<int, 5>::const_reverse_iterator itconstrbegin = vcon_0.crbegin();
+    std::array<int, 5>::const_reverse_iterator itconstrend = vcon_0.crend();
+    std::cout<<"begin:"<<*itbegin<<" "<<"end:"<<*(itend-1)<<std::endl;
+    std::cout<<"rbegin:"<<*itrbegin<<" "<<"rend:"<<*(itrend-1)<<std::endl;
+    std::cout<<"cbegin:"<<*itconstbegin<<" "<<"cend:"<<*(itconstend-1)<<std::endl;
+    std::cout<<"crbegin:"<<*itconstrbegin<<" "<<"crend:"<<*(itconstrend-1)<<std::endl;
 
     // operator[]
-    cout<<"operator[]:"<<u_arr[0]<<endl;
+    std::cout<<"operator[]:"<<vcon_0[0]<<std::endl;
 
     // empty，size，max_size
-    cout<<"empty"<<u_arr.empty()<<endl;
-    cout<<"size"<<u_arr.size()<<endl;
-    cout<<"max_size"<<u_arr.max_size()<<endl;
+    std::cout<<"empty"<<vcon_0.empty()<<std::endl;
+    std::cout<<"size"<<vcon_0.size()<<std::endl;
+    std::cout<<"max_size"<<vcon_0.max_size()<<std::endl;
 
     // fill
-    u_arr.fill(10);
-    show_array(u_arr, "fill");
+    vcon_0.fill(10);
+    show_container(vcon_0, "fill");
 
     // data
-    std::array<string, 2> u_str = {"0x01", "0x02"};
-    string *point = u_str.data();
+    std::array<std::string, 2> u_str = {"0x01", "0x02"};
+    std::string *point = u_str.data();
     *(point + 1) = "0x03";
-    show_array(u_str, "u_str");
+    show_container(u_str, "u_str");
 
     // back, front
-    string &front = u_str.front();
+    std::string &front = u_str.front();
     front = "0x2A";
-    show_array(u_str, "front");
-    string &back = u_str.back();
+    show_container(u_str, "front");
+    std::string &back = u_str.back();
     back = "0x15";
-    show_array(u_str, "back");
+    show_container(u_str, "back");
 
     // swap
-    std::array<string, 2> userswapstring;
+    std::array<std::string, 2> userswapstring;
     userswapstring.swap(u_str);
-    show_array(userswapstring, "swap");
+    show_container(userswapstring, "swap");
+
+    algorithm_process();
 
     return 0;
 } 

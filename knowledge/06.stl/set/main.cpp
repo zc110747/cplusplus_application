@@ -1,46 +1,21 @@
-﻿/*
-std::set 是 C++ 标准库中的一个关联容器，它存储唯一的元素，并按照特定的顺序进行排序。
-
-std::set 具有以下特性：
-1. 元素唯一性：std::set 中的每个元素都是唯一的，不允许重复。
-2. 自动排序：元素在插入时会自动按照排序准则进行排序。
-3. 高效查找：由于元素是有序的，查找操作的时间复杂度为对数级别，即 O(log n)
-
-构造函数：
-std::set<T> set; // 创建一个空的 set。
-std::set<T> set(initializer_list<T> list); // 使用初始化列表创建 set。
-std::set<T> set(const std::set<T>& other); // 复制另一个 set。
-std::set<T> set(std::set<T>&& other); // 移动另一个 set。
-
-成员函数：
-
-begin: 返回指向容器中第一个元素的迭代器。
-cbegin: 返回指向容器中第一个元素的常量迭代器。
-cend: 返回指向容器中最后一个元素之后的位置的常量迭代器。
-clear: 清空容器中的所有元素。
-contains(c++20): 检查容器中是否包含指定元素。
-count: 返回容器中等于给定值的元素数量。
-crbegin: 返回指向容器中最后一个元素的常量反向迭代器。
-crend: 返回指向容器中第一个元素之前的位置的常量反向迭代器。
-emplace: 在容器中就地构造元素。
-emplace_hint: 在容器中使用提示位置就地构造元素。
-empty: 检查容器是否为空。
-end: 返回指向容器中最后一个元素之后的位置的迭代器。
-equal_range: 返回一对迭代器，分别表示等于给定值的元素范围。
-erase: 从容器中删除指定元素或范围内的元素。
-find: 在容器中查找等于给定值的元素。
-get_allocator: 获取容器的分配器。
-insert: 将元素插入容器中。
-key_comp: 返回用于比较键的函数对象。
-lower_bound: 返回指向容器中第一个不小于给定值的元素的迭代器。
-max_size: 返回容器可容纳的最大元素数量。
-rbegin: 返回指向容器中最后一个元素的反向迭代器。
-rend: 返回指向容器中第一个元素之前的位置的反向迭代器。
-size: 返回容器中元素的数量。
-swap: 交换两个容器的内容。
-upper_bound: 返回指向容器中第一个大于给定值的元素的迭代器。
-value_comp: 返回用于比较值的函数对象。
-*/
+﻿//////////////////////////////////////////////////////////////////////////////
+//  (c) copyright 2025-by ZC Inc.  
+//  All Rights Reserved
+//
+//  Name:
+//      main.cpp
+//
+//  Purpose:
+//      1. std::set声明
+//      2. std::set方法
+//      3. std::set常用算法配合
+//
+// Author:
+//      @zc
+//
+// Revision History:
+//      Version V1.0b1 Create.
+/////////////////////////////////////////////////////////////////////////////
 #include <set>
 #include <iostream>
 #include <algorithm>

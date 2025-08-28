@@ -1,24 +1,21 @@
-/*
-std::queue 是 C++ 标准库中的一个容器适配器，它提供了一种先进先出（FIFO）的数据结构。
-
-主要特点：
-1. 先进先出：元素按照插入的顺序进行处理，先插入的元素先被取出。
-2. 基于其他容器实现：std::queue 通常基于 std::deque 或 std::list 实现，但也可以使用其他容器。
-3. 高效操作：插入和删除操作的时间复杂度为常数级别，即 O(1)。
-
-构造函数：
-queue();
-explicit queue(const container_type& right);
-
-成员函数：
-back: 返回队列中最后一个元素的引用。
-empty: 如果队列为空，则返回 true，否则返回 false。
-front: 返回队列中第一个元素的引用。
-pop: 移除队列中第一个元素。
-push: 将元素添加到队列的末尾。
-size: 返回队列中元素的数量。
-swap: 交换两个队列的内容。
-*/
+//////////////////////////////////////////////////////////////////////////////
+//  (c) copyright 2025-by ZC Inc.  
+//  All Rights Reserved
+//
+//  Name:
+//      main.cpp
+//
+//  Purpose:
+//      1. std::queue声明
+//      2. std::queue方法
+//      3. std::queue常用算法配合
+//
+// Author:
+//      @zc
+//
+// Revision History:
+//      Version V1.0b1 Create.
+/////////////////////////////////////////////////////////////////////////////
 #include <queue>
 #include <iostream>
 #include <algorithm>

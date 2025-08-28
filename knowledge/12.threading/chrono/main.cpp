@@ -37,7 +37,7 @@ void clock_basic(void)
 
 void clock_convert(void)
 {
-    std::chrono::milliseconds ms(1000);
+    std::chrono::milliseconds ms(3500);
 
     auto sec = std::chrono::duration_cast<std::chrono::seconds>(ms);
     std::cout<<"1000毫秒等于"<<sec.count()<<"秒"<<std::endl;
@@ -50,6 +50,18 @@ void clock_convert(void)
 
     auto nano_sec = std::chrono::duration_cast<std::chrono::nanoseconds>(sec);
     std::cout <<"1秒等于"<<nano_sec.count()<<"纳秒"<<std::endl;
+
+    auto abs_ms = std::chrono::abs(ms);
+    std::cout <<"绝对值1000毫秒等于"<<abs_ms.count()<<"毫秒"<<std::endl;
+
+    auto abs_sec = std::chrono::round<std::chrono::seconds>(ms);
+    std::cout <<"1000毫秒四舍五入等于"<<abs_sec.count()<<"秒"<<std::endl;
+
+    auto abs_sec_ceil = std::chrono::ceil<std::chrono::seconds>(ms);
+    std::cout <<"1000毫秒向上取整等于"<<abs_sec_ceil.count()<<"秒"<<std::endl;
+
+    auto abs_sec_floor = std::chrono::floor<std::chrono::seconds>(ms);
+    std::cout <<"1000毫秒向下取整等于"<<abs_sec_floor.count()<<"秒"<<std::endl;
 }
 
 int main(int argc, char* argv[])
