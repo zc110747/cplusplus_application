@@ -8,6 +8,10 @@
 //  Purpose:
 //      1. std::queue声明
 //      2. std::queue方法
+<<<<<<< HEAD
+=======
+//      3. std::queue常用算法配合
+>>>>>>> 62558f2a9fe27a1dd64315cc3ed8ad9fadd71fcb
 //
 // Author:
 //      @zc

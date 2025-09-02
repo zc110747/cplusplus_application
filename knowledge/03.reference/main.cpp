@@ -148,7 +148,11 @@ namespace MOVE
 
         /// @brief copy constructor
         T(const T &t) {
+<<<<<<< HEAD
             // std::make_unique是c++14引入
+=======
+            //std::make_unique是c++14引入
+>>>>>>> 62558f2a9fe27a1dd64315cc3ed8ad9fadd71fcb
             ptr.reset(new int(*t.ptr));
             cout<<"T copy struct"<<" | ";
         }

@@ -93,7 +93,11 @@ void algorithm_process(void)
     }); //map的键值是const类型,不能直接通过transform修改,创建新的容器
     show_container(vcon_new, "transform");
 
+<<<<<<< HEAD
     // 计数算法
+=======
+    // // 计数算法
+>>>>>>> 62558f2a9fe27a1dd64315cc3ed8ad9fadd71fcb
     std::cout<<"======= count ======="<<std::endl;
     std::cout<<"count:"<<std::count(vcon_0.begin(), vcon_0.end(), std::pair<const int, int>(3, 3))<<std::endl;
     std::cout<<"count if:"<<std::count_if(vcon_0.begin(), vcon_0.end(), [](const auto &ref_value){
@@ -114,12 +118,20 @@ void algorithm_process(void)
         std::cout<<"mismatch:"<<val_2.first->first<<" "<<val_2.second->first<<std::endl;
     }
     
+<<<<<<< HEAD
     // 生成算法
+=======
+    // // 生成算法
+>>>>>>> 62558f2a9fe27a1dd64315cc3ed8ad9fadd71fcb
     std::multimap<int, int> vcon_2;
     std::copy_if(vcon_0.begin(), vcon_0.end(), std::inserter(vcon_2, vcon_2.begin()), [](const auto &ref_value){
         return ref_value.first < 10;
     });
+<<<<<<< HEAD
     show_container(vcon_2, "copy_if");
+=======
+    show_container(vcon_2, "copy");
+>>>>>>> 62558f2a9fe27a1dd64315cc3ed8ad9fadd71fcb
 
     // 移除算法
 
