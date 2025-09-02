@@ -98,7 +98,6 @@ public:
     };
 
     /// copy constructor
-<<<<<<< HEAD
     demo(const demo& other) {
         protected_var_ = other.protected_var_;
         private_var_ = other.private_var_;
@@ -111,9 +110,6 @@ public:
         private_var_ = other.private_var_;
         cout<<"demo move constructor"<<endl;    
     };
-=======
-    demo(const demo& other) {};
->>>>>>> 62558f2a9fe27a1dd64315cc3ed8ad9fadd71fcb
 
     /// copy assignment operator
     demo& operator=(const demo& other) {
@@ -128,12 +124,6 @@ public:
         private_var_ = other.private_var_;
         return *this;
     };
-<<<<<<< HEAD
-=======
-    
-    /// move constructor
-    demo(demo&& other) {};
->>>>>>> 62558f2a9fe27a1dd64315cc3ed8ad9fadd71fcb
 
     /// destructor
     ~demo() {};

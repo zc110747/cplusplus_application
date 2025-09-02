@@ -2,7 +2,6 @@
 
 C++ 异常处理是一种机制，用于在程序运行时处理错误和异常情况。它允许程序在遇到错误时抛出异常，并在适当的地方捕获和处理这些异常，从而避免程序崩溃或产生不可预测的行为。
 
-<<<<<<< HEAD
 - [异常处理基本语法](#except_grammer)
 - [throw关键字](#throw)
 - [异常传递](#except_pass)
@@ -11,9 +10,6 @@ C++ 异常处理是一种机制，用于在程序运行时处理错误和异常�
 - [std::expected(c++20)](#expected)
 
 ## except_grammer
-=======
-## basic_grammer
->>>>>>> 62558f2a9fe27a1dd64315cc3ed8ad9fadd71fcb
 
 异常的基本语法如下。
 
@@ -125,11 +121,7 @@ int main(int argc, char* argv[])
 }
 ```
 
-<<<<<<< HEAD
 ## execpt_class
-=======
-## expecetion_class
->>>>>>> 62558f2a9fe27a1dd64315cc3ed8ad9fadd71fcb
 
 1. std::exception：所有标准异常类的基类，提供了一个虚函数what()，用于返回异常的描述信息
 2. std::bad_alloc：当new操作符无法分配内存时抛出。
@@ -165,7 +157,6 @@ int main(int argc, char* argv[])
 }
 ```
 
-<<<<<<< HEAD
 ## user_define_except
 
 用户自定义异常类，需要继承自std::exception类，并重写what()方法。
@@ -199,11 +190,6 @@ int main(int argc, char* argv[])
 ## expected
 
 std::expected是 C++23 标准库引入的一个模板类，定义在 <expected> 头文件中。它用于表示一个操作可能成功返回一个值，也可能失败并返回一个错误信息，为处理函数可能失败的情况提供了一种更安全、更清晰的方式，替代了传统的错误码或者异常处理机制。
-=======
-## expected
-
-std::expected 是 C++23 标准库引入的一个模板类，定义在 <expected> 头文件中。它用于表示一个操作可能成功返回一个值，也可能失败并返回一个错误信息，为处理函数可能失败的情况提供了一种更安全、更清晰的方式，替代了传统的错误码或者异常处理机制。
->>>>>>> 62558f2a9fe27a1dd64315cc3ed8ad9fadd71fcb
 
 ```cpp
 //-std=c++23

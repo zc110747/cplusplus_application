@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 executables/*
 asio_book/asio/*
 
@@ -8,14 +7,3 @@ target
 knowledge/*/build/*
 knowledge/*/*/build/*
 modern_book/build/*
-=======
-executables/*
-asio_book/asio/*
-
-*.o
-target
-
-knowledge/*/build/*
-knowledge/*/*/build/*
-modern_book/build/*
->>>>>>> 62558f2a9fe27a1dd64315cc3ed8ad9fadd71fcb
