@@ -1,77 +1,26 @@
-/*
-模板，是一种泛型编程的工具，它允许程序员编写通用的代码，而不是针对特定的数据类型。
-
-1. 模板的分类
-
-模板按照类型分为函数模板，类模板，变量模板，别名模板。
-- 函数模板是一种通用的函数定义，它可以用于多种不同类型的参数
-- 类模板是一种通用的类定义，它可以用于多种不同类型的成员变量和成员函数
-- 变量模板是一种通用的变量定义，它可以用于多种不同类型的变量
-- 别名模板是一种使用using声明的通用类型别名定义，它可以用于多种不同类型的别名
-模板按照参数分为非类型模板和类型模板。
-- 类型模板是最常见的模板类型，它允许你定义一个通用的类或函数，其中某些类型可以在实例化时指定
-- 非类型模板参数允许你在模板中使用非类型的值，如整数、指针或引用
-  - 引用作为参数需要满足以下条件：必须是const引用，引用对象必须是全局或者静态变量
-
-2. 模板的使用
-
-模板模板参数是一种特殊的模板参数，它允许你在模板中使用另一个模板作为参数。这种参数化的模板可以让你在编写代码时更加灵活，
-因为你可以将模板的行为委托给另一个模板。
-
-模板类型的显示指定和自动推断
-必须显示指定的模板类型
-1. 模板函数调用时，参数无法提供足够信息
-2. 模板类实例化时，类型无法提供足够信息或类型推导存在歧义
-3. 模板类型推导存在歧义时
-
-class和typename都可以用来声明类型模板参数。
-- 声明模板参数，两者都可以使用
-- 在模板内部，如果一个名称是依赖于模板参数的，并且它是一个类型，那么在使用这个名称时，必须使用typename来告诉编译器这是一个类型
-template <class T>
-class MyClass {
-    typename T::value_type val;  // 必须使用typename
-};
-- 在声明模板模板参数时，必须使用class，而不能使用typename
-template <template <typename> class Container>  // Container前必须使用class
-class MyClass {};
-
-可变参数模板是一种特殊的模板，它允许你在模板中使用可变数量的参数。
-
-模板的特化和偏特化
-- 模板特化是指为特定类型或特定值提供模板的特殊实现。
-- 模板偏特化是指为特定类型或特定值提供模板的部分特殊实现。
-
-默认模板参数是指在模板定义中为模板参数提供一个默认值。
-
-3. 模板规则
-
-ADL查找规则，ADL（Argument-Dependent Lookup），也称为Koenig查找，是C++中用于查找函数名称的一种规则。
-ADL的主要目的是在调用函数时，不仅在当前作用域中查找函数定义，还会在函数参数的命名空间中查找
-具体规则如下：
-- 当前作用域：首先在当前作用域中查找函数名称。
-- 参数类型的命名空间：如果在当前作用域中没有找到函数名称，则在函数参数的类型所在的命名空间中查找。
-- 关联命名空间：对于类类型的参数，还会在类的关联命名空间中查找。关联命名空间包括类本身的命名空间，以及类的基类的命名空间。
-
-用户自定义推导指引（User-Defined Deduction Guides）是C++17引入的一项特性，它允许程序员为类模板的构造函数提供自定义的类型推导规则。
-
-SFINAE（Substitution Failure Is Not An Error）是C++中的一个重要概念，它是模板元编程中的一种技术，用于在编译时根据模板参数的类型来选择不同的函数重载或模板特化.
-C++中，函数模板与同名的非模板函数重载时，应遵循下列调用原则：
-- 寻找一个参数完全匹配的函数，若找到就调用它。若参数完全匹配的函数多于一个，则这个调用是一个错误的调用。
-- 寻找一个函数模板，若找到就将其实例化生成一个匹配的模板函数并调用它。
-- 若上面两条都失败，则使用函数重载的方法，通过类型转换产生参数匹配，若找到就调用它。
-- 若上面三条都失败，还没有找都匹配的函数，则这个调用是一个错误的调用。
-
-外部模板（Explicit Template Instantiation）是C++中的一个特性，它允许程序员在一个编译单元中显式地实例化一个模板，
-而在其他编译单元中使用这个实例化的模板，而不需要再次实例化
-
-4. 模板元编程
-
-模板元编程是一种编程范式，它使用模板来编写程序，在编译时进行计算和生成代码。模板元编程的主要目标是在编译时进行计算和优化，
-以提高程序的性能和可维护性。
-*/
+//////////////////////////////////////////////////////////////////////////////
+//  (c) copyright 2023-by ZC Inc.  
+//  All Rights Reserved
+//
+//  Name:
+//      main.cpp
+//
+//  Purpose:
+//      1. 模板类型
+//      2. 模板用法
+//      3. 模板规则
+//
+// Author:
+//      @zc
+//
+// Revision History:
+//      Version V1.0b1 Create.
+/////////////////////////////////////////////////////////////////////////////
 #include <iostream>
 #include <type_traits>
 #include <vector>
+#include <utility>
+#include <tuple>
 
 // 模板类型基础
 namespace TYPE
@@ -377,6 +326,39 @@ namespace MyNamespace {
     }
 }
 
+// auto声明非类型模板参数(一元左折叠)
+template <auto... seq>
+void print_sequence() {
+    ((std::cout << seq << " "), ...);
+    std::cout << std::endl;
+}
+
+// 折叠表达式
+// 一元左折叠
+template <typename... Args>
+auto left_fold(Args... args) {
+    return (... + args);
+}
+
+// 一元右折叠
+template <typename... Args>
+auto right_fold(Args... args) {
+    return (args + ...);
+}
+
+// 二元左折叠
+template <typename... Args>
+auto left_fold_with_init(int init, Args... args) {
+    return (init + ... + args);
+}
+
+// 二元右折叠
+template <typename... Args>
+auto right_fold_with_init(int init, Args... args) {
+    return (args + ... + init);
+}
+
+
 // 用户自定义推导指引
 template <typename T1, typename T2>
 struct Pair {
@@ -433,6 +415,18 @@ void test(void)
     std::cout<<"=== RULE ===\n";
     MyNamespace::MyString str("Hello, world!");
     print(str); //使用ADL规则查找print函数
+
+    // auto声明非类型模板参数
+    print_sequence<1, 2, 3, 4, 5>();
+
+    auto result = left_fold(1, 2, 3, 4, 5);
+    std::cout << "Left fold result: " << result << std::endl;
+    result = right_fold(1, 2, 3, 4, 5);
+    std::cout << "Right fold result: " << result << std::endl;
+    result = left_fold_with_init(10, 1, 2, 3, 4, 5);
+    std::cout << "Left fold with init result: " << result << std::endl;
+    result = right_fold_with_init(10, 1, 2, 3, 4, 5);
+    std::cout << "Right fold with init result: " << result << std::endl;
 
     // SFINAE
     f<Test>(10);
@@ -537,6 +531,25 @@ constexpr auto int_to_string()
 constexpr std::string_view sv = int_to_string<99999>();
 constexpr auto sv2 = AbsoluteValue<-10>::value;
 
+// 打印整数序列
+template<typename T, T... Ints>
+void print_sequence(const std::integer_sequence<T, Ints...>&) {
+    ((std::cout << Ints << " "), ...);
+    std::cout << std::endl;
+}
+
+// 使用 std::index_sequence 展开参数包
+template<typename Tuple, std::size_t... Is>
+void print_tuple(const Tuple& t, std::index_sequence<Is...>) {
+    ((std::cout << (Is == 0? "" : ", ") << std::get<Is>(t)), ...);
+    std::cout << std::endl;
+}
+
+template<typename... Args>
+void print_tuple(const std::tuple<Args...>& t) {
+    print_tuple(t, std::make_index_sequence<sizeof...(Args)>{});
+}
+
 void test(void)
 {
     std::cout<<"=== MEATPROGRAMING ===\n";
@@ -547,6 +560,15 @@ void test(void)
 
     std::cout<<sv<<std::endl;
     std::cout<<sv2<<std::endl;
+
+    // 测试 std::integer_sequence
+    std::cout << "Testing std::integer_sequence:" << std::endl;
+    print_sequence(std::integer_sequence<int, 1, 3, 5, 7, 9>{});
+
+    // 测试 std::index_sequence 打印元组
+    auto myTuple = std::make_tuple(10, 20.5, "hello");
+    std::cout << "Printing tuple: ";
+    print_tuple(myTuple);
 }
 }
 

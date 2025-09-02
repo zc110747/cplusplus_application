@@ -2,9 +2,9 @@
 std::random 是 C++ 标准库中的一个组件，用于生成伪随机数。它提供了多种随机数生成器和分布，以满足不同的需求
 随机数生成器
 std::minstd_rand：线性同余生成器，速度快，但随机性较差
-std::default_random_engine：默认的随机数生成器，通常基于 Mersenne Twister 算法。
-std::mt19937：32位 Mersenne Twister 随机数生成器, 周期长，随机性好。
-std::mt19937_64：64位 Mersenne Twister 随机数生成器。
+std::default_random_engine：默认的随机数生成器，通常基于Mersenne Twister算法。
+std::mt19937：32位Mersenne Twister随机数生成器, 周期长，随机性好。
+std::mt19937_64：64位Mersenne Twister随机数生成器。
 分布
 std::uniform_int_distribution：生成均匀分布的整数。
 std::uniform_real_distribution：生成均匀分布的浮点数。

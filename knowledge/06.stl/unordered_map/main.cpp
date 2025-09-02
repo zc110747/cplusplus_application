@@ -1,42 +1,21 @@
-﻿/*
-std::unordered_map 是 C++ 标准库中的一个关联容器，它提供了一种键值对的存储方式，其中键是唯一的，而值可以重复
-
-主要特点：
-1. 无序性：元素在容器中的存储顺序是无序的，即元素的存储位置不依赖于键的顺序。
-2. 快速查找：由于使用哈希表实现，查找操作非常高效。
-3. 键唯一性：每个键在容器中只能出现一次。
-4. 动态内存管理：容器会自动管理内存，根据需要动态分配和释放内存
-
-成员函数：
-at: 返回与给定键相关联的值。
-begin: 返回指向容器中第一个元素的迭代器。
-bucket: 返回给定键所在的桶的索引。
-bucket_count: 返回桶的数量。
-bucket_size: 返回给定桶中的元素数量。
-cbegin: 返回指向容器中第一个元素的常量迭代器。
-cend: 返回指向容器中最后一个元素的下一个位置的常量迭代器。
-clear: 移除容器中的所有元素。
-count: 返回与给定键相关联的值的数量。
-contains(c++20): 检查容器中是否存在给定键。
-emplace: 构造并插入元素。
-emplace_hint: 构造并插入元素，使用给定的提示位置。
-empty: 检查容器是否为空。
-end: 返回指向容器中最后一个元素的下一个位置的迭代器。
-equal_range: 返回与给定键相关联的元素范围。
-erase: 移除容器中指定位置的元素或指定键的元素。
-find: 查找与给定键相关联的元素。
-hash_function: 返回用于计算哈希值的函数对象。
-insert: 插入元素。
-key_eq: 返回用于比较键的函数对象。
-load_factor: 返回当前负载因子。
-max_bucket_count: 返回桶的最大数量。
-max_load_factor: 返回最大负载因子。
-max_size: 返回容器可以容纳的最大元素数量。
-rehash: 重新哈希容器。
-size: 返回容器中元素的数量。
-swap: 交换两个容器的内容。
-unordered_map: 构造并返回一个新的 unordered_map 对象。
-*/
+﻿//////////////////////////////////////////////////////////////////////////////
+//  (c) copyright 2025-by ZC Inc.  
+//  All Rights Reserved
+//
+//  Name:
+//      main.cpp
+//
+//  Purpose:
+//      1. std::unordered_map声明
+//      2. std::unordered_map方法
+//      3. std::unordered_map常用算法配合
+//
+// Author:
+//      @zc
+//
+// Revision History:
+//      Version V1.0b1 Create.
+/////////////////////////////////////////////////////////////////////////////
 #include <unordered_map>
 #include <iostream>
 #include <algorithm>

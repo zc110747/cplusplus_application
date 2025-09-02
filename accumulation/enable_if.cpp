@@ -128,7 +128,6 @@ namespace ENABLE_IF
         enable_if_test t1 = {1};
         enable_if_test t2 = {1.5};
 
-
         FUNCTION_END()
     }
 }

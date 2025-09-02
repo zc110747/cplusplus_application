@@ -2,5 +2,8 @@ executables/*
 asio_book/asio/*
 
 *.o
-Src/Modern/tags
-knowledge/14.tools/logger/studylogger
+target
+
+knowledge/*/build/*
+knowledge/*/*/build/*
+modern_book/build/*

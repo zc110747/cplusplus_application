@@ -11,15 +11,13 @@ std::span 是 C++20 引入的一个容器视图类，它提供了一种轻量级
 注意:
 span是对其它内存的视图引用，因此使用时不要修改原始的数据，如引用已经释放的内存或者改变原数组的大小
 */
-#if __cplusplus < 202002
-#error "span is support by cpp20"
-#endif
 
-#include <span>
 #include <iostream>
 #include <vector>
 #include <algorithm>
 
+#if __cplusplus > 202002L
+#include <span>
 template <class T>
 void print_span(const std::span<T> &arr)
 {
@@ -28,9 +26,11 @@ void print_span(const std::span<T> &arr)
     }
     std::cout<<std::endl;
 }
+#endif
 
 int main(int argc, char* argv[])
 {
+#if __cplusplus > 202002L
     int arr[] = {1, 2, 3, 4};
 
     //静态span，编译时固定，不能修改
@@ -56,5 +56,8 @@ int main(int argc, char* argv[])
 
     std::sort(s4.begin(), s4.end());
     print_span(s4);
+#else
+    std::cout<<"C++20 not support"<<std::endl;
+#endif
     return 0;
 } 

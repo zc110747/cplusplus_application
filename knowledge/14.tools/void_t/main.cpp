@@ -22,7 +22,7 @@ struct has_member_type: std::false_type {};
 template <typename T>
 struct has_member_type<T, std::void_t<typename T::example_type>> : std::true_type {};
 
-// 示例类，有一个 member_function 成员函数
+// 示例类，有一个member_function成员函数
 struct ExampleClass {
 
     using example_type = std::vector<int>;
@@ -32,7 +32,7 @@ struct ExampleClass {
     }
 };
 
-// 示例类，没有 member_function 成员函数
+// 示例类，没有member_function成员函数
 struct AnotherClass {
 };
 

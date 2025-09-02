@@ -99,10 +99,11 @@ int main(int argc, char* argv[])
     std::bitset<8> bitsetval{lowbitset.to_ulong()};
     cout<<"bitset:"<<bitsetval<<endl;
 
+#if __cplusplus >= 202002L
     // bit_cast
     float f = 3.14f;
     // 将 float 类型的 f 转换为 uint32_t 类型
-    std::uint32_t u = std::bit_cast<std::uint32_t>(f);
+    uint32_t u = std::bit_cast<uint32_t>(f);
 
     std::cout << "Float value: " << f << std::endl;
     std::cout << "Bit-casted uint32_t value: " << u << std::endl;
@@ -110,6 +111,7 @@ int main(int argc, char* argv[])
     // 将 uint32_t 类型的 u 转换回 float 类型
     float f_back = std::bit_cast<float>(u);
     std::cout << "Back to float value: " << f_back << std::endl;
+#endif
 
     return 0;
 } 

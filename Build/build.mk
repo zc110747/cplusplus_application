@@ -9,7 +9,7 @@
 # this place define the compile and flags, CC complie should be g++ and 
 # option could be add in place
 CC = $(CROSS_COMPILE)g++
-CFLAGS  += -std=c++17 -lpthread -lm -fconcepts $(gdef)
+CFLAGS  += -std=c++2a -lpthread -lm -fconcepts $(gdef)
 
 # this is the rule how to complie file with type .cpp to middle file .o 
 # then link the object and generate the executables.
@@ -22,7 +22,9 @@ $(executables): $(objects)
 	$(CC) -o $(executables) $(objects) $(LIB) $(CFLAGS)
 	rm -f $(objects)
 	$(shell if [ -d $(executables_path) ]; then echo; else mkdir $(executables_path); fi)
+ifneq ($(executables_path),./)
 	mv $(executables) $(executables_path)
+endif
 tags :
 	ctags -R *
 

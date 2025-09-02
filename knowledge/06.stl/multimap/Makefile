@@ -12,8 +12,7 @@ objects = main.o
 
 # This is the file name of the executables and path where 
 # place the executables
-executables = studymultimap
-executables_path = ../../../executables/
-
+executables = target
+executables_path = ./
 # Including this file allows access to the Build System.
 include ../../../build/build.mk

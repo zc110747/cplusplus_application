@@ -8,12 +8,12 @@
 
 # This is object should be build and will link to generate
 # the executables
-objects = c_style.o
+objects = main.o base.o clib.o cpp_extend.o
 
 # This is the file name of the executables and path where 
 # place the executables
-executables = study_c_style
-executables_path = ../../executables
+executables = target
+executables_path = ./
 
 # Including this file allows access to the Build System.
 include ../../build/build.mk

@@ -1,119 +1,200 @@
-﻿/*
-std::set 是 C++ 标准库中的一个关联容器，它存储唯一的元素，并按照特定的顺序进行排序。
-
-std::set 具有以下特性：
-1. 元素唯一性：std::set 中的每个元素都是唯一的，不允许重复。
-2. 自动排序：元素在插入时会自动按照排序准则进行排序。
-3. 高效查找：由于元素是有序的，查找操作的时间复杂度为对数级别，即 O(log n)
-
-构造函数：
-std::set<T> set; // 创建一个空的 set。
-std::set<T> set(initializer_list<T> list); // 使用初始化列表创建 set。
-std::set<T> set(const std::set<T>& other); // 复制另一个 set。
-std::set<T> set(std::set<T>&& other); // 移动另一个 set。
-
-成员函数：
-
-begin: 返回指向容器中第一个元素的迭代器。
-cbegin: 返回指向容器中第一个元素的常量迭代器。
-cend: 返回指向容器中最后一个元素之后的位置的常量迭代器。
-clear: 清空容器中的所有元素。
-contains(c++20): 检查容器中是否包含指定元素。
-count: 返回容器中等于给定值的元素数量。
-crbegin: 返回指向容器中最后一个元素的常量反向迭代器。
-crend: 返回指向容器中第一个元素之前的位置的常量反向迭代器。
-emplace: 在容器中就地构造元素。
-emplace_hint: 在容器中使用提示位置就地构造元素。
-empty: 检查容器是否为空。
-end: 返回指向容器中最后一个元素之后的位置的迭代器。
-equal_range: 返回一对迭代器，分别表示等于给定值的元素范围。
-erase: 从容器中删除指定元素或范围内的元素。
-find: 在容器中查找等于给定值的元素。
-get_allocator: 获取容器的分配器。
-insert: 将元素插入容器中。
-key_comp: 返回用于比较键的函数对象。
-lower_bound: 返回指向容器中第一个不小于给定值的元素的迭代器。
-max_size: 返回容器可容纳的最大元素数量。
-rbegin: 返回指向容器中最后一个元素的反向迭代器。
-rend: 返回指向容器中第一个元素之前的位置的反向迭代器。
-size: 返回容器中元素的数量。
-swap: 交换两个容器的内容。
-upper_bound: 返回指向容器中第一个大于给定值的元素的迭代器。
-value_comp: 返回用于比较值的函数对象。
-*/
+﻿//////////////////////////////////////////////////////////////////////////////
+//  (c) copyright 2025-by ZC Inc.  
+//  All Rights Reserved
+//
+//  Name:
+//      main.cpp
+//
+//  Purpose:
+//      1. std::set声明
+//      2. std::set方法
+//      3. std::set常用算法配合
+//
+// Author:
+//      @zc
+//
+// Revision History:
+//      Version V1.0b1 Create.
+/////////////////////////////////////////////////////////////////////////////
 #include <set>
 #include <iostream>
 #include <algorithm>
 #include <string>
 #include <unistd.h>
-
-using std::string;
-using std::cout;
-using std::endl;
-
-typedef enum
-{
-    SHOW_MODE_ENUM_LAMBDA = 0,
-    SHOW_MODE_ENUM_TYPE_AUTO,
-    SHOW_MODE_ENUM_TYPE_ITERATOR,
-}SHOW_MODE_ENUM;
+#include <numeric>
 
 template<typename T>
-void show_set(std::set<T> value, string qlabel, SHOW_MODE_ENUM mode = SHOW_MODE_ENUM_LAMBDA)
+void show_container(T container_val, std::string qstring)
 {
     //empty, size
-    if(!qlabel.empty())
+    if(!qstring.empty())
     {
-        for(auto index=qlabel.size(); index<13; index++)
-            qlabel.push_back(' ');
-        qlabel += ":";
-        cout<<qlabel;
+        for(auto index=qstring.size(); index<13; index++)
+            qstring.push_back(' ');
+        qstring += ":";
+        std::cout << qstring;
     }
 
-    //begin, end
-    if(mode == SHOW_MODE_ENUM_LAMBDA)
-    {
-        std::for_each(value.begin(), value.end(), [](const T &ref_value){
-            cout<<ref_value<<" ";
-        });
+    for(const auto &ref : container_val) {
+        std::cout << ref << " ";
     }
-    //auto
-    else if(mode == SHOW_MODE_ENUM_TYPE_AUTO)
-    {
-        for(auto &ref : value)
-            cout<<ref<<" ";
-    }
-    //iterator
-    else if(mode == SHOW_MODE_ENUM_TYPE_ITERATOR)
-    {
-        for(typename std::set<T>::iterator iter=value.begin(); iter!=value.end(); iter++)
-            cout<<*iter<<" ";
-    }
-    cout<<endl;
+
+    std::cout << std::endl;
 }
 
+void algorithm_process(void)
+{
+    std::cout << "==================== algorithm_process ====================" <<std::endl;
+
+    // 查找算法
+    std::cout << "======= search =======" <<std::endl;
+    std::set<int> vcon_0{2, 3, 3, 5, 7, 7, 1};
+    std::set<int> vcon_1{4, 6};
+
+    show_container(vcon_0, "vcon_0");
+    show_container(vcon_1, "vcon_1");
+
+    std::cout << "all_of:" <<std::all_of(vcon_0.begin(), vcon_0.end(), [](const auto &ref_value){
+        return ref_value >= 1;
+    }) <<std::endl;
+    std::cout << "any_of:" <<std::any_of(vcon_0.begin(), vcon_0.end(), [](const auto &ref_value){
+        return ref_value > 5;
+    }) <<std::endl;
+
+    auto val = std::find(vcon_0.begin(), vcon_0.end(), 3);
+    if(val != vcon_0.end()) {
+        std::cout << "find:" << *val <<std::endl;
+    }
+    val = std::find_if(vcon_0.begin(), vcon_0.end(), [](const auto &ref_value){
+        return ref_value > 5;
+    });
+    if(val != vcon_0.end()) {
+        std::cout << "find_if:" << *val <<std::endl;
+    }
+
+    auto search_seq = std::set<int>{3, 5};
+    val = std::search(vcon_0.begin(), vcon_0.end(), search_seq.begin(), search_seq.end());
+    if (val != vcon_0.end()) {
+        std::cout << "search:" << *val <<std::endl;
+    } else {
+        std::cout << "search:" << "not found" <<std::endl;
+    }
+
+    // // 排序算法(multiset默认排序)
+    std::cout << "======= sort =======" <<std::endl;
+    std::cout << "is sort:" <<std::is_sorted(vcon_0.begin(), vcon_0.end()) <<std::endl;
+    
+    val = std::is_sorted_until(vcon_0.begin(), vcon_0.end());
+    if(val != vcon_0.end()) {
+        std::cout << "is_sorted_until:" << *val <<std::endl;
+    }
+
+    // 变换算法
+    std::set<int> vcon_new;
+    std::cout << " ======= transform =======" << std::endl;
+    std::transform(vcon_0.begin(), vcon_0.end(), std::inserter(vcon_new, vcon_new.end()), [](const auto &ref_value){
+        return ref_value*ref_value;
+    }); //set的键值是const类型,不能直接通过transform修改,创建新的容器
+    show_container(vcon_new, "transform");
+
+    // 计数算法
+    std::cout << "======= count =======" <<std::endl;
+    std::cout << "count:" <<std::count(vcon_0.begin(), vcon_0.end(), 9) <<std::endl;
+    std::cout << "count if:" <<std::count_if(vcon_0.begin(), vcon_0.end(), [](const auto &ref_value){
+        return ref_value > 5;
+    }) <<std::endl; //满足元素的个数
+    std::vector<int> destination;
+    std::partial_sum(vcon_0.begin(), vcon_0.end(), std::back_inserter(destination)); //元素累加和
+    show_container(destination, "partial_sum");
+
+    destination.clear();
+    std::adjacent_difference(vcon_0.begin(), vcon_0.end(), std::back_inserter(destination)); //相邻元素的差
+    show_container(destination, "adjacent_difference");
+
+    // 比较算法
+    std::cout << "======= compare =======" <<std::endl;
+    std::cout << "equal:" <<std::equal(vcon_0.begin(), vcon_0.end(), destination.begin()) <<std::endl;
+    auto val_1 = std::mismatch(vcon_1.begin(), vcon_1.end(), vcon_0.begin());
+    if (val_1.first != vcon_1.end()) {
+        std::cout << "mismatch:" << *val_1.first << " " << *val_1.second <<std::endl;
+    }
+    auto val_2 = std::mismatch(vcon_0.begin(), vcon_0.end(), vcon_1.begin(), [](const auto &ref_value_0, const auto &ref_value_1){
+        return ref_value_0%2 == ref_value_1%2;
+    });
+    if (val_2.first != vcon_0.end()) {
+        std::cout << "mismatch:" << *val_2.first << " " << *val_2.second <<std::endl;
+    }
+    
+    // 生成算法
+    std::set<int> vcon_2;
+    std::copy_if(vcon_0.begin(), vcon_0.end(), std::inserter(vcon_2, vcon_2.end()), [](const auto &ref_value){
+        return ref_value < 50;
+    });
+    show_container(vcon_2, "copy_if");
+
+    // 移除算法
+
+    // 分割算法(multiset默认排序)
+
+    // 归并算法
+    std::cout << "======= merge =======" <<std::endl;
+    std::set<int> vcon_4 = {1, 3, 5};
+    std::set<int> vcon_5 = {2, 3, 4, 6, 8};
+    std::set<int> vcon_6;
+    std::merge(vcon_4.begin(), vcon_4.end(), vcon_5.begin(), vcon_5.end(), std::inserter(vcon_6, vcon_6.end()));
+    show_container(vcon_6, "merge");
+    vcon_6.clear();
+    std::set_difference(vcon_4.begin(), vcon_4.end(), vcon_5.begin(), vcon_5.end(), std::inserter(vcon_6, vcon_6.end()));
+    show_container(vcon_6, "set_difference");
+    vcon_6.clear();
+    std::set_union(vcon_4.begin(), vcon_4.end(), vcon_5.begin(), vcon_5.end(), std::inserter(vcon_6, vcon_6.end()));
+    show_container(vcon_6, "set_union");
+
+    // 堆算法
+    // std::greater<>() 执行大于比较操作
+    // std::less<>() 执行小于比较操作
+    // std::less_equal<>() 执行小于等于比较操作
+    // std::greater_equal<>() 执行大于等于比较操作
+    // std::equal_to<>() 执行等于比较操作
+    // std::not_equal_to<>() 执行不等于比较操作
+
+    // 其它算法
+    // std::plus<>() 执行加法操作
+    // std::minus<>() 执行减法操作
+    // std::multiplies<>() 执行乘法操作
+    // std::divides<>() 执行除法操作
+    // std::modulus<>() 执行取模操作
+    // std::negate<>() 执行取反操作
+    std::cout << "======= other =======" <<std::endl;
+    auto result = std::reduce(vcon_4.begin(), vcon_4.end(), 0, std::plus<>());
+    std::cout << "reduce:" <<result <<std::endl;
+    result = std::reduce(vcon_4.begin(), vcon_4.end(), 1, std::multiplies<>());
+    std::cout << "reduce:" <<result <<std::endl;
+    result = std::transform_reduce(vcon_4.begin(), vcon_4.end(), vcon_4.begin(), 0, std::plus<>(), std::multiplies<>());     //先转换后归约
+    std::cout << "transform_reduce:" <<result <<std::endl;
+}
 
 int main(int argc, char* argv[])
 {
     int array[5] = {8, 2, 1, 3, 5};
     std::set<int> arr_set(array, array+5);
     std::set<int> usr_set(arr_set);
-    std::set<string> str_set;
+    std::set<std::string> str_set;
     
     //operator=
-    str_set = std::set<string>({"0x00", "0x01", "0x02"});
-    show_set(str_set, "str_set");
+    str_set = std::set<std::string>({"0x00", "0x01", "0x02"});
+    show_container(str_set, "str_set");
 
     //count, clear, size, empty
-    cout<<"count"<<str_set.count("0x01")<<" | ";
+    std::cout << " count"<<str_set.count("0x01") << " | ";
     str_set.clear();
-    cout<<"size:"<<str_set.size()<<endl;
-    cout<<"empty:"<<str_set.empty()<<endl;
+    std::cout << " size:"<<str_set.size() << std::endl;
+    std::cout << " empty:"<<str_set.empty() << std::endl;
 
-    show_set(usr_set, "usr_set");
+    show_container(usr_set, "usr_set");
 
     //max_size
-    cout<<"max_size:"<<usr_set.max_size()<<endl;
+    std::cout << " max_size:"<<usr_set.max_size() << std::endl;
 
     //begin,  end,  cbegin,  cend
     //rbegin, rend, rcbegin, rcend
@@ -125,87 +206,85 @@ int main(int argc, char* argv[])
     std::set<int>::reverse_iterator iterrend = usr_set.rend();
     std::set<int>::const_reverse_iterator iterconstrbegin = usr_set.crbegin();
     std::set<int>::const_reverse_iterator iterconstrend = usr_set.crend();
-    cout<<"begin:"<<*iterbegin<<" | "<<"end:"<<*(--iterend)<<" | ";
-    cout<<"cbegin:"<<*iterconstbegin<<" | "<<"cend:"<<*(--iterconstend)<<" | ";
-    cout<<"rbegin:"<<*iterrbegin<<" | "<<"rend:"<<*(--iterrend)<<" | ";
-    cout<<"crbegin:"<<*iterconstrbegin<<" | "<<"crend:"<<*(--iterconstrend)<<" | "<<endl;
+    std::cout << " begin:" << *iterbegin<<" | " << "end:" << *(--iterend) << " | ";
+    std::cout << " cbegin:" << *iterconstbegin<<" | " << "cend:" << *(--iterconstend) << " | ";
+    std::cout << " rbegin:" << *iterrbegin<<" | " << "rend:" << *(--iterrend) << " | ";
+    std::cout << " crbegin:" << *iterconstrbegin<<" | " << "crend:" << *(--iterconstrend) << " | " << std::endl;
 
     //emplace, find, emplace_hint
     auto it = usr_set.emplace(15);
-    show_set(usr_set, "emplace");
-    cout<<"val:"<<*(it.first)<<","<<"status:"<<it.second<<endl;
+    show_container(usr_set, "emplace");
+    std::cout << " val:" << *(it.first) << "," << "status:"<<it.second << std::endl;
     auto find = usr_set.find(8);
     usr_set.emplace_hint(find, 9);
-    show_set(usr_set, "emplace_hint");
+    show_container(usr_set, "emplace_hint");
 
     //equal_range, lower_bound, upper_bound
     std::pair<std::set<int>::const_iterator, std::set<int>::const_iterator> ret;
     ret = usr_set.equal_range(5);
-    if(ret.first != usr_set.end())
-        cout<<"equal_range lowerbound:"<<*(ret.first)<<endl;
-    else
-        cout<<"invalid equal_range lowerbound"<<endl;
-    if(ret.second != usr_set.end())
-        cout<<"equal_range upperbound:"<<*(ret.second)<<endl;
-    else
-        cout<<"invalid equal_range lowerbound"<<endl;
+    if(ret.first != usr_set.end()) {
+        std::cout << " equal_range lowerbound:" << *(ret.first) << std::endl;       
+    } else {
+        std::cout << " invalid equal_range lowerbound" << std::endl;
+    }
+    if(ret.second != usr_set.end()) {
+        std::cout << " equal_range upperbound:" << *(ret.second) << std::endl;
+    } else {
+        std::cout << " invalid equal_range upperbound" << std::endl;
+    }
 
     std::set<int>::const_iterator iterlower = usr_set.lower_bound(5);
     std::set<int>::const_iterator iterupper = usr_set.upper_bound(5);
-    if(iterlower != usr_set.end())
-        cout<<"lowerbound:"<<*iterlower<<endl;
-    else
-        cout<<"invalid lowerbound"<<endl;
-    if(iterupper != usr_set.end())
-        cout<<"upperbound:"<<*iterupper<<endl;
-    else
-        cout<<"invalid upperbound"<<endl;
+    if(iterlower != usr_set.end()) {
+        std::cout << " lowerbound:" << *iterlower << std::endl;
+    } else {
+        std::cout << " invalid lowerbound" << std::endl;
+    }
+    if(iterupper != usr_set.end()) {
+        std::cout << " upperbound:" << *iterupper << std::endl;
+    } else {
+        std::cout << " invalid upperbound" << std::endl;
+    }
 
     //erase
     auto iter=usr_set.begin();
-    while(iter!=usr_set.end())
-    {
-        if(*iter == 3)
-        {
+    while (iter!=usr_set.end()) {
+        if (*iter == 3) {
             iter=usr_set.erase(iter);
-        }
-        else
-        {
+        } else {
             iter++;
         }
     }
-    show_set(usr_set, "erase");
+    show_container(usr_set, "erase");
 
     //insert
     usr_set.insert(15);
-    show_set(usr_set, "insert");
+    show_container(usr_set, "insert");
 
     //key_comp
-    cout<<"key_comp:";
-    for(auto &x:usr_set)
-    {
-        if(usr_set.key_comp()(x, 7))
-        {
-            cout<<x<<" ";
+    std::cout << " key_comp:";
+    for (auto &x:usr_set) {
+        if(usr_set.key_comp()(x, 7)) {
+            std::cout <<x<<" ";
         }
     }
-    cout<<endl;
+    std::cout << std::endl;
 
     //value_comp
-    cout<<"value comp:";
-    for(auto &x:usr_set)
-    {
-        if(usr_set.value_comp()(x, 9))
-        {
-            cout<<x<<" ";
+    std::cout << " value comp:";
+    for (auto &x:usr_set) {
+        if(usr_set.value_comp()(x, 9)) {
+            std::cout <<x<<" ";
         }
     }
-    cout<<endl;
+    std::cout << std::endl;
 
     //swap
     std::set<int> swapset;
     swapset.swap(usr_set);
-    show_set(swapset, "swapset");
+    show_container(swapset, "swapset");
 
+    algorithm_process();
+    
     return 0;
 }

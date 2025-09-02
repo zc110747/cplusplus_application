@@ -5,8 +5,10 @@ concepts 是一种用于描述类型要求的语法，而 requires 则是用于�
 */
 #include <iostream>
 #include <vector>
-#include <concepts>
 #include <algorithm>
+
+#if __cplusplus > 202002L
+#include <concepts>
 
 // 定义一个 concept，要求类型 T 必须支持加法操作
 template <typename T>
@@ -19,10 +21,11 @@ template <Addable T>
 T add(T a, T b) {
     return a + b;
 }
-
+#endif
 
 int main() 
 {
+#if __cplusplus > 202002L
     int x = 5, y = 10;
     double a = 3.14, b = 2.71;
 
@@ -35,7 +38,9 @@ int main()
     // 以下代码会导致编译错误，因为 std::string 类型不支持加法操作
     // std::string s1 = "Hello", s2 = "World";
     // std::cout << "Concatenated string: " << add(s1, s2) << std::endl;
-
+#else
+    std::cout << "This code requires C++20 or later." << std::endl;
+#endif
 
     return 0;
 }

@@ -1,71 +1,33 @@
-﻿/*
-std::map
-https://www.cplusplus.com/reference/map/map/
-std::map 是 C++ 标准库中的一个关联容器，它存储的元素是键值对（key-value pairs）。每个元素由一个键（key）和一个值（value）组成，键是唯一的，每个键对应一个值。std::map 中的元素按照键的顺序自动排序，默认情况下是按照升序排列，支持自定义比较函数进行键值的比较排序。
-
-特性:
-1. 有序性：std::map 中的元素按照键的顺序排列，这使得查找、插入和删除操作的时间复杂度为对数级别（O(log n)）
-2. 唯一性：每个键在 std::map 中只能出现一次
-3. 动态大小：std::map 的大小可以动态增长或缩小
-4. 高效查找：由于元素是有序的，std::map支持快速查找操作
-
-常用操作:
-1. 插入元素：insert、emplace
-2. 删除元素：erase、clear
-3. 查找元素：find、count
-4. 访问元素：at、operator[](operator访问不存在的key同时写入会添加对象)
-4. 迭代器：begin、end、rbegin、rend、cbegin、cend、crbegin、crend
-5. 大小和容量：size、empty、max_size
-
-接口说明:
-at          查找具有指定键值的元素。
-begin       返回一个迭代器，此迭代器指向 map 中的第一个元素。
-cbegin      返回一个常量迭代器，此迭代器指向 map 中的第一个元素。
-cend        返回一个超过末尾常量迭代器。
-clear       清除 map 的所有元素。
-contains    检查 map 中是否包含具有指定键的元素。
-count       返回映射中其键与参数中指定的键匹配的元素数量。
-crbegin     返回一个常量迭代器，此迭代器指向反向 map 中的第一个元素。
-crend       返回一个常量迭代器，此迭代器指向反向 map 中最后一个元素之后的位置。
-emplace     将就地构造的元素插入到 map 。
-emplace_hint 将就地构造的元素插入到 map ，附带位置提示。
-empty       如果 map 为空，则返回 true 。
-end         返回超过末尾迭代器。
-equal_range 返回一对迭代器。 此迭代器对中的第一个迭代器指向 map 中其键大于指定键的第一个元素。此迭代器对中的第二个迭代器指向 map 中其键等于或大于指定键的第
-一个元素。
-erase       从指定位置移除映射中的元素或元素范围。
-find        返回一个迭代器，此迭代器指向 map 中其键与指定键相等的元素的位置。
-get_allocator 返回用于构造 allocator 的 map 对象的副本。
-insert      将一个或一系列元素插入到 map 中的指定位置。
-key_comp    返回用于对 map 中的键进行排序的比较对象副本。
-lower_bound 返回一个迭代器，此迭代器指向 map 中其键值等于或大于指定键的键值的第一个元素。
-max_size    返回 map 的最大长度。
-rbegin      返回一个迭代器，此迭代器指向反向 map 中的第一个元素。
-rend        返回一个迭代器，此迭代器指向反向 map 中最后一个元素之后的位置。
-size        返回 map 中的元素数量。
-swap        交换两个映射的元素。
-upper_bound 返回一个迭代器，此迭代器指向 map 中其键值大于指定键的键值的第一个元素。
-value_comp  检索用于对 map 中的元素值进行排序的比较对象副本
-*/
+﻿//////////////////////////////////////////////////////////////////////////////
+//  (c) copyright 2025-by ZC Inc.  
+//  All Rights Reserved
+//
+//  Name:
+//      main.cpp
+//
+//  Purpose:
+//      1. std::map声明
+//      2. std::map方法
+//      3. std::map常用算法配合
+//
+// Author:
+//      @zc
+//
+// Revision History:
+//      Version V1.0b1 Create.
+/////////////////////////////////////////////////////////////////////////////
 #include <map>
 #include <iostream>
 #include <algorithm>
 #include <string>
 #include <unistd.h>
+#include <numeric>
+#include <type_traits>
+#include <utility>
 
-using std::string;
-using std::cout;
-using std::endl;
-
-typedef enum
-{
-    SHOW_MODE_ENUM_LAMBDA = 0,
-    SHOW_MODE_ENUM_TYPE_AUTO,
-    SHOW_MODE_ENUM_TYPE_ITERATOR,
-}SHOW_MODE_ENUM;
-
-template<typename T, typename N>
-void show_map(std::map<T, N> value, string qstring, SHOW_MODE_ENUM mode = SHOW_MODE_ENUM_LAMBDA)
+// 辅助模板,检测是否为std::map
+template<typename T, typename = std::enable_if_t<std::is_same<T, std::map<typename T::key_type, typename T::mapped_type>>::value>>
+void show_container(T container_val, std::string qstring)
 {
     //empty, size
     if(!qstring.empty())
@@ -73,29 +35,135 @@ void show_map(std::map<T, N> value, string qstring, SHOW_MODE_ENUM mode = SHOW_M
         for(auto index=qstring.size(); index<13; index++)
             qstring.push_back(' ');
         qstring += ":";
-        cout<<qstring;
+        std::cout<<qstring;
     }
 
-    //begin, end
-    if(mode == SHOW_MODE_ENUM_LAMBDA)
-    {
-        std::for_each(value.begin(), value.end(), [](const typename std::pair<T, N> &ref_value){
-            cout<<ref_value.first<<"=>"<<ref_value.second<<" ";
-        });
+    for(const auto &pair : container_val) {
+        std::cout<<"["<<pair.first<<": "<<pair.second<<"] ";
     }
-    //auto
-    else if(mode == SHOW_MODE_ENUM_TYPE_AUTO)
-    {
-        for(auto &ref:value)
-            cout<<ref.first<<"=>"<<ref.second<<" ";
+
+    std::cout<<std::endl;
+}
+
+void algorithm_process(void)
+{
+    std::cout<<"==================== algorithm_process ===================="<<std::endl;
+
+    // 查找算法
+    std::cout<<"======= search ======="<<std::endl;
+    std::map<int, int> vcon_0 = {
+        {1, 1},
+        {3, 3},
+        {4, 4},
+        {5, 5},
+        {2, 2},
+    };
+    std::map<int, int> vcon_1 = {
+        {5, 5},
+        {4, 4},
+    };
+    show_container(vcon_0, "vcon_0");
+    show_container(vcon_1, "vcon_1");
+    std::cout<<"all_of:"<<std::all_of(vcon_0.begin(), vcon_0.end(), [](const auto &ref_value){
+        return ref_value.first >= 1;
+    })<<std::endl;
+    std::cout<<"any_of:"<<std::any_of(vcon_0.begin(), vcon_0.end(), [](const auto &ref_value){
+        return ref_value.first > 5;
+    })<<std::endl;
+
+    auto val = std::find(vcon_0.begin(), vcon_0.end(), std::pair<const int, int>(3, 3));
+    if(val != vcon_0.end()) {
+        std::cout<<"find:"<<val->first<<std::endl;
     }
-    //iterator
-    else if(mode == SHOW_MODE_ENUM_TYPE_ITERATOR)
-    {
-        for(typename std::map<T, N>::iterator iter=value.begin(); iter!=value.end(); iter++)
-            cout<<iter->first<<"=>"<<iter->second<<" ";
+    val = std::find_if(vcon_0.begin(), vcon_0.end(), [](const auto &ref_value){
+        return ref_value.first == 2;
+    });
+    if(val != vcon_0.end()) {
+        std::cout<<"find_if:"<<val->first<<std::endl;
     }
-    cout<<endl;
+    val = std::search(vcon_0.begin(), vcon_0.end(), vcon_1.begin(), vcon_1.end());
+    if(val != vcon_0.end()) {
+        std::cout<<"search:"<<val->first<<std::endl;
+    }
+
+    // 排序算法(std::map内部按照红黑树实现,默认按照键值排序的)
+
+    // 变换算法
+    std::map<int, int> vcon_new;
+    std::cout<<"======= transform ======="<<std::endl;
+    std::transform(vcon_0.begin(), vcon_0.end(), std::inserter(vcon_new, vcon_new.end()), [](std::pair<const int, int> &pair){
+        return std::make_pair(pair.first, pair.second+2);
+    }); //map的键值是const类型,不能直接通过transform修改,创建新的容器
+    show_container(vcon_new, "transform");
+
+    // // 计数算法
+    std::cout<<"======= count ======="<<std::endl;
+    std::cout<<"count:"<<std::count(vcon_0.begin(), vcon_0.end(), std::pair<const int, int>(3, 3))<<std::endl;
+    std::cout<<"count if:"<<std::count_if(vcon_0.begin(), vcon_0.end(), [](const auto &ref_value){
+        return ref_value.first > 2;
+    })<<std::endl; //满足元素的个数
+
+    // 比较算法
+    std::cout<<"======= compare ======="<<std::endl;
+    std::cout<<"equal:"<<std::equal(vcon_0.begin(), vcon_0.end(), vcon_0.begin())<<std::endl;
+    auto val_1 = std::mismatch(vcon_1.begin(), vcon_1.end(), vcon_0.begin());
+    if (val_1.first != vcon_1.end()) {
+        std::cout<<"mismatch:"<<val_1.first->first<<" "<<val_1.second->first<<std::endl;
+    }
+    auto val_2 = std::mismatch(vcon_0.begin(), vcon_0.end(), vcon_1.begin(), [](const auto &ref_value_0, const auto &ref_value_1){
+        return ref_value_0.first == ref_value_1.first;
+    });
+    if (val_2.first != vcon_0.end()) {
+        std::cout<<"mismatch:"<<val_2.first->first<<" "<<val_2.second->first<<std::endl;
+    }
+    
+    // // 生成算法
+    std::map<int, int> vcon_2;
+    std::copy_if(vcon_0.begin(), vcon_0.end(), std::inserter(vcon_2, vcon_2.begin()), [](const auto &ref_value){
+        return ref_value.first < 10;
+    });
+    show_container(vcon_2, "copy");
+
+    // 移除算法
+
+
+    // 分割算法
+
+    // // 归并算法
+    std::cout<<"======= merge ======="<<std::endl;
+    std::map<int, int> vcon_4 = {
+        {1, 1},
+        {3, 3}, 
+        {5, 5},
+    };
+    std::map<int, int> vcon_5 = {
+        {2, 2},
+        {4, 4},
+        {6, 6},
+        {8, 8},
+    };
+    std::map<int, int> vcon_6;
+    std::merge(vcon_4.begin(), vcon_4.end(), vcon_5.begin(), vcon_5.end(), std::inserter(vcon_6, vcon_6.begin()));
+    show_container(vcon_6, "merge");
+    vcon_6.clear();
+    std::set_difference(vcon_4.begin(), vcon_4.end(), vcon_5.begin(), vcon_5.end(), std::inserter(vcon_6, vcon_6.begin()));
+    show_container(vcon_6, "set_union");
+
+    // 堆算法(forward_list不支持operator--,因此不支持堆算法)
+    // std::greater<>() 执行大于比较操作
+    // std::less<>() 执行小于比较操作
+    // std::less_equal<>() 执行小于等于比较操作
+    // std::greater_equal<>() 执行大于等于比较操作
+    // std::equal_to<>() 执行等于比较操作
+    // std::not_equal_to<>() 执行不等于比较操作
+
+    // // 其它算法
+    // // std::plus<>() 执行加法操作
+    // // std::minus<>() 执行减法操作
+    // // std::multiplies<>() 执行乘法操作
+    // // std::divides<>() 执行除法操作
+    // // std::modulus<>() 执行取模操作
+    // // std::negate<>() 执行取反操作
 }
 
 struct CompareByLength {
@@ -110,7 +178,7 @@ struct CompareByLength {
 
 int main(int argc, char* argv[])
 {
-    std::map<string, int> usermap = {
+    std::map<std::string, int> usermap = {
         {"alpha", 4},
         {"beta", 2}, 
         {"gamma", 3},   
@@ -118,131 +186,130 @@ int main(int argc, char* argv[])
     auto copymap = usermap;
 
     //size, clear, max_size, empty
-    show_map(copymap, "copymap");
-    cout<<"size:"<<copymap.size()<<endl;
+    show_container(copymap, "copymap");
+    std::cout<<"size:"<<copymap.size()<<std::endl;
     copymap.clear();
-    cout<<"clear size:"<<copymap.size()<<endl;
-    cout<<"max_size:"<<copymap.max_size()<<endl;
-    cout<<"empty:"<<copymap.empty()<<endl;
+    std::cout << "clear size:" << copymap.size() << std::endl;
+    std::cout << "max_size:" << copymap.max_size() << std::endl;
+    std::cout << "empty:" << copymap.empty() << std::endl;
 
-    show_map(usermap, "usermap");
+    show_container(usermap, "usermap");
 
     //at, operator[]
     usermap.at("beta") = 5;
-    show_map(usermap, "usermap", SHOW_MODE_ENUM_LAMBDA);
+    show_container(usermap, "usermap");
     usermap["beta"] = 4;
-    show_map(usermap, "operator[]");
+    show_container(usermap, "operator[]");
 
     //begin, end, cbegin, cend
     //rbegin, rend, rcbegin, rcend
-    std::map<string, int>::iterator iterbegin = usermap.begin();
-    std::map<string, int>::iterator iterend = usermap.end();
-    std::map<string, int>::const_iterator iterconstbegin = usermap.cbegin();
-    std::map<string, int>::const_iterator iterconstend = usermap.cend();
-    std::map<string, int>::reverse_iterator iterrbegin = usermap.rbegin();
-    std::map<string, int>::reverse_iterator iterrend = usermap.rend();
-    std::map<string, int>::const_reverse_iterator iterconstrbegin = usermap.crbegin();
-    std::map<string, int>::const_reverse_iterator iterconstrend = usermap.crend();
-    cout<<"begin: "<<iterbegin->first<<"=>"<<iterbegin->second<<",";
+    std::map<std::string, int>::iterator iterbegin = usermap.begin();
+    std::map<std::string, int>::iterator iterend = usermap.end();
+    std::map<std::string, int>::const_iterator iterconstbegin = usermap.cbegin();
+    std::map<std::string, int>::const_iterator iterconstend = usermap.cend();
+    std::map<std::string, int>::reverse_iterator iterrbegin = usermap.rbegin();
+    std::map<std::string, int>::reverse_iterator iterrend = usermap.rend();
+    std::map<std::string, int>::const_reverse_iterator iterconstrbegin = usermap.crbegin();
+    std::map<std::string, int>::const_reverse_iterator iterconstrend = usermap.crend();
+    std::cout<<"begin: "<<iterbegin->first<<"=>"<<iterbegin->second<<",";
     --iterend;
-    cout<<"end: "<<iterend->first<<"=>"<<iterend->second<<",";
-    cout<<"cbegin: "<<iterconstbegin->first<<"=>"<<iterconstbegin->second<<",";
+    std::cout<<"end: "<<iterend->first<<"=>"<<iterend->second<<",";
+    std::cout<<"cbegin: "<<iterconstbegin->first<<"=>"<<iterconstbegin->second<<",";
     --iterconstend;
-    cout<<"cend: "<<iterconstend->first<<"=>"<<iterconstend->second<<",";
-    cout<<"rbegin: "<<iterrbegin->first<<"=>"<<iterrbegin->second<<",";
+    std::cout<<"cend: "<<iterconstend->first<<"=>"<<iterconstend->second<<",";
+    std::cout<<"rbegin: "<<iterrbegin->first<<"=>"<<iterrbegin->second<<",";
     --iterrend;
-    cout<<"rend: "<<iterrend->first<<"=>"<<iterrend->second<<",";
-    cout<<"crbegin: "<<iterconstrbegin->first<<"=>"<<iterconstrbegin->second<<",";
+    std::cout<<"rend: "<<iterrend->first<<"=>"<<iterrend->second<<",";
+    std::cout<<"crbegin: "<<iterconstrbegin->first<<"=>"<<iterconstrbegin->second<<",";
     --iterconstrend;
-    cout<<"crend: "<<iterconstrend->first<<"=>"<<iterconstrend->second<<endl;
+    std::cout<<"crend: "<<iterconstrend->first<<"=>"<<iterconstrend->second<<std::endl;
 
     //count
-    cout<<"count:"<<usermap.count("beta")<<endl;
+    std::cout<<"count:"<<usermap.count("beta")<<std::endl;
 
     //emplace, emplace_hint
     usermap.emplace("delta", 6);
-    show_map(usermap, "emplace", SHOW_MODE_ENUM_TYPE_AUTO);
+    show_container(usermap, "emplace");
     usermap.emplace_hint(usermap.begin(), "epsilon", 10);
-    show_map(usermap, "emplace", SHOW_MODE_ENUM_TYPE_ITERATOR);
+    show_container(usermap, "emplace");
 
     //equal_range, lower_bound, upper_bound
-    std::pair<std::map<string, int>::iterator, std::map<string, int>::iterator> ret;
+    std::pair<std::map<std::string, int>::iterator, std::map<std::string, int>::iterator> ret;
     ret = usermap.equal_range("beta");
-    if(ret.first != usermap.end())
-        cout<<"equal_range lower_bound:"<<ret.first->first<<"=>"<<ret.first->second<<endl;
+    if(ret.first != usermap.end()) {
+        std::cout<<"equal_range lower_bound:"<<ret.first->first<<"=>"<<ret.first->second<<std::endl;
+    } else {
+        std::cout<<"invaild equal_range lower_bound"<<std::endl;
+    }
+    if(ret.second != usermap.end())  {
+        std::cout<<"equal_range upper_bound:"<<ret.second->first<<"=>"<<ret.second->second<<std::endl;
+    }    
     else
-        cout<<"invaild equal_range lower_bound"<<endl;
-    if(ret.second != usermap.end())   
-        cout<<"equal_range upper_bound:"<<ret.second->first<<"=>"<<ret.second->second<<endl;
-    else
-        cout<<"invaild equal_range upper_bound"<<endl;
-    std::map<string, int>::iterator lower = usermap.lower_bound("beta");
-    std::map<string, int>::iterator upper = usermap.upper_bound("beta");
+        std::cout<<"invaild equal_range upper_bound"<<std::endl;
+    std::map<std::string, int>::iterator lower = usermap.lower_bound("beta");
+    std::map<std::string, int>::iterator upper = usermap.upper_bound("beta");
     if(lower != usermap.end())
-        cout<<"lower_bound:"<<lower->first<<"=>"<<lower->second<<endl;
+        std::cout<<"lower_bound:"<<lower->first<<"=>"<<lower->second<<std::endl;
     else
-        cout<<"invaild lower_bound"<<endl;
+        std::cout<<"invaild lower_bound"<<std::endl;
     if(upper != usermap.end())
-        cout<<"upper_bound:"<<upper->first<<"=>"<<upper->second<<endl;
+        std::cout<<"upper_bound:"<<upper->first<<"=>"<<upper->second<<std::endl;
     else   
-        cout<<"invaild upper_bound"<<endl;
+        std::cout<<"invaild upper_bound"<<std::endl;
 
     //find, erase
-    std::map<string, int>::iterator it = usermap.find("gamma");
-    cout<<"find:"<<it->first<<"=>"<<it->second<<endl;
+    std::map<std::string, int>::iterator it = usermap.find("gamma");
+    std::cout<<"find:"<<it->first<<"=>"<<it->second<<std::endl;
     usermap.erase(it);
-    show_map(usermap, "erase");
+    show_container(usermap, "erase");
 
     //get_alloctator
-    std::pair<const string, int>* p;
+    std::pair<const std::string, int>* p;
     p = usermap.get_allocator().allocate(5);
-    cout<<"size:"<<sizeof(p)<<","<<sizeof(std::map<string, int>::value_type)<<endl;
+    std::cout<<"size:"<<sizeof(p)<<","<<sizeof(std::map<std::string, int>::value_type)<<std::endl;
     usermap.get_allocator().deallocate(p, 5);
 
     //insert
-    usermap.insert(usermap.begin(), std::pair<string, int>("gamma", 5));
-    usermap.insert(usermap.find("delta"), std::pair<string, int>("zeta", 9));
-    show_map(usermap, "insert");
+    usermap.insert(usermap.begin(), std::pair<std::string, int>("gamma", 5));
+    usermap.insert(usermap.find("delta"), std::pair<std::string, int>("zeta", 9));
+    show_container(usermap, "insert");
 
     //key_comp => key compare, use key value
-    cout<<"key_comp: ";
-    for(auto &x:usermap)
-    {
-        if(usermap.key_comp()(x.first, "c"))
-        {
-            cout<<x.first<<"=>"<<x.second<<" ";
+    std::cout<<"key_comp: ";
+    for (auto &x:usermap) {
+        if(usermap.key_comp()(x.first, "c")) {
+            std::cout<<x.first<<"=>"<<x.second<<" ";
         }
     }
-    cout<<endl;
+    std::cout<<std::endl;
 
     //value_comp => key compare, use object
-    cout<<"value_comp: ";
-    for(auto &x:usermap)
-    {
-        if(usermap.value_comp()(x, std::pair<string, int>("c", 1)))
-        {
-            cout<<x.first<<"=>"<<x.second<<" ";
+    std::cout<<"value_comp: ";
+    for (auto &x:usermap) {
+        if(usermap.value_comp()(x, std::pair<std::string, int>("c", 1))) {
+            std::cout<<x.first<<"=>"<<x.second<<" ";
         }
     }
-    cout<<endl;
+    std::cout<<std::endl;
 
-    std::map<string, int> swapmap;
+    std::map<std::string, int> swapmap;
 
     //swap
     swapmap.swap(usermap);
-    show_map(swapmap, "swap");
+    show_container(swapmap, "swap");
 
     // key compare
-    std::map<string, int, CompareByLength> compare_map = {
+    std::map<std::string, int, CompareByLength> compare_map = {
         {"alpha1", 3},
         {"beta2", 4},
         {"gamma3", 1},
     };
     std::cout<<"compare_map: ";
     for(auto &x:compare_map) {
-        cout<<x.first<<"=>"<<x.second<<" ";
+        std::cout<<x.first<<"=>"<<x.second<<" ";
     }
-    cout<<endl;
+    std::cout<<std::endl;
 
+    algorithm_process();
     return 0;
 } 

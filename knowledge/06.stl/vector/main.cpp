@@ -1,118 +1,218 @@
-﻿/*
-std::vector
-https://www.cplusplus.com/reference/vector/vector/
-
-std::vector 是 C++ 标准模板库（STL）中的一个容器，它表示一个动态数组，能够在运行时改变其大小。std::vector 是一个模板类，因此可以存储任何类型的元素。以下是 std::vector 的一些关键特性和常用操作：
-
-特性:
-1. 动态大小：std::vector 的大小可以在运行时动态增长或缩小。
-2. 连续存储：元素在内存中是连续存储的，这使得随机访问非常高效。
-3. 自动内存管理：std::vector 负责管理其内部的内存，包括分配和释放。
-4. 高效的插入和删除：在末尾插入和删除元素的操作通常是高效的（摊销常数时间复杂度），但在中间或开头插入/删除元素可能会导致元素的移动，效率较低。
-
-常用操作:
-插入元素：使用 push_back 在末尾插入元素，使用 insert 在指定位置插入元素。
-访问元素：使用 operator[] 或 at 方法访问元素。
-删除元素：使用 pop_back 删除末尾元素，使用 erase 删除指定位置的元素。
-获取大小和容量：使用 size 获取当前元素个数，使用 capacity 获取当前分配的内存空间大小。
-调整大小：使用 resize 改变容器的大小，使用 reserve 预分配内存空间
-
-接口说明:
-assign      清除矢量并将指定的元素复制到该空矢量。
-at          返回对矢量中指定位置的元素的引用。
-back        返回对向量中最后一个元素的引用。
-begin       对该向量中第一个元素返回随机访问迭代器。
-capacity    返回在不分配更多的存储的情况下向量可以包含的元素数。
-cbegin      返回指向向量中第一个元素的随机访问常量迭代器。
-cend        返回一个随机访问常量迭代器，它指向刚超过矢量末尾的位置。
-crbegin     返回一个指向反向矢量中第一个元素的常量迭代器。
-crend       返回一个指向反向矢量末尾的常量迭代器。
-clear       清除向量的元素。
-data        返回指向向量中第一个元素的指针。
-emplace     将就地构造的元素插入到指定位置的向量中。
-emplace_back 将一个就地构造的元素添加到向量末尾。
-empty       测试矢量容器是否为空。
-end         返回指向矢量末尾的随机访问迭代器。
-erase       从指定位置删除向量中的一个元素或一系列元素。
-front       返回对向量中第一个元素的引用。
-get_allocator 将对象返回到矢量使用的 allocator 类。
-insert      将一个元素或多个元素插入到指定位置的向量中。
-max_size    返回向量的最大长度。
-pop_back    删除矢量末尾处的元素。
-push_back   在矢量末尾处添加一个元素。
-rbegin      返回指向反向向量中第一个元素的迭代器。
-rend        返回一个指向反向矢量末尾的迭代器。
-reserve     保留向量对象的最小存储长度。
-resize      为矢量指定新的大小。
-shrink_to_fit 放弃额外容量。
-size        返回向量中的元素数量。
-swap        交换两个向量的元素
-operator[]  返回对指定位置的矢量元素的引用。
-operator=   用另一个向量的副本替换该向量中的元素
-
-总结:
-push_back: 当传入的是对象实例时，它会调用对象的拷贝构造函数或者移动构造函数，把传入的对象复制或者移动到容器里。如果是临时对象，则会调用对象的移动构造函数。
-emplace_back: 它会在容器的末尾直接构造对象，也就是就地构造，不需要进行对象的拷贝或者移动操作，或者直接使用传入的参数调用对象的构造函数，性能更优。
-*/
+﻿//////////////////////////////////////////////////////////////////////////////
+//  (c) copyright 2023-by ZC Inc.  
+//  All Rights Reserved
+//
+//  Name:
+//      main.cpp
+//
+//  Purpose:
+//      1. std::vector声明
+//      2. std::vector方法
+//      3. std::vector常用算法配合
+//
+// Author:
+//      @zc
+//
+// Revision History:
+//      Version V1.0b1 Create.
+/////////////////////////////////////////////////////////////////////////////
 #include <vector>
 #include <iostream>
 #include <algorithm>
 #include <string>
 #include <unistd.h>
-
-using std::string;
-using std::cout;
-using std::endl;
-
-typedef enum
-{
-    SHOW_MODE_ENUM_LAMBDA = 0,
-    SHOW_MODE_ENUM_TYPE_AUTO,
-    SHOW_MODE_ENUM_TYPE_ITERATOR,
-    SHOW_MODE_ENUM_TYPE_OPERATOR
-}SHOW_MODE_ENUM;
+#include <numeric>
 
 template<typename T>
-void show_vector(std::vector<T> value, string qlabel, SHOW_MODE_ENUM mode = SHOW_MODE_ENUM_LAMBDA)
+void show_container(T container_val, std::string qstring)
 {
     //empty, size
-    if(!qlabel.empty())
+    if(!qstring.empty())
     {
-        for(auto index=qlabel.size(); index<13; index++)
-            qlabel.push_back(' ');
-        qlabel += ": ";
-        cout<<qlabel;
+        for(auto index=qstring.size(); index<13; index++)
+            qstring.push_back(' ');
+        qstring += ":";
+        std::cout<<qstring;
     }
 
-    //begin, end
-    if(mode == SHOW_MODE_ENUM_LAMBDA)
-    {
-        std::for_each(value.begin(), value.end(), [](const T &ref_value){
-            cout<<ref_value<<" ";
-        });
+    for(const auto &ref : container_val) {
+        std::cout<<ref<<" ";
     }
 
-    //autoreference
-    else if(mode == SHOW_MODE_ENUM_TYPE_AUTO)
-    {
-        for(auto &ref : value)
-            cout<<ref<<" ";
+    std::cout<<std::endl;
+}
+
+void algorithm_process(void)
+{
+    std::cout<<"==================== algorithm_process ===================="<<std::endl;
+
+    // 查找算法
+    std::cout<<"======= search ======="<<std::endl;
+    std::vector<int> vcon_0{2, 3, 3, 5, 7, 7, 1};
+    std::vector<int> vcon_1{4, 6};
+    std::cout<<"all_of:"<<std::all_of(vcon_0.begin(), vcon_0.end(), [](const int &ref_value){
+        return ref_value >= 1;
+    })<<std::endl;
+    std::cout<<"any_of:"<<std::any_of(vcon_0.begin(), vcon_0.end(), [](const int &ref_value){
+        return ref_value > 5;
+    })<<std::endl;
+
+    auto val = std::find(vcon_0.begin(), vcon_0.end(), 3);
+    if(val != vcon_0.end()) {
+        std::cout<<"find:"<<*val<<std::endl;
+    }
+    val = std::find_if(vcon_0.begin(), vcon_0.end(), [](const int &ref_value){
+        return ref_value > 5;
+    });
+    if(val != vcon_0.end()) {
+        std::cout<<"find_if:"<<*val<<std::endl;
     }
 
-    //iterator
-    else if(mode == SHOW_MODE_ENUM_TYPE_ITERATOR)
-    {
-        for(typename std::vector<T>::iterator iter=value.begin(); iter!=value.end(); iter++)
-            cout<<*iter<<" ";
+    val = std::search(vcon_0.begin(), vcon_0.end(), std::vector<int>{3, 5}.begin(), std::vector<int>{3, 5}.end());
+    if(val != vcon_0.end()) {
+        std::cout<<"search:"<<*val<<std::endl;
+    }
+
+    // 排序算法
+    std::cout<<"======= sort ======="<<std::endl;
+    std::cout<<"is sort:"<<std::is_sorted(vcon_0.begin(), vcon_0.end())<<std::endl;
+    
+    val = std::is_sorted_until(vcon_0.begin(), vcon_0.end());
+    if(val != vcon_0.end()) {
+        std::cout<<"is_sorted_until:"<<*val<<std::endl;
+    }
+    std::sort(vcon_0.begin(), vcon_0.end());
+    std::cout<<"is sort:"<<std::is_sorted(vcon_0.begin(), vcon_0.end())<<std::endl;
+
+    std::reverse(vcon_0.begin(), vcon_0.end());
+    show_container(vcon_0, "reverse");
+    std::rotate(vcon_0.begin(), vcon_0.begin()+1, vcon_0.end());
+    show_container(vcon_0, "rotate");
+    std::random_shuffle(vcon_0.begin(), vcon_0.end());
+    show_container(vcon_0, "random_shuffle");
+
+    // 变换算法
+    std::cout<<"======= transform ======="<<std::endl;
+    std::transform(vcon_0.begin(), vcon_0.end(), vcon_0.begin(), [](const int &ref_value){
+        return ref_value*ref_value;
+    });
+    show_container(vcon_0, "transform");
+
+    std::replace(vcon_0.begin(), vcon_0.end(), 9, 100);
+    show_container(vcon_0, "replace");
+
+    std::replace_if(vcon_0.begin(), vcon_0.end(), [](const int &ref_value){
+        return ref_value == 100;
+    }, 10);
+    show_container(vcon_0, "replace_if");
+
+    // 计数算法
+    std::cout<<"======= count ======="<<std::endl;
+    std::cout<<"count:"<<std::count(vcon_0.begin(), vcon_0.end(), 9)<<std::endl;
+    std::cout<<"count of:"<<std::count_if(vcon_0.begin(), vcon_0.end(), [](const int &ref_value){
+        return ref_value > 5;
+    })<<std::endl; //满足元素的个数
+    std::vector<int> destination;
+    std::partial_sum(vcon_0.begin(), vcon_0.end(), std::back_inserter(destination)); //元素累加和
+    show_container(destination, "partial_sum");
+
+    destination.clear();
+    std::adjacent_difference(vcon_0.begin(), vcon_0.end(), std::back_inserter(destination)); //相邻元素的差
+    show_container(destination, "adjacent_difference");
+
+    // 比较算法
+    std::cout<<"======= compare ======="<<std::endl;
+    std::cout<<"equal:"<<std::equal(vcon_0.begin(), vcon_0.end(), destination.begin())<<std::endl;
+    auto val_1 = std::mismatch(vcon_1.begin(), vcon_1.end(), vcon_0.begin());
+    if (val_1.first != vcon_1.end()) {
+        std::cout<<"mismatch:"<<*val_1.first<<" "<<*val_1.second<<std::endl;
+    }
+    auto val_2 = std::mismatch(vcon_0.begin(), vcon_0.end(), vcon_1.begin(), [](const int &ref_value_0, const int &ref_value_1){
+        return ref_value_0%2 == ref_value_1%2;
+    });
+    if (val_2.first != vcon_0.end()) {
+        std::cout<<"mismatch:"<<*val_2.first<<" "<<*val_2.second<<std::endl;
     }
     
-    //operator[], size
-    else if(mode == SHOW_MODE_ENUM_TYPE_OPERATOR)
-    {
-        for(int index=0; index<value.size(); index++)
-            cout<<value[index]<<" ";
-    }
-    cout<<endl;
+    // 生成算法
+    std::cout<<"======= generate ======="<<std::endl;
+    std::fill(vcon_0.begin(), vcon_0.end(), 5);
+    show_container(vcon_0, "fill");
+
+    std::generate(vcon_0.begin(), vcon_0.end(), [](){
+        return rand()%100;
+    });
+    show_container(vcon_0, "generate");
+
+    std::vector<int> vcon_2;
+    vcon_2.resize(vcon_0.size());
+    std::copy_if(vcon_0.begin(), vcon_0.end(), vcon_2.begin(), [](const int &ref_value){
+        return ref_value < 50;
+    });
+    show_container(vcon_2, "copy");
+
+    // 移除算法
+    std::cout<<"======= remove ======="<<std::endl;
+    std::vector<int> vcon_r = {1, 3, 3, 6, 5, 6, 7};
+    auto end = std::remove(vcon_r.begin(), vcon_r.end(), 3);
+    vcon_r.erase(end, vcon_r.end());
+    show_container(vcon_r, "remove");
+    std::sort(vcon_r.begin(), vcon_r.end());
+    auto unique_end = std::unique(vcon_r.begin(), vcon_r.end());
+    vcon_r.erase(unique_end, vcon_r.end());
+    show_container(vcon_r, "unique");
+
+    // 分割算法
+    std::cout<<"======= partition ======="<<std::endl;
+    std::vector<int> vcon_3 = {1, 2, 3, 4, 5, 6, 7};
+    std::stable_partition(vcon_3.begin(), vcon_3.end(), [](const int &ref_value){
+        return ref_value % 2 == 0;
+    });
+    show_container(vcon_3, "stable_partition");
+    std::partition(vcon_3.begin(), vcon_3.end(), [](const int &ref_value){
+        return ref_value % 2 == 0;
+    });
+    show_container(vcon_3, "partition");
+
+    // 归并算法
+    std::cout<<"======= merge ======="<<std::endl;
+    std::vector<int> vcon_4 = {1, 3, 5};
+    std::vector<int> vcon_5 = {2, 4, 6, 8};
+    std::vector<int> vcon_6;
+    vcon_6.resize(vcon_4.size() + vcon_5.size());
+    std::merge(vcon_4.begin(), vcon_4.end(), vcon_5.begin(), vcon_5.end(), vcon_6.begin());
+    show_container(vcon_6, "merge");
+    std::fill(vcon_6.begin(), vcon_6.end(), 0);
+    std::set_difference(vcon_4.begin(), vcon_4.end(), vcon_5.begin(), vcon_5.end(), vcon_6.begin());
+    show_container(vcon_6, "set_union");
+
+    // 堆算法
+    // std::greater<>() 执行大于比较操作
+    // std::less<>() 执行小于比较操作
+    // std::less_equal<>() 执行小于等于比较操作
+    // std::greater_equal<>() 执行大于等于比较操作
+    // std::equal_to<>() 执行等于比较操作
+    // std::not_equal_to<>() 执行不等于比较操作
+    std::cout<<"======= heap ======="<<std::endl;
+    std::make_heap(vcon_4.begin(), vcon_4.end());
+    std::push_heap(vcon_4.begin(), vcon_4.end());
+    std::sort_heap(vcon_4.begin(), vcon_4.end(), std::less<>());
+    show_container(vcon_4, "make_heap");
+
+    // 其它算法
+    // std::plus<>() 执行加法操作
+    // std::minus<>() 执行减法操作
+    // std::multiplies<>() 执行乘法操作
+    // std::divides<>() 执行除法操作
+    // std::modulus<>() 执行取模操作
+    // std::negate<>() 执行取反操作
+    std::cout<<"======= other ======="<<std::endl;
+    auto result = std::reduce(vcon_4.begin(), vcon_4.end(), 0, std::plus<>());
+    std::cout<<"reduce:"<<result<<std::endl;
+    result = std::reduce(vcon_4.begin(), vcon_4.end(), 1, std::multiplies<>());
+    std::cout<<"reduce:"<<result<<std::endl;
+    result = std::transform_reduce(vcon_4.begin(), vcon_4.end(), vcon_4.begin(), 0, std::plus<>(), std::multiplies<>());     //先转换后归约
+    std::cout<<"transform_reduce:"<<result<<std::endl;
 }
 
 struct MyStruct
@@ -133,41 +233,41 @@ int main(int argc, char* argv[])
     int array[5] = {8, 2, 1, 3, 5};
     std::vector<int> intv(array, array+5);
     std::vector<int> uservector(intv);
-    std::vector<string> listvector;
+    std::vector<std::string> listvector;
     
     //operator=
-    listvector = std::vector<string>({"0x00", "0x01", "0x02"}); //list initialize
-    show_vector(listvector, "listvector");
+    listvector = std::vector<std::string>({"0x00", "0x01", "0x02"}); //list initialize
+    show_container(listvector, "listvector");
 
     //clear, capacity, size, max_size
     listvector.clear();
-    cout<<"capacity:"<<listvector.capacity()<<" | ";
-    cout<<"size:"<<listvector.size()<<endl;
-    cout<<"max_size:"<<listvector.max_size()<<endl;
-    show_vector(uservector, "uservector");
+    std::cout<<"capacity:"<<listvector.capacity()<<" | ";
+    std::cout<<"size:"<<listvector.size()<<std::endl;
+    std::cout<<"max_size:"<<listvector.max_size()<<std::endl;
+    show_container(uservector, "uservector");
 
     //assign
     uservector.assign(uservector.begin(), uservector.end()-1);
-    show_vector(uservector, "assign", SHOW_MODE_ENUM_TYPE_AUTO);
+    show_container(uservector, "assign");
 
     //at
     int &p = uservector.at(2);
     p = 10;
-    show_vector(uservector, "at", SHOW_MODE_ENUM_TYPE_ITERATOR);
+    show_container(uservector, "at");
 
     //back
     int &end = uservector.back();
     end = 5;
-    show_vector(uservector, "back", SHOW_MODE_ENUM_TYPE_OPERATOR);
+    show_container(uservector, "back");
 
     //capacity, reserve, resize, max_size
-    cout<<"capactity:"<<uservector.capacity()<<endl;
+    std::cout<<"capactity:"<<uservector.capacity()<<std::endl;
     uservector.reserve(7);
-    cout<<"reserve capactity:"<<uservector.capacity()<<endl;
+    std::cout<<"reserve capactity:"<<uservector.capacity()<<std::endl;
     uservector.resize(3);
     uservector.shrink_to_fit();
-    cout<<"fit capactity:"<<uservector.capacity()<<endl;
-    cout<<"max_size:"<<uservector.max_size()<<endl;
+    std::cout<<"fit capactity:"<<uservector.capacity()<<std::endl;
+    std::cout<<"max_size:"<<uservector.max_size()<<std::endl;
 
     //begin,  end,  cbegin,  cend
     //rbegin, rend, rcbegin, rcend
@@ -179,67 +279,61 @@ int main(int argc, char* argv[])
     std::vector<int>::reverse_iterator iterrend = uservector.rend();
     std::vector<int>::const_reverse_iterator iterconstrbegin = uservector.crbegin();
     std::vector<int>::const_reverse_iterator iterconstrend = uservector.crend();
-    cout<<"begin:"<<*iterbegin<<" "<<"end:"<<*(iterend-1)<<" ";
-    cout<<"cbegin:"<<*iterconstbegin<<" "<<"cend:"<<*(iterconstend-1)<<" ";
-    cout<<"rbegin:"<<*iterrbegin<<" "<<"rend:"<<*(iterrend-1)<<" ";
-    cout<<"crbegin:"<<*iterconstrbegin<<" "<<"crend:"<<*(iterconstrend-1)<<" "<<endl;
+    std::cout<<"begin:"<<*iterbegin<<" "<<"end:"<<*(iterend-1)<<" ";
+    std::cout<<"cbegin:"<<*iterconstbegin<<" "<<"cend:"<<*(iterconstend-1)<<" ";
+    std::cout<<"rbegin:"<<*iterrbegin<<" "<<"rend:"<<*(iterrend-1)<<" ";
+    std::cout<<"crbegin:"<<*iterconstrbegin<<" "<<"crend:"<<*(iterconstrend-1)<<" "<<std::endl;
 
     //data
     int *ptr = uservector.data();
     ptr[0] = 4;
     ptr[2] = 3;
-    show_vector(uservector, "data");
+    show_container(uservector, "data");
 
     //emplace, emplace_back
     auto it = uservector.emplace(uservector.begin()+1, 8);
-    show_vector(uservector, "emplace");
-    cout<<"empalce iterator:"<<*it<<endl;
+    show_container(uservector, "emplace");
+    std::cout<<"empalce iterator:"<<*it<<std::endl;
     uservector.emplace_back(9);
-    show_vector(uservector, "emplace_back");
+    show_container(uservector, "emplace_back");
 
     std::vector<MyStruct> myvector;
     myvector.emplace_back(MyStruct(1, 2));
     myvector.emplace_back(3, 4);
-    for (const auto& element : myvector)
-    {
-        std::cout << element << " ";
-    }
-    std::cout << std::endl;
+    show_container(myvector, "emplace_back");
 
     //erase
     auto iter=uservector.begin();
-    while(iter!=uservector.end())
-    {
-        if(*iter == 3)
-        {
+    while(iter!=uservector.end()) {
+        if(*iter == 3) {
             iter=uservector.erase(iter);
         }
-        else
-        {
+        else {
             iter++;
         }
     }
-    show_vector(uservector, "erase");
+    show_container(uservector, "erase");
 
     //front
     int &front = uservector.front();
     front = 6;
-    show_vector(uservector, "front");
+    show_container(uservector, "front");
 
     //insert
     uservector.insert(uservector.begin(), 2, 5);
-    show_vector(uservector, "insert");
+    show_container(uservector, "insert");
 
     //swap, operator=
     std::vector<int> swapvector = std::vector<int>();
     swapvector.swap(uservector);
-    show_vector(swapvector, "swapvector");
+    show_container(swapvector, "swapvector");
 
     //pop_back, push_back
     swapvector.push_back(10);
-    show_vector(swapvector, "push_back");
+    show_container(swapvector, "push_back");
     swapvector.pop_back();
-    show_vector(swapvector, "pop_back");
+    show_container(swapvector, "pop_back");
 
+    algorithm_process();
     return 0;
 } 

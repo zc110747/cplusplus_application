@@ -1,69 +1,86 @@
-/*
-std::priority_queue 是 C++ 标准库中的一个容器适配器，它提供了一种优先队列的实现。
-
-主要特点：
-1. 自动排序：元素在插入时会自动按照优先级进行排序。默认情况下，使用 < 运算符进行比较，即最大元素总是位于队首。
-2. 高效操作：插入和删除操作的时间复杂度为对数级别，即 O(log n)。
-3. 基于堆实现：std::priority_queue 通常基于堆数据结构实现，这使得它在处理大量数据时非常高效。
-
-构造函数:
-priority_queue();
-explicit priority_queue(const Traits& _comp);
-priority_queue(const Traits& _comp, const container_type& _Cont);
-priority_queue(const priority_queue& right);
-template <class InputIterator>
-priority_queue(InputIterator first, InputIterator last);
-template <class InputIterator>
-priority_queue(InputIterator first, InputIterator last, const Traits& _comp);
-template <class InputIterator>
-priority_queue(InputIterator first, InputIterator last, const Traits& _comp, const container_type& _Cont)
-
-成员函数：
-empty：判断队列是否为空。
-pop：移除队首元素。
-push：插入元素到队列。
-size：返回队列中元素的个数。
-top：返回队首元素的引用。
-*/
-
+//////////////////////////////////////////////////////////////////////////////
+//  (c) copyright 2025-by ZC Inc.  
+//  All Rights Reserved
+//
+//  Name:
+//      main.cpp
+//
+//  Purpose:
+//      1. std::priority_queue声明
+//      2. std::priority_queue方法
+//
+// Author:
+//      @zc
+//
+// Revision History:
+//      Version V1.0b1 Create.
+/////////////////////////////////////////////////////////////////////////////
 #include <iostream>
 #include <queue>
+#include <string>
 #include <vector>
 
-using namespace std;
+template<typename T>
+void show_container(T container_val, std::string qstring)
+{
+    //empty, size
+    if(!qstring.empty())
+    {
+        for(auto index=qstring.size(); index<13; index++)
+            qstring.push_back(' ');
+        qstring += ":";
+        std::cout << qstring;
+    }
+
+    T temp_container(container_val);
+    while(!temp_container.empty())
+    {
+        std::cout << temp_container.top() << ", ";
+        temp_container.pop();
+    }
+
+    std::cout << std::endl;
+}
 
 int main(int argc, char** argv) 
 {
-    std::priority_queue<int> p_queue;
+    std::priority_queue<int> qcon_0;
 
     // size, top, push, pop
-    p_queue.push(1);
-    p_queue.push(2);
-    p_queue.push(3);
-    std::cout<<"pp_queueq.size() = "<<p_queue.size()<<std::endl;
-    std::cout<<"p_queue.top() = "<<p_queue.top()<<std::endl;
-
-    while(!p_queue.empty()) {
-        cout<<p_queue.top()<<", ";
-        p_queue.pop();
-    }
-    cout<<endl;
+    qcon_0.push(1);
+    qcon_0.push(2);
+    qcon_0.push(3);
+    std::cout << "size: " << qcon_0.size() << std::endl;
+    std::cout << "top: " << qcon_0.top() << std::endl;
+    show_container(qcon_0, "qcon_0");
 
     // 构造函数
     std::vector<int> vec = {1, 6, 4, 2, 3};
-    std::priority_queue<int> p_queue2(vec.begin(), vec.begin()+3);
-    while(!p_queue2.empty()) {
-        cout<<p_queue2.top()<<", ";
-        p_queue2.pop();
-    }
-    cout<<endl;
+    std::priority_queue<int> qcon_1(vec.begin(), vec.begin()+3);
+    show_container(qcon_1, "qcon_1");
 
-    std::priority_queue<int, std::vector<int>, std::greater<int>> p_queue3(vec.begin(), vec.begin()+3);
-    while(!p_queue3.empty()) {
-        cout<<p_queue3.top()<<", ";
-        p_queue3.pop();
-    }
-    cout<<endl;
-    
+    // 自定义allocator和比较函数
+    std::priority_queue<int, std::vector<int>, std::greater<int>> qcon_2(vec.begin(), vec.begin()+3);
+    show_container(qcon_2, "qcon_2");
+
+    // 赋值运算符
+    struct classcomp{
+        bool operator() (const char& lhs, const char& rhs) const
+            { return rhs < lhs; }
+    };
+    std::priority_queue<int, std::vector<int>, classcomp> qcon_3;
+    qcon_3.push(1);
+    qcon_3.push(2);
+    qcon_3.push(3);
+    show_container(qcon_3, "qcon_3");
+
+    // lambda对象初始化
+    constexpr auto funcomp = [](const char& lhs, const char& rhs) {return lhs<rhs;};
+    std::priority_queue<int, std::vector<int>, decltype(funcomp)> qcon_4(funcomp);
+    qcon_4.push(1);
+    qcon_4.push(2);
+    qcon_4.push(3);
+    show_container(qcon_4, "qcon_4");
+
     return 0;
 }

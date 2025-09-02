@@ -1,69 +1,86 @@
-/*
-std::stack 是 C++ 标准库中的一个容器适配器，它提供了一种后进先出（LIFO）的数据结构。
-
-主要特点
-1. 后进先出：元素按照插入的顺序的逆序进行处理，最后插入的元素最先被取出。
-2. 基于其他容器实现：std::stack 通常基于 std::deque 或 std::vector 实现，但也可以使用其他容器。
-3. 高效操作：插入和删除操作的时间复杂度为常数级别，即 O(1)
-
-构造函数
-stack();
-explicit stack(const container_type& right);
-
-成员函数
-empty：检查栈是否为空。
-pop：移除栈顶元素。
-push：将元素压入栈顶。
-size：返回栈中元素的个数。
-top：返回栈顶元素的引用。
-swap：交换两个栈的内容。
-需要注意的是，std::stack 没有提供访问栈中元素的迭代器，因此无法像其他容器一样使用迭代器进行遍历。
-*/
+//////////////////////////////////////////////////////////////////////////////
+//  (c) copyright 2025-by ZC Inc.  
+//  All Rights Reserved
+//
+//  Name:
+//      main.cpp
+//
+//  Purpose:
+//      1. std::stack声明
+//      2. std::stack方法
+//      3. std::stack常用算法配合
+//
+// Author:
+//      @zc
+//
+// Revision History:
+//      Version V1.0b1 Create.
+/////////////////////////////////////////////////////////////////////////////
 #include <stack>
 #include <iostream>
 #include <algorithm>
 #include <string>
 #include <unistd.h>
 
-using std::string;
-using std::cout;
-using std::endl;
+template<typename T>
+void show_container(T container_val, std::string qstring)
+{
+    //empty, size
+    if(!qstring.empty())
+    {
+        for(auto index=qstring.size(); index<13; index++)
+            qstring.push_back(' ');
+        qstring += ":";
+        std::cout << qstring;
+    }
 
+    T temp_container(container_val);
+    while(!temp_container.empty())
+    {
+        std::cout << temp_container.top() << ", ";
+        temp_container.pop();
+    }
+
+    std::cout << std::endl;
+}
 
 int main(int argc, char* argv[])
 {
     //stack
-    std::stack<string> usr_stack;
+    std::stack<std::string> scon_0;
 
     //emplace, push, size, empty
-    usr_stack.push("first");
-    usr_stack.push("second");
-    usr_stack.push("third");
-    usr_stack.emplace("fourth");
-    usr_stack.push("fifth");
-    cout<<"size:"<<usr_stack.size()<<endl;
-    cout<<"empty:"<<usr_stack.empty()<<endl;
+    scon_0.push("first");
+    scon_0.push("second");
+    scon_0.push("third");
+    scon_0.emplace("fourth");
+    scon_0.push("fifth");
+    std::cout << "size:" << scon_0.size()<< std::endl;
+    std::cout << "empty:" << scon_0.empty()<< std::endl;
+    show_container(scon_0, "scon_0");
 
     //emplace
-    usr_stack.emplace("sixth");
+    scon_0.emplace("sixth");
 
     //top
-    string &strfront = usr_stack.top();
-    cout<<"top: "<<strfront<<endl;
+    std::string &strfront = scon_0.top();
+    std::cout << "top: " << strfront<< std::endl;
 
     //swap
-    std::stack<string> swapstack;
-    swapstack.swap(usr_stack);
+    std::stack<std::string> scon_1;
+    scon_1.swap(scon_0);
 
     //pop
-    cout<<"swapstack:";
-    int size = swapstack.size();
-    for(int index=0; index<size; index++)
-    {
-        cout<<swapstack.top()<<" ";
-        swapstack.pop();
-    }
-    cout<<endl;
+    std::cout << "size:" << scon_1.size() << std::endl;
+    scon_1.pop();
+    std::cout << "size:" << scon_1.size() << std::endl;
+    std::cout << "top: " << scon_1.top() << std::endl;
+    show_container(scon_1, "scon_1");
+
+    //stack with vector
+    std::vector<int> vec_0{2, 1, 4, 5, 5};
+    std::stack<int, std::vector<int>> scon_2(vec_0);
+    show_container(scon_2, "scon_2");
 
     return 0;
 }

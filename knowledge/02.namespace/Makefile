@@ -8,12 +8,12 @@
 
 # This is object should be build and will link to generate
 # the executables
-objects = namespace.o
+objects = main.o
 
 # This is the file name of the executables and path where 
 # place the executables
-executables = studynamespace
-executables_path = ../../executables
+executables = target
+executables_path = ./
 
 # Including this file allows access to the Build System.
 include ../../build/build.mk

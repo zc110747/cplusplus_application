@@ -42,12 +42,10 @@ namespace BASIC_ANY
     {
         T data_;
         
-        Derived(const T& val):data_{val}
-        {
+        Derived(const T& val):data_{val} {
         }
 
-        virtual Base* copy() 
-        {
+        virtual Base* copy() {
             return new Derived<T>(data_);
         }
     };
@@ -60,8 +58,7 @@ namespace BASIC_ANY
 
         //带参数构造函数
         template<typename T>
-        basic_any(const T& data):ptr_{new Derived<T>(data)}
-        {
+        basic_any(const T& data):ptr_{new Derived<T>(data)} {
             std::cout<<"construct function"<<" | ";
         }
 
@@ -70,25 +67,22 @@ namespace BASIC_ANY
         {   
             std::cout<<"copy construct function"<<" | ";
 
-            if(ptr_)
-            {
+            if (ptr_) {
                 delete ptr_;
                 ptr_ = nullptr;
             }
 
-            if(rhs.ptr_)
-            {
+            if (rhs.ptr_) {
                 ptr_ = rhs.ptr_->copy();
             }
         }
 
         //赋值函数
-        basic_any& operator=(const basic_any& rhs)
+        basic_any& operator= (const basic_any& rhs)
         {
             std::cout<<"copy function"<<" | ";
 
-            if(ptr_)
-            {
+            if (ptr_) {
                 delete ptr_;
                 ptr_ = nullptr;
             } 
