@@ -1,18 +1,5 @@
 /*
-输入输出流
 
-C++ 中的输入输出流（I/O Streams）是处理数据输入输出的核心机制, 它允许程序从外部源读取数据, 并将数据写入到外部源。
-
-std::istream是C++标准库中的输入流类，它是所有输入流类的基类。它提供了一组函数，用于从输入流中读取数据
-std::ostream是C++标准库中的输出流类，它是所有输出流类的基类。它提供了一组函数，用于向输出流中写入数据
-std::ofstream是std::ostream的子类，它用于向文件写入数据
-std::ifstream是std::istream的子类，它用于从文件读取数据
-std::stringstream是std::iostream的一个子类，它用于在内存中读写数据
-std::cin是std::istream的实例，它是标准输入流，用于从标准输入读取数据
-std::cout是std::ostream的实例，它是标准输出流，用于向标准输出写入数据
-std::cerr是std::ostream的实例，它是标准错误输出流，用于向标准错误输出写入数据
-std::clog是std::ostream的实例，它是标准日志输出流，用于向标准日志输出写入数据
-std::ios::sync_with_stdio 设置 std::cin 和 std::cout 的同步状态，以提高输入输出的性能
 */
 #include <iostream>
 #include <istream>

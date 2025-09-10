@@ -1,6 +1,5 @@
 /*
-std::filesystem
-C++17 引入的标准库，定义在 <filesystem> 头文件中，提供了跨平台的文件系统操作功能，替代了传统的依赖于操作系统的文件操作函数，让文件和目录操作更加方便、安全和可移植
+
 */
 #include <iostream>
 #include <filesystem>

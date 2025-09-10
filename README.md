@@ -56,6 +56,7 @@ C++是支持多范式不同实践的语言，往往很多应用也仅仅是C++�
   - 指针的概念，指针的运算，指针的类型
   - 指针的引用，指针的解引用
   - 指针的数组，指针的函数
+- C基础库支持，包含cstdio、cstdlib、cstring、cmath、ctime等
 - 预定义指令
   - #include : 引入头文件
   - #define, #undef : 定义和取消宏
@@ -115,17 +116,17 @@ __VA_ARGS__       //是一个预处理器宏，表示变长参数
 2. 类的构造函数，包含默认构造函数、拷贝构造函数，移动构造函数，删除构造函数，显示构造函数，委托构造函数，继承构造函数、。
 3. 类的析构函数，包含默认析构函数、删除析构函数。
 4. 友元函数和友元类，友元函数和友元类可以访问类的所有成员。
-5. 类的运算符重载operator。
-6. 类的继承和权限控制(private、protected、public)。
-7. 多重继承和虚继承。
+5. 类中的this指针，this指针是一个指向当前对象的指针，它在类的非静态成员函数中使用。
+6. 类的运算符重载operator。
+7. 类的继承和权限控制(private、protected、public)，多重继承和虚继承。
 8. const和mutable在类中的运用。
 9. 虚函数，纯虚函数，接口类。
 10. 多态，静态多态和动态多态。
 11. 动态绑定，虚函数表和虚函数指针。
 12. final和override关键字。
-13. 类的重写，重载和隐藏，重载的编译器原理。
-14. 列表初始化，非静态成员的立即初始化，std::initializer_list。
-15. 静态数据成员，静态函数和单例模式，静态数据成员的inline初始化。
+13. 类的重写，重载和隐藏，重载的编译器实现细节。
+14. 列表初始化，非静态成员的立即初始化，std::initializer_list实现自定义类型的列表初始化。
+15. 静态数据成员，静态函数，静态数据成员的inline初始化，单例模式实现。
 16. 非静态数据成员的sizeof。
 17. RAII(Resource Acquisition is initialization)。
 18. 枚举类型的列表初始化，强枚举类型(enum class)。
@@ -198,31 +199,32 @@ STL（Standard Template Library）是C++标准库的一部分，它提供了一�
 10. 堆算法：push_heap, pop_heap, make_heap, sort_heap。
 11. 其它算法: sample, clamp, reduce, transform_reduce, gcd, lcm, to_chars, from_chars。
 
+详细文档: [STL功能说明](./knowledge/06.stl/README.md)
+
 ### std
 
 C++标准库是C++编程语言的一部分，它提供了一组通用的类和函数，用于处理各种常见的编程任务。标准库被组织成多个头文件，每个头文件包含一组相关的功能。以下是一些主要的C++标准库组件。
 
 - any: 可以存储任何类型的对象。
-- apply: 主要作用是将一个可调用对象应用到一个元组（std::tuple）的元素上（C++17）。
-- byte: 用于表示最小的可寻址内存单元，也就是字节（C++17）。
 - bitset：位集合类，用于存储和操作二进制位。
+- byte: 用于表示最小的可寻址内存单元，也就是字节（C++17）。
 - filesystem: 提供了跨平台的文件系统操作功能。
-- invoke: 提供了一种统一的方式来调用可调用对象，包括函数指针、函数对象、成员函数指针等。
+- functional：提供一系列函数相关的定义和调用接口，如std::invoke等。
 - locale：本地化类，用于处理本地化相关的功能。
-- new: 内存分配和释放。
+- new: 内存分配和释放管理。
 - optional：可选值类，用于表示可能存在或不存在的值。
 - random：随机数生成器，提供了各种随机数生成算法。
 - ratio: 有理数类，用于表示有理数。
 - regex：正则表达式类，用于处理正则表达式。
-- source_location：C++20支持的源位置类，用于获取当前函数的源位置信息。
-- span：范围类，用于表示数组或容器的一部分。
 - stream: 输入输出流类，包含istream，ostream, ofstream，ifstream，stringstream，cin, cout, cerr，clog。
 - string：字符串类，提供了字符串的操作和处理功能。
 - string_view：字符串视图类，C++17引入，提供了对字符串的只读访问。
 - tuple：元组类，用于存储多个不同类型的值。
 - type_traits：类型特性类，提供了类型的特性信息。
-- utility: 供了一系列实用工具和通用类型，如std::swap, std::integer_sequence等
+- utility: 供了一系列实用工具和通用类型，如std::apply，std::swap, std::integer_sequence等
 - variant：变体类，用于存储不同类型的值。
+
+详细文档: [标准库说明](./knowledge/07.std/README.md)
 
 ### exception
 
@@ -247,6 +249,8 @@ C++异常处理(exception)是一种机制，用于在程序运行时处理错误
   - std::system_error: 当系统错误发生时抛出。
 - std::expected，C++23提供用于表示一个操作可能成功返回一个值，也可能失败并返回一个错误信息。
 
+详细文档: [异常处理说明](./knowledge/08.exception/README.md)
+
 ### layout
 
 C++的内存布局是指在内存中如何组织和存储对象、变量和函数等，这里主要指类的内存布局。
@@ -259,6 +263,8 @@ C++的内存布局是指在内存中如何组织和存储对象、变量和函�
 6. 虚表和类的内存布局。
 7. 数据对齐(alignas和alignof)，alignas和alignof是C++11引入的关键字，用于指定类型的对齐方式。alignas用于指定类型的对齐方式，alignof用于获取类型的对齐方式。
 
+详细文档: [内存布局说明](./knowledge/09.layout/README.md)
+
 ### smart_pointer
 
 智能指针是C++中的一种特殊类型的指针，它提供了自动内存管理的功能。智能指针通过在对象不再被使用时自动释放其所指向的内存，从而避免了内存泄漏的问题。C++标准库提供了三种主要的智能指针：unique_ptr、shared_ptr和weak_ptr。
@@ -267,6 +273,8 @@ C++的内存布局是指在内存中如何组织和存储对象、变量和函�
 2. shared_ptr：是一种共享所有权的智能指针，它允许多个shared_ptr指向同一个对象。当最后一个指向对象的shared_ptr被销毁时，对象才会被自动删除。
 3. enable_shared_from_this: 用于在shared_ptr中创建指向当前对象的shared_ptr。
 4. weak_ptr：是一种弱引用的智能指针，它不拥有对象的所有权，而是指向一个shared_ptr所管理的对象。当最后一个指向对象的shared_ptr被销毁时，weak_ptr会自动失效。
+
+详细文档: [智能指针说明](./knowledge/10.smart_pointer/README.md)
 
 ### type_conversion
 
@@ -278,18 +286,18 @@ C++的内存布局是指在内存中如何组织和存储对象、变量和函�
 6. reinterpret_cast：用于在编译时进行类型转换，它可以将一个指针或引用转换为另一个类型的指针或引用。
 7. const_cast：用于在编译时进行类型转换，它可以将一个常量指针或引用转换为一个非常量指针或引用。
 
+详细文档: [类型转换说明](./knowledge/11.type_conversion/README.md)
+
 ### thread_coroutine
 
 - atomic、atomic_flag和memory_order
   - std::atomic是模板类，用于提供原子操作。
   - std::atomic_flag则是最简单的原子类型，用于实现简单的同步机制。
   - std::memory_order是枚举类型，以此来协调多线程间的内存访问，确保程序在多线程环境下的正确性与性能。
-- barrier、latch
-  - std::barrier是用于线程同步的类，它允许多个线程在某个点上等待，直到所有线程都到达该点。
-  - std::latch是用于多线程同步，可让一组线程等待直到某个事件完成。
-- bind，std::bind是函数模板，用于将一个函数或函数对象与一组参数绑定在一起，生成一个新的可调用对象。
 - chrono，std::chrono是时间库，提供了各种时间相关的类型和函数。
 - condition_variable：std::condition_variable是用于线程间的同步的类，使得线程可以等待某个条件的满足，当条件满足时，线程可以被唤醒。
+- functional: 是函数对象的包装器，用于将函数、函数指针、函数对象等转换为可调用对象。
+  - std::bind是函数模板，用于将一个函数或函数对象与一组参数绑定在一起，生成一个新的可调用对象。
 - future、async和promise
   - std::future是类模板，用于表示异步操作的结果。
   - std::async是函数模板，用于启动一个异步操作。
@@ -298,12 +306,14 @@ C++的内存布局是指在内存中如何组织和存储对象、变量和函�
   - std::mutex是互斥锁，使得多个线程可以互斥地访问共享资源。
   - std::lock_guard是类模板，用于在构造函数中获取互斥锁，在析构函数中释放互斥锁。
   - std::shared_mutex是共享互斥锁(C++17)，允许多个线程同时读共享资源，但只允许一个线程写共享资源。
-  - std::recursive_mutex是递归互斥锁，允许多个线程递归地获取同一个互斥锁
-- thread和scope_lock。
-  - std::thread是类模板，用于创建和管理线程。
+  - std::recursive_mutex是递归互斥锁，允许多个线程递归地获取同一个互斥锁。
   - std::scope_lock是类模板，用于在构造函数中获取多个互斥锁，在析构函数中释放多个互斥锁。
-- thread_local：是关键字，用于声明线程局部变量。
+- thread是C++用于管理线程的类，它提供了创建、管理和同步线程的功能。
+  - std::thread是类模板，用于创建和管理线程。
+  - thread_local：是关键字，用于声明线程局部变量。
 - timer: 是定时器类，用于创建和管理定时器。
+
+详细文档: [线程和协程说明](./knowledge/12.thread_coroutine/README.md)
 
 ### modern_cpp
 
@@ -344,12 +354,21 @@ C++的内存布局是指在内存中如何组织和存储对象、变量和函�
   - assert是宏，用于在运行时检查条件是否为真，如果条件不为真，则输出错误信息并终止程序。
   - static_assert是静态断言，用于在编译时检查条件是否为真，如果条件不为真，则输出错误信息并终止编译。
 
+详细文档: [现代C++功能说明](./knowledge/13.modern_cpp/README.md)
+
 ### tools
 
 主要包含C++应用中涉及的工具类和GCC相关的功能说明，也包含未整理仅验证的代码。
 
-1. RVO/NRVO（Return Value Optimization）返回值优化。
-2. void_t: C++17中引入的模板元编程工具，它通常用于检测某个类型是否具有特定的成员或特性。
+- exec: 执行系统命令的函数。
+- image: 图片处理工具类。
+- logger: 日志工具类。
+- math_tools: 数学工具类。
+- multi_queue: 多队列管理
+- safety_cpp: 安全C++工具类。
+- thread_pool: 线程池工具类。
+- timer: 定时器工具类。
+- void_t: C++17中引入的模板元编程工具，它通常用于检测某个类型是否具有特定的成员或特性。
 
 ### cpp20
 
@@ -359,3 +378,8 @@ C++的内存布局是指在内存中如何组织和存储对象、变量和函�
   - std::ranges::views：用于创建和操作序列的语法。std::ranges::views 是一种用于创建和操作序列的语法，它可以用于创建新的序列，或者对现有的序列进行转换和操作。
   - std::ranges::actions：用于对序列进行操作的语法。std::ranges::actions 是一种用于对序列进行操作的语法，它可以用于对现有的序列进行转换和操作。
 - coroutines(协程)：用于实现异步编程的语法。coroutines 是一种用于实现异步编程的语法，它可以用于在不阻塞线程的情况下执行异步操作。
+- 其它C++20扩展特性。
+  - source_location：C++20支持的源位置类，用于获取当前函数的源位置信息。
+  - span：范围类，用于表示数组或容器的一部分。
+  - barrier: 是用于线程同步的类，它允许多个线程在某个点上等待，直到所有线程都到达该点。
+  - latch: 是用于多线程同步，可让一组线程等待直到某个事件完成。

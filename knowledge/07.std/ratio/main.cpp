@@ -1,11 +1,5 @@
 /*
-std::ratio C++11 引入的一个模板类，定义在 <ratio> 头文件中，用于在编译时表示有理数。
-它主要用于处理编译时的分数运算，比如时间单位的转换、频率的计算等，能在编译阶段完成分数的化简和计算，提高程序的性能和安全性。
 
-std::ratio_add：计算两个比例的和。
-std::ratio_subtract：计算两个比例的差。
-std::ratio_multiply：计算两个比例的积。
-std::ratio_divide：计算两个比例的商
 */
 #include <iostream>
 #include <ratio>

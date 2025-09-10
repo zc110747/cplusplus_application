@@ -6,6 +6,7 @@
   - [访问控制权限](#access_control)
   - [构造函数](#constructor)
   - [析构函数](#destructor)
+  - [this指针](#this)
   - [友元函数和友元类](#friend)
   - [运算符重载](#operator_overload)
 - [类的继承](#extend)
@@ -214,6 +215,79 @@ int main(int argc, char *argv[]) {
     demo d1;
     demo2* pd2 = new demo2();
 
+    return 0;
+}
+```
+
+### this
+
+this指针是一个指向当前对象的指针，它在类的非静态成员函数中使用。this指针可以用于访问当前对象的成员变量和成员函数。如果了解过Python中的对象，就可以知道在对象函数接口中声明的self，指向当前对象；this指针和self功能很相似，是指向当前对象的指针，用于在成员函数内部访问对象的其它成员。
+
+对于this具有如下特性：
+
+1. this指针是一个指针，指向当前对象的地址。
+2. this指针只能在非静态成员函数内部使用。静态成员函数不与对象绑定，因此内部没有this指针。
+3. 对于特定的对象，其地址固定的，因此this也是常量指针，不能够修改。
+
+this的主要用途如下所示。
+
+1. 在成员函数中区分类变量和输入变量。
+2. 通过*this返回，实现链式调用。
+3. 获取对象本身的指针。
+
+具体示例如下所示。
+
+```cpp
+#include <iostream>
+
+class demo
+{
+public:
+    demo(int x): x_(x) {};
+
+    // 获取x_的值
+    int get_x(void) const {
+        return this->x_;
+    }
+
+    // 设置x_的值
+    void set_x(int x) {
+        this->x_ = x;
+    }
+
+    demo& add(int x) {
+        this->x_ += x;
+        return *this;
+    }
+
+    demo *get_self() {
+        return this;
+    }
+
+    void test() {
+        std::cout << "test" << std::endl;
+    }
+
+private:
+    int x_;
+};
+
+int main(int argc, char *argv[]) 
+{
+    demo d1(1);
+    std::cout << d1.get_x() << std::endl;
+    d1.set_x(2);
+    std::cout << d1.get_x() << std::endl;
+
+    // 链式调用
+    d1.add(1).add(2).add(3);
+    std::cout << d1.get_x() << std::endl;
+
+    // 获取自身的指针
+    d1.get_self()->test();
+
+    // 此时传递到test中的this为nullptr，不过内部未使用，工作正常
+    static_cast<demo*>(nullptr)->test();
     return 0;
 }
 ```

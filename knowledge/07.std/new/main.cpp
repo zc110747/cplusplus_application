@@ -1,24 +1,4 @@
 /*
-new，delete, new[]，delete[]
-
-new 操作符，它用于动态分配内存
-delete 操作符，它用于释放动态分配的内存
-new[] 操作符，它用于动态分配数组
-delete[] 操作符，它用于释放动态分配的数组
-
-new 操作符的语法如下：
-pointer = new type;
-pointer = new type(initializer);
-
-delete 操作符的语法如下：
-delete pointer;
-
-new[] 操作符的语法如下：
-pointer = new type[size];
-
-delete[] 操作符的语法如下：
-delete[] pointer;
-
 
 */
 #include <iostream>

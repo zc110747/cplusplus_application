@@ -1,22 +1,5 @@
 /*
-std::type_traits 是 C++ 标准库中的一个模板库，它提供了一系列的模板类和模板函数，用于在编译时获取和操作类型的特性。
-这些特性包括类型是否是整数、浮点数、指针、引用、类、联合体、枚举等，
-以及类型的大小、对齐方式、是否有默认构造函数、是否有拷贝构造函数、是否有移动构造函数等。
 
-std::type_traits 中的模板类和模板函数都是通过模板特化和模板元编程技术实现的，
-它们可以在编译时进行类型检查和类型转换，从而提高代码的效率和安全性
-
-std::type_traits 中常用的模板类和模板函数：
-1. std::is_integral<T>：判断类型 T 是否是整数类型。
-2. std::is_floating_point<T>：判断类型 T 是否是浮点数类型。
-3. std::is_pointer<T>：判断类型 T 是否是指针类型。
-4. std::is_reference<T>：判断类型 T 是否是引用类型。
-5. std::is_class<T>：判断类型 T 是否是类类型。
-6. std::is_union<T>：判断类型 T 是否是联合体类型。
-7. std::is_enum<T>：判断类型 T 是否是枚举类型。
-8. std::is_same<T, U>：判断类型 T 和 U 是否相同。
-9. std::enable_if<B, T>：根据条件 B 来选择是否启用类型 T。
-10. std::conditional<B, T, F>：根据条件 B 来选择类型 T 或类型 F。
 */
     #include <vector>
     #include <iostream>

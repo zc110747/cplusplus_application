@@ -75,6 +75,5 @@
         "xutility": "cpp"
     },
     "trae.tab.enableRename": false,
-    "trae.tab.enableAutoImport": false,
-    "cmake.sourceDirectory": "D:/github/cplusplus_application/learning_notes/modern_book"
+    "trae.tab.enableAutoImport": false
 }

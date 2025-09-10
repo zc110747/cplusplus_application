@@ -1,20 +1,21 @@
-﻿/*
-std::any 是 C++17 标准库中引入的一个类型安全的通用容器，它可以存储任意类型的值。
-
-主要特点：
-1. 类型安全：std::any 确保存储的值的类型是已知的，并且在运行时进行类型检查。
-2. 动态类型：std::any 可以存储任何类型的值，包括基本类型、自定义类型、甚至是其他std::any对象。
-3. 轻量级：std::any 的实现通常是基于类型擦除技术，这使得它在存储和访问值时具有较低的开销。
-
-成员函数:
-emplace: 用给定的参数构造一个新的值，并将其存储在std::any中。
-has_value: 检查std::any是否包含一个值。
-reset: 清除std::any中的值。
-swap: 交换两个std::any对象的值。
-type: 返回std::any中存储的值的类型。
-
-any_cast: 从std::any中提取值，并将其转换为指定的类型。
-*/
+﻿//////////////////////////////////////////////////////////////////////////////
+//  (c) copyright 2025-by ZC Inc.  
+//  All Rights Reserved
+//
+//  Name:
+//      main.cpp
+//
+//  Purpose:
+//      1. std::any声明
+//      2. std::any方法
+//      3. any_cast处理
+//
+// Author:
+//      @zc
+//
+// Revision History:
+//      Version V1.0b1 Create.
+/////////////////////////////////////////////////////////////////////////////
 #include <any>
 #include <string>
 #include <iostream>
@@ -27,72 +28,73 @@ using std::endl;
 
 int main(int argc, char* argv[])
 {
-    std::any a = "a";
-    std::any b = 1;
-    std::any c{std::in_place_type<std::string>, "c"};
+        std::any data_0 = "a";
+    std::any data_1 = 1;
+    std::any data_2{std::in_place_type<std::string>, "c"};
 
-    cout<<std::boolalpha;
+    std::cout<< std::boolalpha;
+    std::cout<< "data_0 has value: " << data_0.has_value() << std::endl;
 
-    //any cast
-    cout<<"a: "<<std::any_cast<const char *>(a)<<endl;
-    cout<<"b: "<<std::any_cast<int>(b)<<endl;
-    cout<<"c: "<<std::any_cast<std::string>(c)<<endl;
+    // type
+    std::cout<< "data_0 type: " << data_0.type().name() << std::endl;
 
-    //type
-    cout<<"type: "<<a.type().name()<<endl;
-
-    //has_value
-    cout<<"has_value: "<<b.has_value()<<endl;
-
-     //reset   
-    b.reset();
-    cout<<"reset: "<<b.has_value()<<endl;
-
-    //operator =
-    std::any a1;
-    a1 = a;
-    cout<<std::any_cast<const char *>(a1)<<endl;
-    a1 = c;
-    cout<<std::any_cast<std::string>(c)<<endl;
-
-    //swap
-    std::any a2;
-    a2.swap(a1);
-    cout<<std::any_cast<std::string>(a2)<<endl; 
-
-    std::any c2{std::vector{1, 2, 3}};
-    auto v2 = std::any_cast<std::vector<int>>(c2);
-    for (auto val:v2) {
-        cout<<val<<" ";
-    }
-    cout<<endl;
-    auto pv2 = std::any_cast<std::vector<int>>(&c2);
-    if (pv2 != nullptr) {
-        for (auto val:*pv2) {
-            cout<<val<<" ";
-        }
-        cout<<endl;
-    }
-    
-    //make any
-    auto c1 = std::make_any<std::complex<double>>(0.1, 0.2);
-    cout<<std::any_cast<std::complex<double>>(c1)<<endl;
-
-    //emplace
-    c1.emplace<std::complex<double>>(0.1, 0.3);
-    cout<<std::any_cast<std::complex<double>>(c1)<<endl;
-
-    //bad any_cast
+    // exception
     try
     {
-        /* code */
-        std::any errval = 1;
-        std::cout<<std::any_cast<std::string>(errval)<<endl;
+        std::cout<< "data_0 value: " << std::any_cast<const char*>(data_0) << std::endl;
+        std::cout<< "data_1 value: " << std::any_cast<int>(data_1) << std::endl;
+        std::cout<< "data_2 value: " << std::any_cast<std::string>(data_2) << std::endl;
     }
-    catch(const std::exception& e)
+    catch(const std::bad_any_cast& e)
     {
         std::cerr << e.what() << '\n';
     }
+
+    // operator=
+    data_0 = 1;
+    std::cout<< "data_0 value: " << std::any_cast<int>(data_0) << std::endl;
+
+    // reset
+    data_0.reset();
+    std::cout<< "data_0 has value: " << data_0.has_value() << std::endl;
+
+    // copy constructor
+    std::any data_3(data_1);
+    std::cout<< "data_3 value: " << std::any_cast<int>(data_3) << std::endl;
+
+    // move constructor
+    std::any data_4(std::move(data_1));
+    std::cout<< "data_4 value: " << std::any_cast<int>(data_4) << std::endl;
+
+    // move assignment operator
+    data_4 = std::move(data_3);
+    std::cout<< "data_4 value: " << std::any_cast<int>(data_4) << std::endl;
+
+    // any_cast vector
+    std::any data_5{std::vector{1, 2, 3}};
+    auto v = std::any_cast<std::vector<int>>(data_5);
+    std::cout << "data_5 value: ";
+    for (const auto &val : v) {
+        std::cout << val << " ";
+    }
+    std::cout << std::endl;
+
+    // make_any
+    std::any data_6 = std::make_any<int>(10);
+    std::cout<< "data_6 value: " << std::any_cast<int>(data_6) << std::endl;
+
+    auto data_7 = std::make_any<std::complex<double>>(0.1, 0.2);
+    std::cout << "data_7 value: " << std::any_cast<std::complex<double>>(data_7) << std::endl;
+
+    // emplace
+    data_7.emplace<std::complex<double>>(0.2, 0.3);
+    std::cout << "data_7 value: " << std::any_cast<std::complex<double>>(data_7) << std::endl;
+
+    // swap
+    std::any data_8 = 100;
+    data_8.swap(data_7);
+    std::cout << "data_7 value: " << std::any_cast<int>(data_7) << std::endl;
+    std::cout << "data_8 value: " << std::any_cast<std::complex<double>>(data_8) << std::endl;
 
     return 0;
 } 
