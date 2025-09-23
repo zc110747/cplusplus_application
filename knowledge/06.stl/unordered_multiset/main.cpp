@@ -24,18 +24,18 @@
 #include <numeric>
 
 template<typename T>
-void show_container(T container_val, std::string qstring)
+void show_container(T container_val, std::string qstr)
 {
     //empty, size
-    if(!qstring.empty())
-    {
-        for(auto index=qstring.size(); index<13; index++)
-            qstring.push_back(' ');
-        qstring += ":";
-        std::cout << qstring;
+    if (!qstr.empty()) {
+        for(auto index = qstr.size(); index < 13; index++) {
+            qstr.push_back(' ');
+        }
+        qstr += ":";
+        std::cout << qstr;
     }
 
-    for(const auto &ref : container_val) {
+    for (const auto &ref : container_val) {
         std::cout << ref << " ";
     }
 
@@ -165,7 +165,7 @@ void algorithm_process(void)
     // std::divides<>() 执行除法操作
     // std::modulus<>() 执行取模操作
     // std::negate<>() 执行取反操作
-    std::cout << "======= other =======" <<std::endl;
+    std::cout << "========================= other =========================" <<std::endl;
     auto result = std::reduce(vcon_4.begin(), vcon_4.end(), 0, std::plus<>());
     std::cout << "reduce:" <<result <<std::endl;
     result = std::reduce(vcon_4.begin(), vcon_4.end(), 1, std::multiplies<>());

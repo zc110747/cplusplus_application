@@ -1,7 +1,7 @@
 # reference
 
 - [值和引用](#value_reference)
-- [引用折叠](#reference_fold)
+- [引用折叠、万能引用和完美转发](#reference_fold)
 - [ref和cref应用](#ref_cref)
 - [返回主页](../../README.md)
 
@@ -125,7 +125,7 @@ int main(int argc, char *argv[])
 1. 左值引用类型与所有类型组合都是左值引用类型
 2. 右值引用类型与非左值引用组合则是右值引用类型
 
-| 类模板型 | T实际类型 | 最终类型 |
+| 类模板型 | 实际类型 | 组合类型 |
 | --- | --- | --- |
 | T& | R | R& |
 | T& | R& | R& |
@@ -136,7 +136,7 @@ int main(int argc, char *argv[])
 
 **万能引用**（Universal Reference）是C++11中引入的一个概念，它是一种特殊的引用类型，可以绑定到左值或右值。
 
-万能引用通常用于模板函数中，以实现完美转发（Perfect Forwarding）,只有在模板类型推导的上下文中，T&&才是万能引用。若T是明确指定的类型，T&& 就只是普通的右值引用。
+万能引用通常用于模板函数中，以实现完美转发（Perfect Forwarding）,只有在模板类型推导的上下文中，T&&才是万能引用。若T是明确指定的类型，T&&就只是普通的右值引用。
 
 ```cpp
 template <typename T>

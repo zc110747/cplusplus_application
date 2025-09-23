@@ -132,7 +132,7 @@ void algorithm_process(void)
         std::cout<<"mismatch:"<<val_2.first->first<<" "<<val_2.second->first<<std::endl;
     }
     
-    // // 生成算法
+    // 生成算法
     std::unordered_map<int, int> vcon_2;
     std::copy_if(vcon_0.begin(), vcon_0.end(), std::inserter(vcon_2, vcon_2.begin()), [](const auto &ref_value){
         return ref_value.first < 10;

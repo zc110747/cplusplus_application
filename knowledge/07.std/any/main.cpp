@@ -23,12 +23,9 @@
 #include <vector>
 #include <complex>
 
-using std::cout;
-using std::endl;
-
 int main(int argc, char* argv[])
 {
-        std::any data_0 = "a";
+    std::any data_0 = "a";
     std::any data_1 = 1;
     std::any data_2{std::in_place_type<std::string>, "c"};
 

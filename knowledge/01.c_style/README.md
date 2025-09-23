@@ -143,6 +143,7 @@
   - va_end - 结束可变参数列表
   - va_copy - 复制可变参数列表
 - **#include \<cstddef\>** 获取标准类型定义
+  - std::byte是C++17引入的标准库类型，于表示最小的可寻址内存单元，也就是字节。它是一个枚举类型，用于更安全、更明确地处理字节数据。
 - **#include \<cstdint\>** 获取标准整数类型定义
 - **#include \<cstdio\>** 输入输出处理
   - 文件处理: remove，rename，tmpfile，tmpnam

@@ -1,149 +1,156 @@
-﻿/*
-
-*/
+﻿//////////////////////////////////////////////////////////////////////////////
+//  (c) copyright 2023-by ZC Inc.  
+//  All Rights Reserved
+//
+//  Name:
+//      main.cpp
+//
+//  Purpose:
+//      1. std::string声明
+//      2. std::string方法
+//
+// Author:
+//      @zc
+//
+// Revision History:
+//      Version V1.0b1 Create.
+/////////////////////////////////////////////////////////////////////////////
 #include <string>
 #include <iostream>
 #include <algorithm>
 #include <unistd.h>
 
-using std::cout;
-using std::endl;
-
 int main(int argc, char* argv[])
 {
-    std::string usr_str{"ustr,"};
-    std::string startstring = std::string("Let's go!");
+    std::string str_0{"ustr,"};
+    std::string str_1 = std::string("Let's go!");
 
     //append, operator+=, operator[]
-    usr_str.append("Let's go!");
-    cout<<"append:"<<usr_str<<endl;
-    usr_str.append(startstring, 6, 3);
-    cout<<"append:"<<usr_str<<endl;
-    usr_str += "everyone!";
-    cout<<"operator +:"<<usr_str<<endl;
-    cout<<"operator []:"<<usr_str[0]<<endl;
-    usr_str = usr_str + " test";
-    cout<<"operator: "<<usr_str<<endl;
-    auto equal0 = (usr_str != "test");
-    auto equal1 = (usr_str == "test");
-    cout<<"operator !=/== "<<equal0<<" | "<<equal1<<endl;
+    str_0.append("Let's go!");
+    std::cout << "append:" << str_0 << std::endl;
+    str_0.append(str_1, 6, 3);
+    std::cout << "append:" << str_0 << std::endl;
+    str_0 += "everyone!";
+    std::cout << "operator +:" << str_0 << std::endl;
+    std::cout << "operator []:" << str_0[0] << std::endl;
+    str_0 = str_0 + " test";
+    std::cout << "operator: " << str_0 << std::endl;
+    auto equal0 = (str_0 != "test");
+    auto equal1 = (str_0 == "test");
+    std::cout << "operator !=/== " << equal0 << " | " << equal1 << std::endl;
 
     //assign
-    std::string copystring;
-    copystring.assign(usr_str);
-    cout<<"assign:"<<copystring<<endl;
+    std::string str_2;
+    str_2.assign(str_0);
+    std::cout << "assign:" << str_2 << std::endl;
 
     //at, back, front
-    char& atval = copystring.at(1);
-    char& backval = copystring.back();
-    std::string::reference frontval = copystring.front();
-    cout<<"at:"<<atval<<endl;
-    cout<<"back:"<<backval<<endl;
-    cout<<"front:"<<frontval<<endl;
+    char& atval = str_2.at(1);
+    char& backval = str_2.back();
+    std::string::reference frontval = str_2.front();
+    std::cout << "at:" << atval << std::endl;
+    std::cout << "back:" << backval << std::endl;
+    std::cout << "front:" << frontval << std::endl;
 
     //begin, end, cbegin, cend, rbegin, rend, crbegin, crend
-    std::string::iterator iterbegin = copystring.begin();
-    std::string::iterator iterend = copystring.end();
-    std::string::const_iterator itercbegin = copystring.cbegin();
-    std::string::const_iterator itercend = copystring.cend();
-    std::string::reverse_iterator iterrbegin = copystring.rbegin();
-    std::string::reverse_iterator iterrend = copystring.rend();
-    std::string::const_reverse_iterator itercrbegin = copystring.crbegin();
-    std::string::const_reverse_iterator itercrend = copystring.crbegin();
-    cout<<"begin:"<<*iterbegin<<" "<<"end:"<<*(iterend-1)<<" ";
-    cout<<"cbegin:"<<*itercbegin<<" "<<"cend:"<<*(itercend-1)<<" ";
-    cout<<"rbegin:"<<*iterrbegin<<" "<<"rend:"<<*(iterrend-1)<<" ";
-    cout<<"crbegin:"<<*itercrbegin<<" "<<"crend:"<<*(itercrend-1)<<" "<<endl;
+    std::string::iterator iterbegin = str_2.begin();
+    std::string::iterator iterend = str_2.end();
+    std::string::const_iterator itercbegin = str_2.cbegin();
+    std::string::const_iterator itercend = str_2.cend();
+    std::string::reverse_iterator iterrbegin = str_2.rbegin();
+    std::string::reverse_iterator iterrend = str_2.rend();
+    std::string::const_reverse_iterator itercrbegin = str_2.crbegin();
+    std::string::const_reverse_iterator itercrend = str_2.crbegin();
+    std::cout << "begin:" << *iterbegin << " " << "end:" << *(iterend-1) << " ";
+    std::cout << "cbegin:" << *itercbegin << " " << "cend:" << *(itercend-1) << " ";
+    std::cout << "rbegin:" << *iterrbegin << " " << "rend:" << *(iterrend-1) << " ";
+    std::cout << "crbegin:" << *itercrbegin << " " << "crend:" << *(itercrend-1) << " " << std::endl;
     
     //resize, shrink_to_fit
-    copystring.resize(5);
-    cout<<"resize:"<<copystring<<endl;
-    copystring.shrink_to_fit();
-    cout<<"shrink_to_fit:"<<copystring.capacity()<<endl;
-    copystring.reserve(10);
-    cout<<"reserve:"<<copystring.capacity()<<endl;
+    str_2.resize(5);
+    std::cout << "resize:" << str_2 << std::endl;
+    str_2.shrink_to_fit();
+    std::cout << "shrink_to_fit:" << str_2.capacity() << std::endl;
+    str_2.reserve(10);
+    std::cout << "reserve:" << str_2.capacity() << std::endl;
 
     //capacity, size, clear, max_size
-    cout<<"capacity:"<<copystring.capacity()<<endl;
-    cout<<"length:"<<copystring.length()<<endl;
-    cout<<"size:"<<copystring.size()<<" ";
-    copystring.clear();
-    cout<<"size:"<<copystring.size()<<endl;
-    cout<<"max_size:"<<copystring.max_size()<<endl;
-    cout<<"empty:"<<copystring.empty()<<endl;
+    std::cout << "capacity:" << str_2.capacity() << std::endl;
+    std::cout << "length:" << str_2.length() << std::endl;
+    std::cout << "size:" << str_2.size() << " ";
+    str_2.clear();
+    std::cout << "size:" << str_2.size() << std::endl;
+    std::cout << "max_size:" << str_2.max_size() << std::endl;
+    std::cout << "empty:" << str_2.empty() << std::endl;
 
-    //compare
-    if(startstring.compare("Let's go!") == 0)
-    {
-        cout<<"comapre equal!"<<endl;
-    }
-    else
-    {
-        cout<<"compare no equal!"<<endl;
+    // compare
+    if(str_1.compare("Let's go!") == 0) {
+        std::cout << "comapre equal!" << std::endl;
+    } else {
+        std::cout << "compare no equal!" << std::endl;
     }
 
-    //copy
+    // copy
     char buffer[10] = {0};
-    startstring.copy(buffer, 6, 0);
-    cout<<"copy:"<<buffer<<endl;
+    str_1.copy(buffer, 6, 0);
+    std::cout << "copy:" << buffer << std::endl;
     
-    //c_str
+    // c_str
     const char *pcstr;
-    pcstr = startstring.c_str();
-    cout<<"c_str:"<<pcstr<<endl;
+    pcstr = str_1.c_str();
+    std::cout << "c_str:" << pcstr << std::endl;
 
-    //data
+    // data
     const char *pcdata;
-    pcdata = startstring.data();
-    cout<<"data:"<<pcdata<<endl;
+    pcdata = str_1.data();
+    std::cout << "data:" << pcdata << std::endl;
 
-    //for-auto
-    cout<<"for auto:";
-    for(auto val:startstring)
-    {
-        cout<<val<<" ";
+    // for-auto
+    std::cout << "for auto:";
+    for (auto val:str_1) {
+        std::cout << val << " ";
     }
-    cout<<endl;
+    std::cout << std::endl;
 
     //erase
-    startstring.erase(2, 1);
-    cout<<"erase:"<<startstring<<endl;
+    str_1.erase(2, 1);
+    std::cout << "erase:" << str_1 << std::endl;
 
     //pop_back, push_back
-    startstring.pop_back();
-    cout<<"pop_back:"<<startstring<<endl;
-    startstring.push_back('c');
-    cout<<"push_back:"<<startstring<<endl;
+    str_1.pop_back();
+    std::cout << "pop_back:" << str_1 << std::endl;
+    str_1.push_back('c');
+    std::cout << "push_back:" << str_1 << std::endl;
 
     //insert
-    startstring.insert(0, "hello~ ");
-    cout<<"insert:"<<startstring<<endl;
+    str_1.insert(0, "hello~ ");
+    std::cout << "insert:" << str_1 << std::endl;
 
     //swap
-    std::string swapstring;
-    swapstring.swap(startstring);
-    cout<<"swap:"<<swapstring<<endl;
+    std::string str_3;
+    str_3.swap(str_1);
+    std::cout << "swap:" << str_3 << std::endl;
 
     //find, rfind, find_first_of
     std::string::size_type position;
-    position = swapstring.find("he");
-    if(position != swapstring.npos)
+    position = str_3.find("he");
+    if(position != str_3.npos)
     {
-        cout<<"find position"<<position<<endl;
+        std::cout << "find position" << position << std::endl;
     }
-    cout<<"find_first_of:"<<swapstring.find_first_of("he")<<endl; 
-    cout<<"find_first_not_of:"<<swapstring.find_first_not_of("he")<<endl; 
-    cout<<"find_last_of:"<<swapstring.find_last_of("he")<<endl; 
-    cout<<"find_last_not_of:"<<swapstring.find_last_not_of("he")<<endl;   
-    cout<<"rfind:"<<swapstring.rfind("he")<<endl;
+    std::cout << "find_first_of:" << str_3.find_first_of("he") << std::endl; 
+    std::cout << "find_first_not_of:" << str_3.find_first_not_of("he") << std::endl; 
+    std::cout << "find_last_of:" << str_3.find_last_of("he") << std::endl; 
+    std::cout << "find_last_not_of:" << str_3.find_last_not_of("he") << std::endl;   
+    std::cout << "rfind:" << str_3.rfind("he") << std::endl;
 
     //replace
-    swapstring.replace(swapstring.begin(), swapstring.begin()+2, "she");
-    cout<<"replace:"<<swapstring<<endl;
+    str_3.replace(str_3.begin(), str_3.begin()+2, "she");
+    std::cout << "replace:" << str_3 << std::endl;
 
     //substr
-    std::string substring = swapstring.substr(1, 3);
-    cout<<"substr:"<<substring<<endl;
+    std::string substring = str_3.substr(1, 3);
+    std::cout << "substr:" << substring << std::endl;
 
     return 0;
 } 

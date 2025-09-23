@@ -1,6 +1,21 @@
-﻿/*
-
-*/
+﻿//////////////////////////////////////////////////////////////////////////////
+//  (c) copyright 2023-by ZC Inc.  
+//  All Rights Reserved
+//
+//  Name:
+//      main.cpp
+//
+//  Purpose:
+//      1. atomic
+//      2. atomic_flag
+//      3. memory_order
+//
+// Author:
+//      @zc
+//
+// Revision History:
+//      Version V1.0b1 Create.
+/////////////////////////////////////////////////////////////////////////////
 #include <atomic>
 #include <iostream>
 #include <thread>

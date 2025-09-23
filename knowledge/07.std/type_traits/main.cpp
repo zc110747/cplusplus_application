@@ -1,12 +1,22 @@
-/*
-
-*/
-    #include <vector>
-    #include <iostream>
+//////////////////////////////////////////////////////////////////////////////
+//  (c) copyright 2023-by ZC Inc.  
+//  All Rights Reserved
+//
+//  Name:
+//      main.cpp
+//
+//  Purpose:
+//      1. std::enable_if
+//
+// Author:
+//      @zc
+//
+// Revision History:
+//      Version V1.0b1 Create.
+/////////////////////////////////////////////////////////////////////////////
+#include <vector>
+#include <iostream>
 #include <type_traits>
-
-using std::cout;
-using std::endl;
 
 // 模板函数，仅接受整数类型的参数
 template <typename T, typename = typename std::enable_if<std::is_integral<T>::value>::type>

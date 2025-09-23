@@ -6,9 +6,9 @@
 //      main.cpp
 //
 //  Purpose:
-//     1. 左值，右值和引用
-//     2. 引用折叠
-//     3. std::ref和std::cref
+//      1. 左值、右值、引用和右值引用、移动语义
+//      2. 引用折叠、万能引用和完美转发
+//      3. std::ref、std::cref和std::reference_wrapper
 //
 // Author:
 //      @zc
@@ -21,79 +21,65 @@
 #include <functional>
 #include <memory>
 
-using namespace std;
-
-/*
-FUNCTION_START()
-FUNCTION_END()
-*/
-#define FUNCTION_START()  {cout<<__func__<<":\n";}{
-#define FUNCTION_END()    }{cout<<"\n\n";  }   
-
-//左值，右值
-//左值引用
-//纯右值和将亡值
-namespace VALUE
+// 左值，右值
+// 左值引用
+// 纯右值和将亡值
+namespace REFER_VALUE
 {
-    int get_value() 
-    {
-        int a = 1;
+    int get_value() {
+        int a = 1;      //a是左值, 1是右值(纯右值)
         return a;
     }
 
-    void reference_test(void)
+    void test(void)
     {
-        cout<<"VALUE ";
+        std::cout << "==================== VALUE ====================" << std::endl;
 
-        FUNCTION_START()
-
-        //a是左值，0是右值(纯右值)
+        // a是左值，0是右值(纯右值)
         int a = 0;         
         a = a+1;               
-        cout<<a<<" | ";   //1
+        std::cout << a << " | ";   //1
 
-        //左值引用
+        // 左值引用
         int &a_lr = a;              
         a_lr = 2;
-        cout<<a_lr<<" "<<a<<" | ";   //2, 2
-        cout<<"addr:"<<(uint64_t)&a_lr<<" "<<(uint64_t)&a<<" | ";  
+        std::cout << a_lr << " " << a << " | ";   //2, 2
+        std::cout << "addr:" << (uint64_t)&a_lr << " " << (uint64_t)&a << " | ";  
 
-        //右值引用
-        //int &&a_rr = a;           //右值引用不能绑定左值
-        int &&a_rr = std::move(a);  //右值引用通过std::move绑定左值，std::move返回是将亡值
+        // 右值引用
+        //int &&a_rr = a;           // 右值引用不能绑定左值
+        int &&a_rr = std::move(a);  // 右值引用通过std::move绑定左值，std::move返回是将亡值
         a = 3;
-        cout<<a_rr<<" "<<a<<" | ";  //3, 3
-        cout<<"addr:"<<(uint64_t)&a_rr<<" "<<(uint64_t)&a<<" | "; 
+        std::cout << a_rr << " " << a << " | ";  //3, 3
+        std::cout << "addr:" << (uint64_t)&a_rr << " " << (uint64_t)&a << " | "; 
 
-        //get_value返回值为右值，仅允许绑定const的左值引用
+        // get_value返回值为右值，仅允许绑定const的左值引用
         const int& b = get_value();
-        cout<<b<<" | ";
+        std::cout << b << " | ";
         const bool& bb = false;
-        cout<<std::boolalpha<<bb<<" | ";
+        std::cout << std::boolalpha << bb << " | ";
 
         //右值引用绑定(将亡值)
         int &&b1 = get_value();
         b1 = a;
-        cout<<b1<<" | ";
+        std::cout << b1 << " | ";
 
         //右值引用绑定(纯右值)
         int &&b2 = 1;
         b2 = a;
-        cout<<b2<<" | ";
-
-        FUNCTION_END()
+        std::cout << b2 << std::endl;
     }
 }
 
-//函数参数
-//左值引用，右值引用
-namespace FUNCTION
+// 函数参数
+// 左值引用，右值引用
+namespace REFER_FUNCTION
 {
     void lref_val(int& a, int& b)
     {
         a++;
         b++;
-        cout<<(uint64_t)&a<<" "<<(uint64_t)&b<<" | ";
+        std::cout << (uint64_t)&a << " " << (uint64_t)&b << " | ";
     }
 
     void rref_val(int&& a, int&& b)
@@ -101,35 +87,31 @@ namespace FUNCTION
         a++;
         b++;
         //int &&c = a; //error, 函数形参都是左值 
-        cout<<(uint64_t)&a<<" "<<(uint64_t)&b<<" | ";
+        std::cout << (uint64_t)&a << " " << (uint64_t)&b << " | ";
     }
 
-    void reference_test(void)
+    void test(void)
     {
-        cout<<"FUNCTION ";
-
-        FUNCTION_START()
+        std::cout << "==================== REFER_FUNCTION ====================" << std::endl;
 
         int v1{1}, v2{2};
         
-        cout<<v1<<" "<<v2<<" | ";
-        cout<<(uint64_t)&v1<<" "<<(uint64_t)&v2<<" | ";
+        std::cout << v1 << " " << v2 << " | ";
+        std::cout << (uint64_t)&v1 << " " << (uint64_t)&v2 << " | ";
 
         lref_val(v1, v2);
-        cout<<v1<<" "<<v2<<" | ";
+        std::cout << v1 << " " << v2 << " | ";
 
         rref_val(std::move(v1), std::move(v2));
-        cout<<v1<<" "<<v2<<" | ";
-
-        FUNCTION_END()
+        std::cout << v1 << " " << v2 << std::endl;
     }
 }
 
-//移动语义
-//std::move 强制转换成右值
-//static_cast<T&&>()
-//移动构造函数用于内部资源的移动
-namespace MOVE
+// 移动语义
+// std::move 强制转换成右值
+// static_cast<T&&>()
+// 移动构造函数用于内部资源的移动
+namespace REFER_MOVE
 {
     class T
     {
@@ -137,49 +119,49 @@ namespace MOVE
         /// @brief constructor
         T(int a) {
             *ptr = a;
-            cout<<"T struct"<<" | ";
+            std::cout << "T struct" << " | ";
         }
 
         /// @brief constructor
         T() {
             *ptr = 1;
-            cout<<"T struct"<<" | ";
+            std::cout << "T struct" << " | ";
         }
 
         /// @brief copy constructor
         T(const T &t) {
             // std::make_unique是c++14引入
             ptr.reset(new int(*t.ptr));
-            cout<<"T copy struct"<<" | ";
+            std::cout << "T copy struct" << " | ";
         }
 
         /// @brief move constructor
         T(T &&t) noexcept
             : ptr{std::move(t.ptr)} { //移动构造函数
-            cout<<"T move struct"<<" | ";
+            std::cout << "T move struct" << " | ";
         }
 
         /// @brief operator= copy
         T& operator=(const T &t) { //拷贝赋值函数
             ptr.reset(new int(*t.ptr));
-            cout<<"T copy="<<" | ";
+            std::cout << "T copy=" << " | ";
             return *this;
         }
 
         /// @brief operator= move
         T& operator=(T &&t) { //移动赋值函数
             ptr = std::move(t.ptr);
-            cout<<"T move="<<" | ";
+            std::cout << "T move=" << " | ";
             return *this;
         } 
 
         /// @brief operator= destruct
         ~T() {
-            cout<<"T distruct:"<<" | ";
+            std::cout << "T distruct:" << " | ";
         }
 
         void show(void) {
-            cout<<"T show:"<<*ptr<<" | ";
+            std::cout << "T show:" << *ptr << " | ";
         }
     private:
         std::unique_ptr<int> ptr{new int};
@@ -199,16 +181,16 @@ namespace MOVE
     {
     public:
         RefClass() {
-            std::cout<<"RefClass default"<<std::endl;
+            std::cout << "RefClass default" << std::endl;
         } 
         RefClass(const RefClass &ref) {
-            std::cout<<"RefClass copy"<<std::endl;
+            std::cout << "RefClass copy" << std::endl;
         }
         RefClass(const RefClass &&ref) {
-            std::cout<<"RefClass mov"<<std::endl;
+            std::cout << "RefClass mov" << std::endl;
         }
         ~RefClass() {
-            std::cout<<"RefClass distruct"<<std::endl;
+            std::cout << "RefClass distruct" << std::endl;
         }
     };
 
@@ -216,11 +198,10 @@ namespace MOVE
         return RefClass();
     }
 
-    void reference_test(void)
+    void test(void)
     {
-        cout<<"MOVE ";
-        FUNCTION_START()
-
+        std::cout << "==================== REFER_MOVE ====================" << std::endl;
+        
         {
             T t = get_rvalue();
             
@@ -228,19 +209,19 @@ namespace MOVE
             t = std::move(t1);
             t.show();
         }
-        cout<<"\n";
+        std::cout << "\n";
 
         {
             T&& t1 = get_value();
         }
-        cout<<"\n";
+        std::cout << "\n";
 
         {
             int a = 1;
             int&& b = static_cast<int &&>(a);
-            cout<<(uint64_t)&a<<" "<<(uint64_t)&b<<" | ";
+            std::cout << (uint64_t)&a << " " << (uint64_t)&b << " | ";
         }
-        cout<<"\n";
+        std::cout << "\n";
 
         {
             T t1;
@@ -248,17 +229,17 @@ namespace MOVE
         }
      
         {
-            std::cout<<"\nresult test!!!!!"<<std::endl;
+            std::cout << "\nresult test!!!!!" << std::endl;
             const auto &r1 = get_result();
             const auto &&r2 = get_result();
         }
 
-        FUNCTION_END()
+        std::cout << std::endl;
     }
 }
 
-//引用折叠
-namespace FOLD
+// 引用折叠
+namespace REFER_FOLD
 {
     template<typename T>
     struct ref_check{
@@ -275,10 +256,9 @@ namespace FOLD
         constexpr static const char *value = "rval";
     };
 
-    void reference_test(void)
+    void test(void)
     {
-        cout<<"FOLD ";
-        FUNCTION_START()
+        std::cout << "==================== REFER_FOLD ====================" << std::endl;
 
         using AL = int&;
         using AR = int&&;
@@ -291,28 +271,29 @@ namespace FOLD
         AR& a12 = a;
         AR&& a13 = std::move(a);
 
-        cout<<ref_check<decltype(a)>::value<<" | ";      //val
-        cout<<ref_check<decltype(a01)>::value<<" | ";    //lval
-        cout<<ref_check<decltype(a02)>::value<<" | ";    //lval
-        cout<<ref_check<decltype(a03)>::value<<" | ";    //lval
-        cout<<ref_check<decltype(a11)>::value<<" | ";    //rval
-        cout<<ref_check<decltype(a12)>::value<<" | ";    //lval
-        cout<<ref_check<decltype(a13)>::value<<" | ";    //rval
-        FUNCTION_END()
+        std::cout << ref_check<decltype(a)>::value << " | ";      //val
+        std::cout << ref_check<decltype(a01)>::value << " | ";    //lval
+        std::cout << ref_check<decltype(a02)>::value << " | ";    //lval
+        std::cout << ref_check<decltype(a03)>::value << " | ";    //lval
+        std::cout << ref_check<decltype(a11)>::value << " | ";    //rval
+        std::cout << ref_check<decltype(a12)>::value << " | ";    //lval
+        std::cout << ref_check<decltype(a13)>::value << " | ";    //rval
+
+        std::cout << std::endl;
     }
 }
 
 //完美转发
-namespace FORWARD
+namespace REFER_FORWARD
 {
     class A{
     };
    
     void foo(A &t){
-        cout<<"T& type"<<" | ";
+        std::cout << "T& type" << " | ";
     }
     void foo(A &&t){
-        cout<<"T&& type"<<" | ";
+        std::cout << "T&& type" << " | ";
     }
 
     A get_a(){
@@ -324,27 +305,28 @@ namespace FORWARD
         foo(std::forward<T>(t));
     }
 
-    void reference_test(void)
+    void test(void)
     {
-        cout<<"FORWARD ";
-        FUNCTION_START()
-
+        std::cout << "==================== REFER_FORWARD ====================" << std::endl;
+    
         A t1;
-        foo(t1);                    //t1为左值，调用左值引用T&
+        foo(t1);                    // t1为左值，调用左值引用T&
 
-        //完美转发
+        // 完美转发
         A& t_lef = t1;
-        isForwad(t1);               //t1左值，推导类型A&, std::forward折叠为T&
-        isForwad(t_lef);            //t_lef左值引用，推导类型A&, std::forward折叠为T&
-        isForwad(std::move(t1));    //推导类型为A, std::forward折叠为T&&，std::move转后为将亡值
-        isForwad(get_a());          //推导类型为A, std::forward折叠为T&&, get_a返回为纯右值
+        isForwad(t1);               // t1左值，推导类型A&, std::forward折叠为T&
+        isForwad(t_lef);            // t_lef左值引用，推导类型A&, std::forward折叠为T&
+        isForwad(std::move(t1));    // 推导类型为A, std::forward折叠为T&&，std::move转后为将亡值
+        isForwad(get_a());          // 推导类型为A, std::forward折叠为T&&, get_a返回为纯右值
         
-        FUNCTION_END()       
+        std::cout << std::endl;
     }
 }
 
-//std::ref应用
-namespace REF
+// std::ref应用
+// std::cref
+// std::reference_wrapper
+namespace REFER_CREF
 {
     void func(int &a, int &b)
     {
@@ -352,19 +334,18 @@ namespace REF
         b += 1;
     }
 
-    void reference_test(void)
+    void test(void)
     {
-        cout<<"REF ";
-        FUNCTION_START()
+        std::cout << "==================== REFER_CREF ====================" << std::endl;
 
         int a{1}, b{2}, c{3};
         auto ref_a = std::ref(a);
 
         //ref变量
         ++ref_a;
-        cout<<a<<" "<<ref_a<<" | ";
+        std::cout << a << " " << ref_a << " | ";
         ++a;
-        cout<<a<<" "<<ref_a.get()<<" | ";
+        std::cout << a << " " << ref_a.get() << " | ";
 
         //ref引用数组
         std::reference_wrapper<int> refs[] = {a, b, c};
@@ -372,14 +353,14 @@ namespace REF
         refs[2] += 1;
         for(const auto& val:refs)
         {
-            cout<<val<<" ";
+            std::cout << val << " ";
         }
-        cout<<" | ";
+        std::cout << " | ";
 
         //const ref引用，可以查看改变，但不允许修改 
         auto ref_a1 = std::cref(a);
         a++;
-        cout<<a<<" "<<ref_a1.get()<<" | ";
+        std::cout << a << " " << ref_a1.get() << " | ";
 
         {
             int a = 1, b = 1;
@@ -391,25 +372,25 @@ namespace REF
             auto f = bind(func, r1, std::ref(r2));
             f();
             
-            cout<<a<<" "<<b<<" | ";
+            std::cout << a << " " << b << " | ";
         }
 
-        FUNCTION_END()  
+        std::cout << std::endl; 
     }
 }
 
 int main(void)
 {
-    VALUE::reference_test();
+    REFER_VALUE::test();
 
-    FUNCTION::reference_test();
+    REFER_FUNCTION::test();
 
-    MOVE::reference_test();
+    REFER_MOVE::test();
 
-    FOLD::reference_test();
+    REFER_FOLD::test();
 
-    FORWARD::reference_test();
+    REFER_FORWARD::test();
 
-    REF::reference_test();
+    REFER_CREF::test();
     return 0;
 }

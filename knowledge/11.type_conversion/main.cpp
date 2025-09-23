@@ -21,11 +21,6 @@
 /////////////////////////////////////////////////////////////////////////////
 #include <iostream>
 
-// using namespace std;
-
-// #define FUNCTION_START()  {cout<<__func__ << ":\n  ";}{
-// #define FUNCTION_END()    }{cout << "\n\n";  }   
-
 namespace CONST_CAST
 {
     //const_cast

@@ -1,6 +1,19 @@
-/*
-
-*/
+//////////////////////////////////////////////////////////////////////////////
+//  (c) copyright 2023-by ZC Inc.  
+//  All Rights Reserved
+//
+//  Name:
+//      main.cpp
+//
+//  Purpose:
+//      1. std::new
+//
+// Author:
+//      @zc
+//
+// Revision History:
+//      Version V1.0b1 Create.
+/////////////////////////////////////////////////////////////////////////////
 #include <iostream>
 #include <type_traits>
 #include <memory>
@@ -202,7 +215,7 @@ public:
     }
 };
 
-int main(int argc, char *argv[])
+int main(int argc, const char *argv[])
 {
     USER *pm = new(std::nothrow) USER;
     pm->a = 1;

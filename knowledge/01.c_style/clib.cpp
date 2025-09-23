@@ -31,6 +31,8 @@
 #include <cstdlib>
 #include <ctime>
 #include <cstring>
+#include <cstddef>
+#include <utility>
 
 #ifndef PI
 #define PI 3.14
@@ -160,4 +162,19 @@ void c_standard_lib(void)
         printf("equal str1 == str2\n");
     }
     printf("str1: %s, str2: %s\n", str1, str2);
+
+    // #include <cstddef>
+    std::byte b1{0x55};
+    std::byte b2 = static_cast<std::byte>(10);
+
+    auto b3 = b1 & b2;
+    auto b4 = b1 | b2;
+    auto b5 = b1 ^ b2;
+    auto b6 = ~b1;
+    auto b7 = b1 << 2;
+
+    printf("b1: %d, b2: %d, b3: %d, b4: %d, b5: %d, b6: %d, b7: %d\n", 
+        std::to_integer<int>(b1), std::to_integer<int>(b2), std::to_integer<int>(b3), 
+        std::to_integer<int>(b4), std::to_integer<int>(b5), std::to_integer<int>(b6), 
+        std::to_integer<int>(b7));
 }

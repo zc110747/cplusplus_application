@@ -149,7 +149,11 @@ void algorithm_process(void)
     std::copy_if(vcon_0.begin(), vcon_0.end(), vcon_2.begin(), [](const int &ref_value){
         return ref_value < 50;
     });
-    show_container(vcon_2, "copy");
+    show_container(vcon_2, "copy_if");
+    std::copy_if(vcon_0.begin(), vcon_0.end(), std::back_inserter(vcon_2), [](const int &ref_value){
+        return ref_value < 50;
+    });
+    show_container(vcon_2, "copy_if");
 
     // 移除算法
     std::cout<<"======= remove ======="<<std::endl;

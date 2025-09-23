@@ -17,12 +17,9 @@
 /////////////////////////////////////////////////////////////////////////////
 #include <iostream>
 #include <string>
-#include <memory>
 #include <thread>
-#include <chrono>    // std::chrono::seconds
-#include <unistd.h>
+#include <chrono>
 #include <mutex>
-#include <vector>
 #include <atomic>
 
 namespace THREAD_PROCESS

@@ -21,6 +21,17 @@ STL（Standard Template Library）是C++标准库的一部分，它基于templat
 - [std::unordered_set](#unordered_set)
 - [std::vector](#vector)
 - [algorithm](#algorithm)
+  - [查询算法](#search_algorithms)
+  - [排序算法](#sort_algorithms)
+  - [变换算法](#transform_algorithms)
+  - [计数算法](#count_algorithms)
+  - [比较算法](#compare_algorithms)
+  - [生成算法](#generate_algorithms)
+  - [移除算法](#remove_algorithms)
+  - [分割算法](#partition_algorithms)
+  - [归并算法](#merge_algorithms)
+  - [堆栈算法](#heap_algorithms)
+  - [其他算法](#other_algorithms)
 - [返回主页](../../README.md)
 
 ## array
@@ -1248,108 +1259,143 @@ std::vector<int> c5(2, 3);
 
 C++支持一系列算法用于操作STL容器中的元素，这些算法包括查找、排序、修改等。
 
-- 查找算法
+### search_algorithms
 
-1. std::all_of：检查容器中的所有元素是否都满足特定条件。
-2. std::any_of：检查容器中的任意一个元素是否满足特定条件。
-3. std::none_of：检查容器中的所有元素是否都不满足特定条件。
-4. std::adjacent_find：查找容器中相邻的重复元素的位置。 
-5. std::find：用于在指定范围内查找等于给定值的首个元素。
-6. std::find_if：在容器中查找的是满足特定条件的元素。
-7. std::find_first_of：在容器中查找另一个容器中任意一个元素的位置。
-8. std::find_end：在容器中查找另一个容器的最后一个匹配子序列的位置。
-9. std::find_if_not：在容器中查找不满足特定条件的元素的位置。
-10. std::search：在容器中查找另一个容器的首次出现的位置。
-11. std::search_n：在容器中查找指定数量的连续元素。
-12. std::binary_search：在已排序的容器中进行二分查找。
+查找算法定义了一系列用于在容器内搜索或统计元素数量的算法。
 
-- 排序算法
+- std::all_of：检查容器中的所有元素是否都满足特定条件。
+- std::any_of：检查容器中的任意一个元素是否满足特定条件。
+- std::binary_search：在已排序的容器中进行二分查找。
+- std::none_of：检查容器中的所有元素是否都不满足特定条件。
+- std::adjacent_find：查找容器中相邻的重复元素的位置。 
+- std::find：用于在指定范围内查找等于给定值的首个元素。
+- std::find_if：在容器中查找的是满足特定条件的元素。
+- std::find_first_of：在容器中查找另一个容器中任意一个元素的位置。
+- std::find_end：在容器中查找另一个容器的最后一个匹配子序列的位置。
+- std::find_if_not：在容器中查找不满足特定条件的元素的位置。
+- std::search：在容器中查找另一个容器的首次出现的位置。
+- std::search_n：在容器中查找指定数量的连续元素。
 
-1. std::sort：对容器中的元素进行排序。
-2. std::stable_sort：对容器中的元素进行稳定排序。
-3. std::partial_sort：对容器中的部分元素进行排序。
-4. std::partial_sort_copy：对容器中的部分元素进行排序，并将结果复制到另一个容器中。
-5. std::is_sorted：检查容器中的元素是否已排序。
-6. std::is_sorted_until：查找容器中未排序的元素的位置。
-9. std::random_shuffle：随机打乱容器中的元素。
-10. std::reverse：反转容器中的元素顺序。
-11. std::rotate: 旋转容器中的元素。
-12. std::rotate_copy：旋转容器中的元素，并将结果复制到另一个容器中。
+### sort_algorithms
 
-- 变换算法
+排序算法定义了一系列用于对容器中的元素进行排序或检测是否已排序的算法。
 
-1. std::transform：对容器中的元素进行转换操作。
-2. std::replace：将容器中所有等于指定值的元素替换为新值。
-3. std::replace_if：将容器中满足特定条件的元素替换为新值
-4. std::replace_copy：将容器中所有等于指定值的元素替换为新值，并将结果复制到另一个容器中。
-5. std::replace_copy_if：将容器中满足特定条件的元素替换为新值，并将结果复制到另一个容器中。
+- std::sort：对容器中的元素进行排序。
+- std::stable_sort：对容器中的元素进行稳定排序。
+- std::partial_sort：对容器中的部分元素进行排序。
+- std::partial_sort_copy：对容器中的部分元素进行排序，并将结果复制到另一个容器中。
+- std::is_sorted：检查容器中的元素是否已排序。
+- std::is_sorted_until：查找容器中未排序的元素的位置。
+- std::random_shuffle：随机打乱容器中的元素。
+- std::reverse：反转容器中的元素顺序。
+- std::rotate: 旋转容器中的元素。
+- std::rotate_copy：旋转容器中的元素，并将结果复制到另一个容器中。
 
-- 计数算法
+### transform_algorithms
 
-1. std::count：统计容器中在指定范围内等于给定值的元素个数。
-2. std::count_if：统计容器中满足特定条件的元素的个数。
-3. std::accumulate：对容器中的元素进行累加操作。
-4. std::inner_product：计算两个容器中对应元素的乘积的和。
-5. std::partial_sum：计算容器中元素的累计和，存放到另一个容器中。
-6. std::adjacent_difference：计算容器中相邻元素的差。
+变换算法定义了一系列用于对容器中的元素进行转换或修改的算法。
 
-- 比较算法
+- std::transform：对容器中的元素进行转换操作。
+- std::replace：将容器中所有等于指定值的元素替换为新值。
+- std::replace_if：将容器中满足特定条件的元素替换为新值
+- std::replace_copy：将容器中所有等于指定值的元素替换为新值，并将结果复制到另一个容器中。
+- std::replace_copy_if：将容器中满足特定条件的元素替换为新值，并将结果复制到另一个容器中。
 
-1. std::equal：比较两个容器中的元素是否相等。
-2. std::mismatch：查找两个容器中第一个不匹配的元素的位置。
-3. std::lexicographical_compare：按字典顺序比较两个容器中的元素。
+### count_algorithms
 
-- 生成算法
+计数算法定义了一系列用于统计容器中元素的数量的算法。
 
-1. std::generate：使用生成器函数生成元素并填充容器。
-2. std::generate_n：使用生成器函数生成n个元素并填充容器。
-3. std::fill：将容器中的所有元素设置为指定的值。
-4. std::fill_n：将容器中的前 n 个元素设置为指定的值。
-5. std::copy：将容器中的元素复制到另一个容器中。
-6. std::copy_if：将容器中满足特定条件的元素复制到另一个容器中。
-7. std::copy_n：将容器中的前 n 个元素复制到另一个容器中。
-8. std::copy_backward：将容器中的元素从后往前复制到另一个容器中。
+- std::count：统计容器中在指定范围内等于给定值的元素个数。
+- std::count_if：统计容器中满足特定条件的元素的个数。
+- std::accumulate：对容器中的元素进行累加操作。
+- std::inner_product：计算两个容器中对应元素的乘积的和。
+- std::partial_sum：计算容器中元素的累计和，存放到另一个容器中。
+- std::adjacent_difference：计算容器中相邻元素的差。
 
-- 移除算法
+### compare_algorithms
 
-1. std::remove：移除容器中满足特定条件的元素，把不需要移除的放在前部，原容器大小不变。
-2. std::remove_if：移除容器中满足特定条件的元素，把不需要移除的放在前部，原容器大小不变。
-3. std::remove_copy：将容器中等于特定值的元素复制到另一个容器中，同时移除不符合条件的元素。
-4. std::remove_copy_if：将容器中满足特定条件的元素复制到另一个容器中。
-5. std::unique：移除容器中**相邻的重复元素**, 把不重复的元素放在前部，原容器大小不变。
-6. std::unique_copy：移除容器中相邻的重复元素，并将结果复制到另一个容器中。
+比较算法定义了一系列用于比较容器中元素的算法。
 
-- 分割算法
+- std::equal：比较两个容器中的元素是否相等。
+- std::mismatch：查找两个容器中第一个不匹配的元素的位置。
+- std::lexicographical_compare：按字典顺序比较两个容器中的元素。
 
-1. std::partition：将容器中的元素根据指定条件进行分割, 满足条件的元素会被移动到容器的前面，不保证顺序不变。
-2. std::stable_partition：将容器中的元素根据指定条件进行稳定分割，满足条件的元素会被移动到容器的前面，保证顺序不变。
-3. std::partition_copy：将容器中的元素根据指定条件进行分割，并将结果复制到另一个容器中。
-4. std::partition_point：返回容器中第一个满足指定条件的元素的位置。
+### generate_algorithms
 
-- 归并算法
+生成算法定义了一系列用于生成元素的算法。
 
-1. std::merge：将两个已排序的容器合并为一个已排序的容器。
-2. std::inplace_merge：对容器中的两个已排序的子序列进行原地合并。
-3. std::set_union：计算两个已排序容器的并集。
-4. std::set_intersection：计算两个已排序容器的交集。
-5. std::set_difference：计算两个已排序容器的差集。
-6. std::set_symmetric_difference：计算两个已排序容器的对称差集。
+- std::generate：使用生成器函数生成元素并填充容器。
+- std::generate_n：使用生成器函数生成n个元素并填充容器。
+- std::fill：将容器中的所有元素设置为指定的值。
+- std::fill_n：将容器中的前 n 个元素设置为指定的值。
+- std::copy：将容器中的元素复制到另一个容器中。
+- std::copy_if：将容器中满足特定条件的元素复制到另一个容器中。
+- std::copy_n：将容器中的前 n 个元素复制到另一个容器中。
+- std::copy_backward：将容器中的元素从后往前复制到另一个容器中。
 
-- 堆算法
+### remove_algorithms
 
-1. std::make_heap：将容器转换为堆。
-1. std::push_heap：将元素添加到堆中。
-2. std::pop_heap：从堆中移除顶部元素。
-3. std::make_heap：将容器转换为堆。
-4. std::sort_heap：对堆进行排序。
+移除算法定义了一系列用于移除容器中元素的算法。
 
-- 其它算法
+- std::remove：移除容器中满足特定条件的元素，把不需要移除的放在前部，原容器大小不变。
+- std::remove_if：移除容器中满足特定条件的元素，把不需要移除的放在前部，原容器大小不变。
+- std::remove_copy：将容器中等于特定值的元素复制到另一个容器中，同时移除不符合条件的元素。
+- std::remove_copy_if：将容器中满足特定条件的元素复制到另一个容器中。
+- std::unique：移除容器中**相邻的重复元素**，把不重复的元素放在前部，原容器大小不变。
+- std::unique_copy：移除容器中相邻的重复元素，并将结果复制到另一个容器中。
 
-1. std::sample: 从容器中随机选择指定数量的元素。
-2. std::clamp: 限制值在指定范围内。
-3. std::reduce：对容器中的元素进行归约操作。
-4. std::transform_reduce：对容器中的元素进行转换操作，并对结果进行归约操作。
-5. std::gcd: 计算两个整数的最大公约数。
-6. std::lcm: 计算两个整数的最小公倍数。
-7. std::to_chars: 将字符串转换为字符数组。
-8. std::from_chars: 将字符数组转换为字符串。
+### partition_algorithms
+
+分割算法定义了一系列用于将容器中的元素根据指定条件进行分割的算法。
+
+- std::partition：将容器中的元素根据指定条件进行分割, 满足条件的元素会被移动到容器的前面，不保证顺序不变。
+- std::stable_partition：将容器中的元素根据指定条件进行稳定分割，满足条件的元素会被移动到容器的前面，保证顺序不变。
+- std::partition_copy：将容器中的元素根据指定条件进行分割，并将结果复制到另一个容器中。
+- std::partition_point：返回容器中第一个满足指定条件的元素的位置。
+
+### merge_algorithms
+
+归并算法定义了一系列用于将两个已排序的容器合并为一个已排序的容器的算法。
+
+- std::merge：将两个已排序的容器合并为一个已排序的容器。
+- std::inplace_merge：对容器中的两个已排序的子序列进行原地合并。
+- std::set_union：计算两个已排序容器的并集。
+- std::set_intersection：计算两个已排序容器的交集。
+- std::set_difference：计算两个已排序容器的差集。
+- std::set_symmetric_difference：计算两个已排序容器的对称差集。
+
+### heap_algorithms
+
+堆算法定义了一系列用于操作堆的算法。
+
+- std::make_heap：将容器转换为堆。
+- std::push_heap：将元素添加到堆中。
+- std::pop_heap：从堆中移除顶部元素。
+- std::make_heap：将容器转换为堆。
+- std::sort_heap：对堆进行排序。
+
+### other_algorithms
+
+- std::sample: 从容器中随机选择指定数量的元素。
+- std::clamp: 限制值在指定范围内。
+- std::reduce：对容器中的元素进行归约操作。
+- std::transform_reduce：对容器中的元素进行转换操作，并对结果进行归约操作。
+- std::gcd: 计算两个整数的最大公约数。
+- std::lcm: 计算两个整数的最小公倍数。
+- std::to_chars: 将字符串转换为字符数组。
+- std::from_chars: 将字符数组转换为字符串。
+- std::back_inserter：创建一个插入迭代器，用于将元素添加到容器的末尾(支持push_back的容器可以使用)
+- std::front_inserter：创建一个插入迭代器，用于将元素添加到容器的开头(支持push_front的容器可以使用)
+- std::inserter：创建一个插入迭代器，用于将元素添加到指定位置(支持insert的容器可以使用)
+- std::greater<>() 执行大于比较操作
+- std::less<>() 执行小于比较操作
+- std::less_equal<>() 执行小于等于比较操作
+- std::greater_equal<>() 执行大于等于比较操作
+- std::equal_to<>() 执行等于比较操作
+- std::not_equal_to<>() 执行不等于比较操作
+- std::plus<>() 执行加法操作
+- std::minus<>() 执行减法操作
+- std::multiplies<>() 执行乘法操作
+- std::divides<>() 执行除法操作
+- std::modulus<>() 执行取余操作
+- std::negate<>() 执行取反操作

@@ -150,6 +150,14 @@ void algorithm_process(void)
     std::copy_if(vcon_0.begin(), vcon_0.end(), vcon_2.begin(), [](const auto &ref_value){
         return ref_value < 50;
     });
+    show_container(vcon_2, "copy_if");
+
+    vcon_2.clear();
+    std::copy_n(vcon_0.begin(), vcon_0.size(), std::back_inserter(vcon_2)); // 从容器的后端插入元素
+    show_container(vcon_2, "copy_n");
+
+    vcon_2.clear();
+    std::copy(vcon_0.begin(), vcon_0.end(), std::front_inserter(vcon_2));   // 从容器的前端插入元素
     show_container(vcon_2, "copy");
 
     // 移除算法
