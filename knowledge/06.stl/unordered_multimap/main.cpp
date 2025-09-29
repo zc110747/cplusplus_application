@@ -27,15 +27,15 @@ template<typename T, typename = std::enable_if_t<std::is_same<T, std::unordered_
 void show_container(T container_val, std::string qstring)
 {
     //empty, size
-    if(!qstring.empty())
-    {
-        for(auto index=qstring.size(); index<13; index++)
+    if(!qstring.empty()) {
+        for (auto index=qstring.size(); index<13; index++) {
             qstring.push_back(' ');
+        }
         qstring += ":";
         std::cout<<qstring;
     }
 
-    for(const auto &pair : container_val) {
+    for (const auto &pair : container_val) {
         std::cout << "[" << pair.first<<": " << pair.second<<"] ";
     }
 
@@ -231,14 +231,16 @@ int main(int argc, char* argv[])
     //equal_range
     std::pair<std::unordered_multimap<std::string, int>::iterator, std::unordered_multimap<std::string, int>::iterator> ret;
     ret = ucon_0.equal_range("beta");
-    if(ret.first != ucon_0.end())
+    if (ret.first != ucon_0.end()) {
         std::cout << "equal_range lower_bound:" << ret.first->first<<"=>" << ret.first->second << std::endl;
-    else
+    } else {
         std::cout << "no vaild lower bound" << std::endl;
-    if(ret.second != ucon_0.end())
+    }
+    if (ret.second != ucon_0.end()) {
         std::cout << "equal_range upper_bound:" << ret.second->first<<"=>" << ret.second->second << std::endl;
-    else
+    } else {
         std::cout << "no vaild upper bound" << std::endl;
+    }
 
     //find, erase
     std::unordered_multimap<std::string, int>::iterator it = ucon_0.find("gamma");

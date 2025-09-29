@@ -14,7 +14,8 @@ C++是支持多范式不同实践的语言，往往很多应用也仅仅是C++�
 - 《C++语言的设计和演化》
 - 《深入理解C++11 - C++11新特性解析与应用》
 - 《现代C++语言核心特性解析》
-- [cpp主要语法说明网址](https://cplusplus.com/reference/)
+- [cpp语法说明网址](https://cplusplus.com/reference/)
+- [cpp参考手册](https://en.cppreference.com/w/cpp.html)
 - [microsoft关于C++的说明](https://learn.microsoft.com/zh-cn/cpp/standard-library/cpp-standard-library-reference?view=msvc-170)
 
 ## 目录
@@ -207,6 +208,9 @@ STL（Standard Template Library）是C++标准库的一部分，它提供了一�
 C++标准库是C++编程语言的一部分，它提供了一组通用的类和函数，用于处理各种常见的编程任务。标准库被组织成多个头文件，每个头文件包含一组相关的功能。以下是一些主要的C++标准库组件。
 
 - any: 可以存储任何类型的对象。
+  - std::in_place_type：是C++17引入的一个函数模板，用于在原地构造对象。
+  - std::make_any：是C++17引入的一个函数模板，用于创建any对象。
+  - std::any_cast：是C++17引入的一个函数模板，用于将any对象转换为指定类型的对象。
 - bitset：位集合类，用于存储和操作二进制位。
   - std::bit_cast：是C++20引入的一个函数模板，用于在不同类型的对象之间进行位级转换。
 - filesystem: 提供了跨平台的文件系统操作功能。
@@ -223,11 +227,16 @@ C++标准库是C++编程语言的一部分，它提供了一组通用的类和�
 - ratio: 有理数类，用于表示有理数。
 - regex：正则表达式类，用于处理正则表达式。
 - stream: 输入输出流类，包含istream，ostream, ofstream，ifstream，stringstream，cin, cout, cerr，clog。
+  - std::iostream：是C++标准库中的一个类，用于处理输入输出流。它是std::istream和std::ostream的基类，提供了基本的输入输出功能。
+  - std::fstream：是C++标准库中的一个类，用于处理文件流。它是std::iostream的子类，提供了文件的读取和写入功能。
+  - std::sstream：是C++标准库中的一个类，用于处理字符串流。它是std::iostream的子类，提供了字符串的读取和写入功能。
 - string：字符串类，提供了字符串的操作和处理功能。
 - string_view：字符串视图类，C++17引入，提供了对字符串的只读访问。
 - tuple：元组类，用于存储多个不同类型的值。
+  - std::apply：是C++17引入的一个函数模板，用于将一个元组中的元素应用到一个函数或lambda表达式中。
 - type_traits：类型特性类，提供了类型的特性信息。
-- utility: 供了一系列实用工具和通用类型，如std::apply，std::swap, std::integer_sequence等
+- utility: 供了一系列实用工具和通用类型，如std::swap, std::make_pair、std::move，std::forward，std::declval等。
+  - std::declval在不创建对象实例的情况下获取类型的右值引用。
 - variant：变体类，用于存储不同类型的值。
 
 详细文档: [标准库说明](./knowledge/07.std/README.md)
@@ -338,7 +347,6 @@ C++的内存布局是指在内存中如何组织和存储对象、变量和函�
     - 返回类型推导是C++14引入的特性，允许编译器自动推导函数的返回类型，简化代码编写。
   - decltype类型推导表达式和函数返回类型后置语法
     - decltype(auto)，C++14引入，与auto相比，推导时保留cv限定符(const、volatile)。
-  - declval在不创建对象实例的情况下获取类型的右值引用。
 - constexpr常量表达式、编译器条件判断
   - constexpr是C++11引入的关键字，用于声明常量表达式, const表示常量。
   - constexpr再C++14中放宽限制，支持局部变量和赋值语句，支持if和switch条件语句，支持修改对象的非const成员。
@@ -349,14 +357,15 @@ C++的内存布局是指在内存中如何组织和存储对象、变量和函�
   - nullptr空指针。
   - 结构化绑定(C++17)：auto[]表达式。
   - for循环的扩展for(key:expression)语句。
-- lambda表达式、函数对象、std::funtion包装器和std::bind
+- lambda表达式、函数对象、泛型lambda表达式、lamdba捕获初始化器
   - lambda表达式是一种匿名函数，它可以捕获外部变量并在需要时执行。
   - 函数对象是重载了函数调用运算符()的类，可以像函数一样被调用(仿函数)。
-  - std::function是模板类，它可以存储任何可调用对象，包括函数、函数指针、lambda表达式、函数对象等。
-  - std::bind是函数模板，它可以将一个可调用对象与一组参数绑定在一起，生成一个新的可调用对象。
-  - 泛型lambda表达式，C++14引入，允许在lambda表达式中使用auto占位符来表示参数类型。
-  - lambda 捕获初始化器，C++14引入，允许在lambda捕获列表中对捕获的变量进行自定义初始化，还能创建新的局部变量供lambda函数体使用。
-- 用户自定义字面量，字符串字面量和单引号作为整数分隔符。
+  - 泛型lambda表达式(C++14引入)，允许在lambda表达式中使用auto占位符来表示参数类型。
+  - lambda捕获初始化器(C++14引入)，允许在lambda捕获列表中对捕获的变量进行自定义初始化，还能创建新的局部变量供lambda函数体使用。
+- 字面量和自定义实现
+  - 字符串字面量，允许使用字符串字面量R("")来创建字符串对象。
+  - 用户自定义字面量，允许用户自定义字符串字面量，并定义自己的字符串字面量处理函数。
+  - 单引号作为整数分隔符，允许使用单引号来分隔整数字面量，提高代码的可读性。
 - 断言和静态断言(static_assert)
   - assert是宏，用于在运行时检查条件是否为真，如果条件不为真，则输出错误信息并终止程序。
   - static_assert是静态断言，用于在编译时检查条件是否为真，如果条件不为真，则输出错误信息并终止编译。

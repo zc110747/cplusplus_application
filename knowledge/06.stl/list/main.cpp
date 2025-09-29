@@ -24,7 +24,7 @@
 #include <numeric>
 
 template<typename T>
-bool comparsion(T first, T second){
+bool comparsion(T first, T second) {
     return first<second;
 }
 
@@ -32,15 +32,15 @@ template<typename T>
 void show_container(T container_val, std::string qstring)
 {
     //empty, size
-    if(!qstring.empty())
-    {
-        for(auto index=qstring.size(); index<13; index++)
+    if (!qstring.empty()) {
+        for(auto index=qstring.size(); index<13; index++) {
             qstring.push_back(' ');
+        }
         qstring += ":";
         std::cout<<qstring;
     }
 
-    for(const auto &ref : container_val) {
+    for (const auto &ref : container_val) {
         std::cout<<ref<<" ";
     }
 

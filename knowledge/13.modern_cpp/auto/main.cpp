@@ -8,7 +8,6 @@
 //  Purpose:
 //      1. auto类型推导
 //      2. decltype类型推导
-//      3. declval获取右值引用
 //
 // Author:
 //      @zc
@@ -81,6 +80,27 @@ namespace AUTO
         std::cout << "val0: " << val0 << std::endl;
         sum3 = 1;
         std::cout << "val0: " << val0 << std::endl;
+
+        // auto推导从左到右
+        int n = 5;
+        auto *pn = &n, n2 = 10;
+        std::cout << "pn: " << *pn << std::endl;
+        std::cout << "n2: " << n2 << std::endl;
+
+        bool b1 = true;
+        auto val1 = b1? 1 : 1.5; // val1的类型被推导为double
+        std::cout << "val1: " << typeid(val1).name() << std::endl;      // double
+
+        // auto引用折叠，左值会被推导为左值引用
+        auto&& val2 = val1;
+        std::cout << std::boolalpha;
+        std::cout << "is_lvalue_reference: " << std::is_lvalue_reference<decltype(val2)>::value << std::endl;
+
+        auto val3{1};
+        std::cout << typeid(val3).name() << std::endl;              // int
+
+        auto val4 = {1, 2, 3};
+        std::cout << typeid(val4).name() << std::endl;              // std::initializer_list<int>
         return 0;
     }
 }
@@ -91,6 +111,11 @@ namespace DECLTYPE
     template <typename T, typename U>
     auto multiply(T t, U u) -> decltype(t * u) {
         return t * u;
+    }
+
+    template <typename T>
+    auto return_ref(T& t) -> decltype(t) {
+        return t;
     }
 
     template<typename T>
@@ -143,71 +168,9 @@ namespace DECLTYPE
         std::cout << "y6 is lvalue: " << std::is_lvalue_reference<decltype(y6)>::value << std::endl; // true
         std::cout << "y7 is rvalue: " << std::is_rvalue_reference<decltype(y7)>::value << std::endl; // true
         std::cout << "y8 is rvalue: " << std::is_rvalue_reference<decltype(y8)>::value << std::endl; // true
-        
-        return 0;
-    } 
-}
-
-namespace DECLVAL
-{
-    struct base_t 
-    { 
-        virtual ~base_t(){} 
-    };
-
-    template<class T>
-    struct Base : public base_t 
-    {
-        virtual T t() = 0;
-    };
-
-    template<class T>
-    struct A : public Base<T> {
-        ~A(){}
-        virtual T t() override { std::cout << "A" << '\n'; return T{}; }
-    };
-
-    struct B {
-        B() = delete;
-        int t(){ return 1; }
-    };
-
     
-    // 一个简单的类，其默认构造函数被删除
-    class NonDefaultConstructible {
-    public:
-        NonDefaultConstructible(int value) : value_(value) {}
-        int value() const { return value_; }
-
-    private:
-        int value_;
-        NonDefaultConstructible() = delete;
-    };
-
-    // 一个模板函数，用于获取类型的右值引用并调用其成员函数
-    template <typename T>
-    auto get_value(decltype(std::declval<T>().value()) val) -> decltype(std::declval<T>().value()) {
-        return val;
-    }
-
-    int test(void)
-    { 
-        std::cout << "===================== Declval =====================" << std::endl;
-
-        decltype(std::declval<A<int>>().t()) a{1};      // int a;
-        decltype(std::declval<Base<int>>().t()) b{2};   // int b;
-        std::cout << "a: " << a << ", b: " << b << '\n';
-
-        decltype(std::declval<B>().t()) c = 3;          // int c;
-        std::cout << "c: " << c << '\n';
-
-        std::cout << "get_value<NonDefaultConstructible>(1): " << get_value<NonDefaultConstructible>(1) << std::endl;
-
-        decltype(std::declval<A<int&>>().t()) a1 = a;      // int&;
-        std::cout << "a1 is lvalue: " << std::is_lvalue_reference<decltype(a1)>::value << std::endl;  // true
-
-        decltype(std::declval<A<int&&>>().t()) a2 = std::move(a);      // int&&;
-        std::cout << "a2 is rvalue: " << std::is_rvalue_reference<decltype(a2)>::value << std::endl;  // true
+        int y9 = 10;
+        std::cout << "y9 is lvalue: " << std::is_lvalue_reference<decltype(return_ref(y9))>::value << std::endl; // true
         return 0;
     } 
 }
@@ -217,8 +180,6 @@ int main(int argc, char* argv[])
     AUTO::test();
 
     DECLTYPE::test();
-
-    DECLVAL::test();
 
     return 0;
 }

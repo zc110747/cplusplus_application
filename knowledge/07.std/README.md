@@ -3,7 +3,6 @@
 C++标准库是C++编程语言的一部分，它提供了一组通用的类和函数，用于处理各种常见的编程任务。标准库被组织成多个头文件，每个头文件包含一组相关的功能。
 
 - [any](#any)
-  - [any_cast](#any_cast)
 - [bitset](#bitset)
   - [bit_cast](#bit_cast)
 - [filesystem](#filesystem)
@@ -19,12 +18,18 @@ C++标准库是C++编程语言的一部分，它提供了一组通用的类和�
 - [ratio](#ratio)
 - [regex](#regex)
 - [stream](#stream)
+  - [iostream](#iostream)
+  - [fstream](#fstream)
+  - [sstream](#sstream)
 - [string](#string)
 - [string_view](#string_view)
 - [tuple](#tuple)
+  - [std::apply](#apply)
 - [type_traits](#type_traits)
 - [utility](#utility)
+  - [std::declval](#declval)
 - [variant](#variant)
+  - [std::visit](#visit)
 
 ## any
 
@@ -47,9 +52,42 @@ std::any是C++17标准库中引入的一个类型安全的通用容器，它可�
 | swap | 交换两个std::any对象的值。 |
 | type | 返回std::any中存储的值的类型。 |
 
-### any_cast
+另外，std::any支持一些函数用于创建、访问对象，具体如下所示。
 
-any_cast是C++17标准库中引入的一个函数模板，用于从std::any中提取值，并将其转换为指定的类型。如果类型不匹配，会抛出std::bad_any_cast异常。
+1. std::in_place_type是C++17标准库中引入的一个类型，用于在std::any中存储值时指定值的类型。
+2. std::make_any是C++17标准库中引入的一个函数模板，用于创建一个std::any对象，并使用给定的参数构造一个值。
+3. std::any_cast是C++17标准库中引入的一个函数模板，用于从std::any中提取值，并将其转换为指定的类型。如果类型不匹配，会抛出std::bad_any_cast异常。
+
+举例说明如下。
+
+```cpp
+#include <any>
+#include <iostream>
+#include <string>
+#include <vector>
+
+int main(int argc, char const *argv[]) 
+{
+    std::any a = 42;
+    std::cout << std::any_cast<int>(a) << std::endl;
+
+    a = "hello world";
+    std::cout << std::any_cast<std::string>(a) << std::endl;
+
+    a = 3.14;
+    std::cout << std::any_cast<double>(a) << std::endl;
+
+    a = std::vector<int>{1, 2, 3};
+    const auto&vec = std::any_cast<std::vector<int>>(a);
+    for (const auto& i : vec) {
+        std::cout << i << " ";
+    }
+    std::cout << std::endl;
+
+    a = std::make_any<std::string>("hello world");
+    std::cout << std::any_cast<std::string>(a) << std::endl;
+}
+```
 
 ## bitset
 
@@ -408,15 +446,34 @@ int main(int argc, char *argv[])
 
 ## locale
 
-std::locale 是 C++ 标准库中的一个类，用于表示特定的本地化环境
+std::locale 是 C++ 标准库中的一个类，用于表示特定的本地化环境。
 
-locale -a查看支持的指令集
+具体网址：https://cplusplus.com/reference/locale/locale/
+
+```shell
+# 查看支持的指令集
+locale -a
+```
+
+其支持的方法如下所示。
+
+| 方法 | 功能描述 |
+| --- | --- |
+| classic | 返回一个std::locale对象，该对象表示使用 C 语言的默认本地化环境。 |
+| combine | 返回一个 std::locale对象，该对象表示使用指定本地化环境进行组合。 |
+| global | 设置全局 std::locale 对象, 该对象表示使用指定本地化环境。 |
+| name | 返回当前 std::locale 对象的名称。 |
+| operator= | 设置当前 std::locale 对象，该对象表示使用指定本地化环境。 |
+| operator== | 比较两个 std::locale 对象是否相等。 |
+| operator!= | 比较两个 std::locale 对象是否不相等。|
+| operator() | 使用本地locale参数进行本地化比较 |
 
 主要特点：
-1. 本地化支持：std::locale 提供了对不同地区和语言的本地化支持，使得程序能够适应不同的用户群体。
-2. 可定制性：可以通过创建自定义的 std::locale 对象来定制特定的本地化设置。
-3. 全局和局部设置：可以在全局范围内设置默认的 std::locale，也可以在局部范围内使用特定的 std::locale。
-4. 与标准库组件集成：std::locale 与许多标准库组件（如 std::cout、std::cin、std::string 等）集成，使得这些组件能够自动适应本地化设置
+
+1. 本地化支持，std::locale提供了对不同地区和语言的本地化支持，使得程序能够适应不同的用户群体。
+2. 可定制性，可以通过创建自定义的 std::locale 对象来定制特定的本地化设置。
+3. 全局和局部设置，可以在全局范围内设置默认的 std::locale，也可以在局部范围内使用特定的 std::locale。
+4. 与标准库组件集成，std::locale 与许多标准库组件（如 std::cout、std::cin、std::string 等）集成，使得这些组件能够自动适应本地化设置。
 
 ## new
 
@@ -699,20 +756,267 @@ std::regex 提供了一种类型安全且高效的方式来处理正则表达式
 
 ## stream
 
-输入输出流
+对于C++中，支持一系列流操作来处理输入输出机制；按照功能分为输入/输出流、字符串流和文件流，用于满足不同场景的需求。
 
-C++ 中的输入输出流（I/O Streams）是处理数据输入输出的核心机制, 它允许程序从外部源读取数据, 并将数据写入到外部源。
+### iostream
 
-std::istream是C++标准库中的输入流类，它是所有输入流类的基类。它提供了一组函数，用于从输入流中读取数据
-std::ostream是C++标准库中的输出流类，它是所有输出流类的基类。它提供了一组函数，用于向输出流中写入数据
-std::ofstream是std::ostream的子类，它用于向文件写入数据
-std::ifstream是std::istream的子类，它用于从文件读取数据
-std::stringstream是std::iostream的一个子类，它用于在内存中读写数据
-std::cin是std::istream的实例，它是标准输入流，用于从标准输入读取数据
-std::cout是std::ostream的实例，它是标准输出流，用于向标准输出写入数据
-std::cerr是std::ostream的实例，它是标准错误输出流，用于向标准错误输出写入数据
-std::clog是std::ostream的实例，它是标准日志输出流，用于向标准日志输出写入数据
-std::ios::sync_with_stdio 设置 std::cin 和 std::cout 的同步状态，以提高输入输出的性能
+iostream全称输入/输出流，主要处理键盘鼠标输入输出，并显示到界面中的功能，包含的主要内容如下。
+
+相关网址：https://cplusplus.com/reference/iostream/
+
+| 输入输出流 | 描述 |
+| --- | --- |
+| std::cin | 标准输入流，用于从标准输入设备（键盘）读取数据 |
+| std::cout | 标准输出流，用于向标准输出设备（屏幕）写入数据 |
+| std::cerr | 标准错误输出流，用于向标准错误输出写入数据 |
+| std::clog | 标准日志输出流，用于向标准日志写入数据 |
+| std::wcin | 标准宽字符输入流，用于从标准输入设备（键盘）读取宽字符数据 |
+| std::wcout | 标准宽字符输出流，用于向标准输出写入宽字符数据 |
+| std::wcerr | 标准宽字符错误输出流，用于向标准错误输出写入宽字符数据 |
+| std::wclog | 标准宽字符日志输出流，用于向标准日志写入宽字符数据 |
+| std::istream | 输入流，用于从输入设备读取数据 |
+| std::ostream | 输出流，用于向输出设备写入数据 |
+
+另外，ios是iostream的基础类，提供了一些通用的功能，如流的状态、异常处理、格式化输出等。指定输出格式如下所示。
+
+| 格式符 | 描述 |
+| --- | --- |
+| boolalpha | 将输入的数字转换为布尔值 |
+| showbase | 显示数值的进制前缀 |
+| showpoint | 显示小数点 |
+| showpos | 显示正数 |
+| skipws | 忽略空白字符 |
+| unitbuf | 每次写入数据时刷新缓冲区 |
+| uppercase | 将输出的数字转换为大写 |
+| noboolalpha | 取消布尔值转换 |
+| noshowbase | 取消显示数值的进制前缀 |
+| noshowpoint | 取消显示小数点 |
+| noshowpos | 取消显示正数 |
+| noskipws | 取消忽略空白字符 |
+| nounitbuf | 取消每次写入数据时刷新缓冲区 |
+| nouppercase | 取消将输出的数字转换为大写 |
+| dec | 十进制 |
+| hex | 十六进制 |
+| oct | 八进制 |
+| fixed | 固定小数位数 |
+| scientific | 科学计数法 |
+| internal | 默认小数位数 |
+| left | 左对齐 |
+| right | 右对齐 |
+
+另外，std::ios::sync_with_stdio(bool sync)可以改变C++和C语言的输入输出同步方式。设置为true可以混用printf和cout，而不会出现缓冲区冲突(不过在实际产品中建议统一接口，不要混用)。
+
+具体示例如下所示。
+
+```cpp
+#include <cstdio>
+#include <iostream>
+
+class object {
+public:
+    int a;
+};
+
+std::ostream& operator<<(std::ostream& os, const object& obj) {
+    os << "object: " << obj.a;
+    return os;
+}
+
+int main(int argc, char const *argv[])
+{   
+    // std::cin 输入流，用于从标准输入设备（键盘）读取数据
+    int num;
+    std::cout << "请输入一个数字：";
+    std::cin >> num;
+    std::cout << "您输入的数字是：" << num << std::endl;
+
+    // std::cout 标准输出流，用于向标准输出写入数据
+    std::cout << "Hello World!" << std::endl;
+    std::cerr << "Error!" << std::endl;
+    std::clog << "Log!" << std::endl;
+
+    std::ios::sync_with_stdio(true);
+    for(int i=0; i<3; i++) {
+        printf("c out:%d\n", i);
+        std::cout << "c++ out:" << i << std::endl;
+    }
+
+    // 显示布尔值
+    std::cout << std::boolalpha;
+    std::cout << true << std::endl;
+    std::cout << std::noboolalpha;
+    std::cout << false << std::endl;
+
+    // 显示进制
+    int val = 10;
+    std::cout << std::hex;
+    std::cout << "val: 0x" << val << std::endl;
+    std::cout << std::dec;
+    std::cout << "val: " << val << std::endl;
+
+    object obj;
+    std::cout << obj << std::endl;
+    return 0;
+}
+```
+
+### fstream
+
+std::fstream是C++标准库中的一个类，其位于<fstream>头文件中，用于处理文件输入输出。另外支持两个子类，std::ifstream和std::ofstream，分别用于从文件读取数据、向文件写入数据。
+
+fstream支持的方法操作如下所示。
+
+| 方法 | 描述 |
+| --- | --- |
+| open | 打开文件 |
+| is_open | 检查文件是否已打开 |
+| close | 关闭文件 |
+| rdbuf | 从文件读取数据 |
+| gcount | 获取当前位置 |
+| get | 获取一个字符 |
+| getline | 获取一行数据 |
+| read | 按照块读取数据 |
+| readsome | 读取数据到缓冲区 |
+| putback | 添加一个字符到缓冲区 |
+| put | 添加一个字符到缓冲区 |
+| write | 按照块写入数据 |
+| tellp | 获取文件写入位置 |
+| seekp | 设置文件写入位置 |
+| tellg | 获取文件读取位置 |
+| seekg | 设置文件读取位置 |
+| flush | 刷新缓冲区 |
+| sync | 同步文件 |
+| good | 检查文件是否正常 |
+| eof | 检查文件是否已结束 |
+| fail | 检查文件是否失败 |
+| bad | 检查文件是否出错 |
+| clear | 清空错误状态 |
+
+另外支持通过ios设置文件的打开模式、位置等信息，具体示例如下所示。
+
+| 模式 | 描述 |
+| --- | --- |
+| std::ios::app | 追加模式 |
+| std::ios::ate | 打开文件后定位到文件末尾 |
+| std::ios::binary | 二进制模式 |
+| std::ios::in | 输入模式 |
+| std::ios::out | 输出模式 |
+| std::ios::trunc | 截断模式 |
+| std::ios::beg | 定位到文件开头 |
+| std::ios::cur | 定位到当前位置 |
+| std::ios::end | 定位到文件末尾 |
+
+具体示例如下所示。
+
+```cpp
+#include <fstream>
+#include <iostream>
+#include <string>
+
+int main(int argc, char const *argv[])
+{
+    std::fstream file("test.txt", std::ios::out | std::ios::in);
+    if(file.is_open()) {
+        file << "Hello, World!" << std::endl;
+
+        // 设置文件读取位置
+        file.seekg(0, std::ios::beg);
+        std::string str;
+        file >> str;
+        std::cout << str << std::endl;
+        file.close();
+    }
+
+    // 读取文件
+    std::ifstream ifile("test.txt", std::ios::in);
+    if(ifile.is_open()) {
+        std::string str;
+        ifile >> str;
+        std::cout << str << std::endl;
+        ifile.close();
+    }
+
+    // 追加写入文件
+    std::ofstream ofile("test.txt", std::ios::out | std::ios::app);
+    if(ofile.is_open()) {
+        ofile << "append, World!" << std::endl;
+        ofile.close();
+    }
+    return 0;
+}
+```
+### sstream
+
+std::sstream是C++标准库中的一个类，用于处理字符串输入输出。它提供了丰富的成员函数和操作符，使得字符串的处理变得更加方便和高效。sstream默认以空格作为分界符进行字符串分割，如果使用其它分隔符，使用std::getline()函数指定。
+
+sstream支持的方法操作如下所示。
+
+| 方法 | 描述 |
+| --- | --- |
+| str | 获取字符串 |
+| operator<< | 向字符串流中写入数据 |
+| operator>> | 从字符串流中读取数据 |
+| getcount | 获取流中的字符数 |
+| get | 获取一个字符 |
+| getline | 从字符串流中读取一行数据 |
+| read | 从字符串流中读取数据 |
+| write | 向字符串流中写入数据 |
+| seekg | 设置字符串流的读取位置 |
+| tellg | 获取字符串流的读取位置 |
+| seekp | 设置字符串流的写入位置 |
+| tellp | 获取字符串流的写入位置 |
+| flush | 刷新字符串流 |
+| sync | 同步字符串流 |
+| good | 检查字符串流是否正常 |
+| eof | 检查字符串流是否已结束 |
+| fail | 检查字符串流是否失败 |
+| bad | 检查字符串流是否出错 |
+| clear | 清空字符串流的错误状态 |
+
+具体示例如下所示。
+
+```cpp
+#include <sstream>
+#include <iostream>
+#include <string>
+#include <vector>
+
+int main(int argc, char const *argv[])
+{
+    std::stringstream ss;
+    
+    // 向字符串流中写入数据
+    ss << "Hello, World!";
+    std::cout << ss.str() << std::endl;
+    std::cout << "good:" << ss.good() << std::endl;
+    std::cout << "eof:" << ss.eof() << std::endl;
+    std::cout << "fail:" << ss.fail() << std::endl;
+    std::cout << "bad:" << ss.bad() << std::endl;
+
+    // 从字符串流中读取数据(默认以空格作为分隔符)
+    std::string str;
+    ss >> str;
+    std::cout << str << std::endl;
+
+    std::cout << "tellg:" << ss.tellg() << std::endl;
+    std::cout << "tellp:" << ss.tellp() << std::endl;
+
+    std::vector<std::string> vec;
+    std::stringstream ss1;
+
+    ss1 << "Hello, World!";
+
+    // 使用getline()函数指定分隔符进行字符串分割
+    while(std::getline(ss1, str, ',')) {
+        vec.push_back(str);
+    }
+    for(const auto& item : vec) {
+        std::cout << item << ";";
+    }
+    std::cout << std::endl;
+    return 0;
+}
+```
 
 ## string
 
@@ -880,7 +1184,7 @@ std::string_view str5{"Hello, World!"};
 
 ## tuple
 
-std::tuple 是 C++ 标准库中的一个模板类，用于将多个不同类型的值组合成一个单一的对象。它类似于结构体（struct）或类（class），但不需要定义成员变量和成员函数。std::tuple 可以包含任意数量和类型的元素，并且可以通过索引或类型来访问这些元素。
+std::tuple是C++标准库中的一个模板类，用于将多个不同类型的值组合成一个单一的对象。它类似于结构体（struct）或类（class），但不需要定义成员变量和成员函数；tuple可以包含任意数量和类型的元素，并且可以通过索引或类型来访问这些元素。
 
 - 格式
 
@@ -930,33 +1234,339 @@ tuple中支持一系列函数来进行元组操作，主要如下所示。
 | std::tie(t1, t2, ...) | 将多个参数绑定到一个元组中 |
 | std::ignore | 一个占位符，用于忽略元组中的元素，配合std::tie()使用 |
 
+## apply
+
+std::apply是C++17引入的一个模板函数，用于将一个元组中的元素应用到一个函数或lambda表达式中。
+
+参考地址：https://en.cppreference.com/w/cpp/utility/apply.html
+
+其原型如下。
+
+```cpp
+//C++17 ~ C++23
+template< class F, class Tuple >
+constexpr decltype(auto) apply( F&& f, Tuple&& t );
+
+// (since C++23)
+template< class F, tuple-like Tuple >
+constexpr decltype(auto) apply( F&& f, Tuple&& t ) noexcept(/* see below */);
+```
+
+使用方法。
+
+```cpp
+#include <tuple>
+#include <iostream>
+
+int add(int a, int b) 
+{
+    return a + b;
+}
+
+auto multiply = [](int a, int b)  {
+    return a * b;
+};
+
+int main(int argc, char const *argv[]) 
+{
+    // std::apply
+    std::cout << "========================= TUPLE_APPLY =========================" << std::endl;
+
+    auto args = std::make_tuple(3, 4);
+
+    int sum = std::apply(add, args);
+    std::cout << "Sum: " << sum << std::endl;
+
+    int product = std::apply(multiply, args);
+    std::cout << "Product: " << product << std::endl;
+
+    auto tuple_args = std::forward_as_tuple("hello", 24, 'a');
+    std::apply([](auto&&... args) {
+        ((std::cout << args << " "), ...);
+        std::cout << std::endl; 
+    }, tuple_args);
+
+    auto func = [](std::string s, int i, char c) {
+        std::cout << "String: " << s;
+        std::cout << " | Integer: " << i;
+        std::cout << " | Character: " << c << std::endl;
+    };
+    std::apply(func, tuple_args);
+
+    return 0;
+}
+```
+
 ## type_traits
 
-std::type_traits 是 C++ 标准库中的一个模板库，它提供了一系列的模板类和模板函数，用于在编译时获取和操作类型的特性。
-这些特性包括类型是否是整数、浮点数、指针、引用、类、联合体、枚举等，
-以及类型的大小、对齐方式、是否有默认构造函数、是否有拷贝构造函数、是否有移动构造函数等。
+std::type_traits是C++标准库中的一个模板库，它提供了一系列的模板类和模板函数，用于在编译时获取和操作类型的特性。这些特性包括类型是否是整数、浮点数、指针、引用、类、联合体、枚举等，以及类型的大小、对齐方式、是否有默认构造函数、是否有拷贝构造函数、是否有移动构造函数等。
 
-std::type_traits 中的模板类和模板函数都是通过模板特化和模板元编程技术实现的，
-它们可以在编译时进行类型检查和类型转换，从而提高代码的效率和安全性
+std::type_traits 中的模板类和模板函数都是通过模板特化和模板元编程技术实现的，它们可以在编译时进行类型检查和类型转换，从而提高代码的效率和安全性。
 
-std::type_traits 中常用的模板类和模板函数：
-1. std::is_integral<T>：判断类型 T 是否是整数类型。
-2. std::is_floating_point<T>：判断类型 T 是否是浮点数类型。
-3. std::is_pointer<T>：判断类型 T 是否是指针类型。
-4. std::is_reference<T>：判断类型 T 是否是引用类型。
-5. std::is_class<T>：判断类型 T 是否是类类型。
-6. std::is_union<T>：判断类型 T 是否是联合体类型。
-7. std::is_enum<T>：判断类型 T 是否是枚举类型。
-8. std::is_same<T, U>：判断类型 T 和 U 是否相同。
-9. std::enable_if<B, T>：根据条件 B 来选择是否启用类型 T。
-10. std::conditional<B, T, F>：根据条件 B 来选择类型 T 或类型 F。
-11. std::integral_constant<T, v>：定义一个类型为 T，值为 v 的编译期常量。
+相关网址： https://cplusplus.com/reference/type_traits/
+
+std::type_traits中常用的模板类和模板函数分类如下所示。
+
+- 主要类型类别
+
+| 模板类 | 描述 |
+| --- | --- |
+| std::is_array<T> | 判断类型T是否是数组类型 |
+| std::is_class<T> | 判断类型T是否是类类型 |
+| std::is_enum<T> | 判断类型T是否是枚举类型 |
+| std::is_floating_point<T> | 判断类型T是否是浮点数类型 |
+| std::is_function<T> | 判断类型T是否是函数类型 |
+| std::is_integral<T> | 判断类型T是否是整数类型 |
+| std::is_lvalue_reference<T> | 判断类型T是否是左值引用类型 |
+| std::is_member_function_pointer<T> | 判断类型T是否是成员函数指针类型 |
+| std::is_member_object_pointer<T> | 判断类型T是否是成员对象指针类型 |
+| std::is_pointer<T> | 判断类型T是否是指针类型 |
+| std::is_rvalue_reference<T> | 判断类型T是否是右值引用类型 |
+| std::is_union<T> | 判断类型T是否是联合体类型 |
+| std::is_void<T> | 判断类型T是否是 void 类型 |
+
+- 复合类型类别
+
+| 模板类 | 描述 |
+| --- | --- |
+| std::is_arithmetic<T> | 判断类型T是否是算术类型 |
+| std::is_compound<T> | 判断类型T是否是复合类型 |
+| std::is_fundamental<T> | 判断类型T是否是基础类型 |
+| std::is_member_pointer<T> | 判断类型T是否是成员指针类型 |
+| std::is_object<T> | 判断类型T是否是对象类型 |
+| std::is_reference<T> | 判断类型T是否是引用类型 |
+| std::is_scalar<T> | 判断类型T是否是标量类型 |
+
+- 类型属性
+
+| 模板类 | 描述 |
+| --- | --- |
+| std::is_abstract<T> | 判断类型T是否是抽象类型 |
+| std::is_const<T> | 判断类型T是否是const类型 |
+| std::is_empty<T> | 判断类型T是否是空类型 |
+| std::is_literal_type<T> | 判断类型T是否是字面量类型 |
+| std::is_pod<T> | 判断类型T是否是POD类型 |
+| std::is_polymorphic<T> | 判断类型T是否是多态类型 |
+| std::is_signed<T> | 判断类型T是否是signed类型 |
+| std::is_standard_layout<T> | 判断类型T是否是标准布局类型 |
+| std::is_trivial<T> | 判断类型T是否是trivial类型 |
+| std::is_trivially_copyable<T> | 判断类型T是否是trivially copyable类型 |
+| std::is_unsigned<T> | 判断类型T是否是unsigned类型 |
+| std::is_volatile<T> | 判断类型T是否是volatile类型 |
+
+- 类型特征
+
+| 模板类 | 描述 |
+| --- | --- |
+| has_virtual_destructor<T> | 检测类型T是否具有虚析构函数 |
+| std::is_assignable<T, U> | 检测类型T是否可赋值给类型U |
+| std::is_constructible<T, Args...> | 检测类型T是否可构造 |
+| std::is_copy_assignable<T> | 检测类型T是否可复制赋值 |
+| std::is_copy_constructible<T> | 检测类型T是否可复制构造 |
+| std::is_destructible<T> | 检测类型T是否可析构 |
+| std::is_default_constructible<T> | 检测类型T是否可默认构造 |
+| std::is_move_assignable<T> | 检测类型T是否可移动赋值 |
+| std::is_move_constructible<T> | 检测类型T是否可移动构造 |
+| std::is_trivially_assignable<T, U> | 检测类型T是否可 trivially 赋值给类型U |
+| std::is_triaially_constructible<T, Args...> | 检测类型T是否可 trivially 构造 |
+| std::is_trivially_copy_assignable<T> | 检测类型T是否可 trivially 复制赋值 |
+| std::is_trivially_copy_constructible<T> | 检测类型T是否可 trivially 复制构造 |
+| std::is_trivially_destructible<T> | 检测类型T是否可 trivially 析构 |
+| std::is_trivially_default_constructible<T> | 检测类型T是否可 trivially 默认构造 |
+| std::is_trivially_move_assignable<T> | 检测类型T是否可 trivially 移动赋值 |
+| std::is_trivially_move_constructible<T> | 检测类型T是否可 trivially 移动构造 |
+| std::is_nothrow_assignable<T, U> | 检测类型T是否可 noexcept 赋值给类型U |
+| std::is_nothrow_constructible<T, Args...> | 检测类型T是否可 noexcept 构造 |
+| std::is_nothrow_copy_assignable<T> | 检测类型T是否可 noexcept 复制赋值 |
+| std::is_nothrow_copy_constructible<T> | 检测类型T是否可 noexcept 复制构造 |
+| std::is_nothrow_destructible<T> | 检测类型T是否可 noexcept 析构 |
+| std::is_nothrow_default_constructible<T> | 检测类型T是否可 noexcept 默认构造 |
+| std::is_nothrow_move_assignable<T> | 检测类型T是否可 noexcept 移动赋值 |
+| std::is_nothrow_move_constructible<T> | 检测类型T是否可 noexcept 移动构造 |
+
+- 类型关系
+
+| 模板类 | 描述 |
+| --- | --- |
+| std::is_base_of<Base, Derived> | 检测类型Derived是否是类型Base的基类 |
+| std::is_convertible<From, To> | 检测类型From是否可以转换为类型To |
+| std::is_same<T, U> | 检测类型T是否与类型U相同 |
+
+- 所有查询
+
+| 模板类 | 描述 |
+| --- | --- |
+| std::alignment_of<T> | 获取类型T的对齐字节数 |
+| std::extent<T> | 获取类型T的元素数量 |
+| std::rank<T> | 获取类型T的维数 |
+
+- 去除符号
+
+| 模板类 | 描述 |
+| --- | --- |
+| std::add_const<T> | 添加const修饰符 |
+| std::add_cv<T> | 添加const和volatile修饰符 |
+| std::add_volatile<T> | 添加volatile修饰符 |
+| std::remove_const<T> | 移除const修饰符 |
+| std::remove_cv<T> | 移除const和volatile 修饰符 |
+| std::remove_volatile<T> | 移除volatile修饰符 |
+
+- 复合型变化
+
+| 模板类 | 描述 |
+| --- | --- |
+| std::add_pointer<T> | 添加指针修饰符 |
+| std::add_lvalue_reference<T> | 添加左值引用修饰符 |
+| std::add_rvalue_reference<T> | 添加右值引用修饰符 |
+| std::decay<T> | 移除cv 和 引用修饰符 |
+| std::make_signed<T> | 创建一个与类型T对应的有符号类型 |
+| std::make_unsigned<T> | 创建一个与类型T对应无符号类型 |
+| std::remove_all_extents<T> | 移除数组的维数 |
+| std::remove_extent<T> | 移除数组的维数 |
+| std::remove_pointer<T> | 移除指针修饰符 |
+| std::remove_reference<T> | 移除引用修饰符 |
+| std::underlying_type<T> | 获取类型T的底层类型 |
+
+- 其它类型转换
+
+| 模板类 | 描述 |
+| --- | --- |
+| std::aligned_storage<Len, Align> | 创建一个长度为Len且对齐字节数为Align的未初始化对象 |
+| std::aligned_union<Len, T1, T2, ...> | 创建一个长度为Len且对齐字节数为std::max(alignof(T1), alignof(T2), ...)的未初始化对象 |
+| std::common_type<T1, T2> | 获取两个类型T1和T2的公共类型 |
+| std::conditional<Cond, T1, T2> | 根据条件Cond来选择 T1 或 T2 |
+| std::enable_if<Cond, T> | 根据条件Cond来选择 T |
+| std::result_of<F(Args...)> | 获取函数F的返回类型 |
 
 ## utility
 
+utility提供了一些处理STL和STD的工具函数，主要包含如下所示。
+
+1. std::swap: 交换两个参数的值。
+2. std::make_pair: 创建一个pair对象。
+3. std::forward: 将参数传递给函数。
+4. std::move: 将参数传递给函数，并转换为右值引用。
+5. std::move_if_noexcept: 将参数传递给函数，并转换为右值引用，如果函数有 noexcept 声明。
+6. std::declval: 创建一个无类型的对象，用于在模板参数推导中。
+6. std::rel_ops: 定义运算符相关的操作函数，支持==, <操作符的对象，扩展支持!=, >, <=, >=操作符(C++20废弃，建议使用<=>操作符)。
+
+```cpp
+#include <utility>
+#include <iostream>
+#include <vector>
+
+void over_func1 (const int& x) 
+{
+    std::cout << "[lvalue]" << std::endl;
+}
+
+void over_func1 (int&& x) 
+{
+    std::cout << "[rvalue]" << std::endl;
+}
+
+template <class T> 
+void func (T&& x) {
+    over_func1 (x);                   // always an lvalue
+    over_func1 (std::forward<T>(x));  // rvalue if argument is rvalue
+}
+
+template <class T>
+class A {
+public:
+    A() = default;
+    T x;
+    T y;
+    A(T x, T y) : x(x), y(y) {}
+    bool operator==(const A& other) const {
+        return x == other.x && y == other.y;
+    }
+    bool operator<(const A& other) const {
+        return x < other.x && y < other.y;
+    }
+};
+
+int main(int argc, char const *argv[]) 
+{
+    std::vector<int> v1 = {1, 2, 3, 4, 5};
+    std::vector<int> v2 = {6, 7, 8, 9, 10};
+
+    // swap
+    std::swap(v1, v2);
+    for (const auto& val : v1) {
+        std::cout << val << ", ";
+    }
+    std::cout << std::endl;
+
+    // make_pair
+    std::pair<int, int> p = std::make_pair(1, 2);
+    std::cout << p.first << ", " << p.second << std::endl;
+
+    // move
+    auto&& v3 = std::move(v2);
+    v3.push_back(11);
+    for (const auto& val : v3) {
+        std::cout << val << ", ";
+    }
+    std::cout << std::endl;
+
+    // move, std::forward
+    int a1 = 0;
+    
+    func(a1);
+    func(0);
+
+    using namespace std::rel_ops;
+    A<int> ac1(1, 2), ac2(3, 4);
+    std::cout << "ac1 == ac2: " << (ac1 == ac2) << std::endl;
+    std::cout << "ac1 < ac2: " << (ac1 < ac2) << std::endl;
+
+    // 通过rel_ops支持
+    std::cout << "ac1 != ac2: " << (ac1 != ac2) << std::endl;
+    std::cout << "ac1 > ac2: " << (ac1 > ac2) << std::endl;
+    std::cout << "ac1 <= ac2: " << (ac1 <= ac2) << std::endl;
+    std::cout << "ac1 >= ac2: " << (ac1 >= ac2) << std::endl;
+    return 0;
+}
+```
+
+### declval
+
+declval 是 C++11 引入的一个工具函数，定义在 <utility> 头文件中。它的主要作用是在不创建对象实例的情况下返回T&&类型。这在模板元编程中非常有用，特别是在需要处理类型的默认构造函数不可用或不希望创建对象实例的情况下。对于declval来说，有如下两个作用。
+
+1. 不必经过构造函数就能使用该类型的成员函数。
+2. 返回T&&类型，用于实现完美转发。
+
+具体示例如下所示。
+
+```cpp
+#include <utility>
+#include <type_traits>
+#include <iostream>
+
+template <typename T>
+class A {
+public:
+    T t;
+    T func() {
+        return t;
+    }
+};
+
+int main(int argc, char const *argv[]) 
+{
+    int b = 1;
+    decltype(std::declval<A<int>>().func()) a = b;
+    std::cout << typeid(a).name() << std::endl;             //int
+    std::cout << std::is_rvalue_reference<decltype(a)>::value << std::endl;  // 0
+
+    return 0;
+}
+```
+
 ## variant
 
-std::variant是C++17 准库中引入的一个类型安全的联合体（union）替代品。它允许你在一个变量中存储多种不同类型的值，并且在运行时可以安全地访问和操作这些值。
+std::variant是C++17标准库中引入的一个类型安全的联合体（union）替代品。它允许你在一个变量中存储多种不同类型的值，并且在运行时可以安全地访问和操作这些值。
 与传统的联合体不同，std::variant会跟踪当前存储的是哪种类型的值，从而避免了类型不安全的问题。
 
 相关网址： https://learn.microsoft.com/zh-cn/cpp/standard-library/variant-operators?view=msvc-170

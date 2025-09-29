@@ -55,10 +55,11 @@ namespace CONSTEXPR
     //27.6 C++14标准对常量表达式函数的增强
     #if __MORE_THAN_CPP14__
     constexpr int abs_update(int x){
-        if(x > 0)
+        if(x > 0) {
             return x;
-        else
+        } else {
             return -x;
+        }
     }
 
     constexpr int sum_update(int x){
@@ -112,26 +113,24 @@ namespace CONSTEXPR
     template<class T> bool is_same_value(T a, T b)
     {
         if constexpr (std::is_same_v<T, double>){
-            if(std::abs(a-b)<0.001)
+            if(std::abs(a-b)<0.001) {
                 return true;
-            else 
+            } else {
                 return false;
-        }
-        else
-        {
+            }
+        } else {
             return a == b;
         }
     }
 
     template<class T> auto any2i(T t)
     {
-        if constexpr (std::is_same_v<T, std::string>)
-        {
-            if constexpr(T::npos == -1)
-                return atoi(t.c_str());
-        }
-        else
-        {
+        if constexpr (std::is_same_v<T, std::string>) {
+            if constexpr(T::npos == -1) {
+                return atoi(t.c_str());    
+            }
+
+        } else {
             return t;
         }
     }
@@ -181,10 +180,11 @@ namespace CONSTEXPR
     //27.16 判断常量求值环境
     constexpr int func_const(int x)
     {
-        if(std::is_constant_evaluated())
+        if constexpr(std::is_constant_evaluated()) {
             return x;
-        else 
+        } else {
             return 0;
+        }
     };
     #endif
 
@@ -304,10 +304,9 @@ namespace CONSTEXPR
     #if __MORE_THAN_CPP17__
         cout<<"\nchapter27.9\n  ";
         auto check = [](){
-            if constexpr(sizeof(int) > sizeof(char)){
+            if constexpr (sizeof(int) > sizeof(char)){
                 cout<<"sizeof(int) > sizeof(char)"<<" | ";
-            }
-            else{
+            } else {
                 cout<<"sizeof(int) <= sizeof(char)"<<" | ";
             }
         };

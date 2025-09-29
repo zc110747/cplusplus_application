@@ -7,8 +7,8 @@
 #include <iostream>
 #include <thread>
 
-static EVENT::Thread_Queue<EventBufMessage> high_priority_queue;
-static EVENT::Thread_Queue<EventBufMessage> low_priority_queue;
+static EVENT::thread_queue<EventBufMessage> high_priority_queue;
+static EVENT::thread_queue<EventBufMessage> low_priority_queue;
 
 int main(int argc, char *argv[])
 {

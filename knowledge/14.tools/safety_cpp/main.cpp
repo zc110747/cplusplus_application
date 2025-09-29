@@ -85,12 +85,9 @@ int main(int argc, char *argv[])
     //enum class
     MyColor MyColor;
     MyColor = MyColor::Red;
-    if(MyColor == MyColor::Blue)
-    {
+    if (MyColor == MyColor::Blue) {
         std::cout<<"Color Equal"<<std::endl;
-    }
-    else
-    {
+    } else {
         std::cout<<"Color No Equal"<<std::endl;
     }
 

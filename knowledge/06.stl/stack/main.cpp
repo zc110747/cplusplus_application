@@ -26,8 +26,7 @@ template<typename T>
 void show_container(T container_val, std::string qstring)
 {
     //empty, size
-    if(!qstring.empty())
-    {
+    if (!qstring.empty()) {
         for(auto index=qstring.size(); index<13; index++)
             qstring.push_back(' ');
         qstring += ":";
@@ -35,8 +34,7 @@ void show_container(T container_val, std::string qstring)
     }
 
     T temp_container(container_val);
-    while(!temp_container.empty())
-    {
+    while (!temp_container.empty()) {
         std::cout << temp_container.top() << ", ";
         temp_container.pop();
     }
@@ -46,10 +44,10 @@ void show_container(T container_val, std::string qstring)
 
 int main(int argc, char* argv[])
 {
-    //stack
+    // stack
     std::stack<std::string> scon_0;
 
-    //emplace, push, size, empty
+    // emplace, push, size, empty
     scon_0.push("first");
     scon_0.push("second");
     scon_0.push("third");
@@ -59,25 +57,25 @@ int main(int argc, char* argv[])
     std::cout << "empty:" << scon_0.empty()<< std::endl;
     show_container(scon_0, "scon_0");
 
-    //emplace
+    // emplace
     scon_0.emplace("sixth");
 
-    //top
+    // top
     std::string &strfront = scon_0.top();
     std::cout << "top: " << strfront<< std::endl;
 
-    //swap
+    // swap
     std::stack<std::string> scon_1;
     scon_1.swap(scon_0);
 
-    //pop
+    // pop
     std::cout << "size:" << scon_1.size() << std::endl;
     scon_1.pop();
     std::cout << "size:" << scon_1.size() << std::endl;
     std::cout << "top: " << scon_1.top() << std::endl;
     show_container(scon_1, "scon_1");
 
-    //stack with vector
+    // stack with vector
     std::vector<int> vec_0{2, 1, 4, 5, 5};
     std::stack<int, std::vector<int>> scon_2(vec_0);
     show_container(scon_2, "scon_2");

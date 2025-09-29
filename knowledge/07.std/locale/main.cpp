@@ -6,7 +6,8 @@
 //      main.cpp
 //
 //  Purpose:
-//      1. std::locale
+//      1. std::locale声明
+//      2. std::locale方法
 //
 // Author:
 //      @zc
@@ -22,7 +23,7 @@ int main(int argc, char* argv[])
     // 设置全局的默认 locale 为用户的默认 locale
     std::locale::global(std::locale(""));
 
-    // 使用全局的默认 locale 输出数字
+    // 默认locale输出数字
     std::cout.imbue(std::locale());
     std::cout << "Number in default locale: " << 1234.56 << std::endl;
 
@@ -39,11 +40,16 @@ int main(int argc, char* argv[])
             << "." << std::endl;
         std::cout << "The name of the current locale is: " << loc1.name( )
             << "." << std::endl;
+        std::cout << "number in C.utf8: " << 1234.56 << std::endl;
     }
     catch(const std::exception& e)
     {
         std::cerr << e.what() << '\n';
     }
-    
+
+    std::locale loc3("en_US.utf8");
+    std::cout.imbue(loc3);
+    std::cout << "Number in US locale: " << 1234.56 << std::endl;
+
     return 0;
 }

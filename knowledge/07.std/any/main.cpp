@@ -23,75 +23,113 @@
 #include <vector>
 #include <complex>
 
+namespace ANY_DECLARATION
+{
+    int test(void)
+    {
+        std::cout << "===================== ANY_DECLARATION =======================" << std::endl;
+
+        std::any a = 42;
+        std::cout << "a: " << std::any_cast<int>(a) << std::endl;            // any(int)
+
+        a = "hello world";
+        std::cout << "a: " << std::any_cast<const char*>(a) << std::endl;    // any(const char *)
+
+        a = std::string("hello world");
+        std::cout << "a: " << std::any_cast<std::string>(a) << std::endl;    // any(string)
+
+        a = 3.14;
+        std::cout << "a: " << std::any_cast<double>(a) << std::endl;         // any(double)
+
+        a = std::vector<int>{1, 2, 3};
+        const auto&vec = std::any_cast<std::vector<int>>(a);        // any(vector<int>)
+        for (const auto& i : vec) {
+            std::cout << i << " ";
+        }
+        std::cout << std::endl;
+
+        a = std::complex<double>(1.0, 2.0);
+        std::cout << "a: " << std::any_cast<std::complex<double>>(a) << std::endl; // any(complex<double>)
+
+        // make_any构造any对象
+        std::any a1 = std::make_any<int>(10);
+        std::cout << "a1: " << std::any_cast<int>(a1) << std::endl;
+
+        a1 = std::make_any<std::string>("hello world");
+        std::cout << "a1: " << std::any_cast<std::string>(a1) << std::endl;
+        return 0;
+    }
+}
+
+namespace ANY_METHOD
+{
+    int test(void)
+    {
+        std::cout << "===================== ANY_METHOD =======================" << std::endl;
+
+        std::any a1 = 1;
+        std::any a2 = "hello world";
+        std::any a3 = std::string("hello world");
+        std::any a4{std::in_place_type<int>, 1};
+
+        std::cout << std::boolalpha;
+        std::cout << "has value: " << a1.has_value() << std::endl;
+        std::cout << "type: " << a1.type().name() << std::endl;
+
+        try
+        {
+            std::cout << "a1: " << std::any_cast<int>(a1) << std::endl;
+            std::cout << "a2: " << std::any_cast<const char*>(a2) << std::endl;
+            std::cout << "a3: " << std::any_cast<std::string>(a3) << std::endl;
+            std::cout << "a4: " << std::any_cast<int>(a4) << std::endl;
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
+        
+        // reset
+        a1.reset();
+        std::cout << "has value: " << a1.has_value() << std::endl;
+
+        // operator=
+        a1 = 1.35;
+        std::cout << "a1: " << std::any_cast<double>(a1) << std::endl;
+      
+        // copy constructor
+        std::any a5(a1);
+        std::cout << "a5: " << std::any_cast<double>(a5) << std::endl;
+    
+        // move constructor
+        std::any a6(std::move(a1));
+        std::cout << "a6: " << std::any_cast<double>(a6) << std::endl;
+        std::cout << "a1 has value: " << a1.has_value() << std::endl;
+
+        // move assignment operator
+        std::any a7 = std::move(a6);
+        std::cout << "a7: " << std::any_cast<double>(a7) << std::endl;
+        std::cout << "a6 has value: " << a6.has_value() << std::endl;
+
+        // emplace
+        a7.emplace<std::string>("hello world");
+        std::cout << "a7: " << std::any_cast<std::string>(a7) << std::endl;
+
+        // swap
+        std::any a8 = 1;
+        a8.swap(a7);
+
+        std::cout << "a8: " << std::any_cast<std::string>(a8) << std::endl;
+        std::cout << "a7: " << std::any_cast<int>(a7) << std::endl;
+
+        return 0;
+    } 
+}
+
 int main(int argc, char* argv[])
 {
-    std::any data_0 = "a";
-    std::any data_1 = 1;
-    std::any data_2{std::in_place_type<std::string>, "c"};
+    ANY_DECLARATION::test();
 
-    std::cout<< std::boolalpha;
-    std::cout<< "data_0 has value: " << data_0.has_value() << std::endl;
-
-    // type
-    std::cout<< "data_0 type: " << data_0.type().name() << std::endl;
-
-    // exception
-    try
-    {
-        std::cout<< "data_0 value: " << std::any_cast<const char*>(data_0) << std::endl;
-        std::cout<< "data_1 value: " << std::any_cast<int>(data_1) << std::endl;
-        std::cout<< "data_2 value: " << std::any_cast<std::string>(data_2) << std::endl;
-    }
-    catch(const std::bad_any_cast& e)
-    {
-        std::cerr << e.what() << '\n';
-    }
-
-    // operator=
-    data_0 = 1;
-    std::cout<< "data_0 value: " << std::any_cast<int>(data_0) << std::endl;
-
-    // reset
-    data_0.reset();
-    std::cout<< "data_0 has value: " << data_0.has_value() << std::endl;
-
-    // copy constructor
-    std::any data_3(data_1);
-    std::cout<< "data_3 value: " << std::any_cast<int>(data_3) << std::endl;
-
-    // move constructor
-    std::any data_4(std::move(data_1));
-    std::cout<< "data_4 value: " << std::any_cast<int>(data_4) << std::endl;
-
-    // move assignment operator
-    data_4 = std::move(data_3);
-    std::cout<< "data_4 value: " << std::any_cast<int>(data_4) << std::endl;
-
-    // any_cast vector
-    std::any data_5{std::vector{1, 2, 3}};
-    auto v = std::any_cast<std::vector<int>>(data_5);
-    std::cout << "data_5 value: ";
-    for (const auto &val : v) {
-        std::cout << val << " ";
-    }
-    std::cout << std::endl;
-
-    // make_any
-    std::any data_6 = std::make_any<int>(10);
-    std::cout<< "data_6 value: " << std::any_cast<int>(data_6) << std::endl;
-
-    auto data_7 = std::make_any<std::complex<double>>(0.1, 0.2);
-    std::cout << "data_7 value: " << std::any_cast<std::complex<double>>(data_7) << std::endl;
-
-    // emplace
-    data_7.emplace<std::complex<double>>(0.2, 0.3);
-    std::cout << "data_7 value: " << std::any_cast<std::complex<double>>(data_7) << std::endl;
-
-    // swap
-    std::any data_8 = 100;
-    data_8.swap(data_7);
-    std::cout << "data_7 value: " << std::any_cast<int>(data_7) << std::endl;
-    std::cout << "data_8 value: " << std::any_cast<std::complex<double>>(data_8) << std::endl;
+    ANY_METHOD::test();
 
     return 0;
 } 

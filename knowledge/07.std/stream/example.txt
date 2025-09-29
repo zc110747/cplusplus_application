@@ -1,2 +1,3 @@
-"log info step-1"
-"log info step-2"
+Hello, World!
+This is a test file.
+Appended line.

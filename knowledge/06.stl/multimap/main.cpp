@@ -27,15 +27,15 @@ template<typename T, typename = std::enable_if_t<std::is_same<T, std::multimap<t
 void show_container(T container_val, std::string qstring)
 {
     //empty, size
-    if(!qstring.empty())
-    {
-        for(auto index=qstring.size(); index<13; index++)
+    if (!qstring.empty()) {
+        for(auto index=qstring.size(); index<13; index++) {
             qstring.push_back(' ');
+        }
         qstring += ":";
         std::cout<<qstring;
     }
 
-    for(const auto &pair : container_val) {
+    for (const auto &pair : container_val) {
         std::cout<<"["<<pair.first<<": "<<pair.second<<"] ";
     }
 
@@ -219,25 +219,30 @@ int main(int argc, char* argv[])
     //equal_range, lower_bound, upper_bound
     std::pair<std::multimap<std::string, int>::iterator, std::multimap<std::string, int>::iterator> ret;
     ret = usermultimap.equal_range("beta");
-    if(ret.first != usermultimap.end())
+    if (ret.first != usermultimap.end())  {
         std::cout<<"equal_range lower_bound:"<<ret.first->first<<"=>"<<ret.first->second<<std::endl;
-    else
+    } else {
         std::cout<<"invaild equal_range lower_bound"<<std::endl;
-    if(ret.second != usermultimap.end())   
+    }
+    if (ret.second != usermultimap.end())  {
         std::cout<<"equal_range upper_bound:"<<ret.second->first<<"=>"<<ret.second->second<<std::endl;
-    else
+    } else {
         std::cout<<"invaild equal_range upper_bound"<<std::endl;
+    }
+
     std::multimap<std::string, int>::iterator lower = usermultimap.lower_bound("beta");
     std::multimap<std::string, int>::iterator upper = usermultimap.upper_bound("beta");
-    if(lower != usermultimap.end())
+    if (lower != usermultimap.end())  {
         std::cout<<"lower_bound:"<<lower->first<<"=>"<<lower->second<<std::endl;
-    else
+    } else {
         std::cout<<"invaild lower_bound"<<std::endl;
-    if(upper != usermultimap.end())
+    }
+    if (upper != usermultimap.end())  {
         std::cout<<"upper_bound:"<<upper->first<<"=>"<<upper->second<<std::endl;
-    else   
+    } else {
         std::cout<<"invaild upper_bound"<<std::endl;
-
+    }
+    
     //find, erase
     std::multimap<std::string, int>::iterator it = usermultimap.find("gamma");
     std::cout<<"find:"<<it->first<<"=>"<<it->second<<std::endl;

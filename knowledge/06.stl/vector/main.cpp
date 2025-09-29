@@ -27,15 +27,15 @@ template<typename T>
 void show_container(T container_val, std::string qstring)
 {
     //empty, size
-    if(!qstring.empty())
-    {
-        for(auto index=qstring.size(); index<13; index++)
+    if (!qstring.empty()) {
+        for (auto index=qstring.size(); index<13; index++) {
             qstring.push_back(' ');
+        }
         qstring += ":";
         std::cout<<qstring;
     }
 
-    for(const auto &ref : container_val) {
+    for (const auto &ref : container_val) {
         std::cout<<ref<<" ";
     }
 
@@ -311,8 +311,7 @@ int main(int argc, char* argv[])
     while(iter!=uservector.end()) {
         if(*iter == 3) {
             iter=uservector.erase(iter);
-        }
-        else {
+        } else {
             iter++;
         }
     }

@@ -6,8 +6,9 @@
 //      main.cpp
 //
 //  Purpose:
-//      1. std::apply
-//
+//      1. 相关组件类，std::move, std::forward，std::rel_ops
+//      2. 相关组件方法, std::swap, std::make_pair
+//      3. std::declval
 // Author:
 //      @zc
 //
@@ -17,38 +18,157 @@
 #include <iostream>
 #include <utility>
 #include <tuple>
+#include <vector>
 #include <string>
 
-int add(int a, int b) {
-    return a + b;
+namespace UTILITY_BASE
+{
+    void over_func1 (const int& x) 
+    {
+        std::cout << "[lvalue]" << std::endl;
+    }
+
+    void over_func1 (int&& x) 
+    {
+        std::cout << "[rvalue]" << std::endl;
+    }
+
+    template <class T> 
+    void func (T&& x) {
+        over_func1 (x);                   // always an lvalue
+        over_func1 (std::forward<T>(x));  // rvalue if argument is rvalue
+    }
+
+    template <class T>
+    class A {
+    public:
+        A() = default;
+        T x;
+        T y;
+        A(T x, T y) : x(x), y(y) {}
+        bool operator==(const A& other) const {
+            return x == other.x && y == other.y;
+        }
+        bool operator<(const A& other) const {
+            return x < other.x && y < other.y;
+        }
+    };
+
+    int test(void) 
+    {
+        std::cout << "===================== UTILITY_BASE =====================" << std::endl;
+
+        std::vector<int> v1 = {1, 2, 3, 4, 5};
+        std::vector<int> v2 = {6, 7, 8, 9, 10};
+
+        // swap
+        std::swap(v1, v2);
+        for (const auto& val : v1) {
+            std::cout << val << ", ";
+        }
+        std::cout << std::endl;
+
+        // make_pair
+        std::pair<int, int> p = std::make_pair(1, 2);
+        std::cout << p.first << ", " << p.second << std::endl;
+
+        // move
+        auto&& v3 = std::move(v2);
+        v3.push_back(11);
+        for (const auto& val : v3) {
+            std::cout << val << ", ";
+        }
+        std::cout << std::endl;
+
+        // move, std::forward
+        int a1 = 0;
+        
+        func(a1);
+        func(0);
+
+        using namespace std::rel_ops;
+        A<int> ac1(1, 2), ac2(3, 4);
+        std::cout << "ac1 == ac2: " << (ac1 == ac2) << std::endl;
+        std::cout << "ac1 < ac2: " << (ac1 < ac2) << std::endl;
+
+        // 通过rel_ops支持
+        std::cout << "ac1 != ac2: " << (ac1 != ac2) << std::endl;
+        std::cout << "ac1 > ac2: " << (ac1 > ac2) << std::endl;
+        std::cout << "ac1 <= ac2: " << (ac1 <= ac2) << std::endl;
+        std::cout << "ac1 >= ac2: " << (ac1 >= ac2) << std::endl;
+        return 0;
+    }
 }
 
-auto multiply = [](int a, int b) {
-    return a * b;
-};
+namespace DECLVAL
+{
+    struct base_t 
+    { 
+        virtual ~base_t(){} 
+    };
+
+    template<class T>
+    struct Base : public base_t 
+    {
+        virtual T t() = 0;
+    };
+
+    template<class T>
+    struct A : public Base<T> {
+        ~A(){}
+        virtual T t() override { std::cout << "A" << '\n'; return T{}; }
+    };
+
+    struct B {
+        B() = delete;
+        int t(){ return 1; }
+    };
+
+    
+    // 一个简单的类，其默认构造函数被删除
+    class NonDefaultConstructible {
+    public:
+        NonDefaultConstructible(int value) : value_(value) {}
+        int value() const { return value_; }
+
+    private:
+        int value_;
+        NonDefaultConstructible() = delete;
+    };
+
+    // 一个模板函数，用于获取类型的右值引用并调用其成员函数
+    template <typename T>
+    auto get_value(decltype(std::declval<T>().value()) val) -> decltype(std::declval<T>().value()) {
+        return val;
+    }
+
+    int test(void)
+    { 
+        std::cout << "===================== Declval =====================" << std::endl;
+
+        decltype(std::declval<A<int>>().t()) a{1};      // int a;
+        decltype(std::declval<Base<int>>().t()) b{2};   // int b;
+        std::cout << "a: " << a << ", b: " << b << '\n';
+
+        decltype(std::declval<B>().t()) c = 3;          // int c;
+        std::cout << "c: " << c << '\n';
+
+        std::cout << "get_value<NonDefaultConstructible>(1): " << get_value<NonDefaultConstructible>(1) << std::endl;
+
+        decltype(std::declval<A<int&>>().t()) a1 = a;      // int&;
+        std::cout << "a1 is lvalue: " << std::is_lvalue_reference<decltype(a1)>::value << std::endl;  // true
+
+        decltype(std::declval<A<int&&>>().t()) a2 = std::move(a);      // int&&;
+        std::cout << "a2 is rvalue: " << std::is_rvalue_reference<decltype(a2)>::value << std::endl;  // true
+        return 0;
+    } 
+}
 
 int main() 
 {
-    auto args = std::make_tuple(3, 4);
+    UTILITY_BASE::test();
 
-    int sum = std::apply(add, args);
-    std::cout << "Sum: " << sum << std::endl;
-
-    int product = std::apply(multiply, args);
-    std::cout << "Product: " << product << std::endl;
-
-    auto tuple_args = std::forward_as_tuple("hello", 24, 'a');
-    std::apply([](auto&&... args) {
-        ((std::cout << args << " "), ...);
-        std::cout << std::endl; 
-    }, tuple_args);
-
-    auto func = [](std::string s, int i, char c) {
-        std::cout << "String: " << s;
-        std::cout << " | Integer: " << i;
-        std::cout << " | Character: " << c << std::endl;
-    };
-    std::apply(func, tuple_args);
+    DECLVAL::test();
 
     return 0;
 }

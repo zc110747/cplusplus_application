@@ -24,17 +24,16 @@ template<typename T>
 void show_container(T container_val, std::string qstring)
 {
     //empty, size
-    if(!qstring.empty())
-    {
-        for(auto index=qstring.size(); index<13; index++)
+    if (!qstring.empty()) {
+        for(auto index=qstring.size(); index<13; index++) {
             qstring.push_back(' ');
+        }
         qstring += ":";
         std::cout << qstring;
     }
 
     T temp_container(container_val);
-    while(!temp_container.empty())
-    {
+    while (!temp_container.empty()) {
         std::cout << temp_container.top() << ", ";
         temp_container.pop();
     }

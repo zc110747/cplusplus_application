@@ -27,15 +27,15 @@ template<typename T>
 void show_container(T container_val, std::string qstring)
 {
     //empty, size
-    if(!qstring.empty())
-    {
-        for(auto index=qstring.size(); index<13; index++)
+    if (!qstring.empty()) {
+        for(auto index=qstring.size(); index<13; index++) {
             qstring.push_back(' ');
+        }
         qstring += ":";
         std::cout << qstring;
     }
 
-    for(const auto &ref : container_val) {
+    for (const auto &ref : container_val) {
         std::cout << ref << " ";
     }
 
@@ -273,8 +273,7 @@ int main(int argc, char* argv[])
     }
     if(ret.second != usermultiset.end()) {
         std::cout << "equal_range upperbound:" << *(ret.second) <<std::endl;
-    }
-    else {
+    } else {
         std::cout << "invalid equal_range upperbound" <<std::endl;
     }
 

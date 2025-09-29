@@ -196,15 +196,11 @@ private:
             auto stauts = pthread_cond_timedwait(&m_cond_, &m_mutex_, &ts);
             pthread_mutex_unlock(&m_mutex_);
 
-            if (stauts == ETIMEDOUT)
-            {
-                if (timeout_handler_)
-                {
+            if (stauts == ETIMEDOUT) {
+                if (timeout_handler_) {
                     timeout_handler_();
                 }
-            }
-            else
-            {
+            } else {
                 std::cout<<"TIME_MANAGE_POSIX finished\n";
             }
         }

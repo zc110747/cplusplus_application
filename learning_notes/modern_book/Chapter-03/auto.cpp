@@ -48,10 +48,11 @@ namespace AUTO
     #if __MORE_THAN_CPP14__
     auto sum(long a1, long a2)
     {
-        if(a1 < 0)
+        if(a1 < 0) {
             return 0L;
-        else
+        } else {
             return a1+a2;
+        }
     }
     #endif
 

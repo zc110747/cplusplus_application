@@ -26,7 +26,7 @@ namespace EVENT
 {
 
 template<typename T>
-class Thread_Queue
+class thread_queue
 {
 public:
     /// \brief send

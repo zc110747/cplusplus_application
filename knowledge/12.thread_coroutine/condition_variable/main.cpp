@@ -81,18 +81,14 @@ namespace USE_SIGNAL
         {
             int ret = false;
 
-            if(semaphore_.wait(timeout))
-            {
+            if (semaphore_.wait(timeout)) {
                 std::unique_lock<std::mutex> lock(mut);
-                if(Queue_.size() != 0)
-                {
+                if (Queue_.size() != 0){
                     Object = Queue_.front();
                     Queue_.pop();
                     ret = true;
                 }
-            }
-            else
-            {
+            } else {
                 std::cout<<"rx failed"<<" | ";
             }
 

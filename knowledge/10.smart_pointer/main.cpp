@@ -6,9 +6,9 @@
 //      main.cpp
 //
 //  Purpose:
-//      1. std::shared_ptr智能指针
-//      2. std::weak_ptr智能指针
-//      3. std::unique_ptr智能指针
+//      1. std::unique_ptr说明
+//      2. std::shared_ptr说明
+//      3. std::weak_ptr说明
 //
 // Author:
 //      @zc

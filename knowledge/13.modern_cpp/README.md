@@ -3,7 +3,6 @@
 - [attribute](#attribute)
 - [auto](#auto)
   - [decltype](#decltype)
-  - [declval](#declval)
 - [constexpr](#constexpr)
 - [extend](#extend)
 - [lambda](#lambda)
@@ -12,103 +11,239 @@
 
 ## attribute
 
+一直以来，微软和GCC都支持一类特殊的属性语法，用于扩展语言的功能。指定的语法格式如下所示。
+
+```cpp
+// GCC支持的属性语法
+// 指定变量的属性
+__attribute__((attribute_list))
+
+// 指定数据的对齐机制
+int __attribute__((aligned(16))) arr[10];
+struct __attribute__((aligned(16))) MyClass {
+    int data[10];
+};
+
+// MSVC支持的属性语法
+__declspec(attribute_list)
+
+// 指定8字节对齐
+__declspec(align(16)) int arr[10];
+```
+
+C++11 引入了属性语法，用于扩展语言的功能。属性语法的格式如下所示。
+
+1. [[noreturn]]: 表示函数不会返回，通常用于标记函数不会正常返回
+2. [[carries_dependency]]: 用于在多线程编程中优化内存访问顺序
+3. [[deprecated]]: 显示的表示一个函数或变量已弃用，通常用于标记未来会被移除的功能
+4. [[fallthrough]]: 表示在switch语句中，当一个case语句执行完后，会继续执行下一个case语句，而不是跳出switch语句
+5. [[nodiscard]]: 表示函数的返回值可能会被忽略
+6. [[maybe_unused]]: 表示变量可能会被忽略
+7. [[likely]]: 表示某个条件很可能为真
+8. [[unlikely]]: 表示某个条件很可能为假
+9. [[no_unique_address]]: 表示变量的地址可能会被重复使用
+
 ## auto
 
 auto关键字用于自动类型推导，它可以根据变量的初始化表达式来推断变量的类型。auto通常用于简化复杂类型的声明，特别是在使用模板或迭代器时。
 
+auto的推导具有如下特点。
+
+- 当一个auto关键字声明多个变量时，编译器遵循从左到右的顺序推导，以最左边的表达式推导auto具体类型。另外推导类型需要相同，否则会导致编译错误。
+- 使用条件表达式初始化auto声明的变量时，编译器总是使用类型更宽的类型推导，如能够同时推导double或者int，那么就会推导为double类型。
+
 对于auto来说也有些限制，主要如下所示。
 
-1. 对于结构体来说，非静态成员不能用auto。
-2. auto不能用作模板参数 vector<auto> demo{1, 2, 3, 4}。
-3. auto推导忽略引用和cv限定符(const和volatile)，需要自行添加。
+- 对于结构体来说，非静态成员不能用auto推导；对于静态成员，C++17后支持非const变量用auto推导。
+- auto不能用作模板参数，如vector<auto> demo{1, 2, 3, 4}。不过C++17后可以作为非类型模板形参的占位符，配合decltype(auto)可支持cv推导，另外推导出的类型必须为允许的模板参数类型。
+- auto推导忽略引用、cv限定符(const和volatile)，如果有需要可以额外添加。
+- auto和&&结合使用时，对于左值会将其推导为引用类型。
+- auto推导数组或者函数时，会被推导成对应的指针类型。
+- auto关键字配合初始化列表时(C++17后支持)，直接列表初始化(只能为一个元素)，推导类型为对应内部元素类型；等号列表初始化，推导类型std::initializer_list<T>类型。列表内需要为单一元素类型。
+
+auto的另一个用处是实现返回类型后置和返回类型推导。通过使用auto作为占位符，可以声明返回类型。
 
 具体示例如下所示。
 
 ```cpp
-auto val0 = 1;                          //int
-auto val1 = {1, 2, 3};                  //std::initializer_list<int>
-auto val2 = std::vector<int>{1, 2, 3};  //std::vector<int>
-auto val3 = val2.begin();               //std::vector<int>::iterator
-auto val4 = std::move(val2);            //std::vector<int>
+#include <iostream>
+#include <vector>
+#include <type_traits>
+
+// 返回类型后置
+auto add(auto a, auto b) -> decltype(a + b) {
+    return a + b;
+}
+
+// 返回类型推导
+auto mul(auto a, auto b){
+    return a * b;
+}
+
+auto get_limit(int val) {
+    if (val <= 0) {
+        return 0;
+    } else {
+        return val;
+    }
+}
+
+// C++14支持, 非类型模板参数支持使用auto作为占位符
+template <auto N>
+class Limit {
+public:
+    int arr[N];
+
+    int size(void) {
+        return N;
+    }
+};
+
+template <decltype(auto) N>
+void func(void) 
+{
+    std::cout << "N:" << N << std::endl;
+    std::cout << "is_reference_v:" << std::is_reference_v<decltype(N)> << std::endl;
+}
+
+int main(int argc, const char *argv[]) 
+{
+    auto val0 = 1;                          //int
+    auto val1{1};                           //int
+    auto val2 = std::vector<int>{1, 2, 3};  //std::vector<int>
+    auto val3 = val2.begin();               //std::vector<int>::iterator
+    auto val4 = std::move(val2);            //std::vector<int>
+    auto val5 = {1, 2, 3};                  //std::initializer_list<int>
+    auto val6 = []() -> int { return 1; };  //lambda
+
+    std::cout << " val0 type:" << typeid(val0).name() << std::endl;
+    std::cout << " val1 type:" << typeid(val1).name() << std::endl;
+    std::cout << " val2 size:" << val2.size() << std::endl;
+    std::cout << " val3 type:" << typeid(val3).name() << std::endl;
+    std::cout << " val4 size:" << val4.size() << std::endl;
+    std::cout << " val5 size:" << val5.size() << std::endl;
+    std::cout << val6() << std::endl;
+
+    std::cout << add(1, 2) << std::endl;
+    std::cout << mul(1, 2) << std::endl;
+    std::cout << get_limit(-1) << std::endl;
+
+    Limit<5> limit;
+    std::cout << " limit size:" << limit.size() << std::endl;
+
+    static const int NUM = 5;
+    constexpr int NUM1 = 1;
+
+    func<5>();      // const int
+    func<NUM>();    // const int
+    func<(NUM)>();  // const int&
+    func<NUM1>();   // const int
+    //func<(NUM1)>(); // 不支持, NUM1没有地址
+}
 ```
 
 ### decltype
 
 decltype关键字用于获取表达式的类型，而不是变量的类型。它可以用于声明函数返回值的类型，或者在模板中推导类型参数的类型。
 
-对于decltype(e)来获取类型时，编译器将依序判断以下4个规则，这里假设e的类型为T。
+对于decltype(e)来获取类型时，编译器将依序判断以下规则，这里假设e的类型为T。
 
 1. 如果e时一个没有带括号的标记符表达式或者类成员访问表达式，那么decltype就是e所命名的实体的类型，另外，如果e是一个被重载的函数，则会导致编译时错误。
-2. 如果e是一个将亡值(xvalue), 那么decltype(e)为T&&
-3. 如果e是一个左值，则decltype(e)为T&
-4. 其余情况decltype(e)为T
+2. 如果e是一个类型为T的将亡值(xvalue), 那么类型为T&&。
+3. 如果e是一个类型为T的左值，类型为T&。
+4. 如果e是函数、仿函数调用，类型为调用后返回值类型。
+5. 其余情况decltype(e)，类型为T。
 
-```cpp
-int a1 = 1;
-int &a2 = a1;
-int &&a3 = std::move(a1);
+当然decltype还有其它特性，如下所示。
 
-decltype(a1) a4 = 1;                //int
-decltype(a2) a5 = a1;               //int&
-decltype(a3) a6 = std::move(a1);    //int&&
-decltype(auto) a7 = std::move(a1);  //int&&
-```
-
-基于auto和decltype的类型推导，可以实现函数返回值类型后置和自动推导函数。
-
-```cpp
-// 函数返回类型后置语法
-auto func1(int a, int b) -> decltype(a + b) {
-    return a + b;
-}
-
-// 函数自动推导
-auto func2(auto a, auto b) {
-    return a + b;
-}
-```
-
-decltype(auto)是C++14引入的类型说明符，结合了decltype和auto的特性，用于类型推导。auto推导时会忽略引用和cv限定符(const 和 volatile），而decltype能精确地返回表达式的类型，decltype(auto)综合二者，按decltype的规则进行类型推导。
-
-```cpp
-int a1 = 1;
-int &a2 = a1;
-int &&a3 = std::move(a1);
-decltype(auto) a4 = a2;                 //int&
-decltype(auto) a5 = std::move(a1);      //int&&
-```
-
-### declval
-
-declval 是 C++11 引入的一个工具函数，定义在 <utility> 头文件中。它的主要作用是在不创建对象实例的情况下返回T&&类型。这在模板元编程中非常有用，特别是在需要处理类型的默认构造函数不可用或不希望创建对象实例的情况下。对于declval来说，有如下两个作用。
-
-1. 不必经过构造函数就能使用该类型的成员函数。
-2. 返回T&&类型，用于实现完美转发。
+1. decltype的推导会同步cv限定符，如果未加括号时，不会同步其父对象的cv限定符。
+2. 基于auto和decltype的类型推导，可以实现函数返回值类型后置和自动推导函数。
+3. decltype(auto)是C++14引入的类型说明符，结合了decltype和auto的特性，用于类型推导。auto推导时会忽略引用和cv限定符(const 和 volatile），而decltype能精确地返回表达式的类型，decltype(auto)综合二者，按decltype的规则进行类型推导。
 
 具体示例如下所示。
 
 ```cpp
-#include <utility>
-#include <type_traits>
 #include <iostream>
+#include <typeinfo>
+#include <type_traits>
 
-template <typename T>
-class A {
-public:
-    T t;
-    T func() {
-        return t;
-    }
+// 函数返回类型后置语法
+auto add(int a, int b) -> decltype(a + b) {
+    return a + b;
+}
+
+// 函数自动推导
+// 使用decltype，函数返回值类型后置推导
+template <typename R1, typename R2>
+auto mul(R1 a, R2 b) -> decltype(a * b) {
+    return a * b;
+}
+
+// c++14，auto占位符推导
+auto mul1(auto a, auto b) {
+    return a + b;
+}
+
+struct Base {
+    int val{1};
 };
 
-int main(int argc, char const *argv[]) 
+int main(int argc, const char *argv[]) 
 {
-    int b = 1;
-    decltype(std::declval<A<int>>().func()) a = b;
-    std::cout << typeid(a).name() << std::endl;             //int
-    std::cout << std::is_rvalue_reference<decltype(a)>::value << std::endl;  // 0
+    int a1 = 1;
+    int &a2 = a1;
+    int &&a3 = std::move(a1);
 
-    return 0;
+    decltype(a1) a4 = 1;                // int
+    decltype(a2) a5 = a1;               // int&
+    decltype(a3) a6 = std::move(a1);    // int&&
+
+    const int a7 = 1;
+    decltype(a7) a8 = 1;                // const int
+
+    volatile int a9 = 1;
+    decltype(a9) a10 = 1;                // volatile int
+
+    std::cout << std::boolalpha;
+    std::cout << "a1: " << std::is_reference<decltype(a1)>::value << std::endl; 
+    std::cout << "a2: " << std::is_lvalue_reference<decltype(a2)>::value << std::endl;
+    std::cout << "a3: " << std::is_rvalue_reference<decltype(a3)>::value << std::endl;
+
+    std::cout << "a4: " << std::is_reference<decltype(a4)>::value << std::endl;
+    std::cout << "a5: " << std::is_lvalue_reference<decltype(a5)>::value << std::endl;
+    std::cout << "a6: " << std::is_rvalue_reference<decltype(a6)>::value << std::endl;
+
+    std::cout << "a7: " << std::is_const<decltype(a7)>::value << std::endl;
+    std::cout << "a8: " << std::is_const<decltype(a8)>::value << std::endl;
+
+    std::cout << "a9: " << std::is_volatile<decltype(a9)>::value << std::endl;
+    std::cout << "a10: " << std::is_volatile<decltype(a10)>::value << std::endl;
+
+    auto val0 = mul(1, 2);
+    std::cout << "val0: " << val0 << std::endl;
+
+    auto val1 = mul1(1, 1.2);
+    std::cout << "val1: " << val1 << std::endl;
+
+    auto val2 = add(1, 2);
+    std::cout << "val2: " << val2 << std::endl;
+
+    decltype(auto) a11 = a10;
+    std::cout << "a11: " << std::is_volatile<decltype(a11)>::value << std::endl;
+
+    const Base a12;
+    decltype(a12) a13 = a12;              // const Base
+    decltype(a12.val) a14 = a12.val;      // double
+    decltype((a12.val)) a15 = a12.val;    // const double& 
+
+    a15 = 1;
+    std::cout << "a12: " << std::is_const<decltype(a12)>::value << std::endl;
+    std::cout << "a13: " << std::is_const<decltype(a13)>::value << std::endl;
+    std::cout << "a14: " << std::is_const<decltype(a14)>::value << std::endl;;
+
+    const Base* a16 = &a12;
+    decltype(a16->val) a17 = a16->val;      // double
+    decltype((a16->val)) a18 = a16->val;    // const double&
 }
 ```
 
@@ -326,6 +461,246 @@ for (declaration : range_expression) {
 
 ## lambda
 
+在C++中，lambda表达式是一种匿名函数，它允许你在需要函数对象的地方定义一个临时的函数。lambda表达式通常用于简化代码，特别是在需要传递函数作为参数的情况下。
+
+```cpp
+[capture list](parameters) -> return_type {
+    // 函数体
+} 
+
+capture list: 捕获列表，用于捕获外部变量
+    [] 无捕获的lambda表达式
+    [=] 值捕获，lambda表达式通过值捕获所有外部变量
+    [&] 通过引用捕获所有外部变量的lambda表达式
+    [var] 只捕获变量var
+    [&var] 只捕获变量var的引用
+    [this] 捕获当前类中的this指针，按引用捕获
+    [*this] 捕获当前类中的this指针，按值捕获，值捕获默认定义为const(C++17)
+    [=, &var] 捕获所有外部变量的lambda表达式
+    [&, var] 捕获所有外部变量的lambda表达式，但是var是通过值捕获的
+```
+
+可以使用std::function对象来存储lambda表达式，另外从原理上，lambda基于函数对象(仿函数)来实现。
+
+泛型lambda表达式是C++14引入的特性，它允许在lambda表达式中使用auto占位符来表示参数类型，使得lambda可以接受不同类型的参数，实现类似函数模板的泛型功能。
+
+Lambda捕获初始化器是 C++14 引入的特性，它允许你在lambda捕获列表中对捕获的变量进行自定义初始化，还能创建新的局部变量供lambda函数体使用，即使这些变量在 lambda 外部并不存在。
+
+本节例程如下所示。
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+class lambda_class
+{
+public:
+    lambda_class(int value) : m_value(value) {}
+
+    int test(int a) 
+    {
+        auto v1 = [](){
+            std::cout << "no capture" << std::endl;
+        };
+        auto v2 = [=, this](){
+            std::cout << "copy m_value: " << m_value << std::endl;
+        };
+        auto v3 = [&](){
+            std::cout << "reference m_value: " << m_value << std::endl;
+        };
+        auto v4 = [this](){
+            std::cout << "reference this->m_value: " << m_value << std::endl;
+        };
+        auto v5 = [*this](){
+            std::cout << "copy this->m_value: " << m_value << std::endl;
+        };
+        auto v6 = [this, a](){
+            std::cout << "copy this->m_value: " << m_value + a << std::endl;
+        };
+
+        v1();
+        v2();
+        v3();
+        v4();
+        v5();
+        v6();
+
+        return 0;
+    }
+private:
+    int m_value{0};
+};
+
+int main(int argc, char const *argv[]) 
+{
+    std::vector<int> vec = {1, 2, 3, 4, 5};
+
+    // 使用lambda表达式对vec中的元素进行排序
+    std::sort(vec.begin(), vec.end(), [](int a, int b) {
+        return a > b;
+    });
+    for (const int& i : vec) {
+        std::cout << i << std::endl;
+    }
+
+    // 在类中的capture捕获
+    lambda_class lc(10);
+    lc.test(1);
+
+    std::vector<int> v1 = {1, 2, 3, 4, 5};
+
+    // 泛型lambda函数
+    auto lambdafunc = [&]<typename T>(T&& data) {
+        std::cout << "泛型lambda函数: ";
+        for (auto& x : data) {
+            std::cout << x << " ";
+        }
+        std::cout << std::endl;
+    };
+    lambdafunc(v1);
+
+    // 泛型lambda(auto)
+    auto func = [](auto a, auto b) -> decltype(a+b) {
+        std::cout<<"泛型lambda: ";
+        return a+b;
+    };
+    std::cout<<func(2, 4)<<std::endl;
+
+    // lambda捕获初始化器
+    auto func1 = [moveVec = std::move(vec)](){
+        std::cout<<"lambda捕获初始化器: ";
+        for (auto x : moveVec) {
+            std::cout << x << " ";
+        }
+        std::cout << std::endl;
+    };
+    func1();
+    return 0;
+}
+```
+
 ## literal
 
+1. 原生字符串字面量
+
+原生字符串字面量（Raw String Literals）是C++11引入的一个特性，它允许你在字符串中包含特殊字符（如反斜杠和引号）而不需要进行转义。原生字符串字面量以 R"( 开始，以 )" 结束。在这两个符号之间的所有字符都被视为字符串的一部分，包括换行符和引号。
+
+举例说明如下。
+
+```cpp
+#include <iostream>
+#include <string>
+
+int main(int argc, char const *argv[])
+{
+    const char* str1 = R"(Hello, world!)";
+    std::cout << str1 << std::endl; 
+
+    const char str2[] = R"(Hello,
+        world!
+    )";
+    std::cout << str2 << std::endl;
+    return 0;
+}
+```
+
+2. 用户自定义字面量
+
+用户可以自定义字面量（User-Defined Literals），这允许你为基本类型（如整数、浮点数、字符串等）定义新的后缀，从而创建自定义的字面量。
+对于字符串字面量，你可以定义一个自定义后缀来创建一个特定类型的对象。
+
+```cpp
+#include <iostream>
+#include <string>
+
+class MyString: public std::string
+{
+public:
+    using std::string::string;
+    void print()
+    {
+        std::cout << *this << std::endl;
+    }
+};
+
+MyString operator""_my(const char* str, size_t len)
+{
+    return MyString(str, len);
+}
+
+template<char ...c>
+    MyString operator"" _my() {
+        MyString str("");
+
+        //折叠表达式
+        using unused = int[];
+        unused{(str.push_back(c), 0)...};
+        return str;
+    }
+
+int main(int argc, char const *argv[])
+{
+    "Hello, world!"_my.print();
+
+    auto val = 123_my;
+    val.print();
+    return 0;
+}
+```
+
+3. 单引号作为整数分隔符
+
+在C++14及以后的版本中，单引号（'）可以用作整数和浮点数字面量的分隔符，以提高代码的可读性。这些分隔符不会影响数值本身，它们只是为了让数字更易于阅读。
+
+```cpp
+#include <iostream>
+
+int main(int argc, char const *argv[])
+{
+    // 单引号作为整数分隔符
+    int billion = 1'000'000'000;
+    int largeNumber = 123'456'789;
+
+    double pi = 3.141'592'653;
+
+    std::cout << "Billion: " << billion << std::endl;
+    std::cout << "Large number: " << largeNumber << std::endl;
+    std::cout << "Pi: " << pi << std::endl;
+}
+```
+
 ## static_assert
+
+静态断言（static_assert）是C++11引入的一个编译时断言机制，用于在编译阶段检查某个条件是否为真。如果条件为假，编译器会产生一个错误信息，并且编译过程会失败。静
+态断言通常用于在编译时验证模板参数、常量表达式或其他编译时可确定的条件。
+
+静态断言的语法如下：
+
+```cpp
+static_assert(条件, 错误信息);
+```
+
+举例说明如下。
+
+```cpp
+#include <iostream>
+#include <type_traits>
+
+template <typename T>
+void check_size() {
+    static_assert(sizeof(T) <= 4, "Type size exceeds 4 bytes");
+    std::cout << "Type size is within the limit." << std::endl;
+}
+
+int main(int argc, char const *argv[])
+{
+    static_assert(sizeof(int) == 4, "int must be 4 bytes");
+    check_size<int>();    // 编译通过，int类型大小通常为4字节
+    // check_size<double>();  // 编译失败，double类型大小通常为8字节
+    check_size<char>();
+    check_size<float>();
+    
+    return 0;
+}
+```

@@ -14,7 +14,7 @@ CFLAGS += -lssl -lcrypto
 
 # This is the file name of the executables and path where 
 # place the executables
-executables = math_tools
+executables = target
 executables_path = ./
 
 # Including this file allows access to the Build System.

@@ -30,10 +30,10 @@ template<typename T, typename = std::enable_if_t<std::is_same<T, std::map<typena
 void show_container(T container_val, std::string qstring)
 {
     //empty, size
-    if(!qstring.empty())
-    {
-        for(auto index=qstring.size(); index<13; index++)
+    if (!qstring.empty()) {
+        for(auto index=qstring.size(); index<13; index++) {
             qstring.push_back(' ');
+        }
         qstring += ":";
         std::cout<<qstring;
     }
@@ -236,26 +236,31 @@ int main(int argc, char* argv[])
     //equal_range, lower_bound, upper_bound
     std::pair<std::map<std::string, int>::iterator, std::map<std::string, int>::iterator> ret;
     ret = usermap.equal_range("beta");
-    if(ret.first != usermap.end()) {
+    if (ret.first != usermap.end()) {
         std::cout<<"equal_range lower_bound:"<<ret.first->first<<"=>"<<ret.first->second<<std::endl;
     } else {
         std::cout<<"invaild equal_range lower_bound"<<std::endl;
     }
-    if(ret.second != usermap.end())  {
+
+    if (ret.second != usermap.end())  {
         std::cout<<"equal_range upper_bound:"<<ret.second->first<<"=>"<<ret.second->second<<std::endl;
-    }    
-    else
+    } else {
         std::cout<<"invaild equal_range upper_bound"<<std::endl;
+    }
+
     std::map<std::string, int>::iterator lower = usermap.lower_bound("beta");
     std::map<std::string, int>::iterator upper = usermap.upper_bound("beta");
-    if(lower != usermap.end())
+    if (lower != usermap.end()) {
         std::cout<<"lower_bound:"<<lower->first<<"=>"<<lower->second<<std::endl;
-    else
+    } else {
         std::cout<<"invaild lower_bound"<<std::endl;
-    if(upper != usermap.end())
+    }
+
+    if (upper != usermap.end()) {
         std::cout<<"upper_bound:"<<upper->first<<"=>"<<upper->second<<std::endl;
-    else   
+    } else {
         std::cout<<"invaild upper_bound"<<std::endl;
+    }
 
     //find, erase
     std::map<std::string, int>::iterator it = usermap.find("gamma");

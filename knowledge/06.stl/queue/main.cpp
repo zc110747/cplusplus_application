@@ -50,8 +50,7 @@ int main(int argc, char* argv[])
     //pop
     std::cout << "qcon_1:";
     int size = qcon_1.size();
-    for(int index=0; index<size; index++)
-    {
+    for (int index=0; index<size; index++) {
         std::cout << qcon_1.front() << " ";
         qcon_1.pop();
     }
@@ -76,8 +75,7 @@ int main(int argc, char* argv[])
     //pop
     std::cout << "qcon_3:";
     int pr_size = qcon_3.size();
-    for(int index=0; index<pr_size; index++)
-    {
+    for (int index=0; index<pr_size; index++) {
         std::cout << qcon_3.top() << " ";
         qcon_3.pop();
     }
