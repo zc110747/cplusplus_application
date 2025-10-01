@@ -32,20 +32,18 @@ namespace CHOOSE_INIT
         //if中的初始化变量贯穿整个生命周期，else if中初始化变量只存在于else if和后续的语句
         cout<<"\nchapter18.1\n  ";
         #if __MORE_THAN_CPP17__
-        auto foo1 = [](int x)->bool
-        {
-            if(x>3) 
+        auto foo1 = [](int x)->bool {
+            if(x>3) {
                 return false;
+            }
             return true;
         };
+        
         if(bool b = foo1(4); b){
             cout<<std::boolalpha<<b<<" 3"<<" | ";
-        }
-        else if(bool b1 = foo1(2); b1){
+        } else if(bool b1 = foo1(2); b1){
             cout<<std::boolalpha<<b<<" 2"<<" | ";
-        }
-        else
-        {
+        } else {
             cout<<"null"<<" | ";
         }
         #else

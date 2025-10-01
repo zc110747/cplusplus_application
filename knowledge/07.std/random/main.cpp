@@ -1,19 +1,21 @@
-/*
-std::random 是 C++ 标准库中的一个组件，用于生成伪随机数。它提供了多种随机数生成器和分布，以满足不同的需求
-随机数生成器
-std::minstd_rand：线性同余生成器，速度快，但随机性较差
-std::default_random_engine：默认的随机数生成器，通常基于Mersenne Twister算法。
-std::mt19937：32位Mersenne Twister随机数生成器, 周期长，随机性好。
-std::mt19937_64：64位Mersenne Twister随机数生成器。
-分布
-std::uniform_int_distribution：生成均匀分布的整数。
-std::uniform_real_distribution：生成均匀分布的浮点数。
-std::normal_distribution：生成正态分布的浮点数。
-std::bernoulli_distribution：生成伯努利分布的布尔值。
-
-std::random_device：是 C++ 标准库中的一个类，用于生成非确定性的随机数。它通常用于初始化随机数生成器的种子，以确保每次程序运行时生成的随机数序列都是不同的。
-*/
-
+//////////////////////////////////////////////////////////////////////////////
+//  (c) copyright 2023-by ZC Inc.  
+//  All Rights Reserved
+//
+//  Name:
+//      main.cpp
+//
+//  Purpose:
+//      1. random_device - 随机数发生器
+//      2. pseudo random - 伪随机数发生器
+//      3. distribution - 随机数分布处理
+//
+// Author:
+//      @zc
+//
+// Revision History:
+//      Version V1.0b1 Create.
+/////////////////////////////////////////////////////////////////////////////
 #include <iostream>
 #include <random>
 
@@ -63,40 +65,146 @@ std::string generate_random_string(T &seed, size_t length) {
 }
 #endif
 
+namespace RANDOM_DEVICE
+{
+    int test(void)
+    {
+        std::cout << "==================== RANDOM_DEVICE ====================" << std::endl;
+
+        std::random_device rd;
+        std::cout << "rd() = " << rd() << std::endl;                    // 输出一个随机数
+        std::cout << "rd.min() = " << rd.min() << std::endl;            // 输出随机数范围最小值
+        std::cout << "rd.max() = " << rd.max() << std::endl;            // 输出随机数范围最大值
+        std::cout << "rd.entropy() = " << rd.entropy() << std::endl;    // entropy 是随机数生成器的熵，用于衡量随机数的质量和随机性
+        return 0;
+    }
+}
+
+namespace PSEUDO_RANDOM
+{
+    int test(void)
+    {
+        std::cout << "==================== PSEUDO_RANDOM ====================" << std::endl;
+
+        std::random_device rd;
+
+        std::minstd_rand gen0(rd());    // 最小标准minstd_rand随机数生成器
+        std::cout << "minstd_rand() = " << gen0() << std::endl;             // 输出一个随机数
+        std::cout << "minstd_rand.min() = " << gen0.min() << std::endl;     // 输出随机数范围最小值
+        std::cout << "minstd_rand.max() = " << gen0.max() << std::endl;     // 输出随机数范围最大值
+
+        std::minstd_rand0 gen1(rd());   // 最小标准minstd_rand0随机数生成器
+        std::cout << "minstd_rand0() = " << gen1() << std::endl;
+        std::cout << "minstd_rand0.min() = " << gen1.min() << std::endl;
+        std::cout << "minstd_rand0.max() = " << gen1.max() << std::endl;
+
+        std::mt19937 gen2(rd());        // 梅森旋转算法mt19937随机数生成器
+        std::cout << "mt19937() = " << gen2() << std::endl;
+        std::cout << "mt19937.min() = " << gen2.min() << std::endl;
+        std::cout << "mt19937.max() = " << gen2.max() << std::endl;
+
+        std::mt19937_64 gen3(rd());     // 梅森旋转算法mt19937_64随机数生成器
+        std::cout << "mt19937_64() = " << gen3() << std::endl;
+        std::cout << "mt19937_64.min() = " << gen3.min() << std::endl;
+        std::cout << "mt19937_64.max() = " << gen3.max() << std::endl;
+
+        std::ranlux24_base gen4(rd());    // 随机数生成器ranlux24_base
+        std::cout << "ranlux24_base() = " << gen4() << std::endl;
+        std::cout << "ranlux24_base.min() = " << gen4.min() << std::endl;
+        std::cout << "ranlux24_base.max() = " << gen4.max() << std::endl;
+
+        std::ranlux48_base gen5(rd());    // 随机数生成器ranlux48_base
+        std::cout << "ranlux48_base() = " << gen5() << std::endl;
+        std::cout << "ranlux48_base.min() = " << gen5.min() << std::endl;
+        std::cout << "ranlux48_base.max() = " << gen5.max() << std::endl;
+
+        std::ranlux24 gen6(rd());      // 随机数生成器ranlux24
+        std::cout << "ranlux24() = " << gen4() << std::endl;
+        std::cout << "ranlux24.min() = " << gen4.min() << std::endl;
+        std::cout << "ranlux24.max() = " << gen4.max() << std::endl;
+
+        std::ranlux48 gen7(rd());      // 随机数生成器ranlux48
+        std::cout << "ranlux48() = " << gen5() << std::endl;
+        std::cout << "ranlux48.min() = " << gen5.min() << std::endl;
+        std::cout << "ranlux48.max() = " << gen5.max() << std::endl;
+
+        std::knuth_b gen8(rd());      // 随机数生成器knuth_b
+        std::cout << "knuth_b() = " << gen8() << std::endl;
+        std::cout << "knuth_b.min() = " << gen8.min() << std::endl;
+        std::cout << "knuth_b.max() = " << gen8.max() << std::endl;
+
+        std::default_random_engine gen9(rd());
+        std::cout << "default_random_engine() = " << gen9() << std::endl;
+        std::cout << "default_random_engine.min() = " << gen9.min() << std::endl;
+        std::cout << "default_random_engine.max() = " << gen9.max() << std::endl;
+        return 0;
+    }
+}
+
+namespace DISTRIBUTION
+{
+    int test(void)
+    {
+        std::cout << "==================== DISTRIBUTION ====================" << std::endl;
+
+        std::random_device rd;
+        std::mt19937 gen(rd());
+
+        // 创建一个均匀分布的整数分布
+        std::uniform_int_distribution<> dis(1, 100);
+        std::cout << "uniform_int_distribution() = ";
+
+        for (size_t i = 0; i < 10; i++) {
+            std::cout << dis(gen) << ' ';
+        }
+        std::cout << std::endl;
+
+        // 创建一个均匀分布的浮点数分布
+        std::uniform_real_distribution<> dis1(1, 100);
+        std::cout << "uniform_real_distribution() = ";
+        for (size_t i = 0; i < 10; i++) {
+            std::cout << dis1(gen) << ' ';
+        }
+        std::cout << std::endl;
+
+        // 创建一个正态分布的浮点数分布
+        std::normal_distribution<> floatdis1(0, 1);
+        std::cout << "normal_distribution() = ";
+        for (size_t i = 0; i < 10; i++) {
+            std::cout << floatdis1(gen)*100 << ' ';
+        }
+        std::cout << std::endl;
+
+        // 创建一个伯克利分布的浮点数分布
+        std::bernoulli_distribution bool_dis(0.5);
+        std::cout << "bernoulli_distribution() = ";
+        for (size_t i = 0; i < 10; i++) {
+            std::cout << bool_dis(gen) << ' ';
+        }
+        std::cout << std::endl;
+
+        // 创建一个二项分布的整数分布
+        std::binomial_distribution<> bin_dis(10, 0.5);
+        std::cout << "binomial_distribution() = ";
+        for (size_t i = 0; i < 10; i++) {
+            std::cout << bin_dis(gen) << ' ';
+        }
+        std::cout << std::endl;
+
+        // 生成随机字符串
+        auto &&str = generate_random_string(gen, 10);
+        std::cout << str << '\n';
+
+        return 0;
+    }
+}
 int main(int argc, char *argv[]) 
 {
-    std::random_device rd;
-    std::mt19937 gen(rd());
+    RANDOM_DEVICE::test();
 
-    // 创建一个均匀分布的整数分布
-    std::uniform_int_distribution<> dis(1, 6);
+    PSEUDO_RANDOM::test();
 
-    // 生成随机数
-    for (int i = 0; i < 10; ++i) {
-        std::cout << dis(gen) << ' ';
-    }
-    std::cout << '\n';
+    DISTRIBUTION::test();
 
-    // 创建一个正态分布的浮点数分布
-    std::default_random_engine gen2(rd());
-    std::normal_distribution<> floatdis(0, 1);
-
-    for (int i = 0; i < 10; ++i) {
-        std::cout << static_cast<int>(floatdis(gen2)*100) << ' ';
-    }
-    std::cout << '\n';
-
-    // 创建一个伯克利分布的浮点数分布
-    std::minstd_rand gen3(rd());
-    std::bernoulli_distribution bool_dis(0.5);  
-
-    for (int i = 0; i < 10; ++i) {
-        std::cout << bool_dis(gen3) << ' ';
-    }
-    std::cout << '\n';
-
-    // 生成随机字符串
-    auto &&str = generate_random_string(gen, 10);
-    std::cout << str << '\n';
     return 0;
 }

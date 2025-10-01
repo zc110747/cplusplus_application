@@ -6,6 +6,7 @@
 - [聚合类型](#aggregate_type)
 - [POD类型](#pod_type)
 - [类存储空间](#class_layout)
+- [对齐机制](#alignment)
 
 ## trivial_copyable
  
@@ -279,7 +280,7 @@ int main(int argc, char *argv[])
 
 ## aggregate_type
 
-聚合类型（Aggregate Type）是指那些可以进行聚合初始化（Aggregate Initialization）的类型。这是一种特殊的初始化方式，允许使用花括号 {} 直接初始化类的成员。
+聚合类型（Aggregate Type）是指那些可以进行聚合初始化（Aggregate Initialization）的类型。这是一种特殊的初始化方式，允许使用花括号 {} 直接初始化类的成员；C++20新增支持带基类的聚合类型，同时聚合类型支持使用"{}"和"()"进行初始化，其中{}初始化方式不支持缩窄转换，而()初始化方式支持缩窄转换。
 
 聚合类型要求如下所示。
 
@@ -289,9 +290,14 @@ int main(int argc, char *argv[])
 4. 没有私有或保护的非静态成员，所有非静态成员必须是公有的。
 5. 没有私有，保护或虚继承的基类，基类必须是公有且非虚继承的。
 
-注意: C++20新增支持带基类的聚合类型。
+聚合类型支持默认的列表初始化, 可通过std::is_aggregate_v判断是否是聚合类型；聚合类型支持指定初始化，可以通过成员名进行初始化，具有如下要求。
 
-聚合类型支持默认的列表初始化, 可通过std::is_aggregate_v判断是否是聚合类型。
+1. 指定的数据成员必须时非静态成员变量。
+2. 每个非静态成员最多初始化一次。
+3. 非静态成员变量的初始化顺序与声明顺序相同。
+4. 针对联合体的数据成员初始化，只能指定一个。
+5. 嵌套指定初始化不能使用直接嵌套指定，可以使用对象嵌套指定。
+6. 使用指定初始化后，不能使用其它初始化混合使用，不能用于数组指定初始化。
 
 具体示例如下。
 
@@ -299,37 +305,74 @@ int main(int argc, char *argv[])
 #include <iostream>
 #include <type_traits>
 
-class MyStruct {
+class alg_demo {
 public:
     int x_;
     double y_;
 };
 
-class MyStruct1: public MyStruct {
+class alg_demo1: public alg_demo {
 public:
     int z_;
 };
 
-class MyStruct2 {
+class alg_demo2 {
 private:
     int w_;
 };
 
+struct alg_demo3 {
+    int x_;
+    int y_;
+};
+
+union alg_demo4 {
+    int x_;
+    double y_;
+};
+
+struct alg_demo5 {
+    alg_demo3 x_;
+    alg_demo3 y_;
+};
+
 int main(int argc, char *argv[]) 
 {
-    MyStruct s = {1, 2.0}; // 聚合初始化
+    alg_demo s = {1, 2.0}; // 聚合初始化
 
     std::cout << s.x_ << " " << s.y_ << std::endl;
 
     std::cout << std::boolalpha;
-    std::cout << std::is_aggregate_v<MyStruct> << std::endl;            //true
+    std::cout << std::is_aggregate_v<alg_demo> << std::endl;            //true
 
-    MyStruct1 s1 = {1, 2.0, 3};
+    alg_demo1 s1 = {1, 2.0, 3};
     std::cout << s1.x_ << " " << s1.y_ << " " << s1.z_ << std::endl;
 
-    std::cout << std::is_aggregate_v<MyStruct1> << std::endl;           //true
-    std::cout << std::is_aggregate_v<MyStruct2> << std::endl;           //false
+    // 聚合类型也支持使用"()"进行初始化 C++20
+    // 带基类的类型不支持
+    alg_demo s2(1, 2.0);
+    std::cout << s2.x_ << " " << s2.y_ << std::endl;
 
+    std::cout << std::is_aggregate_v<alg_demo1> << std::endl;           //true
+    std::cout << std::is_aggregate_v<alg_demo2> << std::endl;           //false
+
+    // 指定初始化
+    alg_demo alg1 = {.x_ = 1, .y_ = 2.0};
+    std::cout << alg1.x_ << " " << alg1.y_ << std::endl;
+
+    alg_demo alg2 = {.y_ = 2.0};    // x_= 0, y_= 2.0
+    std::cout << alg2.x_ << " " << alg2.y_ << std::endl;
+
+    // union 类型只能指定一个数据成员初始化
+    alg_demo4 alg3 = {.y_ = 2.0};
+    std::cout << alg3.x_ << " " << alg3.y_ << std::endl;
+
+    // 嵌套指定初始化
+    alg_demo5 alg4 = {.x_ = {1, 2}, .y_ = {3, 4}};
+    std::cout << alg4.x_.x_ << " " << alg4.x_.y_ << " " << alg4.y_.x_ << " " << alg4.y_.y_ << std::endl;
+
+    alg_demo5 alg5 = {.x_ = {.x_ = 1, .y_ = 2}, .y_ = {3, 4}};
+    std::cout << alg5.x_.x_ << " " << alg5.x_.y_ << " " << alg5.y_.x_ << " " << alg5.y_.y_ << std::endl;
     return 0;
 }
 ```
@@ -400,33 +443,104 @@ int main(int argc, char *argv[])
 
 ```cpp
 #include <iostream>
+#include <memory>
+#include <functional>
 #include <type_traits>
 
-class MyClass {
+struct base
+{
+    char a;
+    //reseved[2]
+    short b;
+    //reseved[4]
+    double c;
 };
 
-class MyClass1: public MyClass {
-public:
-    virtual void func1() {
-    }
+template<class T> 
+struct alignof_member
+{ 
+    char c; 
+    T member; 
 };
 
-class MyClass2 {
-    static inline int x_{1};
+template <class T>
+constexpr size_t offset_num = offsetof(alignof_member<T>, member);
+
+// alignas用于设置结构体的对齐值(alignas(1)、alignas(2)、alignas(4)、alignas(8)等，)
+// alignas设置的值必须是2的幂值，否则无法通过编译
+// alignas设置值小于自然对齐值时，以自然对齐值为准
+struct struct_align_default
+{
+    char a;
+    short b;
 };
 
-class MyClass3 {
-public:
-    int x_{1};
+struct alignas(1) struct_align_1
+{
+    char a;
+    short b;
+};
+
+struct alignas(4) struct_align_4
+{
+    char a;
+    short b;
+};
+
+struct alignas(8) struct_align_8
+{
+    char a;
+    short b;
+};
+
+struct struct_align_with_alignas
+{
+    char a;
+    alignas(4) short b;
 };
 
 int main(int argc, char *argv[]) 
 {
-    std::cout << sizeof(MyClass) << std::endl;      // 1
-    std::cout << sizeof(MyClass1) << std::endl;     // 8
-    std::cout << sizeof(MyClass2) << std::endl;     // 1
-    std::cout << sizeof(MyClass3) << std::endl;     // 4
+    // offsetof用于获取结构体成员的偏移量
+    std::cout << "struct_align_default: " << offset_num<char> << std::endl;
+    std::cout << "struct_align_default: " << offset_num<int> << std::endl;
+    std::cout << "struct_align_default: " << offset_num<double> << std::endl;
 
-    return 0;
+    // alignas用于设置结构体的对齐值(alignas(1)、alignas(2)、alignas(4)、alignas(8)等，)
+    std::cout << "struct_align_default: " << sizeof(struct_align_default) << std::endl;
+    std::cout << "struct_align_1: " << sizeof(struct_align_1) << std::endl;
+    std::cout << "struct_align_4: " << sizeof(struct_align_4) << std::endl;
+    std::cout << "struct_align_8: " << sizeof(struct_align_8) << std::endl;
+    std::cout << "struct_align_with_alignas: " << sizeof(struct_align_with_alignas) << std::endl;
+
+    // alignof用于获取结构体和结构体成员的对齐值
+    std::cout << "struct_align_default: " << alignof(struct_align_default) << std::endl;
+    std::cout << "struct_align_default::a: " << alignof(struct_align_default::a) << std::endl;
+    std::cout << "struct_align_default::b: " << alignof(struct_align_default::b) << std::endl;
+    std::cout << "struct_align_1: " << alignof(struct_align_1) << std::endl;
+
+    // alignment_of用于获取结构体和结构体成员的对齐值
+    std::cout << "struct_align_1: " << std::alignment_of<struct_align_1>::value << std::endl;
+    std::cout << "struct_align_4: " << std::alignment_of<struct_align_4>::value << std::endl;
+    std::cout << "struct_align_8: " << std::alignment_of<struct_align_8>::value << std::endl;
+
+    // aligned_storage_t和aligned_union_t用于分配指定对齐长度和大小的一块内存(C++23已弃用，不建议使用)
+    std::aligned_storage_t<256, 8> buffer;
+    std::cout << sizeof(buffer) << " " << alignof(buffer) << std::endl;                          //256 8
+    std::aligned_union_t<64, int, char, double> union_b;
+    std::cout << sizeof(union_b) << " " << alignof(union_b) << std::endl;                        //64 8
+
+    // std::align_alloc用于分配对齐的内存，返回一个指向对齐内存的指针
+    int* p = reinterpret_cast<int*>(std::aligned_alloc(64, 512));
+    *p = 1;
+    std::cout << *p << std::endl;
+    std::free(p);
+
+    // 申请对齐的内存
+    std::unique_ptr<int, std::function<void(int*)>> ptr(reinterpret_cast<int*>(std::aligned_alloc(64, 512)), 
+                                                    [](int* p) { std::free(p); });
+    *ptr = 1;
+    std::cout << *ptr << std::endl;
+    return 0; 
 }
-``
+```

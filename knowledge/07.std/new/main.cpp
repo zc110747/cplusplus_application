@@ -1,26 +1,19 @@
-/*
-new，delete, new[]，delete[]
-
-new 操作符，它用于动态分配内存
-delete 操作符，它用于释放动态分配的内存
-new[] 操作符，它用于动态分配数组
-delete[] 操作符，它用于释放动态分配的数组
-
-new 操作符的语法如下：
-pointer = new type;
-pointer = new type(initializer);
-
-delete 操作符的语法如下：
-delete pointer;
-
-new[] 操作符的语法如下：
-pointer = new type[size];
-
-delete[] 操作符的语法如下：
-delete[] pointer;
-
-
-*/
+//////////////////////////////////////////////////////////////////////////////
+//  (c) copyright 2023-by ZC Inc.  
+//  All Rights Reserved
+//
+//  Name:
+//      main.cpp
+//
+//  Purpose:
+//      1. std::new
+//
+// Author:
+//      @zc
+//
+// Revision History:
+//      Version V1.0b1 Create.
+/////////////////////////////////////////////////////////////////////////////
 #include <iostream>
 #include <type_traits>
 #include <memory>
@@ -222,7 +215,7 @@ public:
     }
 };
 
-int main(int argc, char *argv[])
+int main(int argc, const char *argv[])
 {
     USER *pm = new(std::nothrow) USER;
     pm->a = 1;

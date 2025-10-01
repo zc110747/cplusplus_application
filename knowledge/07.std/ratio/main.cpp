@@ -1,39 +1,60 @@
-/*
-std::ratio C++11 引入的一个模板类，定义在 <ratio> 头文件中，用于在编译时表示有理数。
-它主要用于处理编译时的分数运算，比如时间单位的转换、频率的计算等，能在编译阶段完成分数的化简和计算，提高程序的性能和安全性。
-
-std::ratio_add：计算两个比例的和。
-std::ratio_subtract：计算两个比例的差。
-std::ratio_multiply：计算两个比例的积。
-std::ratio_divide：计算两个比例的商
-*/
+//////////////////////////////////////////////////////////////////////////////
+//  (c) copyright 2023-by ZC Inc.  
+//  All Rights Reserved
+//
+//  Name:
+//      main.cpp
+//
+//  Purpose:
+//      1. std::ratio声明
+//      2. std::ratio的成员变量
+//      3. std::ratio的操作方法
+//
+// Author:
+//      @zc
+//
+// Revision History:
+//      Version V1.0b1 Create.
+/////////////////////////////////////////////////////////////////////////////
 #include <iostream>
 #include <ratio>
 
-
-int main()
+int main(int argc, char const *argv[])
 {
-    // 定义一个 3/4 的比例
-    using three_fourths = std::ratio<3, 4>;
-    // 定义一个 1/2 的比例
-    using one_half = std::ratio<1, 2>;
+    using r1 = std::ratio<1, 2>;
+    using r2 = std::ratio<2, 3>;
 
-    // 计算两个比例的和
-    using sum = std::ratio_add<three_fourths, one_half>;
-    std::cout << "3/4 + 1/2 = " << sum::num << "/" << sum::den << std::endl;
+    std::cout << "r1: " << r1::num << "/" << r1::den << std::endl;
 
-    // 计算两个比例的差
-    using sub = std::ratio_subtract<three_fourths, one_half>;
-    std::cout << "3/4 - 1/2 = " << sub::num << "/" << sub::den << std::endl;
+    // 计算两个比例的和、差、积、商
+    using sum = std::ratio_add<r1, r2>;
+    using diff = std::ratio_subtract<r1, r2>;
+    using prod = std::ratio_multiply<r1, r2>;
+    using quot = std::ratio_divide<r1, r2>;
 
-    // 计算两个比例的积
-    using mul = std::ratio_multiply<three_fourths, one_half>;
-    std::cout << "3/4 * 1/2 = " << mul::num << "/" << mul::den << std::endl;
+    std::cout << "sum: " << sum::num << "/" << sum::den << std::endl;
+    std::cout << "diff: " << diff::num << "/" << diff::den << std::endl;
+    std::cout << "prod: " << prod::num << "/" << prod::den << std::endl;
+    std::cout << "quot: " << quot::num << "/" << quot::den << std::endl;
 
-    // 计算两个比例的商
-    using div = std::ratio_divide<three_fourths, one_half>;
-    std::cout << "3/4 / 1/2 = " << div::num << "/" << div::den << std::endl;
-    
+    using eq = std::ratio_equal<r1, r2>;
+    std::cout << "eq: " << eq::value << std::endl;
+
+    using neq = std::ratio_not_equal<r1, r2>;
+    std::cout << "neq: " << neq::value << std::endl;
+
+    using less = std::ratio_less<r1, r2>;
+    std::cout << "less: " << less::value << std::endl;
+
+    using less_equal = std::ratio_less_equal<r1, r2>;
+    std::cout << "less_equal: " << less_equal::value << std::endl;
+
+    using greater = std::ratio_greater<r1, r2>;
+    std::cout << "greater: " << greater::value << std::endl;
+
+    using greater_equal = std::ratio_greater_equal<r1, r2>;
+    std::cout << "greater_equal: " << greater_equal::value << std::endl;
+
     return 0;
 }
 

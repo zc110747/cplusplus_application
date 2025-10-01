@@ -5,6 +5,7 @@
 - [模板基础说明](#template_basic)
   - [模板类型](#template_type)
   - [模板参数](#template_parameter)
+  - [类型别名和别名模板](#template_alias)
 - [模板用法](#template_usage)
   - [模板推导](#template_deduction)
   - [class和typename说明](#template_class_typename)
@@ -24,25 +25,36 @@
 
 ### template_type
 
-模板按照类型分为函数模板、类模板、变量模板、别名模板；区别如下所示。
+模板按照类型分为函数模板、类模板、类型别名和别名模板；区别如下所示。
 
-1. 函数模板是一种通用的函数定义，它可以用于多种不同类型的参数
-2. 类模板是一种通用的类定义，它可以用于多种不同类型的成员变量和成员函数
-3. 变量模板是一种通用的变量定义，C++14引入，它可以用于多种不同类型的变量
-4. 别名模板是一种使用using声明的通用类型别名定义，它可以用于多种不同类型的别名
+- 函数模板是一种通用的函数定义，它可以用于多种不同类型的参数。
+- 类模板是一种通用的类定义，它可以用于多种不同类型的成员变量和成员函数。
+
+具体示例如下所示。
 
 ```cpp
 #include <iostream>
 
-/// 类型模板
-template <typename T>
+/// 函数模板
+template <typename T>   // 类型模板
+T add(T a, T b) {
+    return a + b;
+}
+
+template <int N>        // 非类型模板
+int get_val() {
+    return N;
+}
+
+/// 类模板
+template <typename T>    // 类型模板
 class demo_type {
 public:
     size_t get_size() {return sizeof(T);}
 };
 
 /// 非类型模板参数(整数)
-template <int N>
+template <int N>        // 非类型模板参数(整数)
 class demo_non_type {
 public:
     demo_non_type() = default;
@@ -51,45 +63,19 @@ public:
     }
 };
 
-int global_val = 10;
-enum class demo_enum {
-    red,
-    green,
-    blue
-};
-
-/// 非类型模板参数(引用、指针)
-template <const int& N, int *ptr, demo_enum val = demo_enum::red>
-class demo_non_type_ref {
-public:
-    demo_non_type_ref() = default;
-    int get_size() {
-        return N;
-    }
-    int* get_ptr() {
-        return ptr;
-    }
-
-    auto get_val() -> decltype(val) {
-        return val;
-    }
-};
-
 int main(int argc, char *argv[])
 {
+    // 函数模板
+    std::cout << "add<int>(1, 2) = " << add<int>(1, 2) << std::endl;
+    std::cout << "get_val<10>() = " << get_val<10>() << std::endl;
+
+    // 类模板
     demo_type<int> d1;
-    std::cout << d1.get_size() << std::endl;
+    std::cout << "d1.get_size() = " << d1.get_size() << std::endl;
     
     demo_non_type<10> d2;
-    std::cout << d2.get_size() << std::endl;
+    std::cout << "d2.get_size() = " << d2.get_size() << std::endl;
 
-    demo_non_type_ref<global_val, &global_val> d3;
-    std::cout << d3.get_size() << std::endl;
-    std::cout << *d3.get_ptr() << std::endl;
-    
-    if (d3.get_val() == demo_enum::red) {
-        std::cout << "equal" << std::endl;
-    }
     return 0;
 }
 ```
@@ -98,8 +84,10 @@ int main(int argc, char *argv[])
 
 模板按照参数分为非类型模板和类型模板。
 
-1. 类型模板是最常见的模板类型，它允许你定义一个通用的类或函数，其中某些类型可以在实例化时指定
-2. 非类型模板参数允许你在模板中使用非类型的值，如整数、指针、引用和枚举。其中引用作为参数需要满足以下条件：必须是const引用，引用对象必须是全局或者静态变量
+1. 类型模板是最常见的模板类型，它允许你定义一个通用的类或函数，其中某些类型可以在实例化时指定。
+2. 非类型模板参数允许你在模板中使用非类型的值，如整数、指针、引用和枚举。其中引用作为参数需要满足以下条件：必须是const引用，引用对象必须是全局或者静态变量。
+
+具体示例如下所示。
 
 ```cpp
 #include <iostream>
@@ -153,6 +141,60 @@ int main(int argc, char *argv[])
     std::cout << d3.get_size() << std::endl;
     std::cout << *d3.get_ptr() << std::endl;
     return 0;
+}
+```
+
+### template_alias
+
+类型别名，一种使用using声明的通用类型别名定义，它可以用于多种不同类型的别名；在此基础上，带模板的类型别名则被称为别名模板。
+
+类型别名和别名模板的格式如下所示。
+
+```cpp
+// 类型别名的格式
+// identifier: 指定的类型别名
+// template identifier：别名的类型，类似std::vector<int>，std::map<int, int>等
+using identifier = type-identifier;
+
+// 别名模板的格式
+// identifier: 指定的类型别名
+// template identifier：别名的类型，类似std::vector<T>，std::map<int, T>等
+template <typename T>
+using identifier = type-identifier;
+```
+
+示例如下所示。
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <map>
+
+using vec_int = std::vector<int>;
+using map_int_int = std::map<int, int>;
+
+template <typename T>
+using map_int_T = std::map<int, T>;
+
+int main(int argc, char *argv[])
+{
+    vec_int v1 = {1, 2, 3};
+    for (const auto &i : v1) {
+        std::cout << i << " ";
+    }
+    std::cout << std::endl;
+
+    map_int_int m1 = {{1, 100}, {2, 200}};
+    for (const auto &[key, value] : m1) {
+        std::cout << key << " " << value << " ";
+    }
+    std::cout << std::endl;
+
+    map_int_T<double> m2 = {{1, 100.0}, {2, 200.0}};
+    for (const auto &[key, value] : m2) {
+        std::cout << key << " " << value << " ";
+    }
+    std::cout << std::endl;
 }
 ```
 

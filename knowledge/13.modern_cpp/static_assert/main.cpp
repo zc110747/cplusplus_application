@@ -1,10 +1,23 @@
-/*
-静态断言（static_assert）是C++11引入的一个编译时断言机制，用于在编译阶段检查某个条件是否为真。
-如果条件为假，编译器会产生一个错误信息，并且编译过程会失败。静
-态断言通常用于在编译时验证模板参数、常量表达式或其他编译时可确定的条件。
-*/
+//////////////////////////////////////////////////////////////////////////////
+//  (c) copyright 2025-by ZC Inc.  
+//  All Rights Reserved
+//
+//  Name:
+//      main.cpp
+//
+//  Purpose:
+//      1. assert
+//      2. static_assert
+//
+// Author:
+//      @zc
+//
+// Revision History:
+//      Version V1.0b1 Create.
+/////////////////////////////////////////////////////////////////////////////
 #include <iostream>
 #include <cstring>
+#include <type_traits>
 
 template <typename T>
 void check_size() {
@@ -19,7 +32,20 @@ int bit_copy(T& a, U& b) {
     return 0; 
 }
 
-int main() {
+class MyClass {
+public:
+    MyClass() : data(1) {
+        // 判断MyClass是否为 trivial 类型
+        static_assert(!std::is_trivial_v<MyClass>, "MyClass is a trivial type");
+
+        // 检测MyClass是否为 standard layout 类型
+        static_assert(std::is_standard_layout_v<MyClass>, "MyClass is not a standard layout type");
+    }
+    int data{0};
+};
+
+int main(int argc, char const *argv[]) 
+{
     check_size<int>();    // 编译通过，int类型大小通常为4字节
     // check_size<double>();  // 编译失败，double类型大小通常为8字节
 
@@ -30,6 +56,9 @@ int main() {
     bit_copy(a, c);  // 编译通过，int和float类型大小相同
     std::cout << a << std::endl;
     // bit_copy(a, b);  // 编译不通过，int和double类型大小不同
+
+    MyClass myObj;
+    std::cout << myObj.data << std::endl;
 
     return 0;
 }

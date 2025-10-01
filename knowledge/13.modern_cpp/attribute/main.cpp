@@ -1,14 +1,26 @@
-/*
-1. attribute属性说明符
-[[noreturn]]: 表示函数不会返回，通常用于标记函数不会正常返回
-[[carries_dependency]]: 用于在多线程编程中优化内存访问顺序
-[[fallthrough]]: 表示在switch语句中，当一个case语句执行完后，会继续执行下一个case语句，而不是跳出switch语句
-[[nodiscard]]: 表示函数的返回值可能会被忽略
-[[maybe_unused]]: 表示变量可能会被忽略
-[[likely]]: 表示某个条件很可能为真
-[[unlikely]]: 表示某个条件很可能为假
-[[no_unique_address]]: 表示变量的地址可能会被重复使用
-*/
+//////////////////////////////////////////////////////////////////////////////
+//  (c) copyright 2025-by ZC Inc.  
+//  All Rights Reserved
+//
+//  Name:
+//      main.cpp
+//
+//  Purpose:
+//      1. [[noreturn]]: 表示函数不会返回，通常用于标记函数不会正常返回
+//      2. [[carries_dependency]]: 用于在多线程编程中优化内存访问顺序
+//      3. [[fallthrough]]: 表示在switch语句中，当一个case语句执行完后，会继续执行下一个case语句，而不是跳出switch语句
+//      4. [[nodiscard]]: 表示函数的返回值可能会被忽略
+//      5. [[maybe_unused]]: 告诉编译器变量可能被忽略
+//      6. [[likely]]: 表示某个条件很可能为真
+//      7. [[unlikely]]: 表示某个条件很可能为假
+//      8. [[no_unique_address]]: 表示变量的地址可能会被重复使用
+//
+// Author:
+//      @zc
+//
+// Revision History:
+//      Version V1.0b1 Create.
+/////////////////////////////////////////////////////////////////////////////
 #include <iostream>
 #include <atomic>
 #include <memory>
@@ -17,7 +29,7 @@
 // [[noreturn]] 属性表示函数不会返回
 [[noreturn]] void terminate_program() {
     std::cout << "程序即将终止" << std::endl;
-    std::exit(1);
+    std::exit(0);
 }
 
 // [[carries_dependency]] 属性用于在多线程编程中优化内存访问顺序
@@ -68,7 +80,14 @@ struct Data {
     [[no_unique_address]] Empty empty;
 };
 
-int main() {
+// [[deprecated]] 属性表示函数或变量已被弃用
+[[deprecated]]
+int func(void) {
+    return 42;
+}
+
+int main(int argc, const char* argv[]) 
+{
     std::atomic<int> data(0);
     int dependency = 42;
 
@@ -88,7 +107,8 @@ int main() {
     Data d;
     std::cout << "Data结构体大小: " << sizeof(d) << std::endl;
     
-    terminate_program();
+    func();
 
+    terminate_program();
     return 0;
 }

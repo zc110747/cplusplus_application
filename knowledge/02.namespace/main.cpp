@@ -19,15 +19,6 @@
 /////////////////////////////////////////////////////////////////////////////
 #include <iostream>
 
-using namespace std;
-
-/*
-FUNCTION_START()
-FUNCTION_END()
-*/
-#define FUNCTION_START()  {cout<<__func__<<":\n";}{
-#define FUNCTION_END()    }{cout<<"\n\n";  }   
-
 // 命名空间
 namespace BASIC
 {
@@ -38,7 +29,7 @@ namespace BASIC
         struct A 
         {
             void print(){
-                cout<<"T1::A"<<endl;
+                std::cout << "T1::A" << std::endl;
             }
         };
     }
@@ -51,24 +42,24 @@ namespace BASIC
         struct A 
         {
             void print(){
-                cout<<"T2::A"<<endl;
+                std::cout << "T2::A" << std::endl;
             }
         };
     }
 
-    void namespace_test(void)
+    void test(void)
     {
-        FUNCTION_START()
+        std::cout << " =================== BASIC =================== " << std::endl;
 
-        cout<<T1::a<<" "<<T1::b<<" | ";
+        std::cout << T1::a << " "<<T1::b << " | ";
         T1::A a1;
         a1.print();
 
-        cout<<T2::a<<" "<<T2::b<<" | ";
+        std::cout << T2::a << " "<<T2::b << " | ";
         T2::A a2;
         a2.print();
 
-        FUNCTION_END()
+        std::cout << std::endl;
     }
 }
 
@@ -82,7 +73,7 @@ namespace NESTED
         struct A 
         {
             void print(){
-                cout<<"T0::T1::A"<<endl;
+                std::cout << "T0::T1::A" << std::endl;
             }
         };
     }
@@ -94,33 +85,33 @@ namespace NESTED
         struct A 
         {
             void print(){
-                cout<<"T0::T1::T2::A"<<endl;
+                std::cout << "T0::T1::T2::A" << std::endl;
             }
         };
     }
 
-    void namespace_test(void)
+    void test(void)
     {
-        FUNCTION_START()
+        std::cout << " =================== NESTED =================== " << std::endl;
 
-        cout<<T0::T1::a<<" "<<T0::T1::b<<" | ";
+        std::cout << T0::T1::a << " "<<T0::T1::b << " | ";
         T0::T1::A a1;
         a1.print();
 
-        cout<<T0::T1::T2::a<<" "<<T0::T1::T2::b<<" | ";
+        std::cout << T0::T1::T2::a << " "<<T0::T1::T2::b << " | ";
         T0::T1::T2::A a2;
         a2.print();
 
         using namespace T0::T1;
-        cout<<a<<" "<<b<<" | ";
+        std::cout << a << " "<<b << " | ";
         A a3;
         a3.print();
 
-        cout<<T2::a<<" "<<T2::b<<" | ";
+        std::cout << T2::a << " "<<T2::b << " | ";
         T2::A a4;
         a4.print();
 
-        FUNCTION_END()
+        std::cout << std::endl;
     }
 }
 
@@ -133,7 +124,7 @@ namespace INLINE
         {
             void print(void)
             {
-                cout<<"V1"<<" | ";
+                std::cout << "V1" << " | ";
             }
         }  
 
@@ -141,7 +132,7 @@ namespace INLINE
         {
             void print(void)
             {
-                cout<<"V2"<<" | ";
+                std::cout << "V2" << " | ";
             }
         }
     } 
@@ -151,7 +142,7 @@ namespace INLINE
     {
         void print(void)
         {
-            cout<<"V1"<<" | ";
+            std::cout << "V1" << " | ";
         }
     }
 
@@ -159,16 +150,16 @@ namespace INLINE
     {
         void print(void)
         {
-            cout<<"V2"<<" | ";
+            std::cout << "V2" << " | ";
         }
     }
 #endif
 
     namespace TV2 = T::V2;
 
-    void namespace_test(void)
+    void test(void)
     {
-        FUNCTION_START()
+        std::cout << " =================== INLINE =================== " << std::endl;
 
         T::print();         //V2
         T::V2::print();     //V2
@@ -180,16 +171,17 @@ namespace INLINE
         T0::V2::print();
         T0::V1::print();
 #endif 
-        FUNCTION_END()
+     
+        std::cout << std::endl;
     }
 }
 
-int main(void)
+int main(int argc, char const *argv[])
 {
-    BASIC::namespace_test();
+    BASIC::test();
 
-    NESTED::namespace_test();
+    NESTED::test();
 
-    INLINE::namespace_test();
+    INLINE::test();
     return 0;
 }

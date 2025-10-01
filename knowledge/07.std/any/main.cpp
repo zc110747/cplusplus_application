@@ -1,20 +1,21 @@
-﻿/*
-std::any 是 C++17 标准库中引入的一个类型安全的通用容器，它可以存储任意类型的值。
-
-主要特点：
-1. 类型安全：std::any 确保存储的值的类型是已知的，并且在运行时进行类型检查。
-2. 动态类型：std::any 可以存储任何类型的值，包括基本类型、自定义类型、甚至是其他std::any对象。
-3. 轻量级：std::any 的实现通常是基于类型擦除技术，这使得它在存储和访问值时具有较低的开销。
-
-成员函数:
-emplace: 用给定的参数构造一个新的值，并将其存储在std::any中。
-has_value: 检查std::any是否包含一个值。
-reset: 清除std::any中的值。
-swap: 交换两个std::any对象的值。
-type: 返回std::any中存储的值的类型。
-
-any_cast: 从std::any中提取值，并将其转换为指定的类型。
-*/
+﻿//////////////////////////////////////////////////////////////////////////////
+//  (c) copyright 2025-by ZC Inc.  
+//  All Rights Reserved
+//
+//  Name:
+//      main.cpp
+//
+//  Purpose:
+//      1. std::any声明
+//      2. std::any方法
+//      3. any_cast处理
+//
+// Author:
+//      @zc
+//
+// Revision History:
+//      Version V1.0b1 Create.
+/////////////////////////////////////////////////////////////////////////////
 #include <any>
 #include <string>
 #include <iostream>
@@ -22,77 +23,113 @@ any_cast: 从std::any中提取值，并将其转换为指定的类型。
 #include <vector>
 #include <complex>
 
-using std::cout;
-using std::endl;
+namespace ANY_DECLARATION
+{
+    int test(void)
+    {
+        std::cout << "===================== ANY_DECLARATION =======================" << std::endl;
+
+        std::any a = 42;
+        std::cout << "a: " << std::any_cast<int>(a) << std::endl;            // any(int)
+
+        a = "hello world";
+        std::cout << "a: " << std::any_cast<const char*>(a) << std::endl;    // any(const char *)
+
+        a = std::string("hello world");
+        std::cout << "a: " << std::any_cast<std::string>(a) << std::endl;    // any(string)
+
+        a = 3.14;
+        std::cout << "a: " << std::any_cast<double>(a) << std::endl;         // any(double)
+
+        a = std::vector<int>{1, 2, 3};
+        const auto&vec = std::any_cast<std::vector<int>>(a);        // any(vector<int>)
+        for (const auto& i : vec) {
+            std::cout << i << " ";
+        }
+        std::cout << std::endl;
+
+        a = std::complex<double>(1.0, 2.0);
+        std::cout << "a: " << std::any_cast<std::complex<double>>(a) << std::endl; // any(complex<double>)
+
+        // make_any构造any对象
+        std::any a1 = std::make_any<int>(10);
+        std::cout << "a1: " << std::any_cast<int>(a1) << std::endl;
+
+        a1 = std::make_any<std::string>("hello world");
+        std::cout << "a1: " << std::any_cast<std::string>(a1) << std::endl;
+        return 0;
+    }
+}
+
+namespace ANY_METHOD
+{
+    int test(void)
+    {
+        std::cout << "===================== ANY_METHOD =======================" << std::endl;
+
+        std::any a1 = 1;
+        std::any a2 = "hello world";
+        std::any a3 = std::string("hello world");
+        std::any a4{std::in_place_type<int>, 1};
+
+        std::cout << std::boolalpha;
+        std::cout << "has value: " << a1.has_value() << std::endl;
+        std::cout << "type: " << a1.type().name() << std::endl;
+
+        try
+        {
+            std::cout << "a1: " << std::any_cast<int>(a1) << std::endl;
+            std::cout << "a2: " << std::any_cast<const char*>(a2) << std::endl;
+            std::cout << "a3: " << std::any_cast<std::string>(a3) << std::endl;
+            std::cout << "a4: " << std::any_cast<int>(a4) << std::endl;
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
+        
+        // reset
+        a1.reset();
+        std::cout << "has value: " << a1.has_value() << std::endl;
+
+        // operator=
+        a1 = 1.35;
+        std::cout << "a1: " << std::any_cast<double>(a1) << std::endl;
+      
+        // copy constructor
+        std::any a5(a1);
+        std::cout << "a5: " << std::any_cast<double>(a5) << std::endl;
+    
+        // move constructor
+        std::any a6(std::move(a1));
+        std::cout << "a6: " << std::any_cast<double>(a6) << std::endl;
+        std::cout << "a1 has value: " << a1.has_value() << std::endl;
+
+        // move assignment operator
+        std::any a7 = std::move(a6);
+        std::cout << "a7: " << std::any_cast<double>(a7) << std::endl;
+        std::cout << "a6 has value: " << a6.has_value() << std::endl;
+
+        // emplace
+        a7.emplace<std::string>("hello world");
+        std::cout << "a7: " << std::any_cast<std::string>(a7) << std::endl;
+
+        // swap
+        std::any a8 = 1;
+        a8.swap(a7);
+
+        std::cout << "a8: " << std::any_cast<std::string>(a8) << std::endl;
+        std::cout << "a7: " << std::any_cast<int>(a7) << std::endl;
+
+        return 0;
+    } 
+}
 
 int main(int argc, char* argv[])
 {
-    std::any a = "a";
-    std::any b = 1;
-    std::any c{std::in_place_type<std::string>, "c"};
+    ANY_DECLARATION::test();
 
-    cout<<std::boolalpha;
-
-    //any cast
-    cout<<"a: "<<std::any_cast<const char *>(a)<<endl;
-    cout<<"b: "<<std::any_cast<int>(b)<<endl;
-    cout<<"c: "<<std::any_cast<std::string>(c)<<endl;
-
-    //type
-    cout<<"type: "<<a.type().name()<<endl;
-
-    //has_value
-    cout<<"has_value: "<<b.has_value()<<endl;
-
-     //reset   
-    b.reset();
-    cout<<"reset: "<<b.has_value()<<endl;
-
-    //operator =
-    std::any a1;
-    a1 = a;
-    cout<<std::any_cast<const char *>(a1)<<endl;
-    a1 = c;
-    cout<<std::any_cast<std::string>(c)<<endl;
-
-    //swap
-    std::any a2;
-    a2.swap(a1);
-    cout<<std::any_cast<std::string>(a2)<<endl; 
-
-    std::any c2{std::vector{1, 2, 3}};
-    auto v2 = std::any_cast<std::vector<int>>(c2);
-    for (auto val:v2) {
-        cout<<val<<" ";
-    }
-    cout<<endl;
-    auto pv2 = std::any_cast<std::vector<int>>(&c2);
-    if (pv2 != nullptr) {
-        for (auto val:*pv2) {
-            cout<<val<<" ";
-        }
-        cout<<endl;
-    }
-    
-    //make any
-    auto c1 = std::make_any<std::complex<double>>(0.1, 0.2);
-    cout<<std::any_cast<std::complex<double>>(c1)<<endl;
-
-    //emplace
-    c1.emplace<std::complex<double>>(0.1, 0.3);
-    cout<<std::any_cast<std::complex<double>>(c1)<<endl;
-
-    //bad any_cast
-    try
-    {
-        /* code */
-        std::any errval = 1;
-        std::cout<<std::any_cast<std::string>(errval)<<endl;
-    }
-    catch(const std::exception& e)
-    {
-        std::cerr << e.what() << '\n';
-    }
+    ANY_METHOD::test();
 
     return 0;
 } 

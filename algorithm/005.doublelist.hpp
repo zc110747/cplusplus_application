@@ -119,8 +119,7 @@ namespace ALG_DOUBLE_LIST
                 nod->next = p->next;
                 if(nod->next != nullptr) {
                     nod->next->prev = nod;
-                }
-                else {
+                } else {
                     tail = nod;
                 }
                 p->next = nod;
@@ -153,8 +152,7 @@ namespace ALG_DOUBLE_LIST
                 p->next = nod->next;
                 if(p->next != nullptr) {
                     p->next->prev = p;
-                }
-                else {
+                } else {
                     tail = p;
                 }
                 delete nod;

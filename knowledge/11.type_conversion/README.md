@@ -12,10 +12,17 @@ C++提供了几种类型转换操作符，用于在不同类型之间进行转�
 
 ## rtti
 
-RTTI（Run-Time Type Identification）是C++中的一种机制，用于在运行时获取对象的类型信息。RTTI主要通过typeid操作符和dynamic_cast操作符来实现。
+RTTI（Run-Time Type Identification）是C++中的一种机制，用于在运行时获取对象的类型信息。RTTI主要通过typeid操作符和dynamic_cast操作符来实现。这里
 
-1. typeid是一个操作符，用于获取对象的类型信息。它返回一个std::type_info对象，该对象包含了对象的类型信息。typeid可以用于获取对象的类型名称、比较两个对象的类型是否相同等。
-2. dynamic_cast是一个操作符，用于在具有继承关系的类指针或引用之间进行安全的向下转型。
+### typeid
+
+typeid是一个操作符，用于获取对象的类型信息。它返回一个std::type_info对象，该对象包含了对象的类型信息。typeid可以用于获取对象的类型名称、比较两个对象的类型是否相同等；具有以下特征。
+
+1. typeid的返回值是一个左值，且其生命周期一直被扩展到程序生命周期结束。
+2. std::type_info不支持复制构造函数，若想保存std::type_info，只能获取其引用或者指针。
+3. typeid的返回值总是忽略类型的 cv 限定符，即typeid(const T)==typeid(T)。
+
+具体示例如下所示。
 
 ```cpp
 #include <iostream>
@@ -39,6 +46,17 @@ int main(int argc, char *argv[])
     if (typeid(*b) == typeid(Derived)) {
         std::cout << "b is a Derived object" << std::endl;
     }
+
+    // 忽略类型的 cv 限定符
+    if (typeid(const Derived) == typeid(Derived)) {
+        std::cout << "const Derived is the same as Derived" << std::endl;
+    }
+
+    // 使用引用或者指针存储type_info对象
+    auto &t1 = typeid(Derived);
+    std::cout << "Type: " << t1.name() << std::endl;
+    auto t3 = &typeid(Derived);
+    std::cout << "Type: " << t3->name() << std::endl;
 
     // 使用dynamic_cast进行向下转型
     Derived* d = dynamic_cast<Derived*>(b);
@@ -284,7 +302,7 @@ int main(int argc, char *argv[])
 
 ## reinterpret_cast
 
-类型转换操作符，用于在编译时进行任意类型的转换。主要转换情况.
+类型转换操作符，用于在编译时进行任意类型的转换。
 
 1. 将指针或引用转换为不同类型的指针或引用：这在需要将一种类型的指针或引用转换为另一种类型的指针或引用时非常有用。
 2. 将整数类型转换为指针类型：这在需要将整数类型的值解释为指针时非常有用。

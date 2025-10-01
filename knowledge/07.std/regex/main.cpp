@@ -1,11 +1,19 @@
-﻿/*
-std::regex 是 C++ 标准库中的一个类，用于处理正则表达式。
-正则表达式是一种强大的文本处理工具，用于匹配、查找和替换字符串中的模式。
-std::regex 提供了一种类型安全且高效的方式来处理正则表达式。
-
-
-*/
-
+﻿//////////////////////////////////////////////////////////////////////////////
+//  (c) copyright 2023-by ZC Inc.  
+//  All Rights Reserved
+//
+//  Name:
+//      main.cpp
+//
+//  Purpose:
+//      1. std::regex
+//
+// Author:
+//      @zc
+//
+// Revision History:
+//      Version V1.0b1 Create.
+/////////////////////////////////////////////////////////////////////////////
 #include <string>
 #include <iostream>
 #include <regex>

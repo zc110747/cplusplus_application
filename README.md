@@ -4,7 +4,11 @@
 
 C++是支持多范式不同实践的语言，往往很多应用也仅仅是C++的实践的一小部分。在学习C++的过程中，保持着好奇心，结合规范和实践，通过积累总结逐渐扩展对C++的认知，这也是这个工程的由来。本系列主要用于C++的学习，包含基础应用，也有扩展和参考各工具书的学习实践。可以把本系列当作C++学习中的目录指引，遇到不理解的概念，可以参考相应例程去了解，也可以参考相关资料进行说明。
 
-本系列中大部分例程都是单项目文件，可以直接在线运行。
+本系列中大部分例程都是单项目文件，可以直接在线运行。另外测试使用版本是g++9.5.0、同时使用g++15.2.0验证，早期版本可能编译报错，一般为不支持最新特性。
+
+建议在如下环境测试。
+
+- [cpp在线测试环境](https://gcc.godbolt.org/)
 
 本项目的参考资料和书籍如下。
 
@@ -12,8 +16,8 @@ C++是支持多范式不同实践的语言，往往很多应用也仅仅是C++�
 - 《C++语言的设计和演化》
 - 《深入理解C++11 - C++11新特性解析与应用》
 - 《现代C++语言核心特性解析》
-- [cpp主要语法说明网址](https://cplusplus.com/reference/)
-- [cpp在线测试环境](https://gcc.godbolt.org/)
+- [cpp语法说明网址](https://cplusplus.com/reference/)
+- [cpp参考手册](https://en.cppreference.com/w/cpp.html)
 - [microsoft关于C++的说明](https://learn.microsoft.com/zh-cn/cpp/standard-library/cpp-standard-library-reference?view=msvc-170)
 
 ## 目录
@@ -31,8 +35,8 @@ C++是支持多范式不同实践的语言，往往很多应用也仅仅是C++�
 - [类型转换](#type_conversion)
 - [多线程和协程](#thread_coroutine)
 - [Modern C++扩展功能](#modern_cpp)
+- [c++ 2020~2023扩展语法](#cpp_new_feature)
 - [工具类应用](#tools)
-- [c++ 20扩展语法](#cpp20)
 
 ## C++知识点总结
 
@@ -56,6 +60,7 @@ C++是支持多范式不同实践的语言，往往很多应用也仅仅是C++�
   - 指针的概念，指针的运算，指针的类型
   - 指针的引用，指针的解引用
   - 指针的数组，指针的函数
+- C基础库支持，包含cstdio、cstdlib、cstring、cmath、ctime、cassert、cctype等
 - 预定义指令
   - #include : 引入头文件
   - #define, #undef : 定义和取消宏
@@ -103,7 +108,7 @@ __VA_ARGS__       //是一个预处理器宏，表示变长参数
 - 移动语义（Move Semantics）：是C++11引入的一个重要特性，它允许对象的资源（如内存、文件句柄等）在不进行深拷贝的情况下从一个对象转移到另一个对象，从而提高程序的性能和效率。
 - 引用折叠：是指在模板推导或类型别名中，当引用类型与其他类型组合时，编译器会根据一定的规则进行类型折叠。
 - 万能引用（Universal Reference）：是C++11中引入的一个概念，它是一种特殊的引用类型，可以绑定到左值或右值。万能引用通常用于模板函数中，以实现完美转发（Perfect Forwarding），其格式为std::forward\<T\>(t)。
-- std::ref和std::cref变量：是 C++ 标准库中的函数模板，用于创建std::reference_wrapper对象，这些对象可以像引用一样使用，但可以被复制和存储，主要用于和std::bind配合使用。
+- std::ref和std::cref变量：是C++标准库中的函数模板，用于创建std::reference_wrapper对象，这些对象可以像引用一样使用，但可以被复制和存储，主要用于和std::bind配合使用。
 
 详细文档: [引用说明](./knowledge/03.reference/README.md)
 
@@ -111,26 +116,26 @@ __VA_ARGS__       //是一个预处理器宏，表示变长参数
 
 在C++中，类是一种用户定义的数据类型，它封装了数据和操作这些数据的函数。类是面向对象编程的基本构建块，它允许你将数据和操作这些数据的函数组合在一起，形成一个逻辑单元，类的相关知识点如下所示。
 
-1. 类的封装和权限控制(private、protected、public)。
-2. 类的构造函数，包含默认构造函数、拷贝构造函数，移动构造函数，删除构造函数，显示构造函数，委托构造函数，继承构造函数、。
-3. 类的析构函数，包含默认析构函数、删除析构函数。
-4. 友元函数和友元类，友元函数和友元类可以访问类的所有成员。
-5. 类的运算符重载operator。
-6. 类的继承和权限控制(private、protected、public)。
-7. 多重继承和虚继承。
-8. const和mutable在类中的运用。
-9. 虚函数，纯虚函数，接口类。
-10. 多态，静态多态和动态多态。
-11. 动态绑定，虚函数表和虚函数指针。
-12. final和override关键字。
-13. 类的重写，重载和隐藏，重载的编译器原理。
-14. 列表初始化，非静态成员的立即初始化，std::initializer_list。
-15. 静态数据成员，静态函数和单例模式，静态数据成员的inline初始化。
-16. 非静态数据成员的sizeof。
-17. RAII(Resource Acquisition is initialization)。
-18. 枚举类型的列表初始化，强枚举类型(enum class)。
-19. 非受限联合体(union)。
-20. 函数的局部类，允许定义函数内部的类。
+- 类的封装和权限控制(private、protected、public)。
+- 类的构造函数，包含默认构造函数、拷贝构造函数，移动构造函数，删除构造函数，显示构造函数，委托构造函数，继承构造函数。
+- 类的析构函数，包含默认析构函数、删除析构函数、显示删除在类中的应用。
+- 类的友元函数和友元类，友元函数和友元类可以访问类的所有成员。
+- 类中的this指针，this指针是一个指向当前对象的指针，它在类的非静态成员函数中使用。
+- 类的运算符重载operator。
+- 类的继承和权限控制(private、protected、public)，多重继承和虚继承。
+- const和mutable在类中的运用。
+- 虚函数，包含虚函数定义、纯虚函数、接口类、虚函数表、虚析构函数。
+- 多态，静态多态和动态多态。
+- 动态绑定，虚函数表和虚函数指针。
+- final和override关键字。
+- 类的重写、重载和隐藏，重载的编译器实现细节。
+- 列表初始化、非静态成员的立即初始化、std::initializer_list实现自定义类型的列表初始化。
+- 静态数据成员、静态函数、静态数据成员的inline初始化、单例模式。
+- 非静态数据成员的sizeof计算。
+- RAII(Resource Acquisition Is Initialization)。
+- 枚举类型的列表初始化，强枚举类型(enum class)。
+- 非受限联合体(union)。
+- 函数的局部类，允许定义函数内部的类。
 
 详细文档: [类的说明](./knowledge/04.class/README.md)
 
@@ -138,19 +143,20 @@ __VA_ARGS__       //是一个预处理器宏，表示变长参数
 
 模板，是一种泛型编程的工具，它允许程序员编写通用的代码，而不是针对特定的数据类型。
 
-1. 模板类型分为函数模板，类模板，变量模板，别名模板(using声明)。
-2. 模板参数类型，可以分为类型模板（typename、class）和非类型模板（整型、指针、引用、枚举）。
-3. class和typename都可以用来声明类型模板参数，相同点和区别。
-4. 可变参数模板是一种特殊的模板，它允许你在模板中使用可变数量的参数，sizeof...用于查询参数数目。
-5. 使用auto声明非类型模板参数。
-6. 折叠表达式，用于对模板参数包在二元运算符上进行折叠操作。
-7. 模板的特化和偏特化。
-8. 默认模板参数:是指在模板定义中为模板参数提供一个默认值。
-9. ADL查找规则，ADL（Argument-Dependent Lookup）。
-10. 用户自定义推导指引（User-Defined Deduction Guides），它允许程序员为类模板的构造函数提供自定义的类型推导规则。
-11. SFINAE（Substitution Failure Is Not An Error）用于在编译时根据模板参数的类型来选择不同的函数重载或模板特化。
-12. 外部模板（Explicit Template Instantiation）是C++中的一个特性，它允许程序员在一个编译单元中显式地实例化一个模板。
-13. 模板元编程是一种编程范式，它使用模板来编写程序，在编译时进行计算和生成代码。
+- 模板类型分为函数模板，类模板，变量模板。
+- 模板参数类型，可以分为类型模板（typename、class）和非类型模板（整型、指针、引用、枚举）。
+- 类型别名和别名模板，使用using关键字声明类型别名，支持template指定别名模板。
+- class和typename都可以用来声明类型模板参数，相同点和区别。
+- 可变参数模板是一种特殊的模板，它允许你在模板中使用可变数量的参数，sizeof...用于查询参数数目。
+- 使用auto声明非类型模板参数。
+- 折叠表达式，用于对模板参数包在二元运算符上进行折叠操作。
+- 模板的特化和偏特化。
+- 默认模板参数:是指在模板定义中为模板参数提供一个默认值。
+- ADL查找规则，ADL（Argument-Dependent Lookup）。
+- 用户自定义推导指引（User-Defined Deduction Guides），它允许程序员为类模板的构造函数提供自定义的类型推导规则。
+- SFINAE（Substitution Failure Is Not An Error）用于在编译时根据模板参数的类型来选择不同的函数重载或模板特化。
+- 外部模板（Explicit Template Instantiation）是C++中的一个特性，它允许程序员在一个编译单元中显式地实例化一个模板。
+- 模板元编程是一种编程范式，它使用模板来编写程序，在编译时进行计算和生成代码。
 
 详细文档: [模板功能说明](./knowledge/05.template/README.md)
 
@@ -160,69 +166,83 @@ STL（Standard Template Library）是C++标准库的一部分，它提供了一�
 
 容器
 
-1. array：固定大小的数组，提供了边界检查和随机访问功能。
-2. deque：双端队列，支持在两端进行高效的插入和删除操作。
-3. forward_list：单向链表，支持在链表头部进行高效的插入和删除操作。
-4. list：双向链表，支持在链表任意位置进行高效的插入和删除操作。
-5. map：关联容器，存储键值对，按键进行排序。
-6. multimap：关联容器，存储键值对，按键进行排序。
-7. multiset: 关联容器，存储唯一的元素，按键进行排序。
-8. priority_queue：优先队列，支持按照优先级进行元素的插入和删除操作。
-9. queue：队列，遵循先进先出（FIFO）原则。
-10. set：关联容器，存储唯一的元素，按键进行排序。
-11. stack：栈，遵循后进先出（LIFO）原则。
-12. unordered_map：无序关联容器，存储键值对，不进行排序。
-13. unordered_multimap：无序关联容器，存储键值对，不进行排序。
-14. unordered_multiset：无序关联容器，存储唯一的元素，不进行排序。
-15. unordered_set：无序关联容器，存储唯一的元素，不进行排序。
-16. vector：动态数组，支持随机访问和高效的尾部插入和删除操作。
+- array：固定大小的数组，提供了边界检查和随机访问功能。
+- deque：双端队列，支持在两端进行高效的插入和删除操作。
+- forward_list：单向链表，支持在链表头部进行高效的插入和删除操作。
+- list：双向链表，支持在链表任意位置进行高效的插入和删除操作。
+- map：关联容器，存储键值对，按键进行排序。
+- multimap：关联容器，存储键值对，按键进行排序。
+- multiset: 关联容器，存储唯一的元素，按键进行排序。
+- priority_queue：优先队列，支持按照优先级进行元素的插入和删除操作。
+- queue：队列，遵循先进先出（FIFO）原则。
+- set：关联容器，存储唯一的元素，按键进行排序。
+- stack：栈，遵循后进先出（LIFO）原则。
+- unordered_map：无序关联容器，存储键值对，不进行排序。
+- unordered_multimap：无序关联容器，存储键值对，不进行排序。
+- unordered_multiset：无序关联容器，存储唯一的元素，不进行排序。
+- unordered_set：无序关联容器，存储唯一的元素，不进行排序。
+- vector：动态数组，支持随机访问和高效的尾部插入和删除操作。
 
 迭代器
 
-1. 正向迭代器（iterator）：可以向前遍历容器中的元素。
-2. 反向迭代器（reverse_iterator）：可以向后遍历容器中的元素。
-3. 常量正向迭代器（const_iterator）：只能读取容器中的元素，不能修改。
-4. 常量反向迭代器（const_reverse_iterator）：只能读取容器中的元素，不能修改。
+- 正向迭代器（iterator）：可以向前遍历容器中的元素。
+- 反向迭代器（reverse_iterator）：可以向后遍历容器中的元素。
+- 常量正向迭代器（const_iterator）：只能读取容器中的元素，不能修改。
+- 常量反向迭代器（const_reverse_iterator）：只能读取容器中的元素，不能修改。
 
 算法
 
-1. 查找算法：all_of，any_of，none_of，adjacent_find，find, find_if, find_first_of, find_end, search, search_n，binary_search。
-2. 排序算法：sort, stable_sort, partial_sort, partial_sort_copy, is_sorted, is_sorted_until，random_shuffle，reserve，rotate，rotate_copy。
-3. 变换算法：transform, replace, replace_if, replace_copy, replace_copy_if。
-4. 计数算法：count, count_if, accumulate, inner_product, partial_sum, adjacent_difference。
-5. 比较算法：equal, mismatch, lexicographical_compare。
-6. 生成算法：generate, generate_n, fill, fill_n, copy, copy_n, copy_if, copy_backward。
-7. 移除算法：remove, remove_if, remove_copy, remove_copy_if, unique, unique_copy。
-8. 分割算法：partition, stable_partition, partition_copy, partition_point。
-9. 归并算法：merge, inplace_merge, set_union, set_intersection, set_difference, set_symmetric_difference。
-10. 堆算法：push_heap, pop_heap, make_heap, sort_heap。
-11. 其它算法: sample, clamp, reduce, transform_reduce, gcd, lcm, to_chars, from_chars。
+- 查找算法：all_of，any_of，none_of，adjacent_find，find, find_if, find_first_of, find_end, search, search_n，binary_search。
+- 排序算法：sort, stable_sort, partial_sort, partial_sort_copy, is_sorted, is_sorted_until，random_shuffle，reserve，rotate，rotate_copy。
+- 变换算法：transform, replace, replace_if, replace_copy, replace_copy_if。
+- 计数算法：count, count_if, accumulate, inner_product, partial_sum, adjacent_difference。
+- 比较算法：equal, mismatch, lexicographical_compare。
+- 生成算法：generate, generate_n, fill, fill_n, copy, copy_n, copy_if, copy_backward。
+- 移除算法：remove, remove_if, remove_copy, remove_copy_if, unique, unique_copy。
+- 分割算法：partition, stable_partition, partition_copy, partition_point。
+- 归并算法：merge, inplace_merge, set_union, set_intersection, set_difference, set_symmetric_difference。
+- 堆算法：push_heap, pop_heap, make_heap, sort_heap。
+- 其它算法: sample, clamp, reduce, transform_reduce, gcd, lcm, to_chars, from_chars。
+
+详细文档: [STL功能说明](./knowledge/06.stl/README.md)
 
 ### std
 
 C++标准库是C++编程语言的一部分，它提供了一组通用的类和函数，用于处理各种常见的编程任务。标准库被组织成多个头文件，每个头文件包含一组相关的功能。以下是一些主要的C++标准库组件。
 
 - any: 可以存储任何类型的对象。
-- apply: 主要作用是将一个可调用对象应用到一个元组（std::tuple）的元素上（C++17）。
-- byte: 用于表示最小的可寻址内存单元，也就是字节（C++17）。
+  - std::in_place_type：是C++17引入的一个函数模板，用于在原地构造对象。
+  - std::make_any：是C++17引入的一个函数模板，用于创建any对象。
+  - std::any_cast：是C++17引入的一个函数模板，用于将any对象转换为指定类型的对象。
 - bitset：位集合类，用于存储和操作二进制位。
+  - std::bit_cast：是C++20引入的一个函数模板，用于在不同类型的对象之间进行位级转换。
 - filesystem: 提供了跨平台的文件系统操作功能。
-- invoke: 提供了一种统一的方式来调用可调用对象，包括函数指针、函数对象、成员函数指针等。
+- functional: 是函数对象的包装器，用于将函数、函数指针、函数对象等转换为可调用对象。
+  - std::function：是C++11引入的一个通用的多态函数包装器，它可以存储、复制和调用任何可调用对象，如函数指针、函数对象、lambda表达式等。
+  - std::bind：是函数模板，用于将一个函数或函数对象与一组参数绑定在一起，生成一个新的可调用对象。
+  - std::invoke：是C++17引入的一个函数模板，用于调用一个函数对象或函数指针，并传入参数。
 - locale：本地化类，用于处理本地化相关的功能。
-- new: 内存分配和释放。
-- optional：可选值类，用于表示可能存在或不存在的值。
+- new: 内存分配和释放管理。
+- optional: 包含可选值类，用于表示可能存在或不存在的值。
+  - std::optional：是C++17引入的一个类模板，用于表示可能存在或不存在的值。
+  - std::nullopt：是C++17引入的一个空值类型，用于表示std::optional对象没有值。
 - random：随机数生成器，提供了各种随机数生成算法。
 - ratio: 有理数类，用于表示有理数。
 - regex：正则表达式类，用于处理正则表达式。
-- source_location：C++20支持的源位置类，用于获取当前函数的源位置信息。
-- span：范围类，用于表示数组或容器的一部分。
 - stream: 输入输出流类，包含istream，ostream, ofstream，ifstream，stringstream，cin, cout, cerr，clog。
+  - std::iostream：是C++标准库中的一个类，用于处理输入输出流。它是std::istream和std::ostream的基类，提供了基本的输入输出功能。
+  - std::fstream：是C++标准库中的一个类，用于处理文件流。它是std::iostream的子类，提供了文件的读取和写入功能。
+  - std::sstream：是C++标准库中的一个类，用于处理字符串流。它是std::iostream的子类，提供了字符串的读取和写入功能。
 - string：字符串类，提供了字符串的操作和处理功能。
 - string_view：字符串视图类，C++17引入，提供了对字符串的只读访问。
 - tuple：元组类，用于存储多个不同类型的值。
+  - std::apply：是C++17引入的一个函数模板，用于将一个元组中的元素应用到一个函数或lambda表达式中。
 - type_traits：类型特性类，提供了类型的特性信息。
-- utility: 供了一系列实用工具和通用类型，如std::swap, std::integer_sequence等
+- utility: 供了一系列实用工具和通用类型，如std::swap, std::make_pair、std::move，std::forward，std::declval等。
+  - std::declval在不创建对象实例的情况下获取类型的右值引用。
 - variant：变体类，用于存储不同类型的值。
+
+详细文档: [标准库说明](./knowledge/07.std/README.md)
 
 ### exception
 
@@ -247,63 +267,72 @@ C++异常处理(exception)是一种机制，用于在程序运行时处理错误
   - std::system_error: 当系统错误发生时抛出。
 - std::expected，C++23提供用于表示一个操作可能成功返回一个值，也可能失败并返回一个错误信息。
 
+详细文档: [异常处理说明](./knowledge/08.exception/README.md)
+
 ### layout
 
 C++的内存布局是指在内存中如何组织和存储对象、变量和函数等，这里主要指类的内存布局。
 
-1. 平凡类型，平凡类型（Trivial Type）指的是那些可以通过简单的内存拷贝（如 memcpy）进行复制，并且在复制过程中不会有任何特殊行为（如调用构造函数或析构函数）的类型。
-2. 平凡可复制类型（Trivially Copyable Type）指的是那些可以通过简单的内存拷贝进行复制，并且在复制过程中不会有任何特殊行为的类型。
-3. 标准布局类型（Standard Layout Type）指的是那些具有特定标准布局的类型。
-4. 聚合类型（Aggregate Type）指的是那些可以通过简单的初始化列表进行初始化的类型。
-5. POD类型（Plain Old Data Type，POD）指的是满足平凡和标准布局的类型。
-6. 虚表和类的内存布局。
-7. 数据对齐(alignas和alignof)，alignas和alignof是C++11引入的关键字，用于指定类型的对齐方式。alignas用于指定类型的对齐方式，alignof用于获取类型的对齐方式。
+- 平凡类型（Trivial Type）指的是那些可以通过简单的内存拷贝（如 memcpy）进行复制，并且在复制过程中不会有任何特殊行为（如调用构造函数或析构函数）的类型。
+- 平凡可复制类型（Trivially Copyable Type）指的是那些可以通过简单的内存拷贝进行复制，并且在复制过程中不会有任何特殊行为的类型。
+- 标准布局类型（Standard Layout Type）指的是那些具有特定标准布局的类型。
+- 聚合类型（Aggregate Type）指的是那些可以通过简单的初始化列表进行初始化的类型；聚合类型支持带基类，并通过指定初始化进行初始化。
+- POD类型（Plain Old Data Type，POD）指的是满足平凡和标准布局的类型。
+- 虚表和类的内存布局。
+- 数据对齐相关处理。
+  - alignas用于指定类型的对齐值，alignas设置的值必须是2的幂值，否则无法通过编译。
+  - alignof用于获取类型的对齐值，可以获取类、结构体以及其成员变量的对齐值。
+  - std::alignment_of：用于获取类型的对齐值，返回一个std::size_t类型的值。
+  - std::aligned_storage_t和std::aligned_union_t: 在C++23里已经弃用，不建议使用。
+
+详细文档: [内存布局说明](./knowledge/09.layout/README.md)
 
 ### smart_pointer
 
 智能指针是C++中的一种特殊类型的指针，它提供了自动内存管理的功能。智能指针通过在对象不再被使用时自动释放其所指向的内存，从而避免了内存泄漏的问题。C++标准库提供了三种主要的智能指针：unique_ptr、shared_ptr和weak_ptr。
 
-1. unique_ptr：是一种独占所有权的智能指针，它确保同一时间只有一个unique_ptr指向某个对象。当unique_ptr被销毁时，它所指向的对象也会被自动删除，std::make_unique是创建std::unique_ptr实例的推荐方式。
-2. shared_ptr：是一种共享所有权的智能指针，它允许多个shared_ptr指向同一个对象。当最后一个指向对象的shared_ptr被销毁时，对象才会被自动删除。
-3. enable_shared_from_this: 用于在shared_ptr中创建指向当前对象的shared_ptr。
-4. weak_ptr：是一种弱引用的智能指针，它不拥有对象的所有权，而是指向一个shared_ptr所管理的对象。当最后一个指向对象的shared_ptr被销毁时，weak_ptr会自动失效。
+- unique_ptr：是一种独占所有权的智能指针，它确保同一时间只有一个unique_ptr指向某个对象。当unique_ptr被销毁时，它所指向的对象也会被自动删除，std::make_unique是创建std::unique_ptr实例的推荐方式。
+- shared_ptr：是一种共享所有权的智能指针，它允许多个shared_ptr指向同一个对象。当最后一个指向对象的shared_ptr被销毁时，对象才会被自动删除。
+  - enable_shared_from_this: 用于在shared_ptr中创建指向当前对象的shared_ptr。
+- weak_ptr：是一种弱引用的智能指针，它不拥有对象的所有权，而是指向一个shared_ptr所管理的对象。当最后一个指向对象的shared_ptr被销毁时，weak_ptr会自动失效。
+
+详细文档: [智能指针说明](./knowledge/10.smart_pointer/README.md)
 
 ### type_conversion
 
-1. RTTI(Run-Time Type Information)：运行时类型信息，它是一种机制，允许程序在运行时获取对象的类型信息。
-2. typeid返回一个std::type_info对象，该对象包含了对象的类型信息。
-3. 隐式转换和显示标识符(explicit)，隐式转换是指在不需要显式类型转换操作符的情况下，编译器自动将一种类型的值转换为另一种类型的值。显式标识符（explicit）是一个关键字，用于修饰类的构造函数。当构造函数被声明为显式时，编译器将禁止隐式转换，即禁止使用单个参数的构造函数进行隐式类型转换。
-4. dynamic_cast：用于在运行时进行类型转换，它可以将一个指向基类的指针或引用转换为指向派生类的指针或引用。
-5. static_cast：用于在编译时进行类型转换，它可以将一个表达式转换为指定的类型。
-6. reinterpret_cast：用于在编译时进行类型转换，它可以将一个指针或引用转换为另一个类型的指针或引用。
-7. const_cast：用于在编译时进行类型转换，它可以将一个常量指针或引用转换为一个非常量指针或引用。
+- RTTI(Run-Time Type Information)：运行时类型信息，它是一种机制，允许程序在运行时获取对象的类型信息。
+- typeid返回一个std::type_info对象，该对象包含了对象的类型信息。
+- 隐式转换和显示标识符(explicit)，隐式转换是指在不需要显式类型转换操作符的情况下，编译器自动将一种类型的值转换为另一种类型的值。显式标识符（explicit）是一个关键字，用于修饰类的构造函数。当构造函数被声明为显式时，编译器将禁止隐式转换，即禁止使用单个参数的构造函数进行隐式类型转换。
+- dynamic_cast：用于在运行时进行类型转换，它可以将一个指向基类的指针或引用转换为指向派生类的指针或引用。
+- static_cast：用于在编译时进行类型转换，它可以将一个表达式转换为指定的类型。
+- reinterpret_cast：用于在编译时进行类型转换，它可以将一个指针或引用转换为另一个类型的指针或引用。
+- const_cast：用于在编译时进行类型转换，它可以将一个常量指针或引用转换为一个非常量指针或引用。
+
+详细文档: [类型转换说明](./knowledge/11.type_conversion/README.md)
 
 ### thread_coroutine
 
-- atomic、atomic_flag和memory_order
+- atomic包含原子操作的处理，
   - std::atomic是模板类，用于提供原子操作。
   - std::atomic_flag则是最简单的原子类型，用于实现简单的同步机制。
   - std::memory_order是枚举类型，以此来协调多线程间的内存访问，确保程序在多线程环境下的正确性与性能。
-- barrier、latch
-  - std::barrier是用于线程同步的类，它允许多个线程在某个点上等待，直到所有线程都到达该点。
-  - std::latch是用于多线程同步，可让一组线程等待直到某个事件完成。
-- bind，std::bind是函数模板，用于将一个函数或函数对象与一组参数绑定在一起，生成一个新的可调用对象。
-- chrono，std::chrono是时间库，提供了各种时间相关的类型和函数。
-- condition_variable：std::condition_variable是用于线程间的同步的类，使得线程可以等待某个条件的满足，当条件满足时，线程可以被唤醒。
-- future、async和promise
+- chrono是时间库，提供了各种时间相关的类型和函数。
+- condition_variable用于线程间的同步的类，使得线程可以等待某个条件的满足，当条件满足时，线程可以被唤醒。
+- future包含异步操作的类，使得线程可以等待某个异步操作的完成，并获取其结果。
   - std::future是类模板，用于表示异步操作的结果。
   - std::async是函数模板，用于启动一个异步操作。
   - std::promise是类模板，用于在一个线程中设置一个值，并在另一个线程中获取该值。
-- mutex、shared_mutex和recursive_mutex。
+- mutex包含互斥锁和锁guard类，用于管理线程资源互斥访问。
   - std::mutex是互斥锁，使得多个线程可以互斥地访问共享资源。
   - std::lock_guard是类模板，用于在构造函数中获取互斥锁，在析构函数中释放互斥锁。
-  - std::shared_mutex是共享互斥锁(C++17)，允许多个线程同时读共享资源，但只允许一个线程写共享资源。
-  - std::recursive_mutex是递归互斥锁，允许多个线程递归地获取同一个互斥锁
-- thread和scope_lock。
-  - std::thread是类模板，用于创建和管理线程。
+  - std::recursive_mutex是递归互斥锁，允许多个线程递归地获取同一个互斥锁。
   - std::scope_lock是类模板，用于在构造函数中获取多个互斥锁，在析构函数中释放多个互斥锁。
-- thread_local：是关键字，用于声明线程局部变量。
-- timer: 是定时器类，用于创建和管理定时器。
+- shared_mutex是共享互斥锁(C++17)，允许多个线程同时读共享资源，但只允许一个线程写共享资源。
+- thread是C++用于管理线程的类，它提供了创建、管理和同步线程的功能。
+  - std::thread是类模板，用于创建和管理线程。
+  - thread_local：是关键字，用于声明线程局部存储变量。
+
+详细文档: [线程和协程说明](./knowledge/12.thread_coroutine/README.md)
 
 ### modern_cpp
 
@@ -321,37 +350,33 @@ C++的内存布局是指在内存中如何组织和存储对象、变量和函�
     - 返回类型推导是C++14引入的特性，允许编译器自动推导函数的返回类型，简化代码编写。
   - decltype类型推导表达式和函数返回类型后置语法
     - decltype(auto)，C++14引入，与auto相比，推导时保留cv限定符(const、volatile)。
-  - declval在不创建对象实例的情况下获取类型的右值引用。
 - constexpr常量表达式、编译器条件判断
   - constexpr是C++11引入的关键字，用于声明常量表达式, const表示常量。
-  - constexpr再C++14中放宽限制，支持局部变量和赋值语句，支持if和switch条件语句，支持修改对象的非const成员。
+  - constexpr再C++14中放宽限制，constexpr函数支持局部变量和赋值语句、if/switch条件语句、for/while/do-while循环语句，以及修改对象的非const成员等。
   - 编译期条件判断是C++17后引入的，支持if constexpr和switch constexpr进行条件判断。
-  - 支持constexpr的编译时lambda表达式。
+  - lambda表达式支持constexpr(C++17)，即可以在编译时对lambda表达式进行求值，不满足则退化为普通函数。
+  - consteval是C++20引入的关键字，用于声明一个函数只能在编译时调用，不能在运行时调用，这种函数被称为立即函数。
 - 扩展的改进
   - 带初始化的条件语句if, switch(C++17)。
-  - nullptr空指针。
+  - nullptr空指针和std::nullptr_t空指针类型。
   - 结构化绑定(C++17)：auto[]表达式。
-  - for循环的扩展for(key:expression)语句。
-- lambda表达式、函数对象、std::funtion包装器和std::bind
+  - for循环的扩展for(key:expression)语句、for支持初始化语句(C++17)、自定义类型支持for扩展。
+- lambda表达式、函数对象、泛型lambda表达式、lamdba捕获初始化器
   - lambda表达式是一种匿名函数，它可以捕获外部变量并在需要时执行。
   - 函数对象是重载了函数调用运算符()的类，可以像函数一样被调用(仿函数)。
-  - std::function是模板类，它可以存储任何可调用对象，包括函数、函数指针、lambda表达式、函数对象等。
-  - std::bind是函数模板，它可以将一个可调用对象与一组参数绑定在一起，生成一个新的可调用对象。
-  - 泛型lambda表达式，C++14引入，允许在lambda表达式中使用auto占位符来表示参数类型。
-  - lambda 捕获初始化器，C++14引入，允许在lambda捕获列表中对捕获的变量进行自定义初始化，还能创建新的局部变量供lambda函数体使用。
-- 用户自定义字面量，字符串字面量和单引号作为整数分隔符。
+  - 泛型lambda表达式(C++14引入)，允许在lambda表达式中使用auto占位符来表示参数类型。
+  - lambda捕获初始化器(C++14引入)，允许在lambda捕获列表中对捕获的变量进行自定义初始化，还能创建新的局部变量供lambda函数体使用。
+- 字面量和自定义实现
+  - 字符串字面量，允许使用字符串字面量R("")来创建字符串对象。
+  - 用户自定义字面量，允许用户自定义字符串字面量，并定义自己的字符串字面量处理函数。
+  - 单引号作为整数分隔符，允许使用单引号来分隔整数字面量，提高代码的可读性。
 - 断言和静态断言(static_assert)
   - assert是宏，用于在运行时检查条件是否为真，如果条件不为真，则输出错误信息并终止程序。
   - static_assert是静态断言，用于在编译时检查条件是否为真，如果条件不为真，则输出错误信息并终止编译。
 
-### tools
+详细文档: [现代C++功能说明](./knowledge/13.modern_cpp/README.md)
 
-主要包含C++应用中涉及的工具类和GCC相关的功能说明，也包含未整理仅验证的代码。
-
-1. RVO/NRVO（Return Value Optimization）返回值优化。
-2. void_t: C++17中引入的模板元编程工具，它通常用于检测某个类型是否具有特定的成员或特性。
-
-### cpp20
+### cpp_new_feature
 
 - concepts/requires：用于在编译时检查模板参数是否满足特定的要求。concepts 是一种用于描述类型要求的语法，而 requires 则是用于在模板定义中指定这些要求的关键字。
 - module：用于模块化编程的语法。module是一种用于定义和组织代码的语法，它可以用于将代码分割成多个模块，并在需要时进行动态加载和卸载。
@@ -359,3 +384,25 @@ C++的内存布局是指在内存中如何组织和存储对象、变量和函�
   - std::ranges::views：用于创建和操作序列的语法。std::ranges::views 是一种用于创建和操作序列的语法，它可以用于创建新的序列，或者对现有的序列进行转换和操作。
   - std::ranges::actions：用于对序列进行操作的语法。std::ranges::actions 是一种用于对序列进行操作的语法，它可以用于对现有的序列进行转换和操作。
 - coroutines(协程)：用于实现异步编程的语法。coroutines 是一种用于实现异步编程的语法，它可以用于在不阻塞线程的情况下执行异步操作。
+- 其它C++新扩展特性。
+  - barrier: 是用于线程同步的类，它允许多个线程在某个点上等待，直到所有线程都到达该点。
+  - source_location：C++20支持的源位置类，用于获取当前函数的源位置信息。
+  - span：范围类，用于表示数组或容器的一部分。
+  - format: C++20引入的格式化字符串库，用于格式化字符串。
+  - latch: 是用于多线程同步，可让一组线程等待直到某个事件完成。
+  - 三向比较运算符：<=>，C++20引入的运算符，用于比较两个对象的大小关系。另外支持std::strong_ordering、std::weak_ordering和std::partial_ordering。
+
+### tools
+
+主要包含C++应用中涉及的工具类和GCC相关的功能说明，也包含未整理仅验证的代码。
+
+- exec: 执行系统命令的函数。
+- image: 图片处理工具类。
+- logger: 日志工具类。
+- math_tools: 数学工具类。
+- multi_queue: 多队列管理
+- safety_cpp: 安全C++工具类。
+- thread_pool: 线程池工具类。
+- timer: 定时器工具类。
+- void_t: C++17中引入的模板元编程工具，它通常用于检测某个类型是否具有特定的成员或特性。
+

@@ -106,12 +106,9 @@ namespace BASIC_ANY
         template<typename T>
         T &get()
         {
-            if(ptr_)
-            {
+            if(ptr_) {
                 return static_cast<Derived<T> *>(ptr_)->data_;
-            }
-            else
-            {
+            } else {
                 throw "ptr nullptr issue!";
             }
         }

@@ -2,6 +2,8 @@
 
 STL（Standard Template Library）是C++标准库的一部分，它基于template提供了一组通用的容器、算法和函数，用于处理数据结构和算法的实现。
 
+本篇中描述的STL容器如下所示。
+
 - [std::array](#array)
 - [std::deque](#deque)
 - [std::forward_list](#forward_list)
@@ -19,6 +21,17 @@ STL（Standard Template Library）是C++标准库的一部分，它基于templat
 - [std::unordered_set](#unordered_set)
 - [std::vector](#vector)
 - [algorithm](#algorithm)
+  - [查询算法](#search_algorithms)
+  - [排序算法](#sort_algorithms)
+  - [变换算法](#transform_algorithms)
+  - [计数算法](#count_algorithms)
+  - [比较算法](#compare_algorithms)
+  - [生成算法](#generate_algorithms)
+  - [移除算法](#remove_algorithms)
+  - [分割算法](#partition_algorithms)
+  - [归并算法](#merge_algorithms)
+  - [堆栈算法](#heap_algorithms)
+  - [其他算法](#other_algorithms)
 - [返回主页](../../README.md)
 
 ## array
@@ -73,6 +86,8 @@ std::array<int, 5> arr_3(arr_1);
 | data | 返回指向数组第一个元素的指针。|
 | fill | 将数组中的所有元素设置为指定的值。|
 | swap | 交换两个数组的内容。|
+
+详细测试代码见: [array验证代码](./array/main.cpp)
 
 ## deque
 
@@ -148,6 +163,8 @@ std::deque<int> c5(2, 3);
 | emplace_front |  在双端队列的开头构造一个元素。|
 | get_allocator | 返回用于分配内存的分配器对象。|
 
+详细测试代码见: [deque验证代码](./deque/main.cpp)
+
 ## forward_list
 
 std::forward_list 它代表单向链表（singly linked list）。单向链表是一种线性数据结构，其中每个元素（节点）包含一个值和指向下一个元素的指针。
@@ -216,6 +233,8 @@ std::forward_list<int> c5(2, 3);
 | sort | 对链表中的元素进行排序。|
 | reverse | 反转链表中的元素顺序。|
 | get_allocator | 返回用于分配内存的分配器对象。|
+
+详细测试代码见: [forward_list验证代码](./forward_list/main.cpp)
 
 ## list 
 
@@ -292,6 +311,8 @@ std::list<int> c5(2, 3);
 | sort | 对链表中的元素进行排序。|
 | reserse | 反转链表的元素顺序。|
 | get_allocator | 返回链表的分配器对象。|
+
+详细测试代码见: [list验证代码](./list/main.cpp)
 
 ## map
 
@@ -384,6 +405,8 @@ std::map<int, int, decltype(funcomp)> c5(funcomp);
 | equal_range | 返回一对迭代器, 此迭代器对中的第一个迭代器指向map中其键大于指定键的第一个元素。|
 | get_allocator | 返回用于构造 allocator 的map对象的副本。|
 
+详细测试代码见: [map验证代码](./map/main.cpp)
+
 ## multimap
 
 std::multimap 是C++标准库中的一个关联容器，它允许存储多个具有相同键的键值对。
@@ -472,6 +495,8 @@ std::multimap<int, int, decltype(funcomp)> c5(funcomp);
 | equal_range | 返回一对迭代器, 此迭代器对中的第一个迭代器指向map中其键大于指定键的第一个元素。|
 | get_allocator | 返回用于构造 allocator 的multimap对象的副本。|
 
+详细测试代码见: [multimap验证代码](./multimap/main.cpp)
+
 ## multiset
 
 std::multiset是按照特定顺序存储元素的容器，其中多个元素可以具有相同的值。
@@ -555,6 +580,8 @@ std::multiset<int, decltype(funcomp)> c5(funcomp);
 | equal_range | 返回一对迭代器, 此迭代器对中的第一个迭代器指向map中其键大于指定键的第一个元素。|
 | get_allocator | 获取用于构造容器的分配器对象的副本。|
 
+详细测试代码见: [multiset验证代码](./multiset/main.cpp)
+
 ## priority_queue
 
 std::priority_queue是C++标准库中的一个容器适配器，它提供了一种优先队列的实现。
@@ -617,6 +644,8 @@ std::priority_queue<int, std::vector<int>, decltype(funcomp)> c4(funcomp);
 | swap | 交换两个队列的内容。|
 | uses_allocator | 获取用于构造队列的分配器对象的副本。|
 
+详细测试代码见: [priority_queue验证代码](./priority_queue/main.cpp)
+
 ## queue
 
 std::queue是C++ 标准库中的一个容器适配器，它提供了一种先进先出（FIFO）的数据结构。
@@ -663,6 +692,8 @@ std::queue<int> c2(c0);
 | pop | 移除队列中第一个元素。|
 | swap | 交换两个队列的内容。|
 | uses_allocator | 获取用于构造队列的分配器对象的副本。|
+
+详细测试代码见: [queue验证代码](./queue/main.cpp)
 
 ## set
 
@@ -747,6 +778,8 @@ std::set<int, decltype(funcomp)> c5(funcomp);
 | equal_range | 返回一对迭代器, 此迭代器对中的第一个迭代器指向map中其键大于指定键的第一个元素。|
 | get_allocator | 获取用于构造容器的分配器对象的副本。|
 
+详细测试代码见: [set验证代码](./set/main.cpp)
+
 ## stack
 
 std::stack是C++标准库中的一个容器适配器，它提供了一种后进先出（LIFO）的数据结构。
@@ -795,9 +828,11 @@ std::stack<int> c2(c0);
 | swap | 交换两个栈的内容。|
 | uses_allocator | 获取用于构造栈的分配器对象的副本。|
 
+详细测试代码见: [stack验证代码](./stack/main.cpp)
+
 ## unordered_map
 
-std::unordered_map是C++标准库中的一个关联容器，它提供了一种键值对的存储方式，其中键是唯一的，而值可以重复。unordered_map和map的区别是，unordered_map使用哈希表作为底层数据结构，并不进行排序。
+std::unordered_map是C++标准库中的一个关联容器，它提供了一种键值对的存储方式；其中键是唯一的，而值可以重复。unordered_map和map的区别是，unordered_map使用哈希表作为底层数据结构，并不进行排序。
 
 - 格式
 
@@ -807,7 +842,8 @@ template < class Key,                                   // unordered_map::key_ty
         class Hash = hash<Key>,                         // unordered_map::hasher           
         class Pred = equal_to<Key>,                     // unordered_map::key_equal           
         class Alloc = allocator< pair<const Key,T> >    // unordered_map::allocator_type           
-        > class unordered_map;
+        > 
+class unordered_map;
 ```
 
 相关网址: https://www.cplusplus.com/reference/unordered_map/unordered_map/
@@ -817,7 +853,7 @@ template < class Key,                                   // unordered_map::key_ty
 ```cpp
 // 默认构造函数
 std::unordered_map<int, std::string> c0 = {
-{1, "one"}
+    {1, "one"}
 };
 
 // 自定义allocator构造函数
@@ -877,123 +913,262 @@ std::unordered_map<int, std::string> c3(c0.begin(), c0.end());
 | key_eq | 获取比较函数。|
 | get_allocator | 获取用于构造容器的分配器对象的副本。|
 
+详细测试代码见: [unordered_map验证代码](./unordered_map/main.cpp)
+
 ## unordered_multimap
 
-std::unordered_multimap 是 C++ 标准库中的一个关联容器，它允许存储多个具有相同键的键值对。
+std::unordered_multimap 是 C++ 标准库中的一个关联容器，它类似于unoredered_map，不过允许存储多个具有相同键的键值对，并且内部使用哈希表实现，排列是无序的。
 
-主要特点：
+- 格式
+
+```cpp
+template < class Key,                   // unordered_multimap::key_type           
+        class T,                        // unordered_multimap::mapped_type           
+        class Hash = hash<Key>,         // unordered_multimap::hasher           
+        class Pred = equal_to<Key>,     // unordered_multimap::key_equal           
+        class Alloc = allocator< pair<const Key,T> >  // unordered_multimap::allocator_type           
+        > 
+class unordered_multimap;
+```
+
+相关网址：https://cplusplus.com/reference/unordered_map/unordered_multimap/
+
+- 常用构造方法
+
+```cpp
+// 默认构造函数
+std::unordered_multimap<int, int> c0;
+
+// 列表初始化
+std::unordered_multimap<int, int> c1 = {
+    {2, 1},
+    {2, 2},
+};
+
+// 赋值构造函数
+std::unordered_multimap<int, int> c2(c1);
+
+// 范围构造函数
+std::unordered_multimap<int, int> c3(c1.begin(), c1.end());
+
+// 自定义allocator构造函数
+std::unordered_multimap<int, std::string, std::hash<int>, std::equal_to<int>, std::allocator<std::pair<const int, std::string>>> c4;
+```
+
+- 主要特点
+
 1. 无序性：元素在容器中的存储顺序是无序的，即元素的存储位置不依赖于键的顺序。
 2. 快速查找：由于使用哈希表实现，查找操作非常高效。
 3. 键可重复：每个键可以在容器中出现多次。
 4. 动态内存管理：容器会自动管理内存，根据需要动态分配和释放内存。
 
-成员函数：
-begin：返回指向容器中第一个元素的迭代器。
-bucket：返回给定键所在的桶的索引。
-bucket_count：返回容器中桶的数量。
-bucket_size：返回给定桶中的元素数量。
-cbegin：返回指向容器中第一个元素的常量迭代器。
-cend：返回指向容器中最后一个元素的常量迭代器。
-clear：移除容器中的所有元素。
-contains(c++20)：检查容器是否包含具有给定键的元素。
-count：返回容器中具有给定键的元素数量。
-emplace：在容器中直接构造元素。
-emplace_hint：在给定位置构造元素。
-empty：检查容器是否为空。
-end：返回指向容器中最后一个元素的迭代器。
-equal_range：返回一个包含容器中具有给定键的所有元素的迭代器范围。
-erase：移除容器中具有给定键的元素。
-find：查找具有给定键的元素。
-get_allocator：返回用于分配内存的分配器对象。
-hash_function：返回用于计算哈希值的函数对象。
-insert：插入元素到容器中。
-key_eq：返回用于比较键的函数对象。
-load_factor：返回当前容器的负载因子。
-max_bucket_count：返回容器中桶的最大数量。
-max_load_factor：返回容器的最大负载因子。
-max_size：返回容器中可容纳的最大元素数量。
-rehash：重新哈希容器。
-size：返回容器中元素的数量。
-swap：交换两个容器的内容。
+- 迭代器
+
+| 方法 | 说明 |
+| --- | --- |
+| begin | 返回指向容器中第一个元素的迭代器。|
+| end | 返回指向容器中最后一个元素之后位置的迭代器。|
+| cbegin | 返回指向容器中第一个元素的常量迭代器。|
+| cend | 返回指向容器中最后一个元素之后位置的常量迭代器。|
+
+- 成员函数
+
+| 方法 | 说明 |
+| --- | --- |
+| empty | 判断容器是否为空。|
+| size | 获取容器中元素的个数。|
+| max_size | 获取容器中可容纳的元素最大个数。|
+| operator= | 拷贝赋值。|
+| operator[] | 访问元素。|
+| at | 访问元素。|
+| find | 查找元素。|
+| count | 统计元素个数。|
+| equal_range | 获取元素范围。|
+| emplace | 在容器中直接构造元素。|
+| emplace_hint | 在容器中的指定位置直接构造元素。|
+| insert | 插入一个元素或元素范围。|
+| erase | 从容器中删除一个或多个元素。|
+| clear | 清空容器中的所有元素。|
+| swap | 交换两个容器的内容。|
+| bucket_count | 获取存储桶的数量。|
+| max_bucket_count | 获取存储桶的最大数量。|
+| bucket_size | 获取存储桶中元素数量。|
+| bucket | 获取元素所在的存储桶编号。|
+| load_factor | 获取负载因子。|
+| max_load_factor | 获取最大负载因子。|
+| rehash | 重新哈希。|
+| reserve | 预留空间。|
+| hash_function | 获取哈希函数。|
+| key_eq | 获取比较函数。|
+| get_allocator | 获取用于构造容器的分配器对象的副本。|
+
+详细测试代码见: [unordered_multimap验证代码](./unordered_multimap/main.cpp)
 
 ## unordered_multiset
 
-std::unordered_multiset 是 C++ 标准库中的一个容器，它类似于
-std::unordered_set，但允许存储多个具有相同值的元素
+std::unordered_multiset是C++标准库中的一个容器，它类似于std::unordered_set，但允许存储多个具有相同值的元素。
 
-主要特点：
+- 格式
+
+```cpp
+template < class Key,        // unordered_multiset::key_type/value_type           
+        class Hash = hash<Key>,            // unordered_multiset::hasher           
+        class Pred = equal_to<Key>,        // unordered_multiset::key_equal           
+        class Alloc = allocator<Key>       // unordered_multiset::allocator_type           
+        > 
+class unordered_multiset;
+```
+
+相关网址：https://cplusplus.com/reference/unordered_set/unordered_multiset/
+
+- 常用构造方法
+
+```cpp
+// 默认构造函数
+std::unordered_multiset<int> c0;
+
+// 列表初始化
+std::unordered_multiset<int> c1 = {1, 2, 3, 4, 5};
+
+// 赋值构造函数
+std::unordered_multiset<int> c2(c1);
+
+// 范围构造函数
+std::unordered_multiset<int> c3(c1.begin(), c1.end());
+
+// 自定义allocator构造函数
+std::unordered_multiset<int, std::hash<int>, std::equal_to<int>> c4;
+```
+
+- 主要特点
+
 1. 无序性：元素在容器中的存储顺序是无序的，即元素的存储位置不依赖于其值。
 2. 允许重复元素：与 std::unordered_set 不同，std::unordered_multiset 允许存储多个具有相同值的元素。
 3. 快速查找：由于使用哈希表实现，查找操作的平均时间复杂度为常数时间 O(1)。
 4. 动态内存管理：容器会自动管理内存，根据需要动态分配和释放内存。
 
-成员函数：
-begin: 返回指向容器中第一个元素的迭代器。
-bucket: 返回给定值所在的桶的索引。
-bucket_count: 返回桶的数量。
-bucket_size: 返回给定桶中的元素数量。
-cbegin: 返回指向容器中第一个元素的常量迭代器。
-cend: 返回指向容器中最后一个元素的下一个位置的常量迭代器。
-clear: 移除容器中的所有元素。
-count: 返回容器中具有给定值的元素数量。
-contains: 检查容器中是否存在具有给定值的元素。
-emplace: 在容器中构造并插入一个新元素。
-emplace_hint: 在容器中构造并插入一个新元素，使用给定的提示位置。
-empty: 检查容器是否为空。
-end: 返回指向容器中最后一个元素的下一个位置的迭代器。
-equal_range: 返回一个范围，其中包含具有给定值的所有元素。
-erase: 移除容器中具有给定值的所有元素。
-find: 查找容器中具有给定值的元素。
-get_allocator: 返回用于分配内存的分配器对象。
-hash_function: 返回用于计算哈希值的哈希函数对象。
-insert: 插入元素到容器中。
-key_eq: 返回用于比较键的相等性谓词。
-load_factor: 返回当前的负载因子。
-max_bucket_count: 返回最大桶数。
-max_load_factor: 返回最大负载因子。
-max_size: 返回容器可容纳的最大元素数量。
-rehash: 重新哈希容器，以减少冲突。
-size: 返回容器中的元素数量。
-swap: 交换两个容器的内容。
+- 迭代器
+
+| 方法 | 说明 |
+| --- | --- |
+| begin | 返回指向容器中第一个元素的迭代器。|
+| end | 返回指向容器中最后一个元素之后位置的迭代器。|
+| cbegin | 返回指向容器中第一个元素的常量迭代器。|
+| cend | 返回指向容器中最后一个元素之后位置的常量迭代器。|
+
+- 成员函数
+
+| 方法 | 说明 |
+| --- | --- |
+| operator= | 赋值运算符。|
+| empty | 判断容器是否为空。|
+| size | 返回容器中元素的数目。|
+| max_size | 返回容器中可容纳的元素数目的上限。|
+| find | 返回指向指定元素的迭代器。|
+| count | 返回指定元素的数量。|
+| equal_range | 返回指定元素的迭代器范围。|
+| emplace | 构造并插入元素。|
+| emplace_hint | 构造并插入元素。|
+| insert | 插入元素。|
+| erase | 删除元素。|
+| clear | 删除所有元素。|
+| swap | 交换两个unordered_set对象。|
+| bucket_count | 返回桶的数量。|
+| max_bucket_count | 返回最大桶的数量。|
+| bucket_size | 返回指定桶中的元素数量。|
+| bucket | 返回元素所在的桶编号。|
+| load_factor | 返回负载因子。|
+| max_load_factor | 获取或设置负载因子。|
+| rehash | 重新分配存储空间。|
+| reserve | 预留空间。|
+| hash_function | 获取哈希函数。|
+| key_eq | 获取键比较函数。|
+| get_allocator | 获取用于分配内存的分配器对象的副本。|
+
+详细测试代码见: [unordered_multiset验证代码](./unordered_multiset/main.cpp)
 
 ## unordered_set
 
 std::unordered_set 是 C++ 标准库中的一个容器，它提供了一种无序的、不允许重复元素的集合。
 
-主要特点：
+- 格式
+
+```cpp
+template < class Key,        // unordered_multiset::key_type/value_type           
+        class Hash = hash<Key>,            // unordered_multiset::hasher           
+        class Pred = equal_to<Key>,        // unordered_multiset::key_equal           
+        class Alloc = allocator<Key>       // unordered_multiset::allocator_type           
+        > 
+class unordered_set;
+```
+
+相关网址：https://cplusplus.com/reference/unordered_set/unordered_set/
+
+- 常用构造方法
+
+```cpp
+// 默认构造函数
+std::unordered_set<int> c0;
+
+// 列表初始化
+std::unordered_set<int> c1 = {1, 2, 3, 4, 5};
+
+// 赋值构造函数
+std::unordered_set<int> c2(c1);
+
+// 范围构造函数
+std::unordered_set<int> c3(c1.begin(), c1.end());
+
+// 自定义allocator构造函数
+std::unordered_set<int, std::hash<int>, std::equal_to<int>> c4;
+```
+
+- 主要特点
+
 1. 无序性：元素在容器中的存储顺序是无序的，即元素的存储位置不依赖于其值。
 2. 不允许重复元素：每个元素在容器中只能出现一次。
 3. 快速查找：由于使用哈希表实现，查找操作非常高效。
 4. 动态内存管理：容器会自动管理内存，根据需要动态分配和释放内存。
 
-成员函数：
-begin：返回指向容器中第一个元素的迭代器。
-bucket：返回给定元素所在的桶的索引。
-bucket_count：返回桶的数量。
-bucket_size：返回给定桶中的元素数量。
-cbegin：返回指向容器中第一个元素的常量迭代器。
-cend：返回指向容器中最后一个元素的下一个位置的常量迭代器。
-clear：清除容器中的所有元素。
-contains(c++20):检查容器是否包含指定元素。
-emplace(c++11):在容器中直接构造元素。
-emplace_hint(c++11):在指定位置构造元素。
-empty：检查容器是否为空。
-end：返回指向容器中最后一个元素的下一个位置的迭代器。
-equal_range：返回一个包含等于给定值的元素范围的迭代器对。
-erase：从容器中删除指定元素或范围内的元素。
-find：查找容器中等于给定值的元素。
-get_allocator：返回用于分配内存的分配器。
-hash_function：返回用于计算哈希值的函数对象。
-insert：向容器中插入元素。
-key_eq：返回用于比较键的函数对象。
-load_factor：返回当前负载因子。
-max_bucket_count：返回最大桶数。
-max_load_factor：返回最大负载因子。
-max_size：返回容器可以容纳的最大元素数量。
-rehash：重新分配桶的数量。
-reserve：为容器预留足够的空间。
-size：返回容器中元素的数量。
-swap：交换两个容器的内容。
+- 迭代器
+
+| 方法 | 说明 |
+| --- | --- |
+| begin | 获取容器的起始迭代器。 |
+| end | 获取容器的结束迭代器。 |
+| cbegin | 获取常量迭代器，指向容器的起始位置。 |
+| cend | 获取常量迭代器，指向容器的结束位置。 |
+
+- 成员函数
+
+| 方法 | 说明 |
+| --- | --- |
+| operator= | 赋值运算符。|
+| empty | 判断容器是否为空。|
+| size | 返回容器中元素的数目。|
+| max_size | 返回容器中可容纳的元素数目的上限。|
+| find | 返回指向指定元素的迭代器。|
+| count | 返回指定元素的数量。|
+| equal_range | 返回指定元素的迭代器范围。|
+| emplace | 构造并插入元素。|
+| emplace_hint | 构造并插入元素。|
+| insert | 插入元素。|
+| erase | 删除元素。|
+| clear | 删除所有元素。|
+| swap | 交换两个unordered_set对象。|
+| bucket_count | 返回桶的数量。|
+| max_bucket_count | 返回最大桶的数量。|
+| bucket_size | 返回指定桶中的元素数量。|
+| bucket | 返回元素所在的桶编号。|
+| load_factor | 返回负载因子。|
+| max_load_factor | 获取或设置负载因子。|
+| rehash | 重新分配存储空间。|
+| reserve | 预留空间。|
+| hash_function | 获取哈希函数。|
+| key_eq | 获取键比较函数。|
+| get_allocator | 获取用于分配内存的分配器对象的副本。|
+
+详细测试代码见: [unordered_set验证代码](./unordered_set/main.cpp)
 
 ## vector
 
@@ -1078,112 +1253,149 @@ std::vector<int> c5(2, 3);
 | emplace_back | 在容器的末尾构造元素。 |
 | get_allocator | 获取用于分配内存的分配器。 |
 
+详细测试代码见: [vector验证代码](./vector/main.cpp)
+
 ## algorithm
 
 C++支持一系列算法用于操作STL容器中的元素，这些算法包括查找、排序、修改等。
 
-- 查找算法
+### search_algorithms
 
-1. std::all_of：检查容器中的所有元素是否都满足特定条件。
-2. std::any_of：检查容器中的任意一个元素是否满足特定条件。
-3. std::none_of：检查容器中的所有元素是否都不满足特定条件。
-4. std::adjacent_find：查找容器中相邻的重复元素的位置。 
-5. std::find：用于在指定范围内查找等于给定值的首个元素。
-6. std::find_if：在容器中查找的是满足特定条件的元素。
-7. std::find_first_of：在容器中查找另一个容器中任意一个元素的位置。
-8. std::find_end：在容器中查找另一个容器的最后一个匹配子序列的位置。
-9. std::find_if_not：在容器中查找不满足特定条件的元素的位置。
-10. std::search：在容器中查找另一个容器的首次出现的位置。
-11. std::search_n：在容器中查找指定数量的连续元素。
-12. std::binary_search：在已排序的容器中进行二分查找。
+查找算法定义了一系列用于在容器内搜索或统计元素数量的算法。
 
-- 排序算法
+- std::all_of：检查容器中的所有元素是否都满足特定条件。
+- std::any_of：检查容器中的任意一个元素是否满足特定条件。
+- std::binary_search：在已排序的容器中进行二分查找。
+- std::none_of：检查容器中的所有元素是否都不满足特定条件。
+- std::adjacent_find：查找容器中相邻的重复元素的位置。 
+- std::find：用于在指定范围内查找等于给定值的首个元素。
+- std::find_if：在容器中查找的是满足特定条件的元素。
+- std::find_first_of：在容器中查找另一个容器中任意一个元素的位置。
+- std::find_end：在容器中查找另一个容器的最后一个匹配子序列的位置。
+- std::find_if_not：在容器中查找不满足特定条件的元素的位置。
+- std::search：在容器中查找另一个容器的首次出现的位置。
+- std::search_n：在容器中查找指定数量的连续元素。
 
-1. std::sort：对容器中的元素进行排序。
-2. std::stable_sort：对容器中的元素进行稳定排序。
-3. std::partial_sort：对容器中的部分元素进行排序。
-4. std::partial_sort_copy：对容器中的部分元素进行排序，并将结果复制到另一个容器中。
-5. std::is_sorted：检查容器中的元素是否已排序。
-6. std::is_sorted_until：查找容器中未排序的元素的位置。
-9. std::random_shuffle：随机打乱容器中的元素。
-10. std::reverse：反转容器中的元素顺序。
-11. std::rotate: 旋转容器中的元素。
-12. std::rotate_copy：旋转容器中的元素，并将结果复制到另一个容器中。
+### sort_algorithms
 
-- 变换算法
+排序算法定义了一系列用于对容器中的元素进行排序或检测是否已排序的算法。
 
-1. std::transform：对容器中的元素进行转换操作。
-2. std::replace：将容器中所有等于指定值的元素替换为新值。
-3. std::replace_if：将容器中满足特定条件的元素替换为新值
-4. std::replace_copy：将容器中所有等于指定值的元素替换为新值，并将结果复制到另一个容器中。
-5. std::replace_copy_if：将容器中满足特定条件的元素替换为新值，并将结果复制到另一个容器中。
+- std::sort：对容器中的元素进行排序。
+- std::stable_sort：对容器中的元素进行稳定排序。
+- std::partial_sort：对容器中的部分元素进行排序。
+- std::partial_sort_copy：对容器中的部分元素进行排序，并将结果复制到另一个容器中。
+- std::is_sorted：检查容器中的元素是否已排序。
+- std::is_sorted_until：查找容器中未排序的元素的位置。
+- std::random_shuffle：随机打乱容器中的元素。
+- std::reverse：反转容器中的元素顺序。
+- std::rotate: 旋转容器中的元素。
+- std::rotate_copy：旋转容器中的元素，并将结果复制到另一个容器中。
 
-- 计数算法
+### transform_algorithms
 
-1. std::count：统计容器中在指定范围内等于给定值的元素个数。
-2. std::count_if：统计容器中满足特定条件的元素的个数。
-3. std::accumulate：对容器中的元素进行累加操作。
-4. std::inner_product：计算两个容器中对应元素的乘积的和。
-5. std::partial_sum：计算容器中元素的累计和，存放到另一个容器中。
-6. std::adjacent_difference：计算容器中相邻元素的差。
+变换算法定义了一系列用于对容器中的元素进行转换或修改的算法。
 
-- 比较算法
+- std::transform：对容器中的元素进行转换操作。
+- std::replace：将容器中所有等于指定值的元素替换为新值。
+- std::replace_if：将容器中满足特定条件的元素替换为新值
+- std::replace_copy：将容器中所有等于指定值的元素替换为新值，并将结果复制到另一个容器中。
+- std::replace_copy_if：将容器中满足特定条件的元素替换为新值，并将结果复制到另一个容器中。
 
-1. std::equal：比较两个容器中的元素是否相等。
-2. std::mismatch：查找两个容器中第一个不匹配的元素的位置。
-3. std::lexicographical_compare：按字典顺序比较两个容器中的元素。
+### count_algorithms
 
-- 生成算法
+计数算法定义了一系列用于统计容器中元素的数量的算法。
 
-1. std::generate：使用生成器函数生成元素并填充容器。
-2. std::generate_n：使用生成器函数生成n个元素并填充容器。
-3. std::fill：将容器中的所有元素设置为指定的值。
-4. std::fill_n：将容器中的前 n 个元素设置为指定的值。
-5. std::copy：将容器中的元素复制到另一个容器中。
-6. std::copy_if：将容器中满足特定条件的元素复制到另一个容器中。
-7. std::copy_n：将容器中的前 n 个元素复制到另一个容器中。
-8. std::copy_backward：将容器中的元素从后往前复制到另一个容器中。
+- std::count：统计容器中在指定范围内等于给定值的元素个数。
+- std::count_if：统计容器中满足特定条件的元素的个数。
+- std::accumulate：对容器中的元素进行累加操作。
+- std::inner_product：计算两个容器中对应元素的乘积的和。
+- std::partial_sum：计算容器中元素的累计和，存放到另一个容器中。
+- std::adjacent_difference：计算容器中相邻元素的差。
 
-- 移除算法
+### compare_algorithms
 
-1. std::remove：移除容器中满足特定条件的元素，把不需要移除的放在前部，原容器大小不变。
-2. std::remove_if：移除容器中满足特定条件的元素，把不需要移除的放在前部，原容器大小不变。
-3. std::remove_copy：将容器中等于特定值的元素复制到另一个容器中，同时移除不符合条件的元素。
-4. std::remove_copy_if：将容器中满足特定条件的元素复制到另一个容器中。
-5. std::unique：移除容器中**相邻的重复元素**, 把不重复的元素放在前部，原容器大小不变。
-6. std::unique_copy：移除容器中相邻的重复元素，并将结果复制到另一个容器中。
+比较算法定义了一系列用于比较容器中元素的算法。
 
-- 分割算法
+- std::equal：比较两个容器中的元素是否相等。
+- std::mismatch：查找两个容器中第一个不匹配的元素的位置。
+- std::lexicographical_compare：按字典顺序比较两个容器中的元素。
 
-1. std::partition：将容器中的元素根据指定条件进行分割, 满足条件的元素会被移动到容器的前面，不保证顺序不变。
-2. std::stable_partition：将容器中的元素根据指定条件进行稳定分割，满足条件的元素会被移动到容器的前面，保证顺序不变。
-3. std::partition_copy：将容器中的元素根据指定条件进行分割，并将结果复制到另一个容器中。
-4. std::partition_point：返回容器中第一个满足指定条件的元素的位置。
+### generate_algorithms
 
-- 归并算法
+生成算法定义了一系列用于生成元素的算法。
 
-1. std::merge：将两个已排序的容器合并为一个已排序的容器。
-2. std::inplace_merge：对容器中的两个已排序的子序列进行原地合并。
-3. std::set_union：计算两个已排序容器的并集。
-4. std::set_intersection：计算两个已排序容器的交集。
-5. std::set_difference：计算两个已排序容器的差集。
-6. std::set_symmetric_difference：计算两个已排序容器的对称差集。
+- std::generate：使用生成器函数生成元素并填充容器。
+- std::generate_n：使用生成器函数生成n个元素并填充容器。
+- std::fill：将容器中的所有元素设置为指定的值。
+- std::fill_n：将容器中的前 n 个元素设置为指定的值。
+- std::copy：将容器中的元素复制到另一个容器中。
+- std::copy_if：将容器中满足特定条件的元素复制到另一个容器中。
+- std::copy_n：将容器中的前 n 个元素复制到另一个容器中。
+- std::copy_backward：将容器中的元素从后往前复制到另一个容器中。
 
-- 堆算法
+### remove_algorithms
 
-1. std::make_heap：将容器转换为堆。
-1. std::push_heap：将元素添加到堆中。
-2. std::pop_heap：从堆中移除顶部元素。
-3. std::make_heap：将容器转换为堆。
-4. std::sort_heap：对堆进行排序。
+移除算法定义了一系列用于移除容器中元素的算法。
 
-- 其它算法
+- std::remove：移除容器中满足特定条件的元素，把不需要移除的放在前部，原容器大小不变。
+- std::remove_if：移除容器中满足特定条件的元素，把不需要移除的放在前部，原容器大小不变。
+- std::remove_copy：将容器中等于特定值的元素复制到另一个容器中，同时移除不符合条件的元素。
+- std::remove_copy_if：将容器中满足特定条件的元素复制到另一个容器中。
+- std::unique：移除容器中**相邻的重复元素**，把不重复的元素放在前部，原容器大小不变。
+- std::unique_copy：移除容器中相邻的重复元素，并将结果复制到另一个容器中。
 
-1. std::sample: 从容器中随机选择指定数量的元素。
-2. std::clamp: 限制值在指定范围内。
-3. std::reduce：对容器中的元素进行归约操作。
-4. std::transform_reduce：对容器中的元素进行转换操作，并对结果进行归约操作。
-5. std::gcd: 计算两个整数的最大公约数。
-6. std::lcm: 计算两个整数的最小公倍数。
-7. std::to_chars: 将字符串转换为字符数组。
-8. std::from_chars: 将字符数组转换为字符串。
+### partition_algorithms
+
+分割算法定义了一系列用于将容器中的元素根据指定条件进行分割的算法。
+
+- std::partition：将容器中的元素根据指定条件进行分割, 满足条件的元素会被移动到容器的前面，不保证顺序不变。
+- std::stable_partition：将容器中的元素根据指定条件进行稳定分割，满足条件的元素会被移动到容器的前面，保证顺序不变。
+- std::partition_copy：将容器中的元素根据指定条件进行分割，并将结果复制到另一个容器中。
+- std::partition_point：返回容器中第一个满足指定条件的元素的位置。
+
+### merge_algorithms
+
+归并算法定义了一系列用于将两个已排序的容器合并为一个已排序的容器的算法。
+
+- std::merge：将两个已排序的容器合并为一个已排序的容器。
+- std::inplace_merge：对容器中的两个已排序的子序列进行原地合并。
+- std::set_union：计算两个已排序容器的并集。
+- std::set_intersection：计算两个已排序容器的交集。
+- std::set_difference：计算两个已排序容器的差集。
+- std::set_symmetric_difference：计算两个已排序容器的对称差集。
+
+### heap_algorithms
+
+堆算法定义了一系列用于操作堆的算法。
+
+- std::make_heap：将容器转换为堆。
+- std::push_heap：将元素添加到堆中。
+- std::pop_heap：从堆中移除顶部元素。
+- std::make_heap：将容器转换为堆。
+- std::sort_heap：对堆进行排序。
+
+### other_algorithms
+
+- std::sample: 从容器中随机选择指定数量的元素。
+- std::clamp: 限制值在指定范围内。
+- std::reduce：对容器中的元素进行归约操作。
+- std::transform_reduce：对容器中的元素进行转换操作，并对结果进行归约操作。
+- std::gcd: 计算两个整数的最大公约数。
+- std::lcm: 计算两个整数的最小公倍数。
+- std::to_chars: 将字符串转换为字符数组。
+- std::from_chars: 将字符数组转换为字符串。
+- std::back_inserter：创建一个插入迭代器，用于将元素添加到容器的末尾(支持push_back的容器可以使用)
+- std::front_inserter：创建一个插入迭代器，用于将元素添加到容器的开头(支持push_front的容器可以使用)
+- std::inserter：创建一个插入迭代器，用于将元素添加到指定位置(支持insert的容器可以使用)
+- std::greater<>() 执行大于比较操作
+- std::less<>() 执行小于比较操作
+- std::less_equal<>() 执行小于等于比较操作
+- std::greater_equal<>() 执行大于等于比较操作
+- std::equal_to<>() 执行等于比较操作
+- std::not_equal_to<>() 执行不等于比较操作
+- std::plus<>() 执行加法操作
+- std::minus<>() 执行减法操作
+- std::multiplies<>() 执行乘法操作
+- std::divides<>() 执行除法操作
+- std::modulus<>() 执行取余操作
+- std::negate<>() 执行取反操作

@@ -72,9 +72,27 @@
         "xstring": "cpp",
         "xtr1common": "cpp",
         "xtree": "cpp",
-        "xutility": "cpp"
+        "xutility": "cpp",
+        "any": "cpp",
+        "barrier": "cpp",
+        "bitset": "cpp",
+        "cfenv": "cpp",
+        "chrono": "cpp",
+        "complex": "cpp",
+        "cstdarg": "cpp",
+        "expected": "cpp",
+        "filesystem": "cpp",
+        "fstream": "cpp",
+        "iomanip": "cpp",
+        "latch": "cpp",
+        "regex": "cpp",
+        "shared_mutex": "cpp",
+        "source_location": "cpp",
+        "span": "cpp",
+        "sstream": "cpp",
+        "variant": "cpp",
+        "string_view": "cpp"
     },
     "trae.tab.enableRename": false,
-    "trae.tab.enableAutoImport": false,
-    "cmake.sourceDirectory": "D:/github/cplusplus_application/learning_notes/modern_book"
+    "trae.tab.enableAutoImport": false
 }
