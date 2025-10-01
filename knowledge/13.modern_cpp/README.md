@@ -4,6 +4,7 @@
 - [auto](#auto)
   - [decltype](#decltype)
 - [constexpr](#constexpr)
+<<<<<<< HEAD
   - [constexpr_extension](#constexpr_extension)
   - [consteval](#consteval)
   - [constinit](#constinit)
@@ -17,6 +18,11 @@
   - [law_string](#law_string)
   - [defined_literal](#defined_literal)
   - [single_quote](#single_quote)
+=======
+- [extend](#extend)
+- [lambda](#lambda)
+- [literal](#literal)
+>>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
 - [static_assert](#static_assert)
 
 ## attribute
@@ -259,6 +265,7 @@ int main(int argc, const char *argv[])
 
 ## constexpr
 
+<<<<<<< HEAD
 constexpr是C++11 引入的一个关键字，用于声明常量表达式。常量表达式是指在编译时就能计算出结果的表达式。使用constexpr关键字可以让编译器在编译时就对表达式进行求值，从而提高程序的性能。一个函数要想成为常量表达式函数（constexpr)，必须满足以下条件。
 
 - 该函数必须有返回值，即函数的返回值类型不能是void，且必须是常量表达式(C++14开始，void 类型的函数也可以是常量表达式函数)。
@@ -281,6 +288,27 @@ constexpr和const的区别如下。
 6．constexpr声明的成员函数不再具有const属性。
 
 具体示例如下所示。
+=======
+constexpr是C++11 引入的一个关键字，用于声明常量表达式。常量表达式是指在编译时就能计算出结果的表达式。使用constexpr关键字可以让编译器在编译时就对表达式进行求值，从而提高程序的性能。一个函数要想成为常量表达式函数（constexpr)，必须满足如下4个条件。
+
+1. 该函数必须有返回值，即函数的返回值类型不能是void。
+2. 整个函数的函数体中，除了可以包含using指令、typedef语句以及static_assert断言外，只能包含一条return返回语句。
+3. return返回的表达式必须是常量表达式。
+4. 函数在使用之前，必须有对应的定义语句。
+
+constexpr和const 的区别
+
+1. const可以用于声明运行时和编译时的常量，而constexpr 只能用于声明编译时的常量。
+2. const变量的值可以在运行时改变，而constexpr变量的值必须在编译时确定。
+4. constexpr函数必须满足一定的条件才能被编译器识别为常量表达式函数，而const函数没有这样的限制。
+
+在后续版本，放开了对constexpr函数的限制，主要如下所示。
+
+1. C++14改进：允许局部变量和赋值语句、支持if和switch条件语句、支持修改对象的非const成员。
+2. C++17改进：支持constexpr的编译时lambda表达式、增加if constexpr条件语句。
+
+示例如下所示。
+>>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
 
 ```cpp
 #include <iostream>
@@ -299,6 +327,7 @@ constexpr int func2(int a)
     }
 }
 
+<<<<<<< HEAD
 constexpr int func3(int a)
 {
     int b = 1, sum = 0;
@@ -338,18 +367,25 @@ constexpr demo make_demo(int i) {
     return d;
 }
 
+=======
+>>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
 int main(int argc, char const *argv[]) 
 { 
     constexpr int a = 1;
     std::cout << "a: " << a << std::endl;
 
     int arr1[func1(1)];
+<<<<<<< HEAD
     std::cout << "arr1 size: " << sizeof(arr1)/sizeof(int) << std::endl;
+=======
+    std::cout << "arr size: " << sizeof(arr1)/sizeof(int) << std::endl;
+>>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
 
     constexpr auto add = [](int a, int b) constexpr {
         return a + b;
     };
     int arr2[add(1, 2)];
+<<<<<<< HEAD
     std::cout << "arr2 size: " << sizeof(arr2)/sizeof(int) << std::endl;
 
     int arr3[func2(1)];
@@ -364,10 +400,17 @@ int main(int argc, char const *argv[])
     
     static_assert(val > 0, "val must be greater than 0");
     static_assert(demo::b_ > 0, "demo::b_ must greater than 0");
+=======
+    std::cout << "arr size: " << sizeof(arr2)/sizeof(int) << std::endl;
+
+    int arr3[func2(1)];
+    std::cout << "arr size: " << sizeof(arr3)/sizeof(int) << std::endl;
+>>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
     return 0;
 }
 ```
 
+<<<<<<< HEAD
 ### constexpr_extension
 
 在C++17中，增加了constexpr lambda表达式，即可以在编译时对lambda表达式进行求值。对于所有lambda表达式，在条件允许的情况下，都会隐式声明为constexpr。另外constexpr对于类的静态对象也被赋予内联属性，不需要额外添加inline关键字。
@@ -605,10 +648,20 @@ switch(init; condition) {
 ```
 
 具体示例如下所示。
+=======
+## extend
+
+扩展的C++语法糖，包含if/switch语句带条件初始化、nullptr、结构化绑定、扩展的for表达式等。
+
+### if_switch_extend
+
+在C++17中，if和switch语句支持在条件判断之前进行初始化。这是通过在if或switch关键字后面直接添加一个初始化语句来实现的。
+>>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
 
 ```cpp
 #include <iostream>
 
+<<<<<<< HEAD
 int func1() {
     return 1;
 }
@@ -617,6 +670,8 @@ int func2() {
     return 2;
 }
 
+=======
+>>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
 int main(int argc, char const *argv[]) 
 {
     int b = 1;
@@ -626,6 +681,7 @@ int main(int argc, char const *argv[])
         std::cout << "a is greater than 0" << std::endl;
     }
 
+<<<<<<< HEAD
     // if/else if语句都支持条件初始化
     if (int a = func1(); a < 1) {
         std::cout << "a is 1"  << std::endl;
@@ -635,6 +691,8 @@ int main(int argc, char const *argv[])
         std::cout << "a is not 1 or 2" << std::endl;
     }
 
+=======
+>>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
     // switch语句带条件初始化
     switch (int a = b; a) {
         case 1:
@@ -679,6 +737,7 @@ int main(int argc, char const *argv[])
 
 ### structured_binding
 
+<<<<<<< HEAD
 在C++17中，引入了结构化绑定（Structured Binding）的概念。它允许你将一个复杂的表达式分解成多个独立的变量，从而更方便地访问和操作表达式的各个部分。支持结构化绑定的类型如下所示。
 
 - 结构体、位域格式结构体及特殊类。
@@ -696,13 +755,27 @@ int main(int argc, char const *argv[])
 另外C++20后，只要结构化绑定作用域支持直接访问类中的全部变量即可，不需要全部位公有成员变量；扩展支持场景如友元类、友元函数，继承类访问父类protected成员变量。
 
 具体示例如下所示。
+=======
+在C++17中，引入了结构化绑定（Structured Binding）的概念。它允许你将一个复杂的表达式分解成多个独立的变量，从而更方便地访问和操作表达式的各个部分。
+
+支持结构化绑定的类型。
+
+1. 结构体、位域格式的结构体和仅有公有成员变量的类
+2. 原生数组
+3. std::pair
+4. std::tuple
+5. std::array
+>>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
 
 ```cpp
 #include <iostream>
 #include <tuple>
 #include <array>
+<<<<<<< HEAD
 #include <vector>
 #include <map>
+=======
+>>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
 
 struct point {
     int x;
@@ -716,10 +789,13 @@ public:
     int y;
 };
 
+<<<<<<< HEAD
 class my_class2:public my_class {
     using my_class::my_class;
 };
 
+=======
+>>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
 union my_union {
     int x;
 
@@ -730,6 +806,7 @@ union my_union {
     } p;
 };
 
+<<<<<<< HEAD
 class tuple_demo {
 public:
     int x_{1};
@@ -784,6 +861,8 @@ namespace std {
     };
 }
 
+=======
+>>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
 int main(int argc, char const *argv[]) 
 {
     int arr1[3] = {1, 2, 3};
@@ -816,16 +895,20 @@ int main(int argc, char const *argv[])
     auto [x6, y6] = p2;
     std::cout << "x6: " << x6 << ", y6: " << y6 << std::endl;
 
+<<<<<<< HEAD
     // 支持继承的类，但所有变量需要在同一个类或者基类中
     my_class2 p3{1, 2};
     auto [x8, y8] = p3;
     std::cout << "x8: " << x8 << ", y8: " << y8 << std::endl;
 
+=======
+>>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
     // 位域支持结构化绑定
     my_union u1;
     u1.x = 0x1234;
     auto [x7, y7, z7] = u1.p;
     std::cout << "x7: " << x7 << ", y7: " << y7 << ", z7: " << z7 << std::endl;
+<<<<<<< HEAD
 
     // 通过结构化绑定遍历容器
     std::vector<point> vec = {{1, 2}, {3, 4}, {5, 6}};
@@ -927,12 +1010,29 @@ int main(int argc, char const *argv[])
     return 0;
 }
 ```
+=======
+    return 0;
+}
+```
+### for_extend
+
+扩展的for表达式（也称为范围-based for循环）是一种简化遍历容器（如数组、向量、列表等）的语法，其格式如下所示。
+
+```cpp
+for (declaration : range_expression) {
+    // 循环体
+}
+```
+
+相应代码如下所示。
+>>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
 
 ## lambda
 
 在C++中，lambda表达式是一种匿名函数，它允许你在需要函数对象的地方定义一个临时的函数。lambda表达式通常用于简化代码，特别是在需要传递函数作为参数的情况下。
 
 ```cpp
+<<<<<<< HEAD
 [capture list](parameters) specifiers exception -> return_type {
     body
 } 
@@ -1025,12 +1125,40 @@ int main(int argc, char const *argv[])
 3. lambda模板是C++20引入的特性，它允许在lambda表达式中使用模板参数，使得lambda可以接受任意类型的参数，实现类似模板函数的功能。
 
 关于上述说明，具体例程如下所示。
+=======
+[capture list](parameters) -> return_type {
+    // 函数体
+} 
+
+capture list: 捕获列表，用于捕获外部变量
+    [] 无捕获的lambda表达式
+    [=] 值捕获，lambda表达式通过值捕获所有外部变量
+    [&] 通过引用捕获所有外部变量的lambda表达式
+    [var] 只捕获变量var
+    [&var] 只捕获变量var的引用
+    [this] 捕获当前类中的this指针，按引用捕获
+    [*this] 捕获当前类中的this指针，按值捕获，值捕获默认定义为const(C++17)
+    [=, &var] 捕获所有外部变量的lambda表达式
+    [&, var] 捕获所有外部变量的lambda表达式，但是var是通过值捕获的
+```
+
+可以使用std::function对象来存储lambda表达式，另外从原理上，lambda基于函数对象(仿函数)来实现。
+
+泛型lambda表达式是C++14引入的特性，它允许在lambda表达式中使用auto占位符来表示参数类型，使得lambda可以接受不同类型的参数，实现类似函数模板的泛型功能。
+
+Lambda捕获初始化器是 C++14 引入的特性，它允许你在lambda捕获列表中对捕获的变量进行自定义初始化，还能创建新的局部变量供lambda函数体使用，即使这些变量在 lambda 外部并不存在。
+
+本节例程如下所示。
+>>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
 
 ```cpp
 #include <iostream>
 #include <vector>
 #include <algorithm>
+<<<<<<< HEAD
 #include <map>
+=======
+>>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
 
 class lambda_class
 {
@@ -1115,6 +1243,7 @@ int main(int argc, char const *argv[])
         std::cout << std::endl;
     };
     func1();
+<<<<<<< HEAD
    
     // C++20支持无状态lambda构造或者赋值
     auto greator = [](auto a, auto b) -> bool {
@@ -1129,12 +1258,15 @@ int main(int argc, char const *argv[])
         std::cout << key << ": " << value << std::endl;
     }
 
+=======
+>>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
     return 0;
 }
 ```
 
 ## literal
 
+<<<<<<< HEAD
 ### law_string
 
 原生字符串字面量（Raw String Literals）是C++11引入的一个特性，它允许你在字符串中包含特殊字符（如反斜杠和引号）而不需要进行转义。原生字符串字面量以R"( 开始，以 )"结束。在这两个符号之间的所有字符都被视为字符串的一部分，包括换行符和引号。
@@ -1145,6 +1277,11 @@ int main(int argc, char const *argv[])
 2. u前缀：表示UTF-8编码的字符串字面量（char16_t类型）。
 3. U前缀：表示UTF-32编码的字符串字面量（char32_t类型）。
 4. u8前缀：表示UTF-8编码的字符串字面量（char类型）。
+=======
+1. 原生字符串字面量
+
+原生字符串字面量（Raw String Literals）是C++11引入的一个特性，它允许你在字符串中包含特殊字符（如反斜杠和引号）而不需要进行转义。原生字符串字面量以 R"( 开始，以 )" 结束。在这两个符号之间的所有字符都被视为字符串的一部分，包括换行符和引号。
+>>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
 
 举例说明如下。
 
@@ -1161,6 +1298,7 @@ int main(int argc, char const *argv[])
         world!
     )";
     std::cout << str2 << std::endl;
+<<<<<<< HEAD
 
     char8_t char_1[] = u8"Hello, world!";
     char16_t char_2[] = u"Hello, world!";
@@ -1177,11 +1315,17 @@ int main(int argc, char const *argv[])
     std::cout << str_u32.length() << std::endl;
 
     std::wcout << char_4 << std::endl;
+=======
+>>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
     return 0;
 }
 ```
 
+<<<<<<< HEAD
 ### defined_literal
+=======
+2. 用户自定义字面量
+>>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
 
 用户可以自定义字面量（User-Defined Literals），这允许你为基本类型（如整数、浮点数、字符串等）定义新的后缀，从而创建自定义的字面量。
 对于字符串字面量，你可以定义一个自定义后缀来创建一个特定类型的对象。
@@ -1189,7 +1333,10 @@ int main(int argc, char const *argv[])
 ```cpp
 #include <iostream>
 #include <string>
+<<<<<<< HEAD
 #include <type_traits>
+=======
+>>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
 
 class MyString: public std::string
 {
@@ -1207,6 +1354,7 @@ MyString operator""_my(const char* str, size_t len)
 }
 
 template<char ...c>
+<<<<<<< HEAD
 MyString operator""_my() {
     MyString str("");
 
@@ -1265,12 +1413,24 @@ weight_with_g operator""_g(unsigned long long val) {
     return weight_with_g(val);
 }
 
+=======
+    MyString operator"" _my() {
+        MyString str("");
+
+        //折叠表达式
+        using unused = int[];
+        unused{(str.push_back(c), 0)...};
+        return str;
+    }
+
+>>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
 int main(int argc, char const *argv[])
 {
     "Hello, world!"_my.print();
 
     auto val = 123_my;
     val.print();
+<<<<<<< HEAD
 
     auto val_kg = weight_with_kg(64);
     std::cout << val_kg.get_length() << std::endl;
@@ -1284,11 +1444,17 @@ int main(int argc, char const *argv[])
 
     auto val_kg_g_2 = 64_kg + 123_g;
     std::cout << val_kg_g_2 << std::endl;
+=======
+>>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
     return 0;
 }
 ```
 
+<<<<<<< HEAD
 ### single_quote
+=======
+3. 单引号作为整数分隔符
+>>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
 
 在C++14及以后的版本中，单引号（'）可以用作整数和浮点数字面量的分隔符，以提高代码的可读性。这些分隔符不会影响数值本身，它们只是为了让数字更易于阅读。
 
@@ -1311,6 +1477,7 @@ int main(int argc, char const *argv[])
 
 ## static_assert
 
+<<<<<<< HEAD
 断言是C++本身提供的，用于检查代码中的逻辑错误的机制。基础的断言语法如下：
 
 ```cpp
@@ -1321,16 +1488,26 @@ assert(条件);
 运行时断言在运行时检查，引入性能损失。且无法携带额外的错误信息，只是直接中止程序，不利于后续分析，另外对于模板实例化的实现是在编译阶段完成，运行时断言也无法处理。
 
 C++引入静态断言（static_assert）这一编译时断言机制，用于在编译阶段检查某个条件是否为真。如果条件为假，编译器会产生一个错误信息，并且编译过程会失败。静态断言通常用于在编译时验证模板参数、常量表达式或其他编译时可确定的条件。
+=======
+静态断言（static_assert）是C++11引入的一个编译时断言机制，用于在编译阶段检查某个条件是否为真。如果条件为假，编译器会产生一个错误信息，并且编译过程会失败。静
+态断言通常用于在编译时验证模板参数、常量表达式或其他编译时可确定的条件。
+>>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
 
 静态断言的语法如下：
 
 ```cpp
+<<<<<<< HEAD
 // 静态断言
 static_assert(常量表达式, 可选的错误信息);
 ```
 
 静态断言在编译阶段检查，第一个参数必须是常量表达式，需要编译阶段确定值；第二个参数是可选的错误信息，用于在断言失败时提供更多的上下文信息，不存在则直接显示静态断言错误的位置。
 
+=======
+static_assert(条件, 错误信息);
+```
+
+>>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
 举例说明如下。
 
 ```cpp
@@ -1343,6 +1520,7 @@ void check_size() {
     std::cout << "Type size is within the limit." << std::endl;
 }
 
+<<<<<<< HEAD
 class A {};
 class B : public A {};
 
@@ -1352,6 +1530,8 @@ class E
     static_assert(std::is_base_of<R1, R2>::value, "R2 must be derived from R1");
 };
 
+=======
+>>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
 int main(int argc, char const *argv[])
 {
     static_assert(sizeof(int) == 4, "int must be 4 bytes");
@@ -1360,8 +1540,11 @@ int main(int argc, char const *argv[])
     check_size<char>();
     check_size<float>();
     
+<<<<<<< HEAD
     E<A, B> e;
     // E<B, A> e1;         // 编译失败，R2必须继承自R1
+=======
+>>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
     return 0;
 }
 ```
