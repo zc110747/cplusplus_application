@@ -21,6 +21,7 @@
 #include <algorithm>
 #include <string>
 #include <unistd.h>
+#include <vector>
 
 template<typename T>
 void show_container(T container_val, std::string qstring)

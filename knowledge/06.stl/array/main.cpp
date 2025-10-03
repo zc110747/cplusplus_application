@@ -21,6 +21,7 @@
 #include <algorithm>
 #include <string>
 #include <unistd.h>
+#include <vector>
 #include <numeric>
 
 template<typename T>

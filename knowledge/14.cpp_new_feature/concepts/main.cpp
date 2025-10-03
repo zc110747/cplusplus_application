@@ -21,6 +21,24 @@
 #include <concepts>
 #include <type_traits>
 
+namespace ENABLE_IF
+{
+    template <class T, class U = std::enable_if_t<std::is_integral_v<T>>>
+    struct X
+    {
+        T value;
+    };
+
+    int test(void)
+    {
+        X<int> x;
+        x.value = 10;
+        std::cout << "x.value: " << x.value << std::endl;
+
+        return 0;
+    }
+}
+
 namespace CONCEPTS
 {   
     // 基本定义concept
@@ -162,6 +180,8 @@ namespace REQUIRES
 
 int main() 
 {
+    ENABLE_IF::test();
+    
     CONCEPTS::test();
 
     REQUIRES::test();
