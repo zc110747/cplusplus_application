@@ -127,5 +127,10 @@ namespace <alias_name> = <namespace_name>;
 #include <iostream>
 
 namespace ns = std;
-ns::cout << "Hello, world!" << ns::endl;
+
+int main(int argc, char *argv[]) 
+{
+    ns::cout << "Hello, world!" << ns::endl;
+    return 0;
+}
 ```

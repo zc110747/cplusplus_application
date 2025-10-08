@@ -87,6 +87,7 @@ int main(void)
 
     Network net{"192.168.1.1", 8080};
     LOG_FATAL("{0}", net);
+
     return 0;
 }
 

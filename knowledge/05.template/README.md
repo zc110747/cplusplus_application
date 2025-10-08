@@ -612,8 +612,55 @@ int main(int argc, char* argv[]) {
 
 ### explicit_template
 
-外部模板（Explicit Template Instantiation）是C++中的一个特性，它允许程序员在一个编译单元中显式地实例化一个模板，
-而在其他编译单元中使用这个实例化的模板，而不需要再次实例化
+外部模板（Explicit Template Instantiation）是C++中的一个特性，它允许程序员在一个编译单元中显式地实例化一个模板，而在其他编译单元中使用这个实例化的模板，而不需要再次实例化
+
+```cpp
+#include <iostream>
+
+template <typename T>
+class MyClass {
+public:
+    MyClass(T value) : value_(value) {}
+    T getValue() const { return value_; }
+private:
+    T value_;
+};
+
+// 显式实例化
+template class MyClass<int>;
+
+int main(int argc, char* argv[]) 
+{
+    MyClass<int> obj(42);
+    std::cout << obj.getValue() << std::endl;
+    return 0;
+}
+```
+
+### enable_if
+
+enable_if/enable_if_t：用于在编译时根据条件选择是否启用某个函数或模板特化。通过std::enable_if_t可以在编译时根据条件选择是否启用某个函数或模板特化，而不是在运行时根据条件选择，配合SFINAE可以实现根据类型选择不同的函数重载或模板特化。
+
+```cpp
+#include <iostream>
+#include <type_traits>
+
+template <typename T>
+std::enable_if_t<std::is_integral_v<T>, void> print(T value) {
+    std::cout << "Integral value: " << value << std::endl;
+}
+
+template <typename T>
+std::enable_if_t<!std::is_integral_v<T>, void> print(T value) {
+    std::cout << "Non-integral value: " << value << std::endl;
+}
+
+int main(int argc, char* argv[]) {
+    print(42);      // 调用第一个print函数
+    print(3.14);    // 调用第二个print函数
+    return 0;
+}
+```
 
 ### metaprogramming
 

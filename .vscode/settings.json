@@ -94,5 +94,6 @@
         "string_view": "cpp"
     },
     "trae.tab.enableRename": false,
-    "trae.tab.enableAutoImport": false
+    "trae.tab.enableAutoImport": false,
+    "cmake.sourceDirectory": "C:/zc/cnb/cplusplus_project/learning_notes/modern_book"
 }

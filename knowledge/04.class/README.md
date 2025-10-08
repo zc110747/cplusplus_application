@@ -394,7 +394,6 @@ int main(int argc, char *argv[])
 }
 ```
 
-<<<<<<< HEAD
 关于删除构造函数和删除析构函数，其实现基础来自于C++的显示删除语法。在C++中，支持通过函数后面添加"= delete”来显式地禁止生成某类函数，可以用于普通函数，不过并没有具体意义，主要用于类中，可以指定限制类不支持某些操作，例如拷贝构造函数、移动构造函数、拷贝赋值运算符、移动赋值运算符、new运算符等。
 
 具体示例如下所示。
@@ -430,8 +429,6 @@ int main(int argc, char const *argv[])
 }
 ```
 
-=======
->>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
 ### this
 
 this指针是一个指向当前对象的指针，它在类的非静态成员函数中使用。this指针可以用于访问当前对象的成员变量和成员函数。如果了解过Python中的对象，就可以知道在对象函数接口中声明的self，指向当前对象；this指针和self功能很相似，是指向当前对象的指针，用于在成员函数内部访问对象的其它成员。
@@ -1548,6 +1545,34 @@ int main(int argc, char* argv[])
 
     demo d;
 
+    return 0;
+}
+```
+
+### class_default_operator
+
+类的默认比较函数，默认情况下，类的比较函数是按成员变量的顺序进行比较的。
+
+```cpp
+#include <iostream>
+
+class demo
+{
+public:
+    int i;
+    
+    friend bool operator==(demo, demo) = default;
+    friend bool operator!=(demo, demo) = default;
+};
+
+int main(int argc, char* argv[])
+{
+    demo d1{1};
+    demo d2{2};
+
+    std::cout << std::boolalpha;
+    std::cout << (d1 == d2) << std::endl; // false
+    std::cout << (d1 != d2) << std::endl; // true
     return 0;
 }
 ```

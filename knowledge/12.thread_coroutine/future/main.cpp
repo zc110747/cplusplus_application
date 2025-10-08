@@ -39,7 +39,6 @@ namespace ASYNC
         return true;
     }
 
-<<<<<<< HEAD
     class work
     {
     public:
@@ -61,8 +60,6 @@ namespace ASYNC
         return w.spawn();
     }
 
-=======
->>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
     int test(void)  
     {
         std::cout << "==================== ASYNC ====================" << std::endl;
@@ -75,12 +72,9 @@ namespace ASYNC
         std::future<bool> result2 = std::async(std::launch::async, is_prime, 17);
         std::cout << "异步任务的结果: " << result2.get() << std::endl;
 
-<<<<<<< HEAD
         std::future<int> result3 = foo(5);
         result3.wait();
         std::cout << "异步任务的结果: " << result3.get() << std::endl;
-=======
->>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
         return 0;
     }
 }
