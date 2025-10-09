@@ -856,10 +856,6 @@ iostream全称输入/输出流，主要处理键盘鼠标输入输出，并显�
 
 | 格式符 | 描述 |
 | --- | --- |
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 30b84540516477c29747dece63510e1e03010626
 | std::boolalpha | 将输入的数字转换为布尔值 |
 | std::showbase | 显示数值的进制前缀 |
 | std::showpoint | 显示小数点 |
@@ -884,33 +880,6 @@ iostream全称输入/输出流，主要处理键盘鼠标输入输出，并显�
 | std::right | 右对齐 |
 | std::hexfloat | 十六进制浮点数 |
 | std::defaultfloat | 默认浮点数格式 |
-<<<<<<< HEAD
-=======
-=======
-| boolalpha | 将输入的数字转换为布尔值 |
-| showbase | 显示数值的进制前缀 |
-| showpoint | 显示小数点 |
-| showpos | 显示正数 |
-| skipws | 忽略空白字符 |
-| unitbuf | 每次写入数据时刷新缓冲区 |
-| uppercase | 将输出的数字转换为大写 |
-| noboolalpha | 取消布尔值转换 |
-| noshowbase | 取消显示数值的进制前缀 |
-| noshowpoint | 取消显示小数点 |
-| noshowpos | 取消显示正数 |
-| noskipws | 取消忽略空白字符 |
-| nounitbuf | 取消每次写入数据时刷新缓冲区 |
-| nouppercase | 取消将输出的数字转换为大写 |
-| dec | 十进制 |
-| hex | 十六进制 |
-| oct | 八进制 |
-| fixed | 固定小数位数 |
-| scientific | 科学计数法 |
-| internal | 默认小数位数 |
-| left | 左对齐 |
-| right | 右对齐 |
->>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
->>>>>>> 30b84540516477c29747dece63510e1e03010626
 
 另外，std::ios::sync_with_stdio(bool sync)可以改变C++和C语言的输入输出同步方式。设置为true可以混用printf和cout，而不会出现缓冲区冲突(不过在实际产品中建议统一接口，不要混用)。
 
@@ -964,18 +933,9 @@ int main(int argc, char const *argv[])
 
     object obj;
     std::cout << obj << std::endl;
-<<<<<<< HEAD
 
     std::cout << std::hexfloat << 1.23456789 << std::endl;
     std::cout << std::defaultfloat << 1.23456789 << std::endl;
-=======
-<<<<<<< HEAD
-
-    std::cout << std::hexfloat << 1.23456789 << std::endl;
-    std::cout << std::defaultfloat << 1.23456789 << std::endl;
-=======
->>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
->>>>>>> 30b84540516477c29747dece63510e1e03010626
     return 0;
 }
 ```
@@ -1354,55 +1314,7 @@ tuple中支持一系列函数来进行元组操作，主要如下所示。
 | std::tie(t1, t2, ...) | 将多个参数绑定到一个元组中 |
 | std::ignore | 一个占位符，用于忽略元组中的元素，配合std::tie()使用 |
 
-<<<<<<< HEAD
 具体实例如下所示。
-=======
-<<<<<<< HEAD
-具体实例如下所示。
-
-```cpp
-#include <iostream>
-#include <tuple>
-
-int main(int argc, char const *argv[]) 
-{
-    std::tuple<int, double> t1;
-    std::cout << "tuple size: " << std::tuple_size<decltype(t1)>::value << std::endl;
-    std::cout << "t1:" << std::get<0>(t1) << ", " << std::get<1>(t1) << std::endl;
-
-    auto t2 = std::make_tuple(1, 2.5);
-    std::cout << "t2:" << std::get<0>(t2) << ", " << std::get<1>(t2) << std::endl;
-
-    auto t3 = std::forward_as_tuple(1, 2.5);
-    std::cout << "t3:" << std::get<0>(t3) << ", " << std::get<1>(t3) << std::endl;
-
-    auto t4 = std::tuple_cat(t1, t2);
-    std::cout << "tuple size: " << std::tuple_size<decltype(t4)>::value << std::endl;
-
-    int val1;
-    double val2;
-
-    // std::tie和std::ignore
-    std::tie(val1, val2) = t2;
-    std::cout << "tie:" << val1 << ", " << val2 << std::endl;
-
-    std::tie(val1, std::ignore) = t2;
-    std::cout << "tie:" << val1 << std::endl;
-
-    std::tie(std::ignore, val2) = t2;
-    std::cout << "tie:" << val2 << std::endl;
-    
-    // 结构化绑定
-    auto& [x, y] = t2;
-    std::cout << "auto:" << x << ", " << y << std::endl;
-    return 0;
-}
-```
-
-=======
->>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
-## apply
->>>>>>> 30b84540516477c29747dece63510e1e03010626
 
 ```cpp
 #include <iostream>
@@ -1461,15 +1373,7 @@ template< class F, tuple-like Tuple >
 constexpr decltype(auto) apply( F&& f, Tuple&& t ) noexcept(/* see below */);
 ```
 
-<<<<<<< HEAD
 具体示例如下所示。
-=======
-<<<<<<< HEAD
-具体示例如下所示。
-=======
-使用方法。
->>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
->>>>>>> 30b84540516477c29747dece63510e1e03010626
 
 ```cpp
 #include <tuple>
@@ -1560,14 +1464,7 @@ std::type_traits中常用的模板类和模板函数分类如下所示。
 | --- | --- |
 | std::is_abstract<T> | 判断类型T是否是抽象类型 |
 | std::is_const<T> | 判断类型T是否是const类型 |
-<<<<<<< HEAD
 | std::is_constant_evaluated<T> | 判断类型T是否在常量表达式中 |
-=======
-<<<<<<< HEAD
-| std::is_constant_evaluated<T> | 判断类型T是否在常量表达式中 |
-=======
->>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
->>>>>>> 30b84540516477c29747dece63510e1e03010626
 | std::is_empty<T> | 判断类型T是否是空类型 |
 | std::is_literal_type<T> | 判断类型T是否是字面量类型 |
 | std::is_pod<T> | 判断类型T是否是POD类型 |
@@ -1663,10 +1560,6 @@ std::type_traits中常用的模板类和模板函数分类如下所示。
 | std::enable_if<Cond, T> | 根据条件Cond来选择 T |
 | std::result_of<F(Args...)> | 获取函数F的返回类型 |
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 30b84540516477c29747dece63510e1e03010626
 具体示例如下所示。
 
 ```cpp
@@ -1704,11 +1597,6 @@ int main(int argc, char const *argv[])
 }
 ```
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 171775b3443edbb693d4aa0be5b9466005143b33
->>>>>>> 30b84540516477c29747dece63510e1e03010626
 ## utility
 
 utility提供了一些处理STL和STD的工具函数，主要包含如下所示。

@@ -6,13 +6,8 @@
 //      main.cpp
 //
 //  Purpose:
-<<<<<<< HEAD
 //      1. requires表达式定义和使用
 //      2. concept定义和使用
-=======
-//      1. concept定义和使用
-//      2. requires表达式定义和使用
->>>>>>> 30b84540516477c29747dece63510e1e03010626
 //
 // Author:
 //      @zc
@@ -21,98 +16,16 @@
 //      Version V1.0b1 Create.
 /////////////////////////////////////////////////////////////////////////////
 #include <iostream>
-<<<<<<< HEAD
 #include <type_traits>
 #include <concepts>
 #include <vector>
 #include <algorithm>
 #include <initializer_list>
-=======
-#include <vector>
-#include <algorithm>
-#include <concepts>
-#include <type_traits>
-
-namespace ENABLE_IF
-{
-    template <class T, class U = std::enable_if_t<std::is_integral_v<T>>>
-    struct X
-    {
-        T value;
-    };
-
-    int test(void)
-    {
-        X<int> x;
-        x.value = 10;
-        std::cout << "x.value: " << x.value << std::endl;
-
-        return 0;
-    }
-}
-
-namespace CONCEPTS
-{   
-    // 基本定义concept
-    template <typename T>
-    concept is_inter = std::is_integral_v<T>;
-
-    // 复合定义concept，调用基本定义concept并组合
-    template <typename T>
-    concept is_signed_inter = is_inter<T> && std::is_signed_v<T>;
-
-    // 自定义concept
-    template <typename T>
-    concept add_able = requires(T a, T b) {
-        { a + b } -> std::convertible_to<T>;
-    };
-
-    // 模板函数约束
-    template <is_signed_inter T>
-    T mul_int(T &a, T &b) {
-        return a * b;
-    }
-
-    template <add_able T>
-    T add(T &a, T &b) {
-        return a + b;
-    }
-
-    // 类模板约束
-    template <is_inter T>
-    class Interger
-    {
-    public:
-        Interger(T value) : m_value(value) {}
-        T get_value() const { return m_value; }
-    private:
-        T m_value;
-    };
-
-    int test(void)
-    {
-        int x = 5, y = 10;
-        
-        std::cout << "mul_int(x, y): " << mul_int<int>(x, y) << std::endl;
-
-        std::cout << "add(x, y): " << add<int>(x, y) << std::endl;
-
-        Interger<int> a(5);
-        std::cout << "a.get_value(): " << a.get_value() << std::endl;
-        return 0;
-    }
-}
->>>>>>> 30b84540516477c29747dece63510e1e03010626
 
 namespace REQUIRES
 {
     template <typename T>
-<<<<<<< HEAD
     requires requires(T a, T b) {
-=======
-    concept complex_concept = requires(T a, T b) {
-
->>>>>>> 30b84540516477c29747dece63510e1e03010626
         // 类型要求
         typename T::iterator;
         typename T::value_type;
@@ -127,13 +40,7 @@ namespace REQUIRES
         requires std::copy_constructible<T>;
         requires std::move_constructible<T>;
         requires sizeof(typename T::value_type) > 1;
-<<<<<<< HEAD
     }
-=======
-    };
-
-    template <complex_concept T>
->>>>>>> 30b84540516477c29747dece63510e1e03010626
     void show_container(T &container) {
         for (auto &item : container) {
             std::cout << item << " ";
@@ -142,17 +49,12 @@ namespace REQUIRES
     }
 
     // requires支持直接约束，也支持通过concept进行组合约束
-<<<<<<< HEAD
     constexpr bool bar() {
         return true;
     }
 
     template <typename T>
     requires (bar()) &&std::integral<T> && (sizeof(T) >= 4)
-=======
-    template <typename T>
-    requires std::integral<T> && (sizeof(T) >= 4)
->>>>>>> 30b84540516477c29747dece63510e1e03010626
     T max_value(T a, T b) {
         return (a > b) ? a : b;
     }
@@ -172,7 +74,6 @@ namespace REQUIRES
         std::cout << std::endl;
     }
 
-<<<<<<< HEAD
     // 容器增加concepts约束
     template<typename T>
     class demo {
@@ -367,8 +268,6 @@ namespace CONCEPTS
         }
     }
     
-=======
->>>>>>> 30b84540516477c29747dece63510e1e03010626
     template <typename T>
     concept is_numeric = std::integral<T> || std::floating_point<T>;
 
@@ -384,7 +283,6 @@ namespace CONCEPTS
         return a * a;
     }
 
-<<<<<<< HEAD
     // 约束auto类型
     template <typename T>
     concept limit_integral = std::is_integral_v<T>;
@@ -440,45 +338,15 @@ namespace CONCEPTS
 
         limit_iterator auto iter = v.begin();
         std::cout << "*iter: " << *iter << std::endl;
-=======
-    int test(void)
-    {
-        // vector<char> 不满足complex_concept，要求类型长度大于1
-
-        // vector<int> 满足complex_concept
-        std::vector<int> vec = {1, 2, 3, 4, 5};
-
-        // T = std::vector<int>
-        show_container(vec);
-
-        std::cout << "max_value(5, 10): " << max_value<int>(5, 10) << std::endl;
-
-        // T = std::vector<int>
-        process_container(vec);
-
-        // 限定square为is_arithmetic类型
-        std::cout << "square(5): " << square<int>(5) << std::endl;
->>>>>>> 30b84540516477c29747dece63510e1e03010626
         return 0;
     }
 }
 
-<<<<<<< HEAD
 int main(int argc, const char* argv[]) 
 {
     REQUIRES::test();
     
     CONCEPTS::test();
 
-=======
-int main() 
-{
-    ENABLE_IF::test();
-    
-    CONCEPTS::test();
-
-    REQUIRES::test();
-
->>>>>>> 30b84540516477c29747dece63510e1e03010626
     return 0;
 }

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # cpluspuls 2020~新特性
 
 本节中主要包含C++20~之后引入的新特性，按照功能划分为四大类，分别是概念和约束、范围和视图、module导入和协程应用；除上述特性外，还包含增加的特殊的功能模块，如std::formtat、std::span等，都将在本节进行介绍，具体如下所示。
@@ -230,24 +229,10 @@ int main(int argc, char const *argv[])
 ```
 
 ## coroutines
-=======
-# cpluspuls 2020~2023新特性
-
-关于g++的新特性，使用gcc 15.2版本进行测试。
-
-## concepts
-
-concepts和reguires是C++20引入的重要特性，用于描述模板类型是否符合某些条件的特性。其中concepts是一种用于描述类型要求的语法，而requires则是用于在模板定义中指定这些要求的关键字。
-
-## barrier
-
-std::barrier是C++23引入的标准库类，位于<barrier>头文件，用于在多线程环境中同步多个线程的执行。
->>>>>>> 30b84540516477c29747dece63510e1e03010626
 
 ## format
 
 std::format是C++20 引入的标准库函数，位于<format>头文件，用于实现类型安全且灵活的字符串格式化，替代传统的printf系列函数和std::stringstream。
-<<<<<<< HEAD
 
 ## latch
 
@@ -398,5 +383,3 @@ std::span可以配合其它函数使用，具体如下。
 | --- | --- |
 | std::as_bytes | 将span转换为字节span |
 | std::as_writable_bytes | 将span转换为可写字节span |
-=======
->>>>>>> 30b84540516477c29747dece63510e1e03010626

@@ -9,10 +9,7 @@
 # This is object should be build and will link to generate
 # the executables
 STD_VERSION = -std=c++23
-<<<<<<< HEAD
 CFLAGS += -fcoroutines
-=======
->>>>>>> 30b84540516477c29747dece63510e1e03010626
 
 objects = main.o
 
