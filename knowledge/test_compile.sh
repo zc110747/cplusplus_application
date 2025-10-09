@@ -1,4 +1,4 @@
-#!/bin/bash
+# !/bin/bash
 
 # 查找 knowledge 目录下所有的 Makefile 文件
 makefiles=$(find ./ -name "Makefile" -type f)
