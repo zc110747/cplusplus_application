@@ -21,6 +21,7 @@
 #include <algorithm>
 #include <string>
 #include <unistd.h>
+#include <vector>
 
 // 辅助模板,检测是否为std::unordered_multimap
 template<typename T, typename = std::enable_if_t<std::is_same<T, std::unordered_multimap<typename T::key_type, typename T::mapped_type>>::value>>

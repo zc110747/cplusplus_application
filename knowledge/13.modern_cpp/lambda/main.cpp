@@ -27,8 +27,8 @@ namespace LAMBDA_CAPTURE
     class lambda_class
     {
     private:
-        mutable int x{0};
-        mutable int y{0};
+        int x{0};
+        int y{0};
 
     public:
         void test(int a, int b) {
@@ -39,25 +39,28 @@ namespace LAMBDA_CAPTURE
             };
             v1();
 
-            // copy capture, this
+            // 值捕获，this指针
             auto v2 = [=, this] {
+                x = a;
                 std::cout << "x+y+a+b: " << x + y + a + b << std::endl;
             };
             v2();
 
-            // reference capture
+            // 引用捕获
             auto v3 = [&] {
+                y = a;
                 std::cout << "x+y+a+b: " << x + y + a + b << std::endl;
             };
             v3();
 
             // this capture
             auto v4 = [this] {
+                x = 1;
                 std::cout << x << " " << y << std::endl;
             };
             v4();
 
-            // parameter capture
+            // this值捕获
             auto v5 = [this, a, b] {
                 x = 5;
                 y = 3;
@@ -65,8 +68,8 @@ namespace LAMBDA_CAPTURE
             };
             v5();
 
-            // *this capture
-            auto v6 = [*this] {
+            // *this值捕获
+            auto v6 = [*this]() mutable {
                 x = 10;
                 y = 20;
                 std::cout << x << " " << y << std::endl;
@@ -151,6 +154,19 @@ namespace LAMBDA_CAPTURE
         int result = addTwo(3);
         std::cout << "Result: " << result << std::endl;
 
+        // 值捕获默认是const，不能修改捕获值
+        // mutable修饰符可以修改捕获值
+        auto func3 = [a](int x, int y) mutable -> int {
+            a += 1;
+            return a + x + y;
+        };
+        std::cout << "func3(1, 2): " << func3(1, 2) << std::endl;
+
+        // noexcept表示函数不抛出异常
+        auto func4 = [a](int x, int y) mutable noexcept(true) -> int {
+            return a * x + y;
+        };
+        std::cout << "func4(1, 2): " << func4(1, 2) << std::endl;
         return 0;
     }
 }

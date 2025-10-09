@@ -41,10 +41,16 @@ std::array它提供了固定大小的数组功能，它们保存按严格线性�
 - 格式
 
 ```cpp
-template < class T, size_t N > class array;
+// array 数组原型
+// T 为元素类型
+// N 为元素数量
+template<
+    class T,
+    std::size_t N
+> struct array;
 ```
 
-相关网址: <https://www.cplusplus.com/reference/array/array>
+相关网址: <https://en.cppreference.com/w/cpp/container/array.html>
 
 - 常用构造方法
 
@@ -96,10 +102,16 @@ std::deque它代表双端队列（double-ended queue）。双端队列是一种�
 - 格式
 
 ```cpp
-template < class T, class Alloc = allocator<T> > class deque;
+// deque 双端队列原型
+// T 为元素类型
+// Allocator 为分配器类型
+template<
+    class T,
+    class Allocator = std::allocator<T>
+> class deque;
 ```
 
-相关网址: <https://www.cplusplus.com/reference/deque/deque>
+相关网址: <https://en.cppreference.com/w/cpp/container/deque.html>
 
 - 常用构造方法
 
@@ -172,10 +184,16 @@ std::forward_list 它代表单向链表（singly linked list）。单向链表�
 - 格式
 
 ```cpp
-template < class T, class Alloc = allocator<T> > class forward_list;
+// forward_list 单向链表原型
+// T 为元素类型
+// Allocator 为分配器类型
+template<
+    class T,
+    class Allocator = std::allocator<T>
+> class forward_list;
 ```
 
-相关网址: <https://www.cplusplus.com/reference/forward_list/forward_list>
+相关网址: <https://en.cppreference.com/w/cpp/container/forward_list.html>
 
 - 常用构造方法
 
@@ -243,10 +261,16 @@ std::list是C++标准库中的一个容器类，它提供了一种双向链表�
 - 格式
 
 ```cpp
-template < class T, class Alloc = allocator<T> > class list;
+// list 链表原型
+// T 为元素类型
+// Allocator 为分配器类型
+template<
+    class T,
+    class Allocator = std::allocator<T>
+> class list;
 ```
 
-相关网址: <https://www.cplusplus.com/reference/list/list>
+相关网址: <https://en.cppreference.com/w/cpp/container/list.html>
 
 - 常用构造方法
 
@@ -321,14 +345,20 @@ std::map是C++ 标准库中的一个关联容器，它存储的元素是键值�
 - 格式
 
 ```cpp
-template < class Key,                                   // map::key_type           
-        class T,                                        // map::mapped_type           
-        class Compare = less<Key>,                      // map::key_compare           
-        class Alloc = allocator<pair<const Key,T>> >    // map::allocator_type
-class map;
+// map 映射原型
+// Key 为键的类型
+// T 为值类型
+// Compare 为比较函数
+// Allocator 为分配器类型
+template<
+    class Key,
+    class T,
+    class Compare = std::less<Key>,
+    class Allocator = std::allocator<std::pair<const Key, T>>
+> class map;
 ```
 
-相关网址: https://www.cplusplus.com/reference/map/map/
+相关网址: <https://en.cppreference.com/w/cpp/container/map.html>
 
 - 常用构造方法
 
@@ -409,19 +439,25 @@ std::map<int, int, decltype(funcomp)> c5(funcomp);
 
 ## multimap
 
-std::multimap 是C++标准库中的一个关联容器，它允许存储多个具有相同键的键值对。
+std::multimap是C++标准库中的一个关联容器，它允许存储多个具有相同键的键值对。
 
 - 格式
 
 ```cpp
-template < class Key,                                  // multimap::key_type           
-        class T,                                       // multimap::mapped_type           
-        class Compare = less<Key>,                     // multimap::key_compare           
-        class Alloc = allocator<pair<const Key,T> >    // multimap::allocator_type           
-      > class multimap; 
+// multimap 多相同键值映射原型
+// Key 为键的类型
+// T 为值类型
+// Compare 为比较函数
+// Allocator 为分配器类型
+template<
+    class Key,
+    class T,
+    class Compare = std::less<Key>,
+    class Allocator = std::allocator<std::pair<const Key, T>>
+> class multimap;
 ```
 
-相关网址: https://cplusplus.com/reference/map/multimap/
+相关网址: <https://en.cppreference.com/w/cpp/container/multimap.html>
 
 - 常用构造方法
 
@@ -504,13 +540,18 @@ std::multiset是按照特定顺序存储元素的容器，其中多个元素可�
 - 格式
 
 ```cpp
-template < class T,                     // multiset::key_type/value_type           
-        class Compare = less<T>,        // multiset::key_compare/value_compare           
-        class Alloc = allocator<T> >    // multiset::allocator_type           
-class multiset;
+// multiset 多相同值集合原型
+// Key 为键的类型
+// Compare 为比较函数
+// Allocator 为分配器类型
+template<
+    class Key,
+    class Compare = std::less<Key>,
+    class Allocator = std::allocator<Key>
+> class multiset;
 ```
 
-相关网址: https://cplusplus.com/reference/set/multiset/
+相关网址: <https://en.cppreference.com/w/cpp/container/multiset.html>
 
 - 常用构造方法
 
@@ -589,13 +630,18 @@ std::priority_queue是C++标准库中的一个容器适配器，它提供了一�
 - 格式
 
 ```cpp
-template <class T, 
-        class Container = vector<T>,  
-        class Compare = less<typename Container::value_type> > 
-class priority_queue;
+// priority_queue 优先队列原型
+// T 为元素类型
+// Container 为存储元素的容器类型
+// Compare 为比较函数
+template<
+    class T,
+    class Container = std::vector<T>,
+    class Compare = std::less<typename Container::value_type>
+> class priority_queue;
 ```
 
-相关网址：https://cplusplus.com/reference/queue/priority_queue/
+相关网址：<https://en.cppreference.com/w/cpp/container/priority_queue.html>
 
 - 常用构造方法
 
@@ -653,12 +699,16 @@ std::queue是C++ 标准库中的一个容器适配器，它提供了一种先进
 - 格式
 
 ```cpp
-template <class T, 
-        class Container = deque<T> > 
-class queue;
+// queue 队列原型
+// T 为元素类型
+// Container 为存储元素的容器类型
+template<
+    class T,
+    class Container = std::deque<T>
+> class queue;
 ```
 
-相关网址：https://cplusplus.com/reference/queue/queue/
+相关网址：<https://en.cppreference.com/w/cpp/container/queue.html>
 
 - 常用构造方法
 
@@ -702,13 +752,18 @@ std::set是按照特定顺序存储元素的容器，其中多个元素可以具
 - 格式
 
 ```cpp
-template < class T,          // set::key_type/value_type           
-        class Compare = less<T>,        // set::key_compare/value_compare           
-        class Alloc = allocator<T> >    // set::allocator_type
-class set;
+// set 集合原型
+// Key 为元素类型
+// Compare 为比较函数
+// Allocator 为分配器类型
+template<
+    class Key,
+    class Compare = std::less<Key>,
+    class Allocator = std::allocator<Key>
+> class set;
 ```
 
-相关网址: https://cplusplus.com/reference/set/set/
+相关网址：<https://en.cppreference.com/w/cpp/container/set.html>
 
 - 常用构造方法
 
@@ -787,10 +842,16 @@ std::stack是C++标准库中的一个容器适配器，它提供了一种后进�
 - 格式
 
 ```cpp
-template <class T, class Container = deque<T> > class stack;
+// stack 栈原型
+// T 为元素类型
+// Container 为存储元素的容器类型
+template<
+    class T,
+    class Container = std::deque<T>
+> class stack;
 ```
 
-相关网址: https://cplusplus.com/reference/stack/stack/
+相关网址：<https://en.cppreference.com/w/cpp/container/stack.html>
 
 - 常用构造方法
 
@@ -837,16 +898,22 @@ std::unordered_map是C++标准库中的一个关联容器，它提供了一种�
 - 格式
 
 ```cpp
-template < class Key,                                   // unordered_map::key_type           
-        class T,                                        // unordered_map::mapped_type           
-        class Hash = hash<Key>,                         // unordered_map::hasher           
-        class Pred = equal_to<Key>,                     // unordered_map::key_equal           
-        class Alloc = allocator< pair<const Key,T> >    // unordered_map::allocator_type           
-        > 
-class unordered_map;
+// unordered_map 映射原型
+// Key 为键的类型
+// T 为值类型
+// Hash 为哈希函数对象
+// KeyEqual 为键相等比较函数对象
+// Allocator 为分配器对象
+template<
+    class Key,
+    class T,
+    class Hash = std::hash<Key>,
+    class KeyEqual = std::equal_to<Key>,
+    class Allocator = std::allocator<std::pair<const Key, T>>
+> class unordered_map;
 ```
 
-相关网址: https://www.cplusplus.com/reference/unordered_map/unordered_map/
+相关网址: https://en.cppreference.com/w/cpp/container/unordered_map.html
 
 - 常用构造方法
 
@@ -922,16 +989,22 @@ std::unordered_multimap 是 C++ 标准库中的一个关联容器，它类似于
 - 格式
 
 ```cpp
-template < class Key,                   // unordered_multimap::key_type           
-        class T,                        // unordered_multimap::mapped_type           
-        class Hash = hash<Key>,         // unordered_multimap::hasher           
-        class Pred = equal_to<Key>,     // unordered_multimap::key_equal           
-        class Alloc = allocator< pair<const Key,T> >  // unordered_multimap::allocator_type           
-        > 
-class unordered_multimap;
+// unordered_multimap 映射原型
+// Key 为键的类型
+// T 为值类型
+// Hash 为哈希函数对象
+// KeyEqual 为键相等比较函数对象
+// Allocator 为分配器对象
+template<
+    class Key,
+    class T,
+    class Hash = std::hash<Key>,
+    class KeyEqual = std::equal_to<Key>,
+    class Allocator = std::allocator<std::pair<const Key, T>>
+> class unordered_multimap;
 ```
 
-相关网址：https://cplusplus.com/reference/unordered_map/unordered_multimap/
+相关网址：<https://en.cppreference.com/w/cpp/container/unordered_multimap.html>
 
 - 常用构造方法
 
@@ -1011,15 +1084,20 @@ std::unordered_multiset是C++标准库中的一个容器，它类似于std::unor
 - 格式
 
 ```cpp
-template < class Key,        // unordered_multiset::key_type/value_type           
-        class Hash = hash<Key>,            // unordered_multiset::hasher           
-        class Pred = equal_to<Key>,        // unordered_multiset::key_equal           
-        class Alloc = allocator<Key>       // unordered_multiset::allocator_type           
-        > 
-class unordered_multiset;
+// unordered_multiset 映射原型
+// Key 为键的类型
+// Hash 为哈希函数对象
+// KeyEqual 为键相等比较函数对象
+// Allocator 为分配器对象
+template<
+    class Key,
+    class Hash = std::hash<Key>,
+    class KeyEqual = std::equal_to<Key>,
+    class Allocator = std::allocator<Key>
+> class unordered_multiset;
 ```
 
-相关网址：https://cplusplus.com/reference/unordered_set/unordered_multiset/
+相关网址：<https://en.cppreference.com/w/cpp/container/unordered_multiset.html>
 
 - 常用构造方法
 
@@ -1094,15 +1172,20 @@ std::unordered_set 是 C++ 标准库中的一个容器，它提供了一种无�
 - 格式
 
 ```cpp
-template < class Key,        // unordered_multiset::key_type/value_type           
-        class Hash = hash<Key>,            // unordered_multiset::hasher           
-        class Pred = equal_to<Key>,        // unordered_multiset::key_equal           
-        class Alloc = allocator<Key>       // unordered_multiset::allocator_type           
-        > 
-class unordered_set;
+// unordered_set 映射原型
+// Key 为键的类型
+// Hash 为哈希函数对象
+// KeyEqual 为键相等比较函数对象
+// Allocator 为分配器对象
+template<
+    class Key,
+    class Hash = std::hash<Key>,
+    class KeyEqual = std::equal_to<Key>,
+    class Allocator = std::allocator<Key>
+> class unordered_set;
 ```
 
-相关网址：https://cplusplus.com/reference/unordered_set/unordered_set/
+相关网址：<https://en.cppreference.com/w/cpp/container/unordered_set.html>
 
 - 常用构造方法
 
@@ -1177,11 +1260,16 @@ std::vector是C++标准模板库（STL）中的一个容器，它表示一个动
 - 格式
 
 ```cpp
-template < class T, class Alloc = allocator<T> > 
-class vector; // generic template
+// vector 映射原型
+// T 为元素类型
+// Allocator 为分配器对象
+template<
+    class T,
+    class Allocator = std::allocator<T>
+> class vector;
 ```
 
-相关网址: https://www.cplusplus.com/reference/vector/vector/
+相关网址: <https://en.cppreference.com/w/cpp/container/vector.html>
 
 - 常用构造方法
 

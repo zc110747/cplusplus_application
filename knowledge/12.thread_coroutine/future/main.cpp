@@ -39,6 +39,27 @@ namespace ASYNC
         return true;
     }
 
+    class work
+    {
+    public:
+        work(int value) : value_(value) {};
+
+        std::future<int> spawn(void)
+        {
+            return std::async(std::launch::async, [=, tmp=*this] {
+                return tmp.value_;
+            });
+        }
+    private:
+        int value_;
+    };
+
+    std::future<int> foo(int value)
+    {
+        work w(value);
+        return w.spawn();
+    }
+
     int test(void)  
     {
         std::cout << "==================== ASYNC ====================" << std::endl;
@@ -51,6 +72,9 @@ namespace ASYNC
         std::future<bool> result2 = std::async(std::launch::async, is_prime, 17);
         std::cout << "异步任务的结果: " << result2.get() << std::endl;
 
+        std::future<int> result3 = foo(5);
+        result3.wait();
+        std::cout << "异步任务的结果: " << result3.get() << std::endl;
         return 0;
     }
 }

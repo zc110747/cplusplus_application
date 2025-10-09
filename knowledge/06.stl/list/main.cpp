@@ -22,6 +22,7 @@
 #include <string>
 #include <unistd.h>
 #include <numeric>
+#include <vector>
 
 template<typename T>
 bool comparsion(T first, T second) {

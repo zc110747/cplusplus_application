@@ -8,8 +8,10 @@
 
 # this place define the compile and flags, CC complie should be g++ and 
 # option could be add in place
+STD_VERSION ?= -std=c++20
 CC = $(CROSS_COMPILE)g++
-CFLAGS  += -std=c++2a -lpthread -lm -fconcepts $(gdef)
+
+CFLAGS += $(STD_VERSION) -lpthread -lm -fconcepts $(gdef)
 
 # this is the rule how to complie file with type .cpp to middle file .o 
 # then link the object and generate the executables.

@@ -132,6 +132,23 @@ namespace TUPLE_APPLY
         return a * b;
     };
 
+    // 重载 << 运算符，用于打印 tuple
+    template<typename... Ts>
+    std::ostream& operator<<(std::ostream& os, std::tuple<Ts...> const& theTuple)
+    {
+        std::apply
+        (
+            [&os](Ts const&... tupleArgs)
+            {
+                os << '[';
+                std::size_t n{0};
+                ((os << tupleArgs << (++n != sizeof...(Ts) ? ", " : "")), ...);
+                os << ']';
+            }, theTuple
+        );
+        return os;
+    }
+
     int test(void) 
     {
         // std::apply
@@ -158,6 +175,7 @@ namespace TUPLE_APPLY
         };
         std::apply(func, tuple_args);
 
+        std::cout << "tuple_args: " << tuple_args << std::endl;
         return 0;
     }
 }

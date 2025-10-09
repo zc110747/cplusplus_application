@@ -477,25 +477,100 @@ locale -a
 
 ## new
 
-new，delete, new[]，delete[]
+### new_operator
 
-new 操作符，它用于动态分配内存
-delete 操作符，它用于释放动态分配的内存
-new[] 操作符，它用于动态分配数组
-delete[] 操作符，它用于释放动态分配的数组
+new相关的操作符包含以下几个：new、delete、new[]、delete[]，具体说明如下所示。
 
-new 操作符的语法如下：
-pointer = new type;
-pointer = new type(initializer);
+- new操作符：用于动态申请内存，根据指定的类型和数量分配内存空间。
+- delete操作符：用于释放动态申请的内存，将内存返回给系统。
+- new[]操作符：用于动态申请数组内存，根据指定的类型和数量分配内存空间。
+- delete[]操作符：用于释放动态申请的数组内存，将内存返回给系统。
 
-delete 操作符的语法如下：
+new和delete操作的使用方法如下。
+
+```cpp
+// new申请单个类型的字符
+// 默认指针申请
+[pointer] = new type;
+
+// 初始化指针申请
+[pointer] = new type(initializer);
+
+// 释放指针申请
 delete pointer;
 
-new[] 操作符的语法如下：
-pointer = new type[size];
+// new申请数组类型的字符
+// 默认指针申请
+[pointer] = new type[size];
 
-delete[] 操作符的语法如下：
+// 初始化指针申请
+[pointer] = new type[size]{initializer};
+
+// 释放指针申请
 delete[] pointer;
+
+// new支持自定义内存管理
+[pointer] = new(memory) type;
+```
+
+具体示例如下所示。
+
+```cpp
+#include <memory>
+#include <iostream>
+#include <new>
+
+class demo {
+public:
+    demo() {
+        std::cout << "demo constructor" << std::endl;
+    }
+    ~demo() {
+        std::cout << "demo destructor" << std::endl;
+    }
+    void print() {
+        std::cout << "demo print" << std::endl;
+    }
+};
+
+int main(int argc, const char* argv[])
+{
+    int *p1 = new int;
+    *p1 = 100;
+    std::cout << "p1 value: " << *p1 << std::endl;
+    delete p1;
+
+    int *p2 = new int(10);
+    std::cout << "p2 value: " << *p2 << std::endl;
+    delete p2;
+
+    int *p3 = new int[2];
+    p3[0] = 100;
+    p3[1] = 200;
+    std::cout << "p3[0] value: " << p3[0] << std::endl;
+    std::cout << "p3[1] value: " << p3[1] << std::endl;
+    delete[] p3;
+
+    int *p4 = new int[2]{100, 200};
+    std::cout << "p4[0] value: " << p4[0] << std::endl;
+    std::cout << "p4[1] value: " << p4[1] << std::endl;
+    delete[] p4;
+
+    int *p5 = new(std::nothrow) int(100);
+    if (p5 == nullptr) {
+        std::cout << "new failed" << std::endl;
+    } else {
+        std::cout << "p5 value: " << *p5 << std::endl;
+        delete p5;
+    }
+
+    auto *ptr = malloc(sizeof(demo));
+    demo* pDemo1 = new(ptr) demo;   // 调用构造函数
+    pDemo1->print();
+    pDemo1->~demo();                // 调用析构函数
+    free(ptr);
+}
+```
 
 ## optional
 
@@ -781,28 +856,30 @@ iostream全称输入/输出流，主要处理键盘鼠标输入输出，并显�
 
 | 格式符 | 描述 |
 | --- | --- |
-| boolalpha | 将输入的数字转换为布尔值 |
-| showbase | 显示数值的进制前缀 |
-| showpoint | 显示小数点 |
-| showpos | 显示正数 |
-| skipws | 忽略空白字符 |
-| unitbuf | 每次写入数据时刷新缓冲区 |
-| uppercase | 将输出的数字转换为大写 |
-| noboolalpha | 取消布尔值转换 |
-| noshowbase | 取消显示数值的进制前缀 |
-| noshowpoint | 取消显示小数点 |
-| noshowpos | 取消显示正数 |
-| noskipws | 取消忽略空白字符 |
-| nounitbuf | 取消每次写入数据时刷新缓冲区 |
-| nouppercase | 取消将输出的数字转换为大写 |
-| dec | 十进制 |
-| hex | 十六进制 |
-| oct | 八进制 |
-| fixed | 固定小数位数 |
-| scientific | 科学计数法 |
-| internal | 默认小数位数 |
-| left | 左对齐 |
-| right | 右对齐 |
+| std::boolalpha | 将输入的数字转换为布尔值 |
+| std::showbase | 显示数值的进制前缀 |
+| std::showpoint | 显示小数点 |
+| std::showpos | 显示正数 |
+| std::skipws | 忽略空白字符 |
+| std::unitbuf | 每次写入数据时刷新缓冲区 |
+| std::uppercase | 将输出的数字转换为大写 |
+| std::noboolalpha | 取消布尔值转换 |
+| std::noshowbase | 取消显示数值的进制前缀 |
+| std::noshowpoint | 取消显示小数点 |
+| std::noshowpos | 取消显示正数 |
+| std::noskipws | 取消忽略空白字符 |
+| std::nounitbuf | 取消每次写入数据时刷新缓冲区 |
+| std::nouppercase | 取消将输出的数字转换为大写 |
+| std::dec | 十进制 |
+| std::hex | 十六进制 |
+| std::oct | 八进制 |
+| std::fixed | 固定小数位数 |
+| std::scientific | 科学计数法 |
+| std::internal | 默认小数位数 |
+| std::left | 左对齐 |
+| std::right | 右对齐 |
+| std::hexfloat | 十六进制浮点数 |
+| std::defaultfloat | 默认浮点数格式 |
 
 另外，std::ios::sync_with_stdio(bool sync)可以改变C++和C语言的输入输出同步方式。设置为true可以混用printf和cout，而不会出现缓冲区冲突(不过在实际产品中建议统一接口，不要混用)。
 
@@ -856,6 +933,9 @@ int main(int argc, char const *argv[])
 
     object obj;
     std::cout << obj << std::endl;
+
+    std::cout << std::hexfloat << 1.23456789 << std::endl;
+    std::cout << std::defaultfloat << 1.23456789 << std::endl;
     return 0;
 }
 ```
@@ -1234,9 +1314,50 @@ tuple中支持一系列函数来进行元组操作，主要如下所示。
 | std::tie(t1, t2, ...) | 将多个参数绑定到一个元组中 |
 | std::ignore | 一个占位符，用于忽略元组中的元素，配合std::tie()使用 |
 
-## apply
+具体实例如下所示。
 
-std::apply是C++17引入的一个模板函数，用于将一个元组中的元素应用到一个函数或lambda表达式中。
+```cpp
+#include <iostream>
+#include <tuple>
+
+int main(int argc, char const *argv[]) 
+{
+    std::tuple<int, double> t1;
+    std::cout << "tuple size: " << std::tuple_size<decltype(t1)>::value << std::endl;
+    std::cout << "t1:" << std::get<0>(t1) << ", " << std::get<1>(t1) << std::endl;
+
+    auto t2 = std::make_tuple(1, 2.5);
+    std::cout << "t2:" << std::get<0>(t2) << ", " << std::get<1>(t2) << std::endl;
+
+    auto t3 = std::forward_as_tuple(1, 2.5);
+    std::cout << "t3:" << std::get<0>(t3) << ", " << std::get<1>(t3) << std::endl;
+
+    auto t4 = std::tuple_cat(t1, t2);
+    std::cout << "tuple size: " << std::tuple_size<decltype(t4)>::value << std::endl;
+
+    int val1;
+    double val2;
+
+    // std::tie和std::ignore
+    std::tie(val1, val2) = t2;
+    std::cout << "tie:" << val1 << ", " << val2 << std::endl;
+
+    std::tie(val1, std::ignore) = t2;
+    std::cout << "tie:" << val1 << std::endl;
+
+    std::tie(std::ignore, val2) = t2;
+    std::cout << "tie:" << val2 << std::endl;
+    
+    // 结构化绑定
+    auto& [x, y] = t2;
+    std::cout << "auto:" << x << ", " << y << std::endl;
+    return 0;
+}
+```
+
+### apply
+
+std::apply是C++17引入的一个模板函数，位于`<tuple>`头文件中，用于将一个元组中的元素应用到一个函数或lambda表达式中。
 
 参考地址：https://en.cppreference.com/w/cpp/utility/apply.html
 
@@ -1252,7 +1373,7 @@ template< class F, tuple-like Tuple >
 constexpr decltype(auto) apply( F&& f, Tuple&& t ) noexcept(/* see below */);
 ```
 
-使用方法。
+具体示例如下所示。
 
 ```cpp
 #include <tuple>
@@ -1343,6 +1464,7 @@ std::type_traits中常用的模板类和模板函数分类如下所示。
 | --- | --- |
 | std::is_abstract<T> | 判断类型T是否是抽象类型 |
 | std::is_const<T> | 判断类型T是否是const类型 |
+| std::is_constant_evaluated<T> | 判断类型T是否在常量表达式中 |
 | std::is_empty<T> | 判断类型T是否是空类型 |
 | std::is_literal_type<T> | 判断类型T是否是字面量类型 |
 | std::is_pod<T> | 判断类型T是否是POD类型 |
@@ -1437,6 +1559,43 @@ std::type_traits中常用的模板类和模板函数分类如下所示。
 | std::conditional<Cond, T1, T2> | 根据条件Cond来选择 T1 或 T2 |
 | std::enable_if<Cond, T> | 根据条件Cond来选择 T |
 | std::result_of<F(Args...)> | 获取函数F的返回类型 |
+
+具体示例如下所示。
+
+```cpp
+#include <iostream>
+#include <cmath>
+#include <type_traits>
+
+constexpr double power(double x, int n) 
+{
+    if (std::is_constant_evaluated()) {
+        double res = 1.0;
+        for (int i = 0; i < n; ++i) {
+            res *= x;
+        }
+        return res;
+    } else {
+        return std::pow(x, n) + 1;
+    }
+}
+
+constexpr double val = power(1, 2);
+
+int main(int argc, char const *argv[])
+{
+    std::cout << "std::is_same<int, int>::value = " << std::is_same<int, int>::value << std::endl;
+    std::cout << "std::is_same<int, double>::value = " << std::is_same<int, double>::value << std::endl;
+
+    double a = 2.0;
+    int n = 3;
+    std::cout << "power(a, n) = " << power(a, n) << std::endl;
+
+    std::cout << val << std::endl;
+
+    return 0;
+}
+```
 
 ## utility
 

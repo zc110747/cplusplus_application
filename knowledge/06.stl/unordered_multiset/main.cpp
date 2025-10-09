@@ -22,6 +22,7 @@
 #include <string>
 #include <unistd.h>
 #include <numeric>
+#include <vector>
 
 template<typename T>
 void show_container(T container_val, std::string qstr)

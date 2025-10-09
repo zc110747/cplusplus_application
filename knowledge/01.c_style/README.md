@@ -173,10 +173,60 @@
 - 函数的默认参数允许你为函数的一个或多个参数提供默认值
   - 在C++中，函数的默认参数允许你为函数的一个或多个参数提供默认值。当调用该函数时，如果没有为这些参数提供值，那么将使用默认值
 
-- 文件定义
+- 预处理器
 
-1. \__func\__: 获取函数名称
-2. \__VA_ARGS\__: 获取可变参数
-3. \__FILE\__: 获取文件名称
-4. \__LINE\__: 获取行号
-5. \__DATE\__: 获取编译日期
+| 预处理器宏 | 说明 |
+| --- | --- |
+| \__func\__ | 获取函数名称 |
+| \__VA_ARGS\__ | 获取可变参数 |
+| \__FILE\__ | 获取文件名称 |
+| \__LINE\__ | 获取行号 |
+| \__DATE\__ | 获取编译日期 |
+| \__TIME\__ | 获取编译时间 |
+| \__STDC_VERSION\__ | 获取C++标准版本 |
+| \__INT_MAX\__ | 最大的有符号整数 |
+| \__INT_MIN\__ | 最小的有符号整数 |
+| \__UINT_MAX\__ | 最大的无符号整数 |
+| \__LONG_MAX\__ | 最大的有符号长整数 |
+| \__LONG_MIN\__ | 最小的有符号长整数 |
+| \__ULONG_MAX\__ | 最大的无符号长整数 |
+| \__has_include\__ | 检查是否包含头文件, C++17支持 |
+| \__has_feature\__ | 检查是否支持某个特性 |
+| \__has_extension\__ | 检查是否支持某个扩展 |
+| \__has_builtin\__ | 检查是否支持某个内建函数 |
+| \__has_attribute\__ | 检查是否支持某个属性 |
+
+具体示例如下所示。
+
+```cpp
+#include <climits>
+
+// c++ 17
+#if __has_include(<iostream>) 
+#include <iostream>
+#endif
+
+int main(int argc, char const *argv[])
+{
+    std::cout << "func: " << __func__ << std::endl;
+    std::cout << "file: " << __FILE__ << std::endl;
+    std::cout << "line: " << __LINE__ << std::endl;
+    std::cout << "date: " << __DATE__ << std::endl;
+    std::cout << "time: " << __TIME__ << std::endl;
+    std::cout << "__cplusplus: " << __cplusplus << std::endl;
+    std::cout << "int_max: " << INT_MAX << std::endl;
+    std::cout << "int_min: " << INT_MIN << std::endl;
+    std::cout << "uint_max: " << UINT_MAX << std::endl;
+    std::cout << "long_max: " << LONG_MAX << std::endl;
+    std::cout << "long_min: " << LONG_MIN << std::endl;
+    std::cout << "ulong_max: " << ULONG_MAX << std::endl;
+    std::cout << "has_feature: " << __has_feature(cpp17) << std::endl;
+    std::cout << "has_extension: " << __has_extension(cpp17) << std::endl;
+    std::cout << "has_builtin: " << __has_builtin(__builtin_abs) << std::endl;
+    std::cout << "has_attribute: " << __has_attribute(noreturn) << std::endl;
+
+    return 0;
+}
+```
+
+
