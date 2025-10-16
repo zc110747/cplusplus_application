@@ -2,24 +2,16 @@
 
 本节中主要包含C++20~之后引入的新特性，按照功能划分为四大类，分别是概念和约束、范围和视图、module导入和协程应用；除上述特性外，还包含增加的特殊的功能模块，如std::formtat、std::span等，都将在本节进行介绍，具体如下所示。
 
-- [barrier](#barrier)
 - [concepts](#concepts)
   - [requires](#requires)
   - [concept](#concept)
-<<<<<<< HEAD
-=======
 - [coroutines](#coroutines)
 - [format](#format)
 - [latch](#latch)
 - [module](#module)
 - [ranges](#ranges)
-- [source_location](#source_location)
 - [span](#span)
->>>>>>> 6d4de4e420b65a5489b112a5738b854b7c121dfb
-
-## barrier
-
-std::barrier是C++20引入的同步原语，定义在<barrier>头文件，用于多线程同步，确保一组线程在特定点同步，所有线程到达该点后才能继续执行后续操作。
+  - [mdspan](#mdspan)
 
 ## concepts
 
@@ -237,59 +229,6 @@ int main(int argc, char const *argv[])
 
 std::format是C++20 引入的标准库函数，位于<format>头文件，用于实现类型安全且灵活的字符串格式化，替代传统的printf系列函数和std::stringstream。
 
-## latch
-
-std::latch是C++20引入的同步原语，定义在<latch>头文件中，用于多线程同步，可让一组线程等待直到某个事件完成。它的工作模式是一次性的，一旦计数器减到0，就不能再重置。
-
-具体网址: https://en.cppreference.com/w/cpp/thread/latch.html
-
-其构造函数如下所示。
-
-```cpp
-// 构造函数，声明latch对象
-// expected: 初始化计数器的数值()
-constexpr explicit latch( std::ptrdiff_t expected );
-```
-
-支持方法如下。
-
-| 方法 | 说明 |
-| --- | --- |
-| count_down | 减少计数器的值 |
-| wait | 阻塞当前线程，直到计数器减到0 |
-| try_wait | 尝试等待计数器减到0，不阻塞线程 |
-| arrive_and_wait | 减少计数器的值并阻塞当前线程，直到计数器减到0 |
-| max | 返回计数器的最大值 |
-
-具体示例如下所示。
-
-```cpp
-int main(int argc, const char* argv[])
-{
-    constexpr int num_threads = 4;
-
-    std::latch work_done(num_threads);
-    std::vector<std::thread> threads;
-    for (int i = 0; i < num_threads; ++i) {
-        threads.emplace_back([&work_done]() {
-            std::cout << "线程 " << std::this_thread::get_id() << " 开始工作..." << std::endl;
-            std::this_thread::sleep_for(std::chrono::seconds(1));
-            std::cout << "线程 " << std::this_thread::get_id() << " 完成工作，计数器减 1。" << std::endl;
-            work_done.count_down();
-        });
-    }
-
-    work_done.wait();
-    std::cout << "所有线程工作完成，主线程继续执行。" << std::endl;
-
-    for (auto& t : threads) {
-        t.join();
-    }
-
-    return 0;
-}
-```
-
 ## module
 
 ## ranges
@@ -312,12 +251,8 @@ ranges 库还引入了一系列新的算法，这些算法可以直接作用于�
 
 4. ranges 库引入了管道操作符（|），它允许你将多个视图和算法组合在一起，形成一个操作链。管道操作符使得代码更加简洁和易于理解。
 
-## source_location
-
 ## span
 
-<<<<<<< HEAD
-=======
 span是C++20引入的一个容器视图类，它提供了一种轻量级的、非拥有的方式来访问连续的对象序列，用于处理动态大小和静态大小数组。span提供了与数组相关的操作，如访问元素、获取大小和范围。span与原始的数组结构具有相同的内存地址，因此可以通过修改span来修改原始数据，这样就扩展了数组的访问。
 
 其结构原型如下所示。
@@ -388,4 +323,8 @@ std::span可以配合其它函数使用，具体如下。
 | --- | --- |
 | std::as_bytes | 将span转换为字节span |
 | std::as_writable_bytes | 将span转换为可写字节span |
->>>>>>> 6d4de4e420b65a5489b112a5738b854b7c121dfb
+
+### mdspan
+
+mdspan是C++23引入的一个容器视图类，它提供了一种轻量级的、非拥有的方式来访问多维连续的对象序列，用于处理动态大小和静态大小数组。mdspan提供了与数组相关的操作，如访问元素、获取大小和范围。mdspan与原始的数组结构具有相同的内存地址，因此可以通过修改mdspan来修改原始数据，这样就扩展了数组的访问。
+

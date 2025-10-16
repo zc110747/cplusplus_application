@@ -20,9 +20,76 @@
 #include <iostream>
 #include <ostream>
 #include <thread>
+#include <algorithm>
+#include <numeric>
 #include <functional>
+#include <string>
 
-namespace FUNCTIONAL_PROCESS
+namespace FUNCTIONAL_BASE
+{
+    int test(void) 
+    {
+        std::cout << "============= FUNCTIONAL_BASE =============" << std::endl;
+        std::vector<int> v1 = {1, 2, 3, 4, 5};
+
+        // plus、minus
+        std::plus<int> plus;
+        int ret = plus(1, 2);
+        std::cout << "plus: " << ret << std::endl;
+
+        std::minus<int> minus;
+        ret = minus(1, 2);
+        std::cout << "minus: " << ret << std::endl;
+
+        ret = std::reduce(std::begin(v1), std::end(v1), 0, std::plus<>());
+        std::cout << "reduce: " << ret << std::endl;
+
+        std::modulus<int> modulus;
+        ret = modulus(1, 2);
+        std::cout << "modulus: " << ret << std::endl;
+
+        std::equal_to<int> equal_to;
+        ret = equal_to(1, 2);
+        std::cout << "equal_to: " << ret << std::endl;
+
+        std::logical_or<int> logical_or;
+        std::cout << std::boolalpha;
+        std::cout << "logical_or: " << logical_or(1, 2) << std::endl;
+
+        // not_fn
+        std::cout << "not_fn(equal_to): " << std::not_fn(logical_or)(1, 2) << std::endl;
+
+        // identity
+        std::vector<int> numbers = {1, 2, 3, 4, 5};
+        auto num_identity = std::identity{}(numbers);
+        for (auto &n : num_identity) {
+            std::cout << n << " ";
+        }
+        std::cout << std::endl;
+
+        // hash
+        ret = std::hash<std::string>{}("hello");
+        std::cout << "hash: " << ret << std::endl;
+
+        // bind
+        // std::placeholders::_1 表示占位符，用于指定在调用
+        auto func = [](int a, int &b, int &c) {
+            b = 1;
+            c = 2;
+            std::cout << a << " " << b << " " << c << std::endl;
+        };
+        int val1 = 0, val2 = 0;
+        auto bind_func = std::bind(func, val1, std::ref(val2), std::placeholders::_1);
+
+        bind_func(val1);
+        std::cout << "val1: " << val1 << std::endl;
+        std::cout << "val2: " << val2 << std::endl;
+
+        return 0; 
+    }
+}
+
+namespace STD_FUNCTION
 {
     int func_add(int a, int b) 
     {
@@ -64,7 +131,7 @@ namespace FUNCTIONAL_PROCESS
 
     int test(void) 
     {
-        std::cout << "============= FUNCTIONAL_PROCESS =============" << std::endl;
+        std::cout << "============= STD_FUNCTION =============" << std::endl;
 
         std::function<int(int, int)> func = func_add;
         int ret = func(1, 2);
@@ -223,10 +290,12 @@ namespace INVOKE_PROCESS
 
 int main(int argc, char* argv[])
 {
-    FUNCTIONAL_PROCESS::test();
+    FUNCTIONAL_BASE::test();
 
-    BIND_PROCESS::test();
+    // STD_FUNCTION::test();
 
-    INVOKE_PROCESS::test();
+    // BIND_PROCESS::test();
+
+    // INVOKE_PROCESS::test();
     return 0;
 }

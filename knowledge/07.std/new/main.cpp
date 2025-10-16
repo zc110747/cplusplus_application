@@ -224,19 +224,19 @@ namespace NEW_REDEFINE
     class demo{
     public:
         demo() {
-            std::cout<<"demo()"<<std::endl;
+            std::cout << "demo()" << std::endl;
         }
         ~demo() {
-            std::cout<<"~demo"<<std::endl;
+            std::cout << "~demo()" << std::endl;
         }
 
         void* operator new(size_t size) {
-            std::cout<<"new demo"<<std::endl;
+            std::cout << "new demo" << std::endl;
             return ::operator new(size);
         }
 
         void operator delete(demo *ptr, std::destroying_delete_t) {
-            std::cout<<"delete demo"<<std::endl;
+            std::cout << "delete demo" << std::endl;
             ::operator delete(ptr);
         }
     };

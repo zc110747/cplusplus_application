@@ -30,34 +30,51 @@ std::optional<int> find_value(int value)
 
 int main(int argc, char *argv[]) 
 {
-    std::optional<int> opt_1;
-    std::optional<int> opt_2 = 42;
-
-    // has_value
-    if (opt_1.has_value()) {
-        std::cout << "opt_1 has value: " << opt_1.value() << std::endl;
+    std::optional<int> opt = find_value(46);
+    
+    // has_value、value
+    // operator*、operator->
+    if (opt.has_value()) {
+        std::cout << "opt has value: " << opt.value() << std::endl;
+        std::cout << "opt:" << *opt << std::endl;
+        std::cout << "opt->:" << *(opt.operator->()) << std::endl;
     } else {
-        std::cout << "opt_1 has no value" << std::endl;
+        std::cout << "opt has no value" << std::endl;
     }
 
-    //value
-    if (opt_2.has_value()) {
-        std::cout << "opt_2 has value: " << opt_2.value() << std::endl;
-    } else {
-        std::cout << "opt_2 has no value" << std::endl;
-    }
+    // value_or
+    opt = find_value(42);
+    std::cout << "opt has value: " << opt.value_or(-1) << std::endl;
 
-    //vlaue_or
+    std::optional<int> opt_1{42};
+    
+    // and_then
+    std::cout << "opt_1:" << opt_1.and_then([](int value) -> std::optional<int> { 
+        return value * 2; 
+    }).value_or(0) << std::endl;
+
+    // transform
+    std::cout << "opt_1:" << opt_1.transform([](int value) -> int { 
+        return value * 2; 
+    }).value_or(0) << std::endl;
+
+    // or_else
+    std::cout << "opt_1:" << opt_1.or_else([]() -> std::optional<int> {
+        std::cout << "Valueless: ";
+        return std::optional<int>{0};
+    }).value_or(0) << std::endl;
+
+    // swap
+    std::optional<int> opt_2{std::nullopt};
+    opt_1.swap(opt_2);
     std::cout << "opt_1:" << opt_1.value_or(0) << std::endl;
     std::cout << "opt_2:" << opt_2.value_or(0) << std::endl;
 
-    opt_1.swap(opt_2);
-    std::cout << "opt_1:" <<  opt_1.value_or(0) << std::endl;
-
-    //reset
+    // reset
     opt_2.reset();
+    std::cout << "opt_2:" << opt_2.value_or(0) << std::endl;
 
-    //emplace
+    // emplace
     opt_2.emplace(51);
     std::cout << "opt_2:" << opt_2.value_or(0) << std::endl;
 

@@ -16,76 +16,239 @@
 //      Version V1.0b1 Create.
 /////////////////////////////////////////////////////////////////////////////
 #include <iostream>
-#include <string>
-#include <memory>
 #include <thread>
-#include <chrono>    // std::chrono::seconds
-#include <mutex>
-#include <unistd.h>
-#include <ctime>
+#include <chrono>
 #include <shared_mutex>
 #include <vector>
 
 namespace SHARD_MUTEX
 {
-    std::shared_mutex shared_mutex_1;
-    int val_ = 0;
-    
-    void read_thread(void)
+    class demo
     {
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-        std::shared_lock<std::shared_mutex> lock(shared_mutex_1);
-        std::cout << "read 1 val: " << val_ << std::endl;
-    }
+    public:
+        demo() = default;
+        ~demo() = default;
 
-    void read_thread_2(void)
-    {
-        for (int i = 0; i < 10; i++) {
-            shared_mutex_1.lock_shared();       // lock shared，允许读操作同时进行
-            std::cout << "read 2 val: " << val_ << std::endl;
-            shared_mutex_1.unlock_shared();
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
-            std::this_thread::yield();
+        void show_val(void)
+        {
+            // lock shared、unlock_shared
+            smtx_.lock_shared();       // lock shared，允许读操作同时进行
+            std::cout << "read val: " << val_ << std::endl;
+            smtx_.unlock_shared();
         }
-    }
 
-    void write_thread(void)
-    {
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        std::unique_lock<std::shared_mutex> lock(shared_mutex_1);
-        val_++;
-    }
+        void increment(void)
+        {  
+            // lock、unlock
+            smtx_.lock();
+            val_++;
+            smtx_.unlock();
+        }
 
-    void write_thread_2(void)
-    {
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
-        shared_mutex_1.lock();       // lock unique，独占访问
-        val_++;
-        shared_mutex_1.unlock();
-    }
+        void reset(void)
+        {   
+            // try_lock
+            if(smtx_.try_lock())
+            {
+                val_ = 0;
+                smtx_.unlock();
+            }
+        }
+
+        int get(void)
+        {   
+            // lock shared、unlock_shared
+            smtx_.lock_shared();       // lock shared，允许读操作同时进行
+            int val = val_;
+            smtx_.unlock_shared();
+            return val;
+        }
+
+    private:
+        /// @brief val_
+        /// @brief 共享变量val_，多个线程可以同时读取
+        int val_{0};
+
+        /// @brief smtx_
+        /// @brief 共享互斥锁smtx_，用于保护val_
+        std::shared_mutex smtx_;
+    };
 
     int test(void) 
     {
-        std::cout << "================= Shared Mutex ===================" << std::endl;
+        std::cout << "================= SHARD_MUTEX ===================" << std::endl;
         std::vector<std::thread> threads;
+        demo d1;
 
-        for (int i = 0; i < 10; i++) {
-            threads.push_back(std::thread(write_thread));
+        for (int i = 0; i < 5; i++) {
+            threads.push_back(std::thread(&demo::increment, &d1));
+            threads.push_back(std::thread(&demo::show_val, &d1));
         }
-        threads.push_back(std::thread(read_thread));
-        threads.push_back(std::thread(write_thread_2));
-        threads.push_back(std::thread(read_thread_2));
 
+        std::cout << "get: " << d1.get() << std::endl;
         for (auto& thread : threads) {
             thread.join();
         }
+
+        std::cout << "get: " << d1.get() << std::endl;
+        d1.reset();
+        std::cout << "reset val: " << d1.get() << std::endl;
         return 0;
     }
 }
 
+namespace SHARD_MUTEX_RAII
+{ 
+    class demo
+    {
+    public:
+        demo() = default;
+        ~demo() = default;
+
+        void show_val(void)
+        {
+            std::shared_lock<std::shared_mutex> lck(smtx_); //shared_lock，允许读操作同时进行
+            std::cout << "read val: " << val_ << std::endl;
+        }
+
+        void increment(void)
+        {  
+            std::lock_guard<std::shared_mutex> lck(smtx_); // lock_guard，自动lock、unlock
+            val_++;
+        }
+
+        void reset(void)
+        {   
+            // try_lock
+            if(smtx_.try_lock())
+            {
+                val_ = 0;
+                smtx_.unlock();
+            }
+        }
+
+        int get(void)
+        {   
+            std::shared_lock<std::shared_mutex> lck(smtx_);
+            int val = val_;
+            return val;
+        }
+
+    private:
+        /// @brief val_
+        /// @brief 共享变量val_，多个线程可以同时读取
+        int val_{0};
+
+        /// @brief smtx_
+        /// @brief 共享互斥锁smtx_，用于保护val_
+        std::shared_mutex smtx_;
+    };
+
+    int test(void) 
+    {
+        std::cout << "================= SHARD_MUTEX_RAII ===================" << std::endl;
+        std::vector<std::thread> threads;
+        demo d1;
+
+        for (int i = 0; i < 5; i++) {
+            threads.push_back(std::thread(&demo::increment, &d1));
+            threads.push_back(std::thread(&demo::show_val, &d1));
+        }
+
+        std::cout << "get: " << d1.get() << std::endl;
+        for (auto& thread : threads) {
+            thread.join();
+        }
+
+        std::cout << "get: " << d1.get() << std::endl;
+        d1.reset();
+        std::cout << "reset val: " << d1.get() << std::endl;
+        return 0;
+    }    
+}
+
+namespace SHARD_TIME_MUTEX
+{
+    class demo
+    {
+    public:
+        demo() = default;
+        ~demo() = default;
+
+        void show_val(void)
+        {
+            if (smtx_.try_lock_shared_for(std::chrono::seconds(1)))
+            {
+                std::cout << "read val: " << val_ << std::endl;
+                smtx_.unlock_shared();
+            }
+        }
+
+        void increment(void)
+        {  
+            if (smtx_.try_lock_for(std::chrono::seconds(1)))
+            {
+                val_++;
+                smtx_.unlock();
+            }
+        }
+
+        void reset(void)
+        {   
+            // try_lock
+            if(smtx_.try_lock())
+            {
+                val_ = 0;
+                smtx_.unlock();
+            }
+        }
+
+        int get(void)
+        {   
+            std::shared_lock<std::shared_timed_mutex> lck(smtx_);
+            int val = val_;
+            return val;
+        }
+
+    private:
+        /// @brief val_
+        /// @brief 共享变量val_，多个线程可以同时读取
+        int val_{0};
+
+        /// @brief smtx_
+        /// @brief 共享互斥锁smtx_，用于保护val_
+        std::shared_timed_mutex smtx_;
+    };
+
+    int test(void) 
+    {
+        std::cout << "================= SHARD_TIME_MUTEX ===================" << std::endl;
+        std::vector<std::thread> threads;
+        demo d1;
+
+        for (int i = 0; i < 5; i++) {
+            threads.push_back(std::thread(&demo::increment, &d1));
+            threads.push_back(std::thread(&demo::show_val, &d1));
+        }
+
+        std::cout << "get: " << d1.get() << std::endl;
+        for (auto& thread : threads) {
+            thread.join();
+        }
+
+        std::cout << "get: " << d1.get() << std::endl;
+        d1.reset();
+        std::cout << "reset val: " << d1.get() << std::endl;
+        return 0;
+    }
+}
 int main(int argc, const char *argv[])
 {
     SHARD_MUTEX::test();
+
+    SHARD_MUTEX_RAII::test();
+
+    SHARD_TIME_MUTEX::test();
 
     return 0;
 }

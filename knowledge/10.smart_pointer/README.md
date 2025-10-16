@@ -1,10 +1,12 @@
 # smart_point
 
-智能指针是C++中的一种特殊类型的指针，它提供了自动内存管理的功能。智能指针通过在对象不再被使用时自动释放其所指向的内存，从而避免了内存泄漏的问题。C++标准库提供了三种主要的智能指针：unique_ptr、shared_ptr和weak_ptr。
+智能指针是C++中的一种特殊类型的指针，它提供了自动内存管理的功能。智能指针通过在对象不再被使用时自动释放其所指向的内存，从而避免了内存泄漏的问题。C++在头文件`<memory>`中提供了三种主要的智能指针，分别是unique_ptr、shared_ptr和weak_ptr。
 
 - [std::unique_ptr](#unique_ptr)
 - [std::shared_ptr](#shared_ptr)
 - [std::weak_ptr](#weak_ptr)
+
+memory头文件可参考网址: <https://en.cppreference.com/w/cpp/header/memory.html>
 
 ## unique_ptr
 
@@ -12,14 +14,16 @@ unique_ptr是一种独占所有权的智能指针，它确保同一时间只有�
 
 unique_ptr的主要特点如下：
 
-1. 独占所有权：unique_ptr确保同一时间只有一个unique_ptr指向某个对象，避免了多个指针同时修改同一块内存的问题。
-2. 自动内存管理：当unique_ptr被销毁时，它所指向的对象也会被自动删除，避免了内存泄漏。
-3. 不支持复制操作：unique_ptr不支持复制操作，防止了多个指针指向同一个对象的问题。
-4. 支持移动操作：可以通过std::move将unique_ptr的所有权转移给另一个unique_ptr，避免了复制操作的性能问题。
+- 独占所有权：unique_ptr确保同一时间只有一个unique_ptr指向某个对象，避免了多个指针同时修改同一块内存的问题。
+- 自动内存管理：当unique_ptr被销毁时，它所指向的对象也会被自动删除，避免了内存泄漏。
+- 不支持复制操作：unique_ptr不支持复制操作，防止了多个指针指向同一个对象的问题。
+- 支持移动操作：可以通过std::move将unique_ptr的所有权转移给另一个unique_ptr，避免了复制操作的性能问题。
 
 当unique_ptr被销毁时，它所指向的对象也会被自动删除。unique_ptr不支持复制操作，但可以通过std::move进行所有权的转移。
 
 **注: std::make_unique是创建std::unique_ptr实例的推荐方式。**
+
+具体示例如下所示。
 
 ```cpp
 #include <iostream>
@@ -84,6 +88,8 @@ shared_ptr的主要特点如下：
 4. 线程安全：shared_ptr在多线程环境下是线程安全的，多个线程可以同时访问和修改shared_ptr指向的对象。
 
 **注: std::make_shared是创建std::shared_ptr实例的推荐方式。**
+
+具体示例如下所示。
 
 ```cpp
 #include <iostream>
@@ -150,7 +156,7 @@ weak_ptr的主要特点如下：
 3. 过期检测：weak_ptr可以检测所指向的对象是否已过期，避免访问已被删除的对象。
 4. 转换为shared_ptr：可以通过调用lock()方法将weak_ptr转换为shared_ptr，以获取对象的所有权。
 
-具体示例如下。
+具体示例如下所示。
 
 ```cpp
 #include <iostream>

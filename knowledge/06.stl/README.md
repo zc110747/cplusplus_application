@@ -6,6 +6,8 @@ STL（Standard Template Library）是C++标准库的一部分，它基于templat
 
 - [std::array](#array)
 - [std::deque](#deque)
+- [std::flat_map](#flat_map)
+- [std::flat_set](#flat_set)
 - [std::forward_list](#forward_list)
 - [std::list](#list)
 - [std::map](#map)
@@ -38,6 +40,8 @@ STL（Standard Template Library）是C++标准库的一部分，它基于templat
 
 std::array它提供了固定大小的数组功能，它们保存按严格线性序列排序的特定数量的元素。
 
+std::array参考网址: <https://en.cppreference.com/w/cpp/container/array.html>
+
 - 格式
 
 ```cpp
@@ -49,8 +53,6 @@ template<
     std::size_t N
 > struct array;
 ```
-
-相关网址: <https://en.cppreference.com/w/cpp/container/array.html>
 
 - 常用构造方法
 
@@ -99,6 +101,8 @@ std::array<int, 5> arr_3(arr_1);
 
 std::deque它代表双端队列（double-ended queue）。双端队列是一种序列容器，允许在两端（前端和后端）快速插入和删除元素。
 
+std::deque参考网址: <https://en.cppreference.com/w/cpp/container/deque.html>
+
 - 格式
 
 ```cpp
@@ -110,8 +114,6 @@ template<
     class Allocator = std::allocator<T>
 > class deque;
 ```
-
-相关网址: <https://en.cppreference.com/w/cpp/container/deque.html>
 
 - 常用构造方法
 
@@ -177,9 +179,23 @@ std::deque<int> c5(2, 3);
 
 详细测试代码见: [deque验证代码](./deque/main.cpp)
 
+## flat_map
+
+std::flat_map代表有序关联容器（ordered associative container），存储键值对，按键进行排序。
+
+std::flat_map参考网址: <https://en.cppreference.com/w/cpp/container/flat_map.html>
+
+## flat_set
+
+std::flat_set 它代表有序关联容器（ordered associative container），存储唯一的元素，按键进行排序。
+
+std::flat_set参考网址: <https://en.cppreference.com/w/cpp/container/flat_set.html>  
+
 ## forward_list
 
 std::forward_list 它代表单向链表（singly linked list）。单向链表是一种线性数据结构，其中每个元素（节点）包含一个值和指向下一个元素的指针。
+
+std::forward_list参考网址: <https://en.cppreference.com/w/cpp/container/forward_list.html>
 
 - 格式
 
@@ -192,8 +208,6 @@ template<
     class Allocator = std::allocator<T>
 > class forward_list;
 ```
-
-相关网址: <https://en.cppreference.com/w/cpp/container/forward_list.html>
 
 - 常用构造方法
 
@@ -258,6 +272,8 @@ std::forward_list<int> c5(2, 3);
 
 std::list是C++标准库中的一个容器类，它提供了一种双向链表的数据结构。与std::forward_list不同，std::list允许在链表的任何位置进行插入和删除操作，并且提供了更多的成员函数和算法。
 
+std::list参考网址: <https://en.cppreference.com/w/cpp/container/list.html>
+
 - 格式
 
 ```cpp
@@ -269,8 +285,6 @@ template<
     class Allocator = std::allocator<T>
 > class list;
 ```
-
-相关网址: <https://en.cppreference.com/w/cpp/container/list.html>
 
 - 常用构造方法
 
@@ -342,6 +356,8 @@ std::list<int> c5(2, 3);
 
 std::map是C++ 标准库中的一个关联容器，它存储的元素是键值对（key-value pairs）。每个元素由一个键（key）和一个值（value）组成，键是唯一的，每个键对应一个值。其中的元素按照键的顺序自动排序，默认情况下是按照升序排列，支持自定义比较函数进行键值的比较排序。
 
+std::map参考网址: <https://en.cppreference.com/w/cpp/container/map.html>
+
 - 格式
 
 ```cpp
@@ -357,8 +373,6 @@ template<
     class Allocator = std::allocator<std::pair<const Key, T>>
 > class map;
 ```
-
-相关网址: <https://en.cppreference.com/w/cpp/container/map.html>
 
 - 常用构造方法
 
@@ -441,6 +455,8 @@ std::map<int, int, decltype(funcomp)> c5(funcomp);
 
 std::multimap是C++标准库中的一个关联容器，它允许存储多个具有相同键的键值对。
 
+std::multimap参考网址: <https://en.cppreference.com/w/cpp/container/multimap.html>
+
 - 格式
 
 ```cpp
@@ -456,8 +472,6 @@ template<
     class Allocator = std::allocator<std::pair<const Key, T>>
 > class multimap;
 ```
-
-相关网址: <https://en.cppreference.com/w/cpp/container/multimap.html>
 
 - 常用构造方法
 
@@ -537,6 +551,8 @@ std::multimap<int, int, decltype(funcomp)> c5(funcomp);
 
 std::multiset是按照特定顺序存储元素的容器，其中多个元素可以具有相同的值。
 
+std::multiset参考网址: <https://en.cppreference.com/w/cpp/container/multiset.html>
+
 - 格式
 
 ```cpp
@@ -550,8 +566,6 @@ template<
     class Allocator = std::allocator<Key>
 > class multiset;
 ```
-
-相关网址: <https://en.cppreference.com/w/cpp/container/multiset.html>
 
 - 常用构造方法
 
@@ -627,6 +641,8 @@ std::multiset<int, decltype(funcomp)> c5(funcomp);
 
 std::priority_queue是C++标准库中的一个容器适配器，它提供了一种优先队列的实现。
 
+std::priority_queue参考网址: <https://en.cppreference.com/w/cpp/container/priority_queue.html>
+
 - 格式
 
 ```cpp
@@ -640,8 +656,6 @@ template<
     class Compare = std::less<typename Container::value_type>
 > class priority_queue;
 ```
-
-相关网址：<https://en.cppreference.com/w/cpp/container/priority_queue.html>
 
 - 常用构造方法
 
@@ -696,6 +710,8 @@ std::priority_queue<int, std::vector<int>, decltype(funcomp)> c4(funcomp);
 
 std::queue是C++ 标准库中的一个容器适配器，它提供了一种先进先出（FIFO）的数据结构。
 
+std::queue参考网址: <https://en.cppreference.com/w/cpp/container/queue.html>
+
 - 格式
 
 ```cpp
@@ -707,8 +723,6 @@ template<
     class Container = std::deque<T>
 > class queue;
 ```
-
-相关网址：<https://en.cppreference.com/w/cpp/container/queue.html>
 
 - 常用构造方法
 
@@ -749,6 +763,8 @@ std::queue<int> c2(c0);
 
 std::set是按照特定顺序存储元素的容器，其中多个元素可以具有相同的值。
 
+std::set参考网址: <https://en.cppreference.com/w/cpp/container/set.html>
+
 - 格式
 
 ```cpp
@@ -762,8 +778,6 @@ template<
     class Allocator = std::allocator<Key>
 > class set;
 ```
-
-相关网址：<https://en.cppreference.com/w/cpp/container/set.html>
 
 - 常用构造方法
 
@@ -839,6 +853,8 @@ std::set<int, decltype(funcomp)> c5(funcomp);
 
 std::stack是C++标准库中的一个容器适配器，它提供了一种后进先出（LIFO）的数据结构。
 
+std::stack参考网址: <https://en.cppreference.com/w/cpp/container/stack.html>
+
 - 格式
 
 ```cpp
@@ -850,8 +866,6 @@ template<
     class Container = std::deque<T>
 > class stack;
 ```
-
-相关网址：<https://en.cppreference.com/w/cpp/container/stack.html>
 
 - 常用构造方法
 
@@ -895,6 +909,8 @@ std::stack<int> c2(c0);
 
 std::unordered_map是C++标准库中的一个关联容器，它提供了一种键值对的存储方式；其中键是唯一的，而值可以重复。unordered_map和map的区别是，unordered_map使用哈希表作为底层数据结构，并不进行排序。
 
+std::unordered_map参考网址: <https://en.cppreference.com/w/cpp/container/unordered_map.html>
+
 - 格式
 
 ```cpp
@@ -912,8 +928,6 @@ template<
     class Allocator = std::allocator<std::pair<const Key, T>>
 > class unordered_map;
 ```
-
-相关网址: https://en.cppreference.com/w/cpp/container/unordered_map.html
 
 - 常用构造方法
 
@@ -984,7 +998,9 @@ std::unordered_map<int, std::string> c3(c0.begin(), c0.end());
 
 ## unordered_multimap
 
-std::unordered_multimap 是 C++ 标准库中的一个关联容器，它类似于unoredered_map，不过允许存储多个具有相同键的键值对，并且内部使用哈希表实现，排列是无序的。
+std::unordered_multimap是C++标准库中的一个关联容器，它类似于unoredered_map，不过允许存储多个具有相同键的键值对，并且内部使用哈希表实现，排列是无序的。
+
+std::unordered_multimap参考网址: <https://en.cppreference.com/w/cpp/container/unordered_multimap.html>
 
 - 格式
 
@@ -1003,8 +1019,6 @@ template<
     class Allocator = std::allocator<std::pair<const Key, T>>
 > class unordered_multimap;
 ```
-
-相关网址：<https://en.cppreference.com/w/cpp/container/unordered_multimap.html>
 
 - 常用构造方法
 
@@ -1081,6 +1095,8 @@ std::unordered_multimap<int, std::string, std::hash<int>, std::equal_to<int>, st
 
 std::unordered_multiset是C++标准库中的一个容器，它类似于std::unordered_set，但允许存储多个具有相同值的元素。
 
+std::unordered_multiset参考网址: <https://en.cppreference.com/w/cpp/container/unordered_multiset.html>
+
 - 格式
 
 ```cpp
@@ -1096,8 +1112,6 @@ template<
     class Allocator = std::allocator<Key>
 > class unordered_multiset;
 ```
-
-相关网址：<https://en.cppreference.com/w/cpp/container/unordered_multiset.html>
 
 - 常用构造方法
 
@@ -1167,7 +1181,9 @@ std::unordered_multiset<int, std::hash<int>, std::equal_to<int>> c4;
 
 ## unordered_set
 
-std::unordered_set 是 C++ 标准库中的一个容器，它提供了一种无序的、不允许重复元素的集合。
+std::unordered_set是C++标准库中的一个容器，它提供了一种无序的、不允许重复元素的集合。
+
+std::unordered_set参考网址: <https://en.cppreference.com/w/cpp/container/unordered_set.html>
 
 - 格式
 
@@ -1184,8 +1200,6 @@ template<
     class Allocator = std::allocator<Key>
 > class unordered_set;
 ```
-
-相关网址：<https://en.cppreference.com/w/cpp/container/unordered_set.html>
 
 - 常用构造方法
 
@@ -1257,6 +1271,8 @@ std::unordered_set<int, std::hash<int>, std::equal_to<int>> c4;
 
 std::vector是C++标准模板库（STL）中的一个容器，它表示一个动态数组，能够在运行时改变其大小。std::vector是一个模板类，因此可以存储任何类型的元素。
 
+std::vector参考网址: <https://en.cppreference.com/w/cpp/container/vector.html>
+
 - 格式
 
 ```cpp
@@ -1268,8 +1284,6 @@ template<
     class Allocator = std::allocator<T>
 > class vector;
 ```
-
-相关网址: <https://en.cppreference.com/w/cpp/container/vector.html>
 
 - 常用构造方法
 
@@ -1345,7 +1359,10 @@ std::vector<int> c5(2, 3);
 
 ## algorithm
 
-C++支持一系列算法用于操作STL容器中的元素，这些算法包括查找、排序、修改等。
+C++支持一系列算法用于操作STL容器中的元素，主要包含在头文件numeric和algorithm中。这些算法包括查找、排序、修改等。
+
+- numeric的参考网址: <https://en.cppreference.com/w/cpp/header/numeric.html>
+- algorithm的参考网址: <https://en.cppreference.com/w/cpp/header/algorithm.html>
 
 ### search_algorithms
 

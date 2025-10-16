@@ -22,6 +22,7 @@
 #include <string>
 #include <vector>
 #include <cstdio>
+#include <iomanip>
 
 namespace IOSTREAM
 {

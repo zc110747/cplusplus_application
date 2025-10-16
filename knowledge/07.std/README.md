@@ -3,24 +3,34 @@
 C++标准库是C++编程语言的一部分，它提供了一组通用的类和函数，用于处理各种常见的编程任务。标准库被组织成多个头文件，每个头文件包含一组相关的功能。
 
 - [any](#any)
-- [bitset](#bitset)
+- [bit](#bit)
+  - [bitset](#bitset)
   - [bit_cast](#bit_cast)
+- [charconv](#charconv)
+- [compare](#compare)
+- [complex](#complex)
 - [filesystem](#filesystem)
 - [functional](#functional)
   - [function](#function)
   - [bind](#bind)
   - [invoke](#invoke)
+- [generator](#generator)
 - [locale](#locale)
+- [memory_resource](#memory_resource)
 - [new](#new)
+- [numbers](#numbers)
 - [optional](#optional)
   - [std::nullopt](#nullopt)
 - [random](#random)
 - [ratio](#ratio)
 - [regex](#regex)
+- [scope_allocator](#scope_allocator)
+- [source_location](#source_location)
 - [stream](#stream)
   - [iostream](#iostream)
   - [fstream](#fstream)
   - [sstream](#sstream)
+  - [iomanip](#iomanip)
 - [string](#string)
 - [string_view](#string_view)
 - [tuple](#tuple)
@@ -28,12 +38,15 @@ C++标准库是C++编程语言的一部分，它提供了一组通用的类和�
 - [type_traits](#type_traits)
 - [utility](#utility)
   - [std::declval](#declval)
+- [valarray](#valarray)
 - [variant](#variant)
   - [std::visit](#visit)
 
 ## any
 
 std::any是C++17标准库中引入的一个类型安全的通用容器，它可以存储任意类型的值。
+
+std::any参考网址: <https://en.cppreference.com/w/cpp/utility/any.html>
 
 - 主要特点：
 
@@ -89,9 +102,17 @@ int main(int argc, char const *argv[])
 }
 ```
 
-## bitset
+## bit
 
-std::bitset是C++标准库中的一个类模板，用于表示固定大小的位序列。它提供了一种方便的方式来处理二进制数据，例如位操作、位计数、位测试等。
+std::bit是C++20标准库中引入的一个类模板，用于表示固定大小的位序列。它提供了一种方便的方式来处理二进制数据，例如位操作、位计数、位测试等。
+
+std::bit参考网址: <https://en.cppreference.com/w/cpp/utility/bit.html>
+
+### bitset
+
+std::bitset是标准库中的一个类模板，用于表示固定大小的位序列。它提供了一种方便的方式来处理二进制数据，例如位操作、位计数、位测试等。
+
+std::bitset参考网址: <https://en.cppreference.com/w/cpp/utility/bitset.html>
 
 - 格式
 
@@ -99,8 +120,6 @@ std::bitset是C++标准库中的一个类模板，用于表示固定大小的位
 // N: 位序列的大小
 template <size_t N> class bitset;
 ```
-
-相关网址: https://www.cplusplus.com/reference/bitset/bitset/
 
 - 主要特点
 
@@ -165,80 +184,310 @@ int main(int argc, char const *argv[])
 }
 ```
 
-## filesystem
+## charconv
 
-std::filesystem是C++17引入的标准库，提供了跨平台的文件系统操作功能，替代了传统的依赖于操作系统的文件操作函数，让文件和目录操作更加方便、安全和可移植。
+std::charconv是C++20引入的一个类模板，用于在不同类型之间进行字符级别的转换。它提供了一种类型安全的方式来将字符序列转换为数值类型，或将数值类型转换为字符序列。
 
-std::filesystem支持一系列对于文件的操作，主要包含如下所示。
+## compare
+
+std::compare是C++20引入的一个类模板，用于比较两个对象的大小关系。它提供了一种类型安全的方式来比较不同类型的对象，避免了传统的比较运算符（如 <、>、<=、>=）可能带来的未定义行为。
+
+## complex
+
+std::complex是C++标准库中的一个类模板，用于表示复数。它提供了对复数运算的支持，如加、减、乘、除、取模、取实部、取虚部等。
+
+std::complex参考网址: <https://en.cppreference.com/w/cpp/numeric/complex.html>
+
+对于complex类，其内部支持的方法如下所示。
+
+| 方法 | 说明 |
+| --- | --- |
+| operator+ | 复数加法 |
+| operator- | 复数减法 |
+| operator* | 复数乘法 |
+| operator/ | 复数除法 |
+| operator== | 复数相等比较 |
+| real | 复数的实部 |
+| imag | 复数的虚部 |
+
+支持的外部函数如下所示。
+
+| 方法 | 说明 |
+| --- | --- |
+| operator<< | 复数通过cout流输出 |
+| operator>> | 复数通过cin流输入 |
+| abs | 复数的模长 |
+| arg | 复数的相位 |
+| norm | 复数的范数 |
+| conj | 复数的共轭 |
+| proj | 复数的投影 |
+| polar | 复数的极坐标表示 |
+| exp | 复数指数 |
+| log | 复数对数 |
+| log10 | 复数对数 |
+| pow | 复数幂 |
+| sqrt | 复数平方根 |
+| sin | 复数正弦 |
+| cos | 复数余弦 |
+| tan | 复数正切 |
+| asin | 复数反正弦 |
+| acos | 复数反余弦 |
+| atan | 复数反正切 |
+| sinh | 复数双曲正弦 |
+| cosh | 复数双曲余弦 |
+| tanh | 复数双曲正切 |
+| asinh | 复数反双曲正弦 |
+| atanh | 复数反正切 |
+
+具体示例如下所示。
 
 ```cpp
-// 路径类，用于表示目录或者文件路径
-std::filesystem::path path("test_dir");
+#include <iostream>
+#include <complex>
 
-// 判断文件是否存在
-std::filesystem::exists(path);
+int main(int argc, char* argv[])
+{
+    std::complex<double> c1(1.0, 2.0);
+    std::complex<double> c2(3.0, 4.0);
 
-// 创建文件/目录
-std::filesystem::create_directory(path);
+    // operator+
+    auto c3 = c1 + c2;
+    
+    // operator<<
+    std::cout << "c1 + c2 = " << c3 << std::endl;
 
-// 删除文件/目录(无法删除非空目录)
-std::filesystem::remove(path);
+    // operator-
+    auto c4 = c1 - c2;
+    std::cout << "c1 - c2 = " << c4 << std::endl;
 
-// 删除全部文件/目录
-std::filesystem::remove_all(path);
+    // operator*
+    auto c5 = c1 * c2;
+    std::cout << "c1 * c2 = " << c5 << std::endl;
 
-// 遍历目录
-for (auto& entry : std::filesystem::directory_iterator(path)) {
-    std::cout << entry.path() << std::endl;
+    // operator/
+    auto c6 = c1 / c2;
+    std::cout << "c1 / c2 = " << c6 << std::endl;
+
+    // operator==
+    if (c5 == c6) {
+        std::cout << "c5 == c6" << std::endl;
+    } else {
+        std::cout << "c5 != c6" << std::endl;
+    }
+
+    // real、imag
+    std::cout << "c1.real() = " << c1.real() << std::endl;
+    std::cout << "c1.imag() = " << c1.imag() << std::endl;
+
+    // 外部方法
+    // abs: 复数的模长，实部虚部平方和的开方
+    std::cout << "abs(c1) = " << std::abs(c1) << std::endl;
+
+    // arg: 复数的相位，虚部为0时为0，否则为tan-1(虚部/实部)
+    std::cout << "arg(c1) = " << std::arg(c1) << std::endl;
+
+    // norm: 复数的范数，实部虚部平方和
+    std::cout << "std::norm(c1) = " << std::norm(c1) << std::endl;
+
+    // pow: 复数的幂，pow(a, b) = a^b
+    std::cout << "std::pow(c1, 2) = " << std::pow(c1, 2) << std::endl;
+
+    // sqrt: 复数的平方根，sqrt(a) = a^(1/2)
+    std::cout << "std::sqrt(c1) = " << std::sqrt(c1) << std::endl;
+
+    // sin: 复数的正弦函数，sin(a) = (e^(ia) - e^(-ia)) / (2i)
+    std::cout << "std::sin(c1) = " << std::sin(c1) << std::endl;
+
+    // cos: 复数的余弦函数，cos(a) = (e^(ia) + e^(-ia)) / 2
+    std::cout << "std::cos(c1) = " << std::cos(c1) << std::endl;
+
+    // sinh: 复数的双曲正弦函数，sinh(a) = (e^a - e^(-a)) / 2
+    std::cout << "std::sinh(c1) = " << std::sinh(c1) << std::endl;
+
+    // cosh: 复数的双曲余弦函数，cosh(a) = (e^a + e^(-a)) / 2
+    std::cout << "std::cosh(c1) = " << std::cosh(c1) << std::endl;
+    return 0;
 }
+```
 
-// 获取文件大小
-std::filesystem::path file_path = "test_dir/test_file.txt";
-std::filesystem::file_size(file_path);
+## filesystem
 
-// 重命名文件/目录
-std::filesystem::rename(file_path, "test_dir/test_file2.txt");
+filesystem是C++17引入的标准库，提供了跨平台的文件系统操作功能，替代了传统的依赖于操作系统的文件操作函数，让文件和目录操作更加方便、安全和可移植。
 
-// 复制文件/目录
-std::filesystem::copy(file_path, "test_dir/test_file3.txt");
+filesystem参考网址: <https://en.cppreference.com/w/cpp/filesystem>
 
-// 移动文件/目录
-std::filesystem::rename(file_path, "test_dir2/test_file4.txt");
+filesystem支持一系列对于文件相关的操作，其中支持的类如下所示。
 
-// 获取文件属性
-std::cout << "File size: " << std::filesystem::file_size(file_path) << std::endl;
-std::cout << "File type: " << std::filesystem::file_type(file_path) << std::endl;
-std::cout << "File permissions: " << std::filesystem::permissions(file_path) << std::endl;
+- path: 用于表示目录或者文件路径
+- filesystem_error: 文件系统错误类
+- directory_entry: 用于表示目录项
+- directory_iterator: 用于遍历目录
+- recursive_directory_iterator: 用于递归遍历目录
+- file_status: 用于表示文件状态
+- space_info: 用于表示文件系统空间信息
+- file_type: 用于表示文件类型
+- perms: 用于表示文件权限
+- perm_options: 用于表示文件权限选项
+- copy_options: 用于表示文件复制选项
+- directory_options: 用于表示目录遍历选项
+- file_time_type: 用于表示文件时间类型
+
+另外filesystem也支持一系列管理文件目录和文件的函数，如创建、删除、重命名、复制、移动、获取属性等，具体如下所示。
+
+| 函数 | 说明 |
+| --- | --- |
+| absoulte | 获取绝对路径 |
+| canonical/weakly_canonical | 获取规范路径 |
+| relative/proximate | 获取相对路径 |
+| copy | 复制文件 |
+| copy_file | 复制文件 |
+| copy_symlink | 复制符号链接 |
+| create_directory/create_directories | 创建目录 |
+| create_hard_link | 创建硬链接 |
+| create_symlink/create_directory_symlink | 创建符号链接 |
+| current_path | 获取当前路径 |
+| exists | 判断文件是否存在 |
+| equivalent | 判断两个路径是否相等 |
+| file_size | 获取文件大小 |
+| hard_link_count | 获取硬链接数量 |
+| last_write_time | 获取文件最后修改时间 |
+| permissions | 设置文件权限 |
+| read_symlink | 读取符号链接 |
+| remove | 删除文件 |
+| remove_all | 删除全部文件/目录 |
+| rename | 重命名文件/目录 |
+| resize_file | 调整文件大小 |
+| space | 获取文件系统空间信息 |
+| status/symlink_status | 获取文件状态 |
+| temp_directory_path | 获取临时目录路径 |
+
+判断文件类型。
+
+| 函数 | 函数 |
+| --- | --- |
+| is_block_file | 判断是否为块设备文件 |
+| is_character_file | 判断是否为字符设备文件 |
+| is_directory | 判断是否为目录 |
+| is_empty | 判断是否为空文件 |
+| is_fifo | 判断是否为FIFO设备文件 |
+| is_other | 判断是否为其他类型文件 |
+| is_regular_file | 判断是否为普通文件 |
+| is_socket | 判断是否为套接字文件 |
+| is_symlink | 判断是否为符号链接文件 |
+| status_known | 获取文件状态是否已知 |
+
+具体示例如下所示。
+
+```cpp
+#include <iostream>
+#include <filesystem>
+#include <fstream>
+
+int main(int argc, const char* argv[])
+{
+    // 路径类std::filesystem::path
+    std::filesystem::path p("file.txt");
+    std::cout << "Filename: " << p.filename() << std::endl;
+    std::cout << "Parent path: " << p.parent_path() << std::endl;
+
+    //文件和目录操作
+    {
+        std::filesystem::path dirPath("test_dir");
+        if (!std::filesystem::exists(dirPath)) {
+            std::filesystem::create_directory(dirPath);
+            std::cout << "Directory created." << std::endl;
+        }
+
+        std::filesystem::path filePath = dirPath / "test.txt";
+        std::ofstream(filePath) << "Hello, World!";
+        std::cout << "File created." << std::endl;
+
+        std::filesystem::remove(filePath);
+        std::cout << "File removed." << std::endl;
+
+        std::filesystem::remove(dirPath);
+        std::cout << "Directory removed." << std::endl;
+
+        try {
+            std::filesystem::path dirPath2("test_dir2");
+            if (!std::filesystem::exists(dirPath2)) {
+                std::filesystem::create_directory(dirPath2);
+                std::cout << "Directory created." << std::endl;
+            }
+            std::filesystem::remove_all(std::filesystem::path("test_dir3"));
+            std::cout << "Directory remove_all:" << std::filesystem::path("test_dir3") << std::endl;
+            std::filesystem::rename(dirPath2, "test_dir3");
+            std::cout << "Directory renamed, name:" << dirPath2 << std::endl;
+        } catch (const std::filesystem::filesystem_error& e) {
+            std::cerr << "Filesystem error: " << e.what() << std::endl;
+        }
+
+        // 遍历目录
+        {
+            std::filesystem::path dirPath(".");
+            for (const auto& entry : std::filesystem::directory_iterator(dirPath)) {
+                std::cout << entry.path() << std::endl;
+            }      
+        }
+    }
+
+    // 文件状态查询，文件读写
+    {
+        std::filesystem::path filePath("test.txt");
+        if (std::filesystem::exists(filePath)) {
+            std::cout << "File size: " << std::filesystem::file_size(filePath) << " bytes" << std::endl;
+            std::ifstream file(filePath);
+            if (file.is_open()) {
+                std::string content((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+                std::cout << "File content:\n" << content << std::endl;
+                file.close();
+            } else {
+                std::cerr << "Unable to open file." << std::endl;
+            }
+        }
+
+        std::filesystem::copy(filePath, "test_dir3/test.txt");
+        std::cout << "File copied." << std::endl;
+    }
+    return 0;
+}
 ```
 
 ## functional
 
-<functional>内部提供了一组用于函数对象相关的工具和函数。
+functional内部提供了一组用于函数对象相关的工具和函数。
 
-相关网址: https://cplusplus.com/reference/functional/
+std::functional参考网址: <https://en.cppreference.com/w/cpp/header/functional.html>
 
 其中支持一组用于管理的函数对象的工具函数，可以搭配STL库中的算法使用。
 
 | 函数名 | 功能 |
 | --- | --- |
-| bit_and | 逻辑与 |
-| bit_or | 逻辑或 |
-| bit_xor | 逻辑异或 |
+| plus | 加法 |
+| minus | 减法 |
+| multiplies | 乘法 |
 | divides | 除法 |
+| modulus | 取余 |
+| negate | 负数 |
 | equal_to | 等于 |
+| not_equal_to | 不等于 |
 | greater | 大于 |
-| greater_equal | 大于等于 |
 | less | 小于 |
+| greater_equal | 大于等于 |
 | less_equal | 小于等于 |
 | logical_and | 逻辑与 |
 | logical_not | 逻辑非 |
 | logical_or | 逻辑或 |
-| minus | 减法 |
-| modulus | 取余 |
-| multiplies | 乘法 |
-| negate | 负数 |
-| not_equal_to | 不等于 |
-| plus | 加法 |
+| bit_and | 逻辑与 |
+| bit_or | 逻辑或 |
+| bit_xor | 逻辑异或 |
+| bit_not | 逻辑非(C++14) |
+| not_fn | 	是函数对象类型，该对象会返回其所包含函数对象结果的补集。|
+| identity | 是函数对象类型，其 operator() 返回其不更改的参数。|
+| hash | 是函数对象类型，该对象会返回其参数的哈希值。|
+| bind | 是函数对象类型，该对象会绑定其参数的某些部分，并返回一个新函数对象。|
+| ref/cref | 创建一个 std::reference_wrapper 对象，其类型由其参数自动推导得出。|
+| invoke/invoke_r | 创建一个函数对象，该对象会调用其参数指定的函数。|
 
 - 举例说明
 
@@ -246,16 +495,76 @@ std::cout << "File permissions: " << std::filesystem::permissions(file_path) << 
 #include <iostream>
 #include <functional>
 #include <algorithm>
+#include <vector>
+#include <numeric>
 
 int main (int argc, char *argv[]) 
 {
-  int numbers[]={20,40,50,10,30};
-  std::sort (numbers, numbers+5, std::greater<int>());
-  for (int i=0; i<5; i++) {
-    std::cout << numbers[i] << ' ';
-  }
-  std::cout << '\n';
-  return 0;
+    int numbers[]={20,40,50,10,30};
+
+    std::sort (numbers, numbers+5, std::greater<int>());
+
+    for (int i=0; i<5; i++) {
+        std::cout << numbers[i] << ' ';
+    }
+    std::cout << std::endl;
+
+    std::vector<int> v1 = {1, 2, 3, 4, 5};
+
+    // plus、minus
+    std::plus<int> plus;
+    int ret = plus(1, 2);
+    std::cout << "plus: " << ret << std::endl;
+
+    std::minus<int> minus;
+    ret = minus(1, 2);
+    std::cout << "minus: " << ret << std::endl;
+
+    ret = std::reduce(std::begin(v1), std::end(v1), 0, std::plus<>());
+    std::cout << "reduce: " << ret << std::endl;
+
+    std::modulus<int> modulus;
+    ret = modulus(1, 2);
+    std::cout << "modulus: " << ret << std::endl;
+
+    std::equal_to<int> equal_to;
+    ret = equal_to(1, 2);
+    std::cout << "equal_to: " << ret << std::endl;
+
+    std::logical_or<int> logical_or;
+    std::cout << std::boolalpha;
+    std::cout << "logical_or: " << logical_or(1, 2) << std::endl;
+
+    // not_fn
+    std::cout << "not_fn(equal_to): " << std::not_fn(logical_or)(1, 2) << std::endl;
+
+    // identity
+    std::vector<int> vec_num = {1, 2, 3, 4, 5};
+    auto num_identity = std::identity{}(vec_num);
+    for (auto &n : vec_num) {
+        std::cout << n << " ";
+    }
+    std::cout << std::endl;
+
+    // hash
+    ret = std::hash<std::string>{}("hello");
+    std::cout << "hash: " << ret << std::endl;
+
+    // bind
+    // std::placeholders::_1 表示占位符，用于指定在调用
+    auto func = [](int a, int &b, int &c) {
+        b = 1;
+        c = 2;
+        std::cout << a << " " << b << " " << c << std::endl;
+    };
+    int val1 = 0, val2 = 0;
+    auto bind_func = std::bind(func, val1, std::ref(val2), std::placeholders::_1);
+
+    bind_func(val1);
+    std::cout << "val1: " << val1 << std::endl;
+    std::cout << "val2: " << val2 << std::endl;
+
+    return 0;
 }
 ```
 
@@ -444,11 +753,19 @@ int main(int argc, char *argv[])
 }
 ```
 
+## generator
+
+std::generator是C++23引入的一个类模板，用于生成序列。它提供了一种类型安全的方式来生成不同类型的序列，例如整数序列、字符序列等。
+
+std::generator参考网址: <https://en.cppreference.com/w/cpp/utility/generator.html>
+
 ## locale
 
 std::locale 是 C++ 标准库中的一个类，用于表示特定的本地化环境。
 
-具体网址：https://cplusplus.com/reference/locale/locale/
+具体网址：<https://en.cppreference.com/w/cpp/locale/locale.html>
+
+在Linux系统下，可以使用以下命令查看支持的指令集
 
 ```shell
 # 查看支持的指令集
@@ -475,9 +792,32 @@ locale -a
 3. 全局和局部设置，可以在全局范围内设置默认的 std::locale，也可以在局部范围内使用特定的 std::locale。
 4. 与标准库组件集成，std::locale 与许多标准库组件（如 std::cout、std::cin、std::string 等）集成，使得这些组件能够自动适应本地化设置。
 
-## new
+具体示例如下所示。
 
-### new_operator
+```cpp
+#include <iostream>
+#include <locale>
+ 
+int main()
+{
+    std::wcout << L"User-preferred locale setting is "
+               << std::locale("").name().c_str() << L'\n';
+
+    std::wcout << 1000.01 << L'\n';
+ 
+    std::locale::global(std::locale(""));
+
+    std::wcout.imbue(std::locale());
+ 
+    std::wcout << 1000.01 << L'\n';
+}
+```
+
+## memory_resource
+
+std::memory_resource是C++23引入的一个类模板，用于管理内存资源。它提供了一种类型安全的方式来分配和释放内存，避免了传统的new和delete操作符可能带来的未定义行为。
+
+## new
 
 new相关的操作符包含以下几个：new、delete、new[]、delete[]，具体说明如下所示。
 
@@ -485,6 +825,8 @@ new相关的操作符包含以下几个：new、delete、new[]、delete[]，具�
 - delete操作符：用于释放动态申请的内存，将内存返回给系统。
 - new[]操作符：用于动态申请数组内存，根据指定的类型和数量分配内存空间。
 - delete[]操作符：用于释放动态申请的数组内存，将内存返回给系统。
+- std::nothrow: 类型为std::nothrow_t，用于指定内存分配失败时返回nullptr，而不是抛出异常。
+- std::destorying_delete: 类型为std::destroying_delete_t，用于指定内存释放时调用析构函数。
 
 new和delete操作的使用方法如下。
 
@@ -574,22 +916,100 @@ int main(int argc, const char* argv[])
 
 ## optional
 
-std::optional是C++17引入的一个标准库类，用于表示一个可能包含值的对象。它类似于其他语言中的Maybe或Option类型。std::optional可以用来避免使用空指针或特殊值（如 -1 或 nullptr来表示缺失值。std::optional 提供了一种更安全、更清晰的方式来处理可能缺失的值，避免了使用特殊值或空指针带来的潜在问题。
+optional是C++17引入的一个标准库类，用于表示一个可能包含值的对象。它类似于其他语言中的Maybe或Option类型。
 
-- 成员函数
+optional可以用来避免使用空指针或特殊值（如 -1 或 nullptr来表示缺失值。std::optional 提供了一种更安全、更清晰的方式来处理可能缺失的值，避免了使用特殊值或空指针带来的潜在问题。
+
+optional参考网址：<https://en.cppreference.com/w/cpp/header/optional.html>
+
+std::optional成员函数如下所示。
 
 | 函数名 | 说明 |
 | --- | --- |
-| emplace | 在 std::optional 对象中构造一个值 |
+| operator= | 赋值运算符 |
+| operator-> | 访问运算符 |
+| operator* | 访问运算符 |
+| operator bool | 逻辑运算符 |
 | has_value | 判断 std::optional 对象是否包含值 |
-| reset | 将 std::optional 对象中的值重置为未定义状态 |
-| swap | 交换两个 std::optional 对象中的值 |
 | value | 返回 std::optional 对象中包含的值 |
 | value_or(default_value) | 返回std::optional对象中包含的值，如果std::optional对象不包含值，则返回默认值default_value |
+| and_then(callback) | C++23支持，std::optional对象包含值，则调用回调函数并返回其结果；否则返回一个空的可选值 |
+| transform(callback) | C++23支持，返回一个可选值，如果存在则包含经过转换后的原始值，否则返回一个空的可选值 |
+| or_else(callback) | C++23支持，如果std::optional对象不包含值，则调用回调函数并返回其结果；否则返回一个空的可选值 |
+| swap | 交换两个 std::optional 对象中的值 |
+| emplace | 在 std::optional 对象中构造一个值 |
+| reset | 将 std::optional 对象中的值重置为未定义状态 |
+
+具体示例如下所示。
+
+```cpp
+std::optional<int> find_value(int value)
+{
+    if (value == 46) {
+        return value;
+    } else {
+        return std::nullopt;
+    }
+}
+
+int main(int argc, char *argv[]) 
+{
+    std::optional<int> opt = find_value(46);
+    
+    // has_value、value
+    // operator*、operator->
+    if (opt.has_value()) {
+        std::cout << "opt has value: " << opt.value() << std::endl;
+        std::cout << "opt:" << *opt << std::endl;
+        std::cout << "opt->:" << *(opt.operator->()) << std::endl;
+    } else {
+        std::cout << "opt has no value" << std::endl;
+    }
+
+    // value_or
+    opt = find_value(42);
+    std::cout << "opt has value: " << opt.value_or(-1) << std::endl;
+
+    std::optional<int> opt_1{42};
+    
+    // and_then
+    std::cout << "opt_1:" << opt_1.and_then([](int value) -> std::optional<int> { 
+        return value * 2; 
+    }).value_or(0) << std::endl;
+
+    // transform
+    std::cout << "opt_1:" << opt_1.transform([](int value) -> int { 
+        return value * 2; 
+    }).value_or(0) << std::endl;
+
+    // or_else
+    std::cout << "opt_1:" << opt_1.or_else([]() -> std::optional<int> {
+        std::cout << "Valueless: ";
+        return std::optional<int>{0};
+    }).value_or(0) << std::endl;
+
+    // swap
+    std::optional<int> opt_2{std::nullopt};
+    opt_1.swap(opt_2);
+    std::cout << "opt_1:" << opt_1.value_or(0) << std::endl;
+    std::cout << "opt_2:" << opt_2.value_or(0) << std::endl;
+
+    // reset
+    opt_2.reset();
+    std::cout << "opt_2:" << opt_2.value_or(0) << std::endl;
+
+    // emplace
+    opt_2.emplace(51);
+    std::cout << "opt_2:" << opt_2.value_or(0) << std::endl;
+
+    return 0;
+}
+```
+
 
 ### nullopt
 
-std::nullopt是一个特殊常量，用于表示 std::optional对象不包含任何值（空状态）。
+std::nullopt是一个特殊常量，用于表示std::optional对象不包含任何值（空状态）。
 
 其具有以下特性：
 
@@ -598,7 +1018,7 @@ std::nullopt是一个特殊常量，用于表示 std::optional对象不包含任
 3. 异常安全 - 提供安全的访问方法
 4. 性能优化 - 避免不必要的对象构造
 
-举例说明。
+具体示例如下所示。
 
 ```cpp
 #include <iostream>
@@ -614,21 +1034,25 @@ std::optional<int> over_zero(int value) {
 
 int main(int argc, char const *argv[])
 {
-    std::optional<int> result = over_zero(-1);
-    if (result.has_value()) {
-        std::cout << "result: " << result.value() << std::endl;
+    std::optional<int> opt1 = over_zero(-1);
+    if (opt1.has_value()) {
+        std::cout << "opt1: " << opt1.value() << std::endl;
     } else {
-        std::cout << "result is null" << std::endl;
+        std::cout << "opt1 is null" << std::endl;
     }
-    std::cout << "result value_or: " << result.value_or(0) << std::endl;
+    std::cout << "opt1 value_or: " << opt1.value_or(0) << std::endl;
 
-    result = over_zero(1);
-    if (result.has_value()) {
-        std::cout << "result: " << result.value() << std::endl;
+    opt1 = over_zero(1);    
+    if (opt1.has_value()) {
+        std::cout << "opt1: " << opt1.value() << std::endl;
     } else {
-        std::cout << "result is null" << std::endl;
+        std::cout << "opt1 is null" << std::endl;
     }
-    std::cout << "result value_or: " << result.value_or(0) << std::endl;
+    std::cout << "opt1 value_or: " << opt1.value_or(0) << std::endl;
+
+    std::optional<int> opt_2{std::nullopt};
+    std::cout << "opt_2: " << opt_2.value_or(0) << std::endl;
+    return 0;
 }
 ```
 
@@ -825,9 +1249,13 @@ int main(int argc, char const *argv[])
 
 ## regex
 
-std::regex 是 C++ 标准库中的一个类，用于处理正则表达式。
-正则表达式是一种强大的文本处理工具，用于匹配、查找和替换字符串中的模式。
-std::regex 提供了一种类型安全且高效的方式来处理正则表达式。
+std::regex 是 C++ 标准库中的一个类，用于处理正则表达式。正则表达式是一种强大的文本处理工具，用于匹配、查找和替换字符串中的模式。regex提供了一种类型安全且高效的方式来处理正则表达式。
+
+## scope_allocator
+
+std::scope_allocator是C++23引入的一个类模板，用于管理内存资源。它提供了一种类型安全的方式来分配和释放内存，避免了传统的new和delete操作符可能带来的未定义行为。
+
+## source_location
 
 ## stream
 
@@ -835,9 +1263,11 @@ std::regex 提供了一种类型安全且高效的方式来处理正则表达式
 
 ### iostream
 
-iostream全称输入/输出流，主要处理键盘鼠标输入输出，并显示到界面中的功能，包含的主要内容如下。
+iostream全称输入/输出流，主要处理键盘鼠标输入输出，并显示到界面中的功能。对于iostream，其还包含ios、streambuf、istream、ostream的内容，分别用于处理流的状态、缓冲区、输入操作和输出操作。
 
-相关网址：https://cplusplus.com/reference/iostream/
+相关网址：<https://en.cppreference.com/w/cpp/header/iostream.html>
+
+对于iostream中，包含以下内容
 
 | 输入输出流 | 描述 |
 | --- | --- |
@@ -944,6 +1374,8 @@ int main(int argc, char const *argv[])
 
 std::fstream是C++标准库中的一个类，其位于<fstream>头文件中，用于处理文件输入输出。另外支持两个子类，std::ifstream和std::ofstream，分别用于从文件读取数据、向文件写入数据。
 
+访问地址：<https://en.cppreference.com/w/cpp/header/fstream.html>
+
 fstream支持的方法操作如下所示。
 
 | 方法 | 描述 |
@@ -1025,9 +1457,12 @@ int main(int argc, char const *argv[])
     return 0;
 }
 ```
+
 ### sstream
 
 std::sstream是C++标准库中的一个类，用于处理字符串输入输出。它提供了丰富的成员函数和操作符，使得字符串的处理变得更加方便和高效。sstream默认以空格作为分界符进行字符串分割，如果使用其它分隔符，使用std::getline()函数指定。
+
+访问地址：<https://en.cppreference.com/w/cpp/header/sstream.html>
 
 sstream支持的方法操作如下所示。
 
@@ -1090,10 +1525,61 @@ int main(int argc, char const *argv[])
     while(std::getline(ss1, str, ',')) {
         vec.push_back(str);
     }
+
     for(const auto& item : vec) {
         std::cout << item << ";";
     }
     std::cout << std::endl;
+    return 0;
+}
+```
+
+### iomanip
+
+std::iomanip 是 C++ 标准库中的一个头文件，用于操作输入输出流的格式。它提供了一系列的函数和操作符，用于设置和控制流的格式，如宽度、精度、填充字符等。
+
+访问地址：<https://en.cppreference.com/w/cpp/header/iomanip.html>
+
+iomanip提供的方法如下所示。
+
+| 函数 | 描述 |
+| --- | --- |
+| resetiosflags | 重置流的格式标志 |
+| setiosflags | 设置流的格式标志 |
+| setbase | 设置进制基数 |
+| setfill | 设置填充字符 |
+| setprecision | 设置浮点数的精度 |
+| setw | 设置字段宽度 |
+| get_money | 获取货币金额 |
+| put_money | 输出货币金额 |
+| get_time | 获取时间 |
+| put_time | 输出时间 |
+| quoted | 引用字符串 |
+
+具体示例如下所示。
+
+```cpp
+#include <iostream>
+#include <iomanip>
+#include <string>
+
+int main(int argc, char const *argv[])
+{
+    std::string str = "Hello, World!";
+    std::cout << std::quoted(str) << std::endl;
+
+    std::cout << std::setw(10) << std::setfill('*') << 12345 << std::endl;
+    
+    std::cout << std::setbase(16) << 12345 << std::endl;
+
+    std::cout << std::resetiosflags(std::ios_base::dec) << std::setiosflags(std::ios_base::hex
+                    | std::ios_base::uppercase
+                    | std::ios_base::showbase) << 42 << std::endl;
+    std::cout << 45 << std::endl;
+
+    std::cout << std::resetiosflags(std::ios_base::dec) << std::setiosflags(std::ios_base::dec) 
+        << 45 << std::endl;
+
     return 0;
 }
 ```
@@ -1201,9 +1687,9 @@ class basic_string_view;
 typedef basic_string_view<char, char_traits<char>> string_view;
 ```
 
-相关网址: https://learn.microsoft.com/zh-cn/cpp/standard-library/basic-string-view-class?view=msvc-170#basic_string_view
+string_view参考网址: <https://en.cppreference.com/w/cpp/header/string_view.html>
 
-- 常用构造方法
+string_view常用构造方法如下所示。
 
 ```cpp
 // 构造方法
@@ -1219,6 +1705,9 @@ std::string_view str3("Hello, World!", strlen("Hello, World!"));
 std::string_view str4 = {"Hello, World!"};
 std::string_view str5{"Hello, World!"};
 ```
+
+其支持的迭代器和方法如下所示。
+
 - 迭代器
 
 | 迭代器 | 描述 |
@@ -1261,6 +1750,35 @@ std::string_view str5{"Hello, World!"};
 | starts_with | 检查字符串视图是否以指定的前缀开头(C++20) |
 | substr | 返回字符串视图的子字符串视图 |
 | swap | 交换两个字符串视图 |
+
+具体示例如下所示。
+
+```cpp
+#include <iostream>
+#include <string>
+#include <string_view>
+
+int main(int argc, char const *argv[]) 
+{
+    std::string_view sv1("Hello, World!");
+    std::cout << sv1 << std::endl;
+
+    std::string s1{"this is a test"};
+    sv1 = s1;
+    std::cout << sv1 << std::endl;
+
+    std::cout << "size: " << sv1.size() << std::endl;
+    std::cout << "substr: " << sv1.substr(0, 5) << std::endl;
+    std::cout << "find: " << sv1.find("test") << std::endl; 
+    std::cout << "rfind: " << sv1.rfind("test") << std::endl;
+    std::cout << "find_first_of: " << sv1.find_first_of("test") << std::endl;
+    std::cout << "find_last_of: " << sv1.find_last_of("test") << std::endl;
+    std::cout << "find_first_not_of: " << sv1.find_first_not_of("test") << std::endl;
+    std::cout << "find_last_not_of: " << sv1.find_last_not_of("test") << std::endl;
+
+    return 0;
+}
+```
 
 ## tuple
 
@@ -1505,6 +2023,8 @@ std::type_traits中常用的模板类和模板函数分类如下所示。
 | std::is_nothrow_default_constructible<T> | 检测类型T是否可 noexcept 默认构造 |
 | std::is_nothrow_move_assignable<T> | 检测类型T是否可 noexcept 移动赋值 |
 | std::is_nothrow_move_constructible<T> | 检测类型T是否可 noexcept 移动构造 |
+| std::is_invocable<F, Args...> | 检测类型F是否可调用 |
+| std::is_nothrow_invocable<F, Args...> | 检测类型F是否可 noexcept 调用 |
 
 - 类型关系
 
@@ -1599,15 +2119,22 @@ int main(int argc, char const *argv[])
 
 ## utility
 
-utility提供了一些处理STL和STD的工具函数，主要包含如下所示。
+utility提供了一些处理STL和STD中对象的工具函数，主要包含如下所示。
 
-1. std::swap: 交换两个参数的值。
-2. std::make_pair: 创建一个pair对象。
-3. std::forward: 将参数传递给函数。
-4. std::move: 将参数传递给函数，并转换为右值引用。
-5. std::move_if_noexcept: 将参数传递给函数，并转换为右值引用，如果函数有 noexcept 声明。
-6. std::declval: 创建一个无类型的对象，用于在模板参数推导中。
-6. std::rel_ops: 定义运算符相关的操作函数，支持==, <操作符的对象，扩展支持!=, >, <=, >=操作符(C++20废弃，建议使用<=>操作符)。
+- std::swap: 用于交换两个参数的值，需要类型相同，且不返回值。
+- std::exchange: 用新的对象值替换旧的对象值，并返回旧对象值。
+- std::forward: 将函数参数前向传递，并使用类型模板参数来保留其值类别。
+- std::move: 将参数传递给函数，并转换为右值引用。
+- std::move_if_noexcept: 将参数传递给函数，并转换为右值引用，带noexcept声明，移动构造函数不产生异常。
+- std::as_const: 将参数转换为const的引用对象。
+- std::declval: 获取模板类型参数的对象的引用，以便在未求值上下文中使用。
+- std::cmp_equal、cmp_not_equal\cmp_less\cmp_less_equal\cmp_greater\cmp_greater_equal: 比较两个整型数据(或可转换为整型数据)，返回bool值。
+- std::in_range: 判断对象是否在指定类型的边界范围内。
+- std::make_pair: 创建一个pair对象, 并返回一个pair对象。
+- std::get: 获取pair对象的第一个元素。
+- std::rel_ops: 定义运算符相关的操作函数，支持==, <操作符的对象，扩展支持!=, >, <=, >=操作符(C++20废弃，建议使用<=>操作符)。
+
+具体示例如下所示。
 
 ```cpp
 #include <utility>
@@ -1718,6 +2245,165 @@ int main(int argc, char const *argv[])
     decltype(std::declval<A<int>>().func()) a = b;
     std::cout << typeid(a).name() << std::endl;             //int
     std::cout << std::is_rvalue_reference<decltype(a)>::value << std::endl;  // 0
+
+    return 0;
+}
+```
+
+## valarray
+
+std::valarray是C++标准库中提供的一个类模板，用于表示和操作数组的值。它提供了对数组元素的数学操作和通用的下标运算符，同时支持切片和间接访问。
+
+valarray相关网址： <https://en.cppreference.com/w/cpp/numeric/valarray>
+
+valarray原型如下所示。
+
+```cpp
+// valarray类模板
+// T: 元素类型
+template< class T >
+class valarray;
+```
+
+std::valarray支持的方法如下所示。
+
+| 功能 | 描述 |
+| --- | --- |
+| operator= | 赋值运算符 |
+| operator[] | 下标运算符 |
+| operator+、operator+= | 加法运算符 |
+| operator-、operator-= | 减法运算符 |
+| operator*、operator*= | 乘法运算符 |
+| operator/、operator/= | 除法运算符 |
+| swap | 交换两个valarray对象 |
+| size | 返回valarray对象的大小 |
+| resize | 重置valarray对象的大小，清除所有元素 |
+| sum | 返回valarray对象的和 |
+| min | 返回valarray对象中的最小值 |
+| max | 返回valarray对象中的最大值 |
+| shift | 左移valarray对象中的元素，空出的位置用0填充 |
+| cshift | 左移valarray对象中的元素，空出的位置用移出的元素填充 |
+| apply | 对valarray对象中的元素进行操作 |
+
+具体示例如下所示。
+
+```cpp
+#include <iostream>
+#include <valarray>
+
+template<typename T>
+void print_container(T container_val, std::string qstring = "")
+{
+    //empty, size
+    if (!qstring.empty()) {
+        if (qstring.size() < 10) {
+            for (auto index = qstring.size(); index < 10; index++) {
+                qstring.push_back(' ');
+            }
+        }
+
+        qstring += ":";
+        std::cout << qstring;
+    }
+
+    for (const auto &ref : container_val) {
+        std::cout << ref << " ";
+    }
+    std::cout <<std::endl;
+}
+
+int main(int argc, char* argv[])
+{
+    std::valarray<int> v1{1};
+    v1 = -1;
+    print_container(v1, "v1");
+
+    v1 = {4, 1, 3, 5, 7, 6};
+    print_container(v1, "v1");
+
+    // operator[]
+    std::cout << "v1[0]: " << v1[0] << std::endl;
+
+    // std::slice(start, size, stride)，从start开始，取size个元素，每个元素间隔stride个元素
+    std::valarray<int> v2 = v1[std::slice(0, 3, 2)];
+    print_container(v2, "v2");
+
+    std::valarray<int> v3 = v1[v1 % 2 == 0]; // 偶数元素
+    print_container(v3, "v3");
+
+    std::valarray<int> v4 = v1[v1 > 3]; //大于3的元素
+    print_container(v4, "v4");
+
+    // operator+、-、*、/
+    // 每一项进行相应处理
+    std::valarray<int> v5 = v1 + 1;
+    print_container(v5, "v5");
+
+    std::valarray<int> v6 = v1 - 1;
+    print_container(v6, "v6");
+
+    std::valarray<int> v7 = v1 * 2;
+    print_container(v7, "v7");
+
+    std::valarray<int> v8 = v1 / 2;
+    print_container(v8, "v8");
+
+    // swap
+    v3.swap(v4);
+    print_container(v3, "v3");
+    print_container(v4, "v4");
+
+    // size
+    std::cout << "v3.size(): " << v3.size() << std::endl;
+    v3.resize(8);
+    print_container(v3, "v3");
+
+    // sum
+    std::cout << "v1.sum(): " << v1.sum() << std::endl;
+
+    // min、max
+    std::cout << "v1.min(): " << v1.min() << std::endl;
+    std::cout << "v1.max(): " << v1.max() << std::endl;
+
+    // shift(左移，空出的位置用0填充)
+    print_container(v1, "v1");
+    auto v9 = v1.shift(2);
+    print_container(v9, "v9");
+
+    // cshift(左移，空出的位置用移出的元素填充)
+    auto v10 = v1.cshift(2);
+    print_container(v10, "v10");
+
+    // apply(对valarray对象中的元素进行操作)
+    std::valarray<int> v11 = v1.apply([](int i) { return i * i; });
+    print_container(v11, "v11");
+
+    // 数学函数支持
+    // std::abs 取绝对值
+    std::valarray<double> v_7{-1, -2, -3, -4, -5};
+    std::valarray<double> v_8 = std::abs(v_7);
+    print_container(v_8, "v_8");
+
+    // std::sqrt 开方
+    std::valarray<double> v_9 = std::sqrt(v_8);
+    print_container(v_9, "v_9");
+
+    // std::sin
+    std::valarray<double> v_1 = {0, 0.25, 0.5, 0.75, 1};
+    std::valarray<double> v_2 = std::sin(v_1 * std::numbers::pi);
+    print_container(v_2, "v_2");
+
+    // std::log
+    std::valarray<double> v_3 = std::log(v_2);
+    print_container(v_3, "v_3");
+
+    // std::pow
+    std::valarray<double> v_4{1, 2, 3, 4, 5};
+    std::valarray<double> v_5 = std::pow(v_4, 2);  // 1^2, 2^2, 3^2, 4^2, 5^2
+    print_container(v_5, "v_5");
+
+    std::valarray<double> v_6 = std::pow(v_4, v_4); // 1^1, 2^2, 3^3, 4^4, 5^5
+    print_container(v_6, "v_6");
 
     return 0;
 }

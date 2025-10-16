@@ -21,16 +21,15 @@
   - [override关键字](#override)
   - [final关键字](#final)
   - [重写、重载和隐藏](#overload_hide)
-- [类功能扩展](#improve)
+- [类功能扩展](#feature_extend)
   - [const和mutable关键字](#const_mutable)
-  - [列表初始化](#initialize)
+  - [列表初始化initialize_list](#initialize_list)
   - [非静态成员的初始化](#no_static_member_init)
   - [静态成员const和inline初始化](#static_member_init)
   - [单例模式](#singleton)
   - [类成员的sizeof](#sizeof_member)
   - [RAII资源管理](#raii)
-  - [枚举类型的列表初始化](#enum_list_init)
-  - [强枚举类型](#enum_class)
+  - [枚举类型的列表初始化和强枚举类型](#enum_extend)
   - [非受限联合体](#no_limit_union)
   - [函数体内类实现](#class_in_func) 
 - [返回主页](../../README.md)
@@ -41,11 +40,13 @@
 
 ### access_control
 
-对于封装来说，最重要的就是不同权限配合的访问控制，具体如下所示。
+对于封装来说，最重要的就是不同权限配合的访问控制权限，包含private、protected和public三种类型，具体如下所示。
 
-1. private: 类的私有成员只能在类的内部以及友元的类或者函数访问。
-2. protected: 除private对象外，还允许派生的类访问。
-3. public: 类的公共成员可以在任何地方访问。
+- private: 类的私有成员只能在类的内部以及友元的类或者函数访问(friend)。
+- protected: 除类内部、友元类或者友元函数外，还允许派生的类访问，这里派生类指的是直接或间接继承该类的类。
+- public: 类的公共成员可以被任意对象、函数访问。
+
+具体示例如下所示。
 
 ```cpp
 // demo class
@@ -76,17 +77,77 @@ int main(int argc, char *argv[]) {
 
 构造函数是一种特殊的成员函数，它在创建类的对象时被调用，用于初始化对象的成员变量。构造函数的名称与类的名称相同，并且没有返回类型。构造函数可以有参数，也可以没有参数。
 
-1. 默认构造函数（default），默认构造函数是一个特殊的构造函数，它在创建类的对象时被调用，并且不需要任何参数。
-2. 拷贝构造函数（copy）和拷贝赋值运算符，拷贝构造函数用于创建一个新对象，该对象是现有对象的副本。
-3. 移动构造函数（move）和移动赋值运算符，移动构造函数是C++11引入的一个特性，它允许对象的资源（如内存、文件句柄等）从一个对象转移到另一个对象，而不是进行深拷。
-4. 删除构造函数（delete），使用delete关键字来显式地禁止编译器生成默认的构造函数。
-5. 显示构造函数（explicit），使用explicit关键字来显式地声明，以防止隐式转换。
-6. 委托构造函数（delegate），它允许一个构造函数调用另一个构造函数来初始化对象。
-7. 继承构造函数（inherit），它允许派生类直接继承基类的构造函数，而不需要在派生类中显式地定义这些构造函数。
+- 默认构造函数（default），默认构造函数是一个特殊的构造函数，它在创建类的对象时被调用，并且不需要任何参数。如果没有显式定义构造函数，编译器会自动生成一个默认构造函数。也可以使用"constructor() = default"显示的告知编译器生成默认构造函数。其格式如下所示。
+
+```cpp
+/// default constructor
+demo() = default;
+```
+
+- 拷贝构造函数（copy）和拷贝赋值运算符，拷贝构造函数用于创建一个新对象，该对象是现有对象的副本。具体格式如下所示。
+
+```cpp
+// copy constructor
+demo(const demo& other) {
+    // body
+}
+
+// copy assignment operator
+demo& operator=(const demo& other) {
+    // body
+    return *this;
+}
+```
+
+- 移动构造函数（move）和移动赋值运算符，移动构造函数是C++11引入的一个特性，它允许对象的资源（如内存、文件句柄等）从一个对象转移到另一个对象，而不是进行深拷。具体格式如下所示。
+
+```cpp
+// move constructor
+demo(demo&& other) {
+    // body
+}
+
+// move assignment operator
+demo& operator=(demo&& other) {
+    // body
+    return *this;
+}
+```
+
+- 删除构造函数（delete），使用delete关键字来显式地禁止编译器生成默认的构造函数。
+
+```cpp
+// 禁止拷贝构造函数和拷贝赋值运算符
+demo(const demo&) = delete;
+demo& operator=(const demo&) = delete;
+```
+
+- 显示构造函数（explicit），使用explicit关键字来显式地声明，以防止隐式转换。
+
+```cpp
+// 显示构造函数
+explicit demo(int a) {}
+```
+
+- 委托构造函数（delegate），它允许一个构造函数调用另一个构造函数来初始化对象。
+
+```cpp
+// 委托构造函数，允许一个构造函数调用另一个构造函数来初始化对象
+demo(int a, int b) {}
+demo(int a) : demo(a, 0) {}
+```
+- 继承构造函数（inherit），它允许派生类直接继承基类的构造函数，而不需要在派生类中显式地定义这些构造函数。
+
+```cpp
+// 允许派生类直接继承基类的构造函数
+using demo::demo;
+```
 
 具体示例如下所示。
 
 ```cpp
+#include <iostream>
+
 // demo class
 class demo {
 public:
@@ -106,14 +167,14 @@ public:
     demo(const demo& other) {
         protected_var_ = other.protected_var_;
         private_var_ = other.private_var_;
-        cout<<"demo copy constructor"<<endl;
+        std::cout << "demo copy constructor"<< std::endl;
     };
 
     /// move constructor
     demo(demo&& other) {
         protected_var_ = other.protected_var_;
         private_var_ = other.private_var_;
-        cout<<"demo move constructor"<<endl;    
+        std::cout << "demo move constructor"<< std::endl;    
     };
 
     /// copy assignment operator
@@ -361,12 +422,34 @@ int main(int argc, const char *argv[])
 
 析构函数是一种特殊的成员函数，它在销毁类的对象时被调用，用于释放对象的资源。析构函数的名称与类的名称相同，前面加上波浪号（~），并且没有参数和返回类型。
 
-1. 默认析构函数(default)，默认析构函数是一个特殊的析构函数，它在销毁类的对象时被调用，并且不需要任何参数。
-2. 删除析构函数(delete)，使用delete关键字来显式地禁止编译器生成默认的析构函数(只能被new申请，不能直接创建）。
+- 默认析构函数(default)，默认析构函数是一个特殊的析构函数，它在销毁类的对象时被调用，并且不需要任何参数。类中如果没有定义析构函数，编译器会自动生成默认析构函数。也可以使用"~destructor() = default;"来显式的生成默认的析构函数。
+
+```cpp
+// 默认析构函数(default)，使用default关键字来显式地指定编译器生成默认的析构函数。
+~demo() = default;
+```
+
+- 删除析构函数(delete)，使用delete关键字来显式地禁止编译器生成默认的析构函数(只能被new申请，不能直接创建）。
+
+```cpp
+// 删除析构函数(delete)，使用delete关键字来显式地禁止编译器生成默认的析构函数(只能被new申请，不能直接创建）。
+// 析构函数删除后，也不能通过delete来删除对象，可以用于单例模式限制删除对象，在程序结束后由系统回收。
+~demo() = delete;
+```
+
+- 虚析构函数(virtual destructor), 虚析构函数是一种特殊的析构函数，它在销毁类的对象时被调用，用于释放对象的资源。虚析构函数使用virtual关键字修饰,用于保证派生类继承时，调用析构函数时可以正确地析构派生类的对象。如果不确定类是否会被其它类继承，一般都定义为虚析构函数。
+
+```cpp
+// 虚析构函数
+virtual ~demo() {
+}
+```
 
 具体示例如下所示。
 
 ```cpp
+#include <iostream>
+
 // demo class
 class demo {
 public:
@@ -383,6 +466,22 @@ public:
     ~demo2() = delete;
 };
 
+class demo_base {
+public:
+    /// virtual destructor
+    virtual ~demo_base() {
+        std::cout << "demo_base destructor" << std::endl;
+    }
+};
+
+class demo_derived final : public demo_base {
+public:
+    /// default destructor
+    ~demo_derived() {
+        std::cout << "demo_derived destructor" << std::endl;
+    }
+};
+
 int main(int argc, char *argv[]) 
 {
     demo d1;
@@ -390,6 +489,9 @@ int main(int argc, char *argv[])
     // demo2 d2;        // use of deleted function 'demo2::~demo2()'
     demo2* pd2 = new demo2();
 
+    demo_derived *pd = new demo_derived();
+    demo_base *pb = pd;
+    delete pb;           // 删除pb能够正确的调用demo_derived、demo_base的析构函数
     return 0;
 }
 ```
@@ -431,19 +533,19 @@ int main(int argc, char const *argv[])
 
 ### this
 
-this指针是一个指向当前对象的指针，它在类的非静态成员函数中使用。this指针可以用于访问当前对象的成员变量和成员函数。如果了解过Python中的对象，就可以知道在对象函数接口中声明的self，指向当前对象；this指针和self功能很相似，是指向当前对象的指针，用于在成员函数内部访问对象的其它成员。
+this指针是一个指向当前对象的指针，它在类的**非静态成员函数**中使用。this指针可以用于访问当前对象的成员变量和成员函数。如果了解过Python中的对象，就可以知道在对象函数接口中声明的self，指向当前对象；this指针和self功能很相似，是指向当前对象的指针，用于在成员函数内部访问对象的其它成员。
 
 对于this具有如下特性：
 
-1. this指针是一个指针，指向当前对象的地址。
-2. this指针只能在非静态成员函数内部使用。静态成员函数不与对象绑定，因此内部没有this指针。
-3. 对于特定的对象，其地址固定的，因此this也是常量指针，不能够修改。
+- this指针是一个指针，指向当前对象的地址。
+- this指针只能在非静态成员函数内部使用。静态成员函数不与对象绑定，因此内部没有this指针。
+- 对于特定的对象，其地址固定的，因此this也是常量指针，不能够修改。
 
 this的主要用途如下所示。
 
-1. 在成员函数中区分类变量和输入变量。
-2. 通过*this返回，实现链式调用。
-3. 获取对象本身的指针。
+- 在成员函数中区分出类变量(支持this访问或直接访问)和输入变量。
+- 通过*this返回，可以实现链式调用。
+- 获取对象本身的指针。
 
 具体示例如下所示。
 
@@ -465,11 +567,13 @@ public:
         this->x_ = x;
     }
 
+    // 链式调用，返回当前对象的引用
     demo& add(int x) {
         this->x_ += x;
         return *this;
     }
 
+    // 获取当前对象本身指针
     demo *get_self() {
         return this;
     }
@@ -504,30 +608,49 @@ int main(int argc, char *argv[])
 
 ### friend
 
-友元是一种特殊的访问权限，它允许一个类或函数访问另一个类的私有成员和保护成员。友元可以是另一个类的成员函数、另一个类的友元函数、另一个类的友元类。
+友元是一种特殊的访问权限，它允许一个类或函数访问另一个类的私有成员和保护成员。友元可以是类、类的静态函数或者普通函数等。
 
-1. 友元函数是一个普通函数，但它可以访问类的所有成员。友元函数在类的定义中声明，但它不是类的成员函数。
-2. 友元类是一个类，它的所有成员函数都可以访问另一个类的私有成员和保护成员。友元类在另一个类的定义中声明。
+- 友元函数是一个普通函数，但它可以访问类的所有成员。友元函数在类的定义中声明，但它不是类的成员函数。
+- 友元类是一个类，它的所有成员函数都可以访问另一个类的私有成员和保护成员。友元类在类的定义中声明指定，被指定的类具有此类的全部访问权限。
+
+友元一定程度上破坏了类的封装性，它允许类的外部函数访问类的私有成员和保护成员。不过在特定的场景下，如测试框架、调试打印等场景，友元函数可以提供方便的访问方式，简化了操作，C++种友元不是洪水猛兽，而是一种可选的工具；在理解自己需求时妥善使用，才是最好的选择。
+
+关于友元的具体示例如下所示。
 
 ```cpp
+#include <iostream>
+
 class demo {
 public:
+    /// constructor
+    demo() = default;
+
+    /// constructor
+    demo(int a) : var_(a) {}
+    
     /// friend function
     friend void friend_func(demo& obj);
+
     /// friend class
     friend class friend_class;
+    
+    /// member function
+    friend demo operator+(demo& obj1, demo& obj2)
+    {
+        return demo(obj1.var_ + obj2.var_);
+    }
 private:
     int var_{-1};
 };
 
 void friend_func(demo& obj) {
-    obj.var_ = 1;
+    std::cout << obj.var_ << std::endl;
 }
 
 class friend_class {
 public:
-    void friend_func(demo& obj) {
-        obj.var_ = 1;
+    void func(demo& obj) {
+        std::cout << obj.var_ << std::endl;
     }
 };
 
@@ -535,8 +658,12 @@ int main(int argc, char* argv[])
 {
     demo obj;
     friend_func(obj);
+
     friend_class fc;
-    fc.friend_func(obj);
+    fc.func(obj);
+
+    auto&& obj1 = obj + obj;
+    friend_func(obj1);
     return 0;
 }
 ```
@@ -556,6 +683,20 @@ int main(int argc, char* argv[])
 7. 下标运算符（[]）
 8. 函数调用运算符（()）
 9. 输入输出运算符（<<、>>）
+
+对于运算符重载，C++提供了以下几种方式：
+
+```cpp
+// 类成员函数重载
+demo operator+(const demo& other) const {
+    return demo(this->var_ + other.var_);
+}
+
+// 友元函数重载
+friend demo operator+(const demo&obj1, const demo&obj2) {
+    return demo(obj1.var_ + obj2.var_);
+}
+```
 
 具体示例如下所示。
 
@@ -606,20 +747,84 @@ int main(int argc, char* argv[])
 
 | 类成员/派生方式 | public | protected | private |
 | --- | --- | --- | --- |
-| 基类public | 派生类public | 派生类protected | 派生类private |
-| 基类protected | 派生类protected | 派生类protected | 派生类private |
-| 基类private | 派生类不可见 | 派生类不可见 | 派生类不可见 |
+| 基类public成员 | public | protected | private |
+| 基类protected成员 | protected | protected | private |
+| 基类private成员 | 不可见 | 不可见 | 不可见 |
+
+```cpp
+#include <iostream>
+
+class base
+{
+public:
+    int a{0};
+
+protected:
+    int b{0};
+
+private:
+    int c{0};
+};
+
+class derived : public base {
+    void print() {
+        std::cout << a << std::endl;     // public
+        std::cout << b << std::endl;     // protected
+        // std::cout << c << std::endl;  // private, 不可见
+    }
+};
+
+class derived1 : protected base {
+public:
+    void print() {
+        std::cout << a << std::endl;     // protected
+        std::cout << b << std::endl;     // protected
+        // std::cout << c << std::endl;  // private, 不可见
+    }
+};
+
+class derived2 : private base {
+public:
+    void print() {
+        std::cout << a << std::endl;     // private
+        std::cout << b << std::endl;     // private
+        // std::cout << c << std::endl;  // private, 不可见
+    }
+};
+
+int main(int argc, char const *argv[])
+{
+    derived d;
+    std::cout << d.a << std::endl;
+
+    derived1 d1;
+    // std::cout << d1.a << std::endl;  // protected, 不可见
+    d1.print();
+
+    derived2 d2;
+    //std::cout << d2.a << std::endl; // private, 不可见
+    d2.print();
+}
+```
 
 ### multiple_inherit
 
 多重继承是指一个类可以从多个基类继承属性和方法。在C++中，一个派生类可以继承多个基类，从而获得这些基类的所有成员。
 
 ```cpp
+#include <iostream>
+
 /// a class
-class a {};
+class a {
+public:
+    int a{0};
+};
 
 /// b class
-class b {};
+class b {
+public:
+    int b{0};
+};
 
 /// c class
 class c : public a, public b {};
@@ -627,6 +832,10 @@ class c : public a, public b {};
 int main(int argc, char* argv[])
 {
     c c_obj;
+
+    c_obj.a = 1;
+    c_obj.b = 2;
+    std::cout << c_obj.a << " " << c_obj.b << std::endl;
     return 0;
 }
 ```
@@ -635,14 +844,16 @@ int main(int argc, char* argv[])
 
 虚继承是C++中的一种特殊继承方式，用于解决多重继承中的菱形继承问题。
 
-1. A -> B -> D
-2. A -> C -> D
-
-此时D类中会有两个A的成员，此时就会有二义性，被称为菱形继承。使用虚继承可以解决这个问题，虚继承会将A类的成员共享给B和C类，从而解决二义性问题。
+菱形继承的场景如下，B、C继承于D，B、C都继承于A；此时D类中会有两个A的成员，就会有二义性，被称为菱形继承。使用虚继承可以解决这个问题，虚继承会将A类的成员共享给B和C类，从而解决二义性问题。
 
 ```cpp
+#include <iostream>
+
 /// a class
-class a {};
+class a {
+public:
+    int a{0};
+};
 
 /// b class
 class b : virtual public a {};
@@ -656,6 +867,8 @@ class d : public b, public c {};
 int main(int argc, char* argv[])
 {
     d d_obj;
+    d_obj.a = 1;
+    std::cout << d_obj.a << std::endl;
     return 0;
 }
 ```
@@ -668,8 +881,8 @@ int main(int argc, char* argv[])
 
 按照动态类型的区别，主要分为静态多态和动态多态。
 
-1. **静态多态**（编译时多态）是在编译阶段就确定要调用的函数，主要通过函数重载和运算符重载来实现。
-2. **动态多态**（运行时多态）是在运行时根据对象的实际类型来决定调用哪个函数，主要通过虚函数和继承来实现。
+- 静态多态（编译时多态）是在编译阶段就确定要调用的函数，主要通过函数重载和运算符重载来实现。
+- 动态多态（运行时多态）是在运行时根据对象的实际类型来决定调用哪个函数，主要通过虚函数和继承来实现。
 
 具体示例如下所示。
 
@@ -681,11 +894,18 @@ class demo {
 public:
     /// default constructor
     demo() = default;
+
     /// default destructor
-    ~demo() = default;
+    virtual ~demo() = default;
+
     /// virtual function
     virtual void func() {
         std::cout << "demo func" << std::endl;
+    }
+
+    /// 函数重载
+    void func(int a) {
+        std::cout << "demo func " << a << std::endl;
     }
 };
 
@@ -694,8 +914,10 @@ class demo2 : public demo {
 public:
     /// default constructor
     demo2() = default;
+
     /// default destructor
     ~demo2() = default;
+
     /// virtual function
     void func() override {
         std::cout << "demo2 func" << std::endl;
@@ -706,8 +928,10 @@ class demo3 : public demo {
 public:
     /// default constructor
     demo3() = default;
+
     /// default destructor
     ~demo3() = default;
+
     /// virtual function
     void func() override {
         std::cout << "demo3 func" << std::endl;
@@ -720,6 +944,7 @@ int main(int argc, char* argv[])
     demo* p_demo3 = new demo3();
 
     p_demo2->func();
+    p_demo2->func(2);
     p_demo3->func();
 
     demo2 *p_demo2_1 = dynamic_cast<demo2*>(p_demo2);
@@ -743,9 +968,23 @@ int main(int argc, char* argv[])
 3. 虚函数可以被继承，并且可以在派生类中重写。
 4. 虚函数可以被动态绑定，即通过基类指针或引用调用虚函数时，实际调用的是派生类中重写的函数。
 
-纯虚函数是一种特殊的虚函数，它没有函数体，并且在基类中必须被重写。纯虚函数的声明方式是在函数声明的末尾加上=0。
+纯虚函数是一种特殊的虚函数，它没有函数体，并且在基类中必须被重写。纯虚函数的声明方式是在函数声明的末尾加上=0；具体格式如下所示。
 
-接口类是一种特殊的类，它只包含纯虚函数，并且没有数据成员。接口类的目的是为了定义一组操作，而不提供具体的实现。
+```cpp
+// 纯虚函数
+virtual void func() = 0;
+```
+
+接口类是一种特殊的类，它只包含纯虚函数，并且没有数据成员。接口类的目的是为了定义一组操作，而不提供具体的实现。接口类不能被实例化，但可以被继承用于限定派生类需要支持的操作。
+
+```cpp
+// 接口类
+class virtual_demo {
+public:
+    /// 纯虚函数
+    virtual void func1() = 0;
+};
+```
 
 虚函数表是一个存储类成员函数指针的数组，每个拥有虚函数的对象都会有一个指向该类虚函数表的指针（通常被叫做虚表指针，vptr）。虚函数表在编译时生成，在运行时对象会生成虚函数指针(vptr)指向虚函数表。
 
@@ -761,21 +1000,21 @@ public:
     virtual void func1() = 0;
 };
 
-/// 函数继承
+/// 派生类
 class demo : public virtual_demo {
 public:
-    void func1() { 
+    void func1() override { 
         std::cout << "func1" << std::endl;
     }
 };
 
-// 定义函数指针类型
 using FuncPtr = void(*)();
 
-// 获取虚函数表并调用函数
 void printVTable(demo* obj) {
+    
     // 获取对象的虚表指针
     void*** vptr = reinterpret_cast<void***>(obj);
+    
     // 获取虚函数表
     void** vtable = *vptr;
 
@@ -826,7 +1065,7 @@ public:
 int main(int argc, char *argv[]) 
 {
     Base* p_base = new Derived();
-    delete p_base;  // 调用派生类析构函数，确保完整释放资源
+    delete p_base;  // 调用派生类析构函数，在调用基类的析构函数，确保完整释放资源
     return 0;
 }
 ```
@@ -835,8 +1074,10 @@ int main(int argc, char *argv[])
 
 override是一个标识符，它用于指示某个函数是从基类继承而来的，并且在派生类中被重新定义。
 
-1. 函数需要声明在派生类中。
-2. 函数需要重写基类中的虚函数(基类中标明为虚函数，否则无法重写)。
+- override函数需要声明在派生类中。
+- override函数需要重写基类中的虚函数(基类中标明为虚函数，否则无法重写)。
+
+通过override标识，可以确保派生类种必然重写了基类中的虚函数，如果不存在，则编译会报错；通过编译器检查，可以降低拼写错误导致未正确重写的风险。
 
 具体示例如下所示。
 
@@ -872,13 +1113,22 @@ int main(int argc, char *argv[])
 
 final是一个关键字，用于指定某个类、虚函数或虚函数的重载不能被继承或重写。
 
-1. 当final用于类时，表示该类不能被继承。
-2. 当final用于函数时，表示该虚函数不能在派生类中被重写。
+- 当final用于类时，表示该类不能被继承。
+- 当final用于函数时，表示该虚函数不能在派生类中被重写。
+
+final关键字可以保证类或类中的虚函数不会被重写，可以降低被错误运用的风险。
 
 具体示例如下所示。
 
 ```cpp
 #include <iostream>
+
+class demo final {
+public:
+    void func1() {
+        std::cout << "demo" << std::endl;
+    }
+};
 
 /// virtual_demo
 class virtual_demo {
@@ -893,17 +1143,22 @@ int main(int argc, char *argv[])
     demo d1;
     d1.func1();
 
+    virtual_demo v1;
+    v1.func1();
+
     return 0;
 }
 ```
 
 ### overload_hide
 
-对于C++中，对于类和函数，包含重要的特性；分别是重写、重载和隐藏。
+对于C++中，对于类和函数，包含重要的特性：包含重写、重载和隐藏三种语法。
 
-1. 重写(overrider)是指在派生类中重新定义基类的虚函数，这样调用派生类时重写基类的函数，这里的覆盖需要满足有相同的函数名、参数列表和返回类型。
-2. 重载(overload)是指在同一个作用域内定义多个同名函数，它们的函数名相同，但是参数列表不同，例如类有多个不同参数的构造函数。
-3. 隐藏(overhide)是指在派生类中定义一个与基类同名不带virtual的函数，会隐藏基类中所有相同名称的函数，不能够直接调用。参数不同的同名函数也会隐藏，如果仍然使用此函数，则需要使用using关键字引入派生类。
+- 重写(overrider)是指在派生类中重新定义基类的虚函数，这样调用派生类时重写基类的函数，这里的覆盖需要满足有相同的函数名、参数列表和返回类型。
+- 重载(overload)是指在同一个作用域内定义多个同名函数，它们的函数名相同，但是参数列表不同，例如类有多个不同参数的构造函数。
+- 隐藏(overhide)是指在派生类中定义一个与基类同名不带virtual的函数，会隐藏基类中所有相同名称的函数，不能够直接调用。参数不同的同名函数也会隐藏，如果仍然使用此函数，则需要使用using关键字引入派生类。
+
+其中重载是基于C++的函数调用性质决定的，编译时函数会根据函数名、参数列表和返回值组合成标识符，这样不同参数类型的函数就直接被识别成不同的函数；因此函数重载不仅支持在类中，也支持在全局作用域中。重写是基于虚函数的性质，只有在基类中声明为虚函数的函数才可以在派生类中被重写。如果不存在virtual，则派生类会隐藏基类中所有同名称的函数(参数不同的也会隐藏)，如果派生类仍然希望访问基类的同名函数，则使用using关键字引入。
 
 具体示例如下所示。
 
@@ -955,7 +1210,8 @@ public:
 
 class derived1 : public base {
 public:
-    using base::func2;
+    // func2会隐藏基类中所有func2函数，希望调用基类的func2函数，需要使用using关键字引入
+    using base::func2; 
 
     void func2() {
         std::cout << "derived func2" << std::endl;
@@ -982,23 +1238,23 @@ int main(int argc, char *argv[])
 }
 ```
 
-重载的编译器实现原理是名称修饰，名称修饰是一种将函数名、参数类型和返回类型等信息组合成一个唯一标识符的技术。编译器会根据函数的参数列表和返回类型对函数名进行修改，使得每个重载函数在内部都有一个唯一的名称。
-
-## improve
+## feature_extend
 
 ### const_mutable
 
-const在类变量中，表示变量只读。
+对于const关键字，可以使用在类变量、类函数参数、类函数返回值和类函数后方。
 
-const声明在函数中时，根据位置不同如下所示。
-
-1. 在函数参数上，表示参数在函数内部不允许修改
-2. 在函数返回值前时，表示返回值不能够修改。
-3. 在函数后方，表示函数体内this指针不允许修改(函数内部不能够修改变量)，如果希望修改某参数，在参数前添加mutable。
+- const在类变量中，表示变量只读。
+- const声明在函数中时，根据位置不同如下所示。
+  - 在函数参数上，表示参数在函数内部不允许修改。
+  - 在函数返回值前时，表示返回值不能够修改。
+  - 在函数后方，表示函数体内this指针不允许修改(函数内部不能够修改变量)；当然如果希望修改，可以在类变量声明前添加mutable关键字。
 
 mutable关键字是一个属性修饰符，它允许类的某个数据成员在常量对象（const对象）中被修改。
 
 ```cpp
+#include <iostream>
+
 class demo {
 public:
     /// default constructor
@@ -1008,15 +1264,22 @@ public:
     ~demo() = default;
 
     /// const function
-    int func() const {
+    /// 函数体内this指针不允许修改(函数内部不能够修改变量)；当然如果希望修改，可以在类变量声明前添加mutable关键字。
+    int func(void) const {
         var_ = 1;
         
         /// var2_ = 1; // error C3491: 'var2_': cannot assign to a variable that is const
         return var_;
     }
+
+    const int func1(const int val) {
+        return val;
+    }
 private:
     /// var_
-    mutable int var_{-1};
+    mutable int var_{-1};   // 声明为mutable, 表示在const函数中可以修改
+
+    const int var1_{1};   // 声明为const, 表示在const函数中不能修改
 
     /// var2_
     int var2_ = 1;
@@ -1025,19 +1288,66 @@ private:
 int main(int argc, char* argv[])
 {
     demo obj;
-    obj.func();
+    
+    std::cout << "var_: " << obj.func() << std::endl;
+    std::cout << "var1_: " << obj.func1(1) << std::endl;
     return 0;
 }
 ```
 
-### initialize
+### initialize_list
 
-列表初始化是一种在C++中初始化对象的方法，它允许你使用花括号{}来初始化对象的成员。
+列表初始化是一种在C++中初始化对象的方法，它允许你使用花括号{}来初始化对象的成员。使用std::initializer_list作为参数的构造函数，可以扩展自定义类型支持列表初始化。
 
-1. 对于C++的基础类型，如int、double、float等，可以直接使用花括号{}进行初始化。
-2. 对于C++标准模板库和标准库中的对象，如vector、map等，已经支持了列表初始化。
-3. 对于自定义的class类型，可以引入std::initializer_list作为参数的构造函数，支持列表初始化。
-4. 对于同时支持列表初始化和构造函数的类初始化，使用{}优先调用std::initializer_list作为参数的构造函数。
+std::initializer_list参考网址: <https://en.cppreference.com/w/cpp/header/initializer_list.html>
+
+std::initializer_list支持的方法如下所示。
+
+| 方法 | 描述 |
+| --- | --- |
+| size_t size() const | 返回初始化列表中的元素数量 |
+| const T* begin() const | 返回指向初始化列表第一个元素的指针 |
+| const T* end() const | 返回指向初始化列表最后一个元素之后位置的指针 |
+
+关于C++支持列表初始化的对象如下所示。
+
+- 对于C++的基础类型，如int、double、float等，可以直接使用花括号{}进行初始化。
+
+```cpp
+// 基础类型
+int var = {1};
+int var1{1};
+
+int arr[] = {1, 2, 3};
+int arr1[]{1, 2, 3};
+```
+
+- 对于C++标准模板库和标准库中的对象，如vector、map等，已经支持了列表初始化。
+
+```cpp
+// std::vector 初始化
+std::vector<int> vec = {1, 2, 3};
+std::vector<int> vec1{1, 2, 3};
+
+// std::map 初始化
+std::map<int, std::string> map = {{1, "one"}, {2, "two"}};
+std::map<int, std::string> map1{{1, "one"}, {2, "two"}};
+```
+
+- 对于自定义的class类型，可以引入std::initializer_list作为参数的构造函数，支持列表初始化。
+
+```cpp
+// 自定义class支持列表初始化
+demo(std::initializer_list<int> list) {
+    for (auto &val : list) {
+        vec_.push_back(val);
+    }
+};
+```
+
+- 对于同时支持列表初始化和构造函数的类初始化，使用{}优先调用std::initializer_list作为参数的构造函数。
+
+具体示例如下所示。
 
 ```c
 #include <initializer_list>
@@ -1124,8 +1434,15 @@ public:
 
 int main(int argc, char* argv[])
 {
+    // 基础类型
+    int var = {1};
+    int var1{1};
+
+    int arr[] = {1, 2, 3};
+    int arr1[]{1, 2, 3};
+
     demo obj = {1, 2};
-    obj.print();
+    obj.print(); 
     
     vec_str vec_obj = {"hello", "world"};
     vec_obj.print();
@@ -1146,10 +1463,10 @@ int main(int argc, char* argv[])
 
 类的非静态成员的立即初始化是指在类的定义中为非静态成员变量提供初始值，其具有如下特性。
 
-1. 类的非静态成员可以在类的定义中使用"等号="或者"花括号{}"来进行初始化。
-2. 对于位域，也支持通过"="或者"花括号{}"进行初始化。
-3. 对于联合体，也支持类的非静态成员立即初始化。
-4. 类对象的初始化顺序为"立即初始化 => 成员初始化列表 => 构造函数调用", 结果以最后一步的值为准。
+- 类的非静态成员可以在类的定义中使用"等号="或者"花括号{}"来进行初始化。
+- 对于位域，也支持通过"="或者"花括号{}"进行初始化。
+- 对于联合体，也支持类的非静态成员立即初始化。
+- 类对象的初始化顺序为"立即初始化 => 成员初始化列表 => 构造函数调用", 结果以最后一步的值为准。
 
 具体示例如下所示。
 
@@ -1221,7 +1538,23 @@ int main(int argc, char* argv[])
 类的静态数据成员支持const和inline初始化(C++17)。
 
 - 类的静态数据成员如果是const类型，可以直接立即初始化。
-- 类的静态数据成员如果是非const类型，可以使用inline进行立即初始化。
+
+```cpp
+// 类的静态数据成员如果是const类型，可以直接立即初始化。
+class demo {
+    const static int val_{0};
+};
+```
+
+- 类的静态数据成员如果是非const类型，可以使用inline进行立即初始化(C++17支持)。
+
+```cpp
+// 类的静态数据成员如果是非const类型，可以使用inline进行立即初始化。
+class demo {
+    inline static int val_{0};
+};
+```
+
 
 具体示例代码如下所示。
 
@@ -1251,7 +1584,7 @@ int main(int argc, char* argv[])
 
 ### singleton
 
-单例模式是一种设计模式，它确保一个类只有一个实例，并提供一个全局访问点来访问该实例。
+单例模式是一种设计模式，它确保一个类只有一个实例，并提供一个全局访问点来访问该实例。在C++11后，单例模式可以使用内联静态成员变量来实现，可以保证只有一个实例被创建。
 
 ```cpp
 #include <iostream>
@@ -1273,11 +1606,11 @@ public:
 class Singleton2 {
 public:
     /// 获取单例实例
-    static Singleton2& getInstance() {
+    static Singleton2* getInstance() {
         if (pinstance_ == nullptr) {
             pinstance_ = new Singleton2();
         }
-        return *pinstance_;
+        return pinstance_;
     }
 
     void show(void) {
@@ -1290,18 +1623,18 @@ private:
 int main(int argc, char* argv[])
 {
     Singleton::getInstance()->show();
-    Singleton2::getInstance().show();
+    Singleton2::getInstance()->show();
     return 0;
 }
 ```
 
 ### sizeof_member
 
-非静态数据成员的sizeof
-
-在C++11后，类的非静态数据成员的长度可以使用sizeof运算符来计算。
+类的非静态数据成员的长度可以使用sizeof运算符来计算，而不需要实例化对象(C++11支持)。
 
 ```cpp
+#include <iostream>
+
 class demo {
 public:
     /// default constructor
@@ -1314,44 +1647,62 @@ public:
 
 int main(int argc, char* argv[])    
 {
-    auto val = sizeof(demo::var1_);
+    // 使用nullptr指针来获取类的非静态数据成员的长度
+    auto s1 = sizeof(static_cast<demo *>(nullptr)->var1_);
+    std::cout << s1 << std::endl;
+
+    // 使用sizeof直接获得类的非静态数据成员的长度
+    s1 = sizeof(demo::var1_);
+    std::cout << s1 << std::endl;
     return 0;
 }
 ```
 
 ### raii
 
-RAII(Resource Acquisition is initialization)。
+RAII全称是Resource Acquisition Is Initialization，是一种C++编程技术，用于管理资源的生命周期。RAII的核心思想是将资源的获取和释放与对象的生命周期绑定在一起，确保资源在对象创建时被获取，在对象销毁时被释放。其利用的是C++的构造函数和析构函数的机制，在对象创建时获取资源，在对象销毁时释放资源。
+RAII的重要应用是智能指针和std::lock_guard，会在相应章节进行说明。
 
-1. RAII（Resource Acquisition Is Initialization）是一种C++编程技术，用于管理资源的生命周期。
-2. RAII的核心思想是将资源的获取和释放与对象的生命周期绑定在一起，确保资源在对象创建时被获取，在对象销毁时被释放。
-3. RAII的重要应用是智能指针和std::lock_guard，会在后面说明
+具体示例如下所示。
 
 ```cpp
+#include <iostream>
+
 /// ResourceHolder class
 template<typename T>
 class ResourceHolder {
 public:
     /// constructor
     ResourceHolder(T* resource) : resource_(resource) {}
+    
     /// destructor
-    ~ResourceHolder() {delete resource_; }
+    ~ResourceHolder() {
+        if (resource_ != nullptr) {
+            std::cout << "delete resource_" << std::endl;
+            delete resource_; 
+        }
+    }
 private:
-    T* resource_;
+    T* resource_{nullptr};
 };
 
-int main(int argc, char* argv[]) {
-    int* resource = new int(10);
-    ResourceHolder<int> holder(resource);
+int main(int argc, char* argv[]) 
+{
+    {
+        ResourceHolder<int> holder(new int(10));
+    }
+    
     return 0;   
 }
 ```
 
-### enum_list_init
+## enum_extend
 
-枚举类型的列表初始化，枚举类型，花括号语法初始化枚举类型的变量。
+枚举类型的列表初始化，枚举类型，花括号语法初始化枚举类型的变量；具体示例如下所示。
 
 ```cpp
+#include <iostream>
+
 /// 枚举类型
 enum Color {
     RED,
@@ -1359,23 +1710,28 @@ enum Color {
     BLUE
 };
 
-int main() {
+int main(int argc, const char* argv[]) 
+{
     Color c1 = RED;
     Color c2 = {GREEN};
     Color c3 = {BLUE};
+
+    std::cout << (c1 == RED) << std::endl;
+    std::cout << (c2 == GREEN) << std::endl;
+    std::cout << (c3 == BLUE) << std::endl;
+
+    return 0;
 }
 ```
-
-### enum_class
 
 枚举类型在处理时，可以被隐式转换为整型，缺乏类型检查，这会导致一些潜在的错误；强枚举类型（enum class）是C++11引入的一种新的枚举类型，它提供了更强的类型安全性和更好的封装性。
 
 强枚举类型具有以下特征：
 
-1．枚举标识符属于强枚举类型的作用域，允许不同强枚举类型的枚举标识符具有相同的名称。
-2. 强枚举类型不会隐式转换为整型，需要使用作用域运算符来访问枚举标识符。
-3. 可以指定强枚举类型的底层类型，默认是int类型；对于C++11，普通枚举类型也支持指定底层类型，不过没有默认指定类型。
-4. C++17开始，指定了类型的枚举和强枚举类型，可以支持使用整型进行直接列表初始化。
+- 枚举标识符属于强枚举类型的作用域，允许不同强枚举类型的枚举标识符具有相同的名称。
+- 强枚举类型不会隐式转换为整型，需要使用作用域运算符来访问枚举标识符。
+- 可以指定强枚举类型的底层类型，默认是int类型；对于C++11，普通枚举类型也支持指定底层类型，不过没有默认指定类型。
+- C++17开始，指定了类型的枚举和强枚举类型，可以支持使用整型进行直接列表初始化。
 
 使用using关键字可以打开强枚举类型，简化操作。
 
@@ -1449,7 +1805,7 @@ int main(int argc, const char* argv[])
 
     // 指定底层类型的枚举、强枚举类型支持使用底层类型进行直接列表初始化(C++17)
     Color2 c9{Color2::RED};
-    Color2 c10{1};
+    Color2 c10{1};  // 底层类型为int，1可以直接转换为Color2::RED
     std::cout << (c9 == c10) << std::endl; // true
 
     // 使用using enum可以直接访问枚举标识符，无需使用作用域运算符
@@ -1465,9 +1821,11 @@ int main(int argc, const char* argv[])
 
 对于非受限联合体，具有以下特点。
 
-1. 突破传统联合体只能是POD类型的限制
-2. 手动内存管理，需要显示调用非平凡类型的构造函数和析构函数。
-3. 默认函数删除，编译器会自动删除默认构造、析构函数，需要手动实现。
+- 突破传统联合体只能是POD类型的限制
+- 手动内存管理，需要显示调用非平凡类型的构造函数和析构函数。
+- 默认函数删除，编译器会自动删除默认构造、析构函数，需要手动实现。
+
+具体示例如下所示。
 
 ```cpp
 #include <string>
@@ -1522,8 +1880,6 @@ int main(int argc, char* argv[])
 
 ### class_in_func
 
-函数局部类。
-
 在C++里，允许在函数内部定义类，这种类被称作局部类。局部类定义在函数作用域内，其作用域也局限于该函数，外部无法直接访问。
 
 ```cpp
@@ -1551,7 +1907,7 @@ int main(int argc, char* argv[])
 
 ### class_default_operator
 
-类的默认比较函数，默认情况下，类的比较函数是按成员变量的顺序进行比较的。
+类的默认比较函数，默认情况下，类的比较函数是按成员变量的顺序进行比较的；具体示例如下所示。
 
 ```cpp
 #include <iostream>

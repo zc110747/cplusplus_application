@@ -38,9 +38,8 @@ namespace MUTEX
         if (mutex_1.try_lock()) {
             val_1++;
             mutex_1.unlock();
-        } else {
-            std::cout << "thread id is " << id << " try_lock failed!" << std::endl;
         }
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
         mutex_2.lock();
         std::cout << "thread id is " << id << std::endl;
@@ -54,12 +53,12 @@ namespace MUTEX
         std::cout << "================== MUTEX ==================" << std::endl;
         std::vector<std::thread> vec;
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             vec.push_back(std::thread(multi_func, i));
         }
 
-        for (int i = 0; i < 10; i++) {
-            vec[i].join();
+        for (auto& t : vec) {
+            t.join();
         }
 
         std::cout << "val1 = " << val_1 << std::endl;
@@ -172,6 +171,51 @@ namespace LOCK_GUARD
     }
 }
 
+namespace UNIQUE_LOCK
+{
+    int count = 0, count1 = 0;
+    std::mutex mt, mt1;
+    void work_thread(void)
+    {
+        {
+            // 自动释放
+            std::unique_lock<std::mutex> lck(mt);
+            count++;
+        }
+
+        // 手动解锁
+        std::unique_lock<std::mutex> lck(mt);
+        count++;
+        lck.unlock();
+
+        if (lck.try_lock()) {
+            count1++;
+            lck.unlock();
+        }
+
+        // 手动释放
+        std::unique_lock<std::mutex> lck1(mt);
+        count1++;
+        lck.release();  
+    }
+
+    int test(void)
+    {
+        std::cout << "================== UNIQUE_LOCK ==================" << std::endl;
+        std::vector<std::thread> threads;
+
+        for (int i = 0; i < 10; i++) {
+            threads.push_back(std::thread(work_thread));
+        }
+        
+        for (auto& t : threads) {
+            t.join();
+        }
+        std::cout << "count: " << count << std::endl;
+        std::cout << "count1: " << count1 << std::endl;
+        return 0;
+    }
+}
 int main(int argc, char* argv[])
 {
     MUTEX::test();
@@ -181,5 +225,8 @@ int main(int argc, char* argv[])
     SPOCK_LOCK::test();
 
     LOCK_GUARD::test();
+
+    UNIQUE_LOCK::test();
+
     return 0;
 } 

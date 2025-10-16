@@ -18,7 +18,59 @@
 #include <thread>
 #include <queue>
 #include <mutex>
+#include <iomanip>
+#include <chrono>
 #include <condition_variable>
+
+namespace CV_PROCESS
+{
+    std::condition_variable cv;
+    std::mutex mt;
+    std::atomic<bool> ready(false);
+
+    void work_thread(void)
+    {
+        std::unique_lock<std::mutex> lock(mt);
+        
+        cv.wait(lock, [] { return ready.load(); });
+
+        std::cout << "work_thread run" << std::endl;
+
+        lock.unlock();
+        ready.store(true);
+        cv.notify_all();
+    }
+
+    int test(void)
+    {
+        std::thread t1(work_thread);
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+        ready = true;
+
+        std::cout << "ready is: " << ready << std::endl;
+
+        cv.notify_one();
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+        {
+            std::unique_lock<std::mutex> lock(mt);
+            bool ret = cv.wait_for(lock, std::chrono::milliseconds(1000), 
+                        []()->bool { return ready.load(); });
+            if (ret) {
+                std::cout << "work_thread ready" << std::endl;
+            } else {
+                std::cout << "work_thread timeout" << std::endl;
+            }
+        }
+        t1.join();
+        
+        std::cout << "work_thread join" << std::endl;
+        return 0;
+    }
+}
 
 namespace USE_SIGNAL
 {
@@ -43,7 +95,7 @@ namespace USE_SIGNAL
                     return wakeups > 0;
                 });
 
-            if (ret && wakeups>0) {
+            if (ret && wakeups > 0) {
                 --wakeups;
             }
             return ret;
@@ -77,7 +129,7 @@ namespace USE_SIGNAL
             semaphore_.signal();
         }
 
-        bool receive(uint32_t timeout, T& Object)
+        bool receive(T& Object, uint32_t timeout = 0xffffffff)
         {
             int ret = false;
 
@@ -106,7 +158,7 @@ void thread_send_task(void)
 
     std::cout << "Send Task Run" << std::endl;
 
-    for (i=0; i<1000; i++) {
+    for (i = 0; i < 100; i++) {
         ThreadQueue.send(i);
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
@@ -123,12 +175,13 @@ void thread_receive_task(void)
 
     std::cout << "Receive Task Run" << std::endl;
 
-    for(i=0; i<1000; i++) {
-        if(ThreadQueue.receive(100, rx)) {
-            std::cout<<rx<<" | ";
-            if (rx !=0 && rx%16 == 0) {
+    for (i = 0; i < 100; i++) {
+        if(ThreadQueue.receive(rx, 100)) {
+            std::cout << std::setw(2) << std::setfill('0') << rx <<" | ";
+            if (rx != 0 && rx%16 == 15) {
                 std::cout<<std::endl;
             }
+
             if(rx != last_rx) {
                 std::cout<<"queue lost!"<<std::endl;
                 break;
@@ -149,5 +202,6 @@ int main(int argc, char* argv[])
     t1.join();
     t2.join();
 
+    CV_PROCESS::test();
     return 0;
 }

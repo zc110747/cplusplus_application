@@ -16,11 +16,34 @@ RTTI（Run-Time Type Identification）是C++中的一种机制，用于在运行
 
 ### typeid
 
-typeid是一个操作符，用于获取对象的类型信息。它返回一个std::type_info对象，该对象包含了对象的类型信息。typeid可以用于获取对象的类型名称、比较两个对象的类型是否相同等；具有以下特征。
+typeid是一个操作符，位于`<typeinfo>`头文件中，用于获取对象的类型信息。它返回一个std::type_info对象，该对象包含了对象的类型信息。typeid可以用于获取对象的类型名称、比较两个对象的类型是否相同等。其中std::type_info的格式如下所示。
 
-1. typeid的返回值是一个左值，且其生命周期一直被扩展到程序生命周期结束。
-2. std::type_info不支持复制构造函数，若想保存std::type_info，只能获取其引用或者指针。
-3. typeid的返回值总是忽略类型的 cv 限定符，即typeid(const T)==typeid(T)。
+typeinfo参考网址：<https://en.cppreference.com/w/cpp/header/typeinfo>
+
+其格式如下所示。
+
+```cpp
+namespace std {
+  class type_info
+  {
+  public:
+    virtual ~type_info();
+    constexpr bool operator==(const type_info& rhs) const noexcept;
+    bool before(const type_info& rhs) const noexcept;     // 比较类型的顺序
+    size_t hash_code() const noexcept;                    // 获取对象的哈希值
+    const char* name() const noexcept;                   // 获取对象的类型名称
+ 
+    type_info(const type_info&) = delete;
+    type_info& operator=(const type_info&) = delete;
+  };
+}
+```
+
+结合上述描述，typeid操作符具有以下特征。
+
+- typeid的返回值是一个左值，且其生命周期一直被扩展到程序生命周期结束。
+- std::type_info不支持复制构造函数，若想保存std::type_info，只能获取其引用或者指针。
+- typeid的返回值总是忽略类型的 cv 限定符，即typeid(const T)==typeid(T)。
 
 具体示例如下所示。
 
@@ -69,18 +92,84 @@ int main(int argc, char *argv[])
 }
 ```
 
+### typeindex
+
+typeindex是一个类，位于`<typeindex>`头文件中，用于获取对象的类型索引。typeindex对象包含对象的类型索引，该索引可以通过hash_code()方法获取。typeindex对象可以通过std::type_index(typeid(对象))操作符获取。
+
+typeindex参考网址：<https://en.cppreference.com/w/cpp/header/typeindex>
+
+typeindex支持的方法如下。
+
+| 方法 | 描述 |
+| --- | --- |
+| opeator= | 赋值函数 |
+| operator== | 比较两个typeindex对象是否相等 |
+| operator< | 比较两个typeindex对象是否小于 |
+| operator> | 比较两个typeindex对象是否大于 |
+| operator<= | 比较两个typeindex对象是否小于等于 |
+| operator>= | 比较两个typeindex对象是否大于等于 |
+| hash_code() | 获取对象的哈希值 |
+| name() | 获取对象的类型名称 |
+
+具体示例如下所示。
+
+```cpp
+#include <iostream>
+#include <memory>
+#include <string>
+#include <typeindex>
+#include <typeinfo>
+#include <map>
+ 
+struct A
+{
+    virtual ~A() {}
+};
+ 
+struct B : A {};
+struct C : A {};
+
+std::map<std::type_index, std::string> type_names = {
+    {std::type_index(typeid(int)), "int"},
+    {std::type_index(typeid(double)), "double"},
+    {std::type_index(typeid(A)), "A"},
+    {std::type_index(typeid(B)), "B"},
+    {std::type_index(typeid(C)), "C"}
+};
+
+int main(int argc, char *argv[])
+{
+    int i;
+    double d;
+    A a;
+    std::unique_ptr<A> b(new B);
+    std::unique_ptr<A> c(new C);
+ 
+    std::cout << "i is " << type_names[std::type_index(typeid(i))] << '\n';
+    std::cout << "d is " << type_names[std::type_index(typeid(d))] << '\n';
+    std::cout << "a is " << type_names[std::type_index(typeid(a))] << '\n';
+    std::cout << "*b is " << type_names[std::type_index(typeid(*b))] << '\n';
+    std::cout << "*c is " << type_names[std::type_index(typeid(*c))] << '\n';
+
+    std::cout << std::type_index(typeid(a)).name() << '\n';
+    std::cout << std::type_index(typeid(a)).hash_code() << '\n';
+}
+```
+
 ## type_conversion
 
 类型转换是C++中比较复杂，其有一套隐藏的转换机制，被称为隐式转换。隐式转换是指在不需要显式类型转换操作符的情况下，编译器自动将一种类型的值转换为另一种类型的值。常见的隐式转换如下所示。
 
-1. 基本算术类型的转
+- 基本算术类型的转
   - 整型提升（如 char 或 short 提升为 int）。
   - 浮点数到整数的转换（例如，double 到 int）。
   - 整数到更大范围整数的转换（例如，int 到 long）
-2. 派生类到基类的转换：在多态和继承中，派生类对象可以被当作基类对象使用。
-3. 标准转换
+- 派生类到基类的转换：在多态和继承中，派生类对象可以被当作基类对象使用。
+- 标准转换
   - 将bool转换为int（true 转换为 1，false 转换为 0）。
   - 将void*转换为其他指针类型（需要谨慎使用）。
+
+具体示例如下所示。
 
 ```cpp
 #include <iostream>

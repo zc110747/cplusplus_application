@@ -25,7 +25,7 @@
 #include <vector>
 
 template<typename T>
-void show_container(T container_val, std::string qstring)
+void show_container(T container_val, std::string qstring = "")
 {
     //empty, size
     if (!qstring.empty()) {

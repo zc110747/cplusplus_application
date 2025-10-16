@@ -114,6 +114,66 @@ namespace ATOMIC_EXAMPLE
     }
 }
 
+namespace ATOMIC_FUNCTION
+{
+    int test(void)
+    {
+        std::cout << "================ Atomic function test ================" << std::endl;
+        std::atomic<int> a1{1};
+
+        if (atomic_is_lock_free(&a1)) {
+            std::cout << "a1 is lock free" << std::endl;
+        } else {
+            std::cout << "a1 is not lock free" << std::endl;
+        }
+
+        // atomic_fetch_add
+        atomic_fetch_add(&a1, 1);
+        std::cout << "atomic_fetch_add: " << a1 << std::endl;
+
+        // atomic_fetch_sub
+        atomic_fetch_sub(&a1, 1);
+        std::cout << "atomic_fetch_sub: " << a1 << std::endl;
+
+        // atomic_store
+        atomic_store(&a1, 10);
+        std::cout << "atomic_store: " << a1 << std::endl;
+
+        // atomic_load
+        auto val = atomic_load(&a1);
+        std::cout << "atomic_load: " << val << std::endl;
+
+        // atomic_exchange
+        atomic_exchange(&a1, 100);
+        std::cout << "atomic_exchange: " << a1 << std::endl;
+
+        // atomic_fetch_and
+        atomic_fetch_and(&a1, 0x55);
+        std::cout << "atomic_fetch_and: " << a1 << std::endl;
+
+        // atomic_fetch_or
+        atomic_fetch_or(&a1, 0xAA);
+        std::cout << "atomic_fetch_or: " << a1 << std::endl;
+
+        // atomic_fetch_xor
+        atomic_fetch_xor(&a1, 0x55);
+        std::cout << "atomic_fetch_xor: " << a1 << std::endl;
+
+        // atomic_wait
+        atomic_wait(&a1, 100);
+        std::cout << "atomic_wait: " << a1 << std::endl;
+
+        // atomic_notify_one
+        atomic_notify_one(&a1);
+        std::cout << "atomic_notify_one: " << a1 << std::endl;
+
+        // atomic_notify_all
+        atomic_notify_all(&a1);
+        std::cout << "atomic_notify_all: " << a1 << std::endl;
+        return 0;
+    }
+}
+
 namespace ATOMIC_FLAG_EXAMPLE
 {
     // 自旋锁类
@@ -236,6 +296,8 @@ namespace ATOMIC_MEMORY_ORDER_EXAMPLE
 int main(int argc, char* argv[])
 {
     ATOMIC_EXAMPLE::test();
+
+    ATOMIC_FUNCTION::test();
 
     ATOMIC_FLAG_EXAMPLE::test();
 
