@@ -10,7 +10,7 @@
 //      是对fmt的转发封装，因此支持fmt的所有功能。
 //
 //  Author:
-//     	@听心跳的声音
+//     	@公众号 <嵌入式技术总结>
 //
 //  Assumptions:
 //
@@ -22,6 +22,34 @@
 
 #include "logger.hpp"
 
+namespace LOGGER
+{
+    template<typename... Args>
+    void logger_manage::logger_message(LOGGER_LEVEL level, const char* f_str, Args... args)
+    {
+        if (level >= level_) {
+            std::lock_guard<std::mutex> lock(log_mutex_);
+            const char* level_str = "";
+            switch(level) {
+                case LOGGER_LEVEL::DEBUG: level_str = "D"; break;
+                case LOGGER_LEVEL::INFO:  level_str = "I";  break;
+                case LOGGER_LEVEL::WARN:  level_str = "W";  break;
+                case LOGGER_LEVEL::ERROR: level_str = "E"; break;
+                case LOGGER_LEVEL::FATAL: level_str = "F"; break;
+            }
+            auto now = std::chrono::system_clock::now();
+            auto now_time = std::chrono::system_clock::to_time_t(now);
+            std::tm* local_time = std::localtime(&now_time);
+            std::stringstream ss;
+            ss << std::put_time(local_time, "%Y-%m-%d %H:%M");
+            #ifndef PROGRAM_NAME
+            fmt::println("[{}][{}] {}", level_str, ss.str(), fmt::format(f_str, std::forward<Args>(args)...));
+            #else
+            fmt::println("[{}][{}][{}] {}", level_str, ss.str(), PROGRAM_NAME, fmt::format(f_str, std::forward<Args>(args)...));    
+            #endif
+        }
+    }
+}
 struct Point {
     int x;
     int y;

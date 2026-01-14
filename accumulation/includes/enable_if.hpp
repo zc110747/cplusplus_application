@@ -9,7 +9,7 @@
 //  Purpose:
 //
 //  Author:
-//     	@听心跳的声音
+//     	@公众号 <嵌入式技术总结>
 //
 //  Assumptions:
 //

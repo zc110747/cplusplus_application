@@ -59,19 +59,40 @@ auto关键字用于自动类型推导，它可以根据变量的初始化表达�
 
 auto的推导具有如下特点。
 
-- 当一个auto关键字声明多个变量时，编译器遵循从左到右的顺序推导，以最左边的表达式推导auto具体类型。另外推导类型需要相同，否则会导致编译错误。
+- 当一个auto关键字声明多个变量时，编译器遵循从左到右的顺序推导，以最左边的表达式推导auto具体类型；另外推导类型需要相同，否则会导致编译错误。
 - 使用条件表达式初始化auto声明的变量时，编译器总是使用类型更宽的类型推导，如能够同时推导double或者int，那么就会推导为double类型。
 
 对于auto来说也有些限制，主要如下所示。
 
 - 对于结构体来说，非静态成员不能用auto推导；对于静态成员，C++17后支持非const变量用auto推导。
-- auto不能用作模板参数，如vector<auto> demo{1, 2, 3, 4}。不过C++17后可以作为非类型模板形参的占位符，配合decltype(auto)可支持cv推导，另外推导出的类型必须为允许的模板参数类型。
+- 不能够声明auto数组，即使使用中括号进行初始化(会被推导为std::initializer_list<T>类型，和数组不匹配)。
+- auto不能用作模板参数，如`vector<auto> demo{1, 2, 3, 4}`。不过C++17后可以作为非类型模板形参的占位符，配合decltype(auto)可支持cv推导，另外推导出的类型必须为允许的模板参数类型。
 - auto推导忽略引用、cv限定符(const和volatile)，如果有需要可以额外添加。
 - auto和&&结合使用时，对于左值会将其推导为引用类型。
 - auto推导数组或者函数时，会被推导成对应的指针类型。
-- auto关键字配合初始化列表时(C++17后支持)，直接列表初始化(只能为一个元素)，推导类型为对应内部元素类型；等号列表初始化，推导类型std::initializer_list<T>类型。列表内需要为单一元素类型。
+- auto关键字配合初始化列表时(C++17后支持)，直接列表初始化(只能为一个元素)，推导类型为对应内部元素类型；等号列表初始化，推导类型std::initializer_list<T>类型，其中列表内需要为单一元素类型。
 
-auto的另一个用处是实现返回类型后置和返回类型推导。通过使用auto作为占位符，可以声明返回类型。
+```cpp
+// 返回类型后置
+auto add(auto a, auto b) -> decltype(a + b) {
+    return a + b;
+}
+
+// 返回类型推导
+auto mul(auto a, auto b){
+    return a * b;
+}
+```
+
+非类型模板参数也可以使用auto作为占位符，要求推导出的类型必须为允许的模板参数类型。
+
+```cpp
+// 非类型模板参数的auto作为占位符
+template <auto N>
+void func(void) {
+    std::cout << "N:" << N << std::endl;
+}
+```
 
 具体示例如下所示。
 
@@ -152,6 +173,42 @@ int main(int argc, const char *argv[])
 }
 ```
 
+auto的另一个用处是实现返回类型后置和返回类型推导。通过使用auto作为占位符，可以声明返回类型。
+
+具体示例如下所示。
+
+```cpp
+#include <iostream>
+
+class outer_type
+{
+private:
+    struct inner_type { int a; };
+
+public:
+    inner_type get_inner(void);
+};
+
+// 返回类型后置，用于声明返回类型，可以省略外部结构体的名称
+auto outer_type::get_inner(void) -> inner_type {
+    return inner_type{10};
+}
+
+template <typename T1, typename T2>
+auto multiply(T1 &&a, T2 &&b) -> decltype(a * b) {
+    return a * b;
+}
+
+int main(int argc, const char *argv[]) 
+{
+    outer_type outer;
+
+    std::cout << outer.get_inner().a << std::endl;  // 10
+    std::cout << multiply(2, 3.1) << std::endl;     // 6.2
+    return 0;
+}
+```
+
 ### decltype
 
 decltype关键字用于获取表达式的类型，而不是变量的类型。它可以用于声明函数返回值的类型，或者在模板中推导类型参数的类型。
@@ -166,9 +223,11 @@ decltype关键字用于获取表达式的类型，而不是变量的类型。它
 
 当然decltype还有其它特性，如下所示。
 
-1. decltype的推导会同步cv限定符，如果未加括号时，不会同步其父对象的cv限定符。
+1. decltype的推导会同步cv限定符，包括const和volatile；不过对于父对象的cv限定符(如结构体中的某个成员变量)，decltype不会同步，可通过添加括号来实现同步其父对象的cv限定符。
 2. 基于auto和decltype的类型推导，可以实现函数返回值类型后置和自动推导函数。
-3. decltype(auto)是C++14引入的类型说明符，结合了decltype和auto的特性，用于类型推导。auto推导时会忽略引用和cv限定符(const 和 volatile），而decltype能精确地返回表达式的类型，decltype(auto)综合二者，按decltype的规则进行类型推导。
+3. decltype(auto)是C++14引入的类型说明符，结合了decltype和auto的特性，用于类型推导。auto推导时会忽略引用和cv限定符(const和volatile），而decltype能精确地返回表达式的类型，decltype(auto)综合二者，按decltype的规则进行类型推导。
+
+另外可以使用`using type = decltype(e)`来声明类型，并在后面使用此类型声明变量。
 
 具体示例如下所示。
 
@@ -254,6 +313,12 @@ int main(int argc, const char *argv[])
     const Base* a16 = &a12;
     decltype(a16->val) a17 = a16->val;      // double
     decltype((a16->val)) a18 = a16->val;    // const double&
+
+    // decltype(nullptr)类型
+    using type_nullptr = decltype(nullptr);
+
+    type_nullptr pn;
+    std::cout << "pn is nullptr: " << (pn == nullptr) << std::endl; // true
 }
 ```
 
@@ -1311,16 +1376,22 @@ int main(int argc, char const *argv[])
 
 ## static_assert
 
-断言是C++本身提供的，用于检查代码中的逻辑错误的机制。基础的断言语法如下：
+断言是C++本身提供的，用于检查代码中的逻辑错误的机制。断言就是将一个返回值总是需要为真的判别式放在语句中，用于排除在设计的逻辑上不应该产生的情况。基础的断言语法如下：
 
 ```cpp
 // 运行时断言，检查到逻辑错误中止执行
 assert(条件);
+
+// 举例说明，限制n的输入必须大于0
+int run_func(int n) {
+    assert(n > 0);
+    return n;
+}
 ```
 
 运行时断言在运行时检查，引入性能损失。且无法携带额外的错误信息，只是直接中止程序，不利于后续分析，另外对于模板实例化的实现是在编译阶段完成，运行时断言也无法处理。
 
-C++引入静态断言（static_assert）这一编译时断言机制，用于在编译阶段检查某个条件是否为真。如果条件为假，编译器会产生一个错误信息，并且编译过程会失败。静态断言通常用于在编译时验证模板参数、常量表达式或其他编译时可确定的条件。
+C++引入静态断言（static_assert）这一编译时断言机制，用于在编译阶段检查某个条件是否为真。如果条件为假，编译器会产生一个错误信息，并且编译过程会失败。静态断言通常用于在编译时验证模板参数、常量表达式或其他编译时可确定的条件。在C++中，可以在包含`#include <cassert>`头文件前使用`#define NDEBUG`宏来关闭静态断言。
 
 静态断言的语法如下：
 
@@ -1347,8 +1418,7 @@ class A {};
 class B : public A {};
 
 template <typename R1, typename R2>
-class E
-{
+class E {
     static_assert(std::is_base_of<R1, R2>::value, "R2 must be derived from R1");
 };
 

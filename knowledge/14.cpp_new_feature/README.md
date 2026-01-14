@@ -2,6 +2,7 @@
 
 本节中主要包含C++20~之后引入的新特性，按照功能划分为四大类，分别是概念和约束、范围和视图、module导入和协程应用；除上述特性外，还包含增加的特殊的功能模块，如std::formtat、std::span等，都将在本节进行介绍，具体如下所示。
 
+- [compare](#compare)
 - [concepts](#concepts)
   - [requires](#requires)
   - [concept](#concept)
@@ -10,8 +11,23 @@
 - [latch](#latch)
 - [module](#module)
 - [ranges](#ranges)
-- [span](#span)
-  - [mdspan](#mdspan)
+
+## compare
+
+compare是C++20引入用于比较两个对象的大小关系的头文件库，它提供了三向比较符<=>来比较两个对象的大小关系，避免了传统的比较运算符（如 <、>、<=、>=）可能带来的未定义行为，并提供了std::strong_ordering、std::weak_ordering和std::partial_ordering三种排序方式。
+
+- std::strong_ordering 强排序
+  - 定义：如果a < b，那么a的排序值小于b的排序值；如果a > b，那么a的排序值大于b的排序值；如果a == b，那么a的排序值等于b的排序值。
+  - 性质：强排序是一种全序关系，即任意两个元素之间都存在排序关系。
+  - 应用场景：当需要对不同类型的对象进行排序时，使用强排序可以确保排序的结果是可预测的，避免了未定义行为。
+- std::weak_ordering 弱排序
+  - 定义：如果a < b，那么a的排序值小于b的排序值；如果a > b，那么a的排序值大于b的排序值；如果a == b，那么a的排序值等于b的排序值。
+  - 性质：弱排序是一种偏序关系，即任意两个元素之间都可能存在排序关系。
+  - 应用场景：当需要对不同类型的对象进行排序时，使用弱排序可以确保排序的结果是可预测的，避免了未定义行为。
+- std::partial_ordering 部分排序
+  - 定义：如果a < b，那么a的排序值小于b的排序值；如果a > b，那么a的排序值大于b的排序值；如果a == b，那么a的排序值等于b的排序值；如果a和b之间不存在排序关系，那么a的排序值和b的排序值都不存在。
+  - 性质：部分排序是一种偏序关系，即任意两个元素之间都可能存在排序关系。
+  - 应用场景：当需要对不同类型的对象进行排序时，使用部分排序可以确保排序的结果是可预测的，避免了未定义行为。
 
 ## concepts
 
@@ -227,7 +243,68 @@ int main(int argc, char const *argv[])
 
 ## format
 
-std::format是C++20 引入的标准库函数，位于<format>头文件，用于实现类型安全且灵活的字符串格式化，替代传统的printf系列函数和std::stringstream。
+format是C++20引入的标准库头文件，提供了一种类型安全的字符串格式化方式，使用起来更加方便和简单。主要是std::format库，主要实现类型安全且灵活的字符串格式化，替代传统的printf系列函数和std::stringstream。
+
+format参考网址： https://en.cppreference.com/w/cpp/header/format.html
+
+其支持的主要方法如下。
+
+| 方法 | 描述 |
+| --- | --- |
+| format | 格式化字符串，返回一个std::string对象 |
+| format_to | 格式化字符串并写入到指定的输出迭代器|
+| format_to_n | 格式化字符串并写入到指定的输出迭代器，最多写入n个字符，返回一个std::format_to_n_result对象 |
+| formatted_size | 获取格式化字符串的长度 |
+| runtime_format | 运行时格式化字符串(C++26) |
+| vformat | 格式化字符串并返回一个std::string对象 |
+| vformat_to | 运行时格式化字符串并写入到指定的输出迭代器，最多写入n个字符 |
+| visit_format_args | 访问格式化字符串中的参数(C++26 deprecated) |
+| make_format_args/make_wformat_args | 创建一个std::format_args对象 |
+
+其中format_to_n返回一个std::format_to_n_result对象，包含了写入的字符数和指向输出迭代器的指针。
+
+```cpp
+// 返回格式化字符串写入的字符数和指向输出迭代器的指针
+// out: 指向输出迭代器的指针
+// size: 写入的字符数
+template< class OutputIt >
+struct format_to_n_result {
+    OutputIt out;
+    std::iter_difference_t<OutputIt> size;
+};
+```
+
+具体示例如下所示。
+
+```cpp
+#include <iostream>
+#include <format>
+
+int main(int argc, char const *argv[])
+{
+    // 格式化字符串
+    std::string s = std::format("{} {}", 1, 2);
+    std::cout << s << std::endl;
+
+    // 格式化字符串并写入到指定的输出迭代器
+    std::string buffer;
+    std::format_to(std::back_inserter(buffer), "{} {}", 1, 2);
+    std::cout << buffer << std::endl;
+
+    // 获取格式化字符串的长度
+    std::cout << "formated_size: " << std::formatted_size(std::locale("en_US.UTF-8"), "formated_size: {}", "test") << std::endl;
+
+    // // 运行时格式化字符串
+    // std::string s2 = std::runtime_format("{} {}", 1, 2);
+    // std::cout << s2 << std::endl;
+
+    // 格式化字符串并写入到指定的输出迭代器，最多写入n个字符
+    std::string buffer2;
+    std::vformat_to(std::back_inserter(buffer2), "vformat_to: {}, {}", std::make_format_args("test", "hello"));
+    std::cout << buffer2 << std::endl;
+    return 0;
+}
+```
 
 ## module
 
@@ -235,9 +312,30 @@ std::format是C++20 引入的标准库函数，位于<format>头文件，用于�
 
 在C++20中，ranges是一个重要的特性，它提供了一种更简洁、更强大的方式来处理容器和序列。ranges库引入了一系列新的概念和算法，使得代码更加直观和易于理解
 
-1. 范围(Ranges)
+ranges参考网址： <https://en.cppreference.com/w/cpp/header/ranges.html>
+
+### 范围(Ranges)
 
 ranges 库的核心是范围（Ranges）的概念。范围是一个可以迭代的对象，它可以是一个容器（如std::vector、std::list等），也可以是一个视图（View）。视图是一种轻量级的对象，它不拥有数据，而是对现有数据的一种引用或转换。
+
+ranges支持的方法如下。
+
+| 方法 | 描述 |
+| --- | --- |
+| begin | 返回范围的开始迭代器 |
+| end | 返回范围的结束迭代器 |
+| cbegin | 返回范围的常量开始迭代器 |
+| cend | 返回范围的常量结束迭代器 |
+| rbegin | 返回范围的反向开始迭代器 |
+| rend | 返回范围的反向结束迭代器 |
+| crbegin | 返回范围的常量反向开始迭代器 |
+| crend | 返回范围的常量反向结束迭代器 |
+| reserve_hint | 为范围保留足够的空间，以避免重新分配 |
+| size | 返回范围的元素数量 |
+| ssize | 返回范围的元素数量（有符号整数） |
+| empty | 判断范围是否为空 |
+| data | 返回范围的底层数据指针 |
+| cdata | 返回范围的常量底层数据指针 |
 
 2. 视图(Views)
 
@@ -250,81 +348,3 @@ ranges 库还引入了一系列新的算法，这些算法可以直接作用于�
 这些算法的名称与标准库中的算法类似，但它们接受范围作为参数，而不是迭代器。
 
 4. ranges 库引入了管道操作符（|），它允许你将多个视图和算法组合在一起，形成一个操作链。管道操作符使得代码更加简洁和易于理解。
-
-## span
-
-span是C++20引入的一个容器视图类，它提供了一种轻量级的、非拥有的方式来访问连续的对象序列，用于处理动态大小和静态大小数组。span提供了与数组相关的操作，如访问元素、获取大小和范围。span与原始的数组结构具有相同的内存地址，因此可以通过修改span来修改原始数据，这样就扩展了数组的访问。
-
-其结构原型如下所示。
-
-```cpp
-// span的结构原型
-// T: 元素类型
-// Extent: 元素数量，默认值为std::dynamic_extent，表示动态大小
-template<
-    class T,
-    std::size_t Extent = std::dynamic_extent
-> class span;
-```
-
-具体网址: https://en.cppreference.com/w/cpp/container/span.html
-
-常见构造方法:
-
-```cpp
-int arr[]{1, 2, 3};
-
-// 通过数组创建span(默认动态长度)
-std::span<int> span1(arr);
-
-// 通过数组创建指定大小的span
-std::span<int, 3> span2(arr);
-```
-
-主要特点：
-
-1. 非拥有性：std::span 不拥有它所指向的数据，它只是提供了对数据的访问接口。这意味着std::span不会分配或释放内存，它只是引用了已经存在的内存。这表示具有两个特点，一是对于span的修改会同步修改原始数据，二是不能够改变span所引用数据的大小和内存，否则可能导致运行错误。
-2. 连续内存访问：std::span 要求它所指向的数据是连续存储的，这使得它可以高效地进行随机访问和迭代。
-3. 大小和范围：std::span 可以在编译时或运行时指定其大小，这使得它可以灵活地适应不同的使用场景。
-4. 与标准库的集成：std::span 可以与标准库中的其他容器和算法无缝集成，使得代码更加简洁和高效。
-
-- 迭代器
-
-| 方法 | 说明 |
-| --- | --- |
-| begin | 返回指向第一个元素的迭代器 |
-| cbegin | 创建一个只读迭代器，指向第一个元素(C++23) |
-| end | 返回指向最后一个元素的迭代器 |
-| cend | 创建一个只读迭代器，指向最后一个元素(C++23) |
-| rbegin | 创建一个逆向迭代器，指向最后一个元素 |
-| crbegin | 创建一个逆向只读迭代器，指向最后一个元素(C++23) |
-| rend | 创建一个逆向迭代器，指向第一个元素 |
-| crend | 创建一个逆向只读迭代器，指向第一个元素(C++23) |
-
-- 方法
-
-| 方法 | 说明 |
-| --- | --- |
-| front | 返回第一个元素 |
-| back | 返回最后一个元素 |
-| at | 返回指定索引的元素(C++26) |
-| operator[] | 返回指定索引的元素 |
-| data | 返回指向内容的元素指针 |
-| size | 返回元素数量 |
-| size_bytes | 返回元素占用的字节数 |
-| empty | 判断是否为空 |
-| first | 从起始索引截取指定数量的元素 |
-| last | 从末尾索引截取指定数量的元素 |
-| subspan | 获取子span |
-
-std::span可以配合其它函数使用，具体如下。
-
-| 函数 | 说明 |
-| --- | --- |
-| std::as_bytes | 将span转换为字节span |
-| std::as_writable_bytes | 将span转换为可写字节span |
-
-### mdspan
-
-mdspan是C++23引入的一个容器视图类，它提供了一种轻量级的、非拥有的方式来访问多维连续的对象序列，用于处理动态大小和静态大小数组。mdspan提供了与数组相关的操作，如访问元素、获取大小和范围。mdspan与原始的数组结构具有相同的内存地址，因此可以通过修改mdspan来修改原始数据，这样就扩展了数组的访问。
-

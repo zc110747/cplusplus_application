@@ -10,7 +10,7 @@
 //      2. decltype类型推导
 //
 // Author:
-//      @zc
+//      @公众号 <嵌入式技术总结>
 //
 // Revision History:
 //      Version V1.0b1 Create.
@@ -30,6 +30,11 @@ namespace AUTO
     // 返回类型推导
     auto add2(auto a, auto b) {
         return a+b;
+    }
+
+    template<auto N>
+    void temp_func(void) {
+        std::cout << "N:" << N << std::endl;
     }
 
     int test(void) {
@@ -101,6 +106,11 @@ namespace AUTO
 
         auto val4 = {1, 2, 3};
         std::cout << typeid(val4).name() << std::endl;              // std::initializer_list<int>
+
+        // 非类型模板参数的auto作为占位符
+        temp_func<1>();
+        constexpr int ci1 = 5;
+        temp_func<ci1>();
         return 0;
     }
 }
@@ -171,6 +181,12 @@ namespace DECLTYPE
     
         int y9 = 10;
         std::cout << "y9 is lvalue: " << std::is_lvalue_reference<decltype(return_ref(y9))>::value << std::endl; // true
+
+        // decltype(nullptr)类型
+        using type_nullptr = decltype(nullptr);
+        
+        type_nullptr pn;
+        std::cout << "pn is nullptr: " << (pn == nullptr) << std::endl; // true
         return 0;
     } 
 }

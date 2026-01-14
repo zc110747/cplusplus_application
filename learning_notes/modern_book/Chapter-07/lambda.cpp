@@ -8,7 +8,7 @@
 //  Purpose:
 //      第7章 lambda表达式(C++11~C++20)
 //  Author:
-//     	@听心跳的声音
+//     	@公众号 <嵌入式技术总结>
 //
 //  Assumptions:
 //

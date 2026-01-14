@@ -11,7 +11,7 @@
 //      3. distribution - 随机数分布处理
 //
 // Author:
-//      @zc
+//      @公众号 <嵌入式技术总结>
 //
 // Revision History:
 //      Version V1.0b1 Create.

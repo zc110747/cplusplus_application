@@ -5,7 +5,7 @@ C++ 异常处理是一种机制，用于在程序运行时处理错误和异常�
 - [异常处理基本语法](#except_grammer)
 - [throw关键字](#throw)
 - [exception](#exception)
-- [异常传递](#noexcept)
+- [noexcept修饰符和noexcept操作符](#noexcept)
 - [系统定义异常](#execpt_class)
 - [用户自定义异常](#user_define_except)
 - [std::expected(c++20)](#expected)
@@ -140,16 +140,16 @@ int main(int argc, const char* argv[])
 
 ## noexcept
 
-在C++中，异常传递是指在函数调用链中，异常从抛出点向上传递，直到被捕获并处理的过程。在C++中，noexcept关键字用于指定一个函数是否可能抛出异常。它是C++11引入的一个特性，用于优化代码和提高程序的健壮性；根据noexcept关键字的使用情况，编译器可以对代码进行优化。例如，对于不会抛出异常的函数，编译器可以进行一些优化。
+在C++中，异常传递是指在函数调用链中，异常从抛出点向上传递，直到被捕获并处理的过程。在C++中，noexcept关键字用于指定一个函数是否可能抛出异常。它是C++11引入的一个特性，用于优化代码和提高程序的健壮性；根据noexcept关键字的使用情况，编译器可以对代码进行优化。
 
 - noexcept：声明函数不会抛出任何异常，编译器可以对其进行优化；并不保证一定会不发生异常，如果发生异常，则程序将调用std::terminate()函数，程序将终止运行。
 - noexcept(true/false)：表示函数是否抛出异常取决于expression的值。如果expression为true，则声明函数不会抛出异常；如果expression为false，则函数可能抛出异常。
-- noexcept(expression): 计算函数或者表达式执行是否会产生异常，结果是true或者false。可以和上面语句组合起来使用，格式为noexcept(noexcept(expression))。
+- noexcept(expression): 计算函数或者表达式执行是否会产生异常，**结果是true或者false**。可以和上面语句组合起来使用，格式为noexcept(noexcept(expression))。
 
 对于C++11来说，标准规定类中以下函数默认为noexcept(ture)。
 
 1. 默认构造函数、默认复制构造函数、默认赋值函数、默认移动构造函数和默认移动赋值函数的类型为noexcept(true)。
-2. 类型的析构函数以及delete运算符默认带有noexcept声明，请注意即使自定义实现的析构函数也会默认带有noexcept声明，除非类型本身或者其基类和成员明确使用noexcept(false)声明析构函数。
+2. 类型的析构函数以及delete运算符默认带有noexcept声明，即使自定义实现的析构函数也会默认带有noexcept声明，除非类型本身或者其基类和成员明确使用noexcept(false)声明析构函数。
 
 具体示例如下所示。
 

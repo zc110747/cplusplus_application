@@ -730,10 +730,78 @@ int main(int argc, const char *argv[])
 
 ## execution
 
-std::execution是C++20引入的一个命名空间，用于定义异步任务的执行策略。它包含了两个枚举值：std::launch::async和std::launch::deferred。
+execution是C++17引入的一个头文件，用于定义异步任务的执行策略, 包括顺序执行、并行执行、并行无序执行和无序执行等。execution可以用于algorithm中使用，例如std::for_each、std::transform等，提高执行效率。不过在使用execution需要增加"-ltbb"用于链接相关的库，解决链接时缺少函数接口问题。
 
-- std::launch::async表示立即启动一个新线程执行任务
-- std::launch::deferred表示延迟执行，直到调用future对象的get()方法时才启动新线程
+execution参考网址：<https://en.cppreference.com/w/cpp/header/execution>
+
+对于execution内部包含如下函数和类型，具体说明如下所示。
+
+| 类型和函数 | 描述 |
+| --- | --- |
+| sequenced_policy | 表示任务顺序执行 |
+| parallel_policy | 表示任务并行执行 |
+| parallel_unsequenced_policy | 允许任务并行执行，但未指定执行顺序 |
+| unsequenced_policy | 允许任务无序执行 |
+| is_execution_policy | 检查给定的类型是否为执行策略 |
+
+对应constexpr变量分别为std::execution::seq、std::execution::par、std::execution::par_unseq、std::execution::unseq，可用于alghgorithm中使用，例如std::for_each、std::transform等中，提高执行效率。
+
+具体示例如下所示。
+
+```cpp
+#include <iostream>
+#include <algorithm>
+#include <random>
+#include <vector>
+#include <ranges>
+#include <chrono>
+#include <execution>
+
+void measure(auto policy, std::vector<int> v)
+{
+    const auto start = std::chrono::steady_clock::now();
+
+    std::sort(policy, v.begin(), v.end());
+
+    const auto finish = std::chrono::steady_clock::now();
+
+    std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(finish - start)
+              << '\n';
+};
+
+void measure(std::vector<int> v)
+{
+    const auto start = std::chrono::steady_clock::now();
+
+    std::sort(v.begin(), v.end());
+
+    const auto finish = std::chrono::steady_clock::now();
+
+    std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(finish - start)
+              << '\n';    
+}
+
+int main(int argc, const char* argv[])
+{
+    std::vector<int> vec(1'000'000);
+    std::mt19937 gen(std::random_device{}());
+    
+    std::ranges::generate(vec, [&gen]() { return gen() % 1000; });
+    
+    std::cout << " default: ";
+    measure(vec);
+    std::cout << " seq: ";
+    measure(std::execution::seq, vec);
+    std::cout << " par: ";
+    measure(std::execution::par, vec);
+    std::cout << " par_unseq: ";
+    measure(std::execution::par_unseq, vec);
+    std::cout << " unseq: ";
+    measure(std::execution::unseq, vec);
+
+    return 0;
+}
+```
 
 ## future
 
@@ -813,7 +881,7 @@ promise类模板支持方法如下。
 
 std::latch是C++20引入的同步原语，定义在<latch>头文件中，用于多线程同步，可让一组线程等待直到某个事件完成。它的工作模式是一次性的，一旦计数器减到0，就不能再重置。
 
-具体网址: https://en.cppreference.com/w/cpp/thread/latch.html
+具体网址: https://en.cppreference.com/w/cpp/header/latch.html
 
 其构造函数如下所示。
 
@@ -1461,7 +1529,9 @@ shared_mutex参考网址：<https://en.cppreference.com/w/cpp/header/shared_mute
 - 共享锁（shared lock）：多个线程可同时获取，用于"读操作"（不修改数据）。
 - 独占锁（exclusive lock）：仅允许一个线程获取，用于"写操作"（修改数据）。
 
-在实际应用中，共享锁可以多个线程同时获取，而独占锁只能有一个线程获取，当有独占锁被获取时，其他线程无论是获取共享锁还是独占锁，都必须等待；而共享锁被获取时，其他线程只能获取共享锁，不能获取独占锁。对于shared_mutex支持如下方法。
+在实际应用中，共享锁可以多个线程同时获取，而独占锁只能有一个线程获取，当有独占锁被获取时，其他线程无论是获取共享锁还是独占锁，都必须等待；而共享锁被获取时，其他线程只能获取共享锁，不能获取独占锁。总结起来就是支持同时读，写动作和其它读/写动作互斥。
+
+对于shared_mutex支持如下方法。
 
 | 方法 | 描述 |
 | --- | --- |
@@ -1473,7 +1543,9 @@ shared_mutex参考网址：<https://en.cppreference.com/w/cpp/header/shared_mute
 | unlock_shared | 释放互斥锁的共享所有权 |
 | native_handle | 返回底层操作系统的互斥锁句柄 |
 
-shared_lock支持搭配unique_lock、lock_guard和shared_lock使用。其中搭配unique_lock和lock_guard时，相当于调用lock、unlock方法；而搭配shared_lock时，相当于调用lock_shared、unlock_shared方法。
+shared_mutex支持搭配unique_lock、lock_guard和shared_lock使用。
+
+shared_mutex搭配unique_lock和lock_guard时，主要用于写操作互斥，相当于执行lock/unlock，而搭配shared_lock时，主要用于读操作互斥，相当于执行lock_shared/unlock_shared。
 
 具体示例如下所示。
 
@@ -1492,6 +1564,7 @@ public:
 
     void show_val(void)
     {
+        // 读操作，共享锁即可
         smtx_.lock_shared();
         std::cout << "read val: " << val_ << std::endl;
         smtx_.unlock_shared();
@@ -1499,6 +1572,7 @@ public:
 
     void increment(void)
     {  
+        // 写操作，需要独占锁
         std::lock_guard<std::shared_mutex> lck(smtx_); // lock_guard，自动lock、unlock
         val_++;
     }
@@ -1555,7 +1629,7 @@ int main(int argc, const char *argv[])
 
 ### shared_timed_mutex
 
-std::shared_timed_mutex是C++14引入的，带时间限制的读写锁，用于多线程同步，可让一组线程等待直到某个事件完成。与shared_mutex相比，它支持超时等待，即如果在指定时间内没有获取到锁，线程会返回失败。
+shared_timed_mutex是C++14引入的，带时间限制的读写锁，用于多线程同步，可让一组线程等待直到某个事件完成。与shared_mutex相比，它支持超时等待，即如果在指定时间内没有获取到锁，线程会返回失败。
 
 std::shared_timed_mutex支持的方法如下所示。
 
@@ -1571,6 +1645,12 @@ std::shared_timed_mutex支持的方法如下所示。
 | try_lock_shared_for | 尝试获取互斥锁以实现共享所有权，指定超时时间 |
 | try_lock_shared_until | 尝试获取互斥锁以实现共享所有权，指定到超时时间点 |
 | unlock_shared | 释放互斥锁的共享所有权 |
+
+shared_timed_mutex同样支持搭配unique_lock、lock_guard和shared_lock使用，具体功能与shared_mutex一致。使用unique_lock、lock_guard和shared_lock时，可以搭配一些对象使用，具体内容如下。
+
+- std::defer_lock：不要获取互斥锁的所有权。
+- std::try_to_lock：尝试获取互斥锁的所有权而不阻塞。
+- std::adopt_lock：假定调用线程已经拥有互斥锁的所有权。
 
 具体示例如下所示。
 
@@ -1589,8 +1669,7 @@ public:
 
     void show_val(void)
     {
-        if (smtx_.try_lock_shared_for(std::chrono::seconds(1)))
-        {
+        if (smtx_.try_lock_shared_for(std::chrono::seconds(1))) {
             std::cout << "read val: " << val_ << std::endl;
             smtx_.unlock_shared();
         }
@@ -1598,8 +1677,7 @@ public:
 
     void increment(void)
     {  
-        if (smtx_.try_lock_for(std::chrono::seconds(1)))
-        {
+        if (smtx_.try_lock_for(std::chrono::seconds(1))) {
             val_++;
             smtx_.unlock();
         }
@@ -1608,8 +1686,7 @@ public:
     void reset(void)
     {   
         // try_lock
-        if(smtx_.try_lock())
-        {
+        if(smtx_.try_lock()) {
             val_ = 0;
             smtx_.unlock();
         }

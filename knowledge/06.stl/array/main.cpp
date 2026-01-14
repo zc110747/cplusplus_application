@@ -11,7 +11,7 @@
 //      3. std::array常用算法配合
 //
 // Author:
-//      @zc
+//      @公众号 <嵌入式技术总结>
 //
 // Revision History:
 //      Version V1.0b1 Create.
@@ -23,6 +23,7 @@
 #include <unistd.h>
 #include <numeric>
 #include <vector>
+#include <random>
 
 template<typename T>
 void show_container(T container_val, std::string qstring = "")
@@ -90,8 +91,8 @@ void algorithm_process(void)
     show_container(vcon_0, "reverse");
     std::rotate(vcon_0.begin(), vcon_0.begin()+1, vcon_0.end());
     show_container(vcon_0, "rotate");
-    std::random_shuffle(vcon_0.begin(), vcon_0.end());
-    show_container(vcon_0, "random_shuffle");
+    std::shuffle(vcon_0.begin(), vcon_0.end(), std::default_random_engine());
+    show_container(vcon_0, "shuffle");
 
     // 变换算法
     std::cout<<"======= transform ======="<<std::endl;

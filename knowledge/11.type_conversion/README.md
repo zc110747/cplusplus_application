@@ -215,7 +215,20 @@ int main(int argc, char *argv[])
 
 ## explicit
 
-explicit关键字用于修饰构造函数，防止隐式类型转换。在C++11中，标准将explicit的使用范围扩展到了自定义的类型转换操作符上，以支持所谓的“显式类型转换”​。explicit关键字作用于类型转换操作符上，意味着只有在直接构造目标类型或显式类型转换的时候可以使用该类型。
+对于类来说，支持通过隐式类型转换的“自动性”让程序员免于层层构造类型，不过这也会隐藏一些错误。再类的构造函数中，使用explicit关键字可以防止隐式类型转换。其格式如下所示。
+
+```cpp
+// explicit 关键字用于修饰构造函数，防止隐式类型转换
+class ClassName {
+    explicit ClassName(int val) {}
+};
+
+ClassName n1(1);
+// 带explicit关键字的构造函数不能进行隐式类型转换
+//className n1 = 1;
+```
+
+具体示例如下所示。
 
 ```cpp
 #include <iostream>

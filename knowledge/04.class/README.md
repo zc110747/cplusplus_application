@@ -9,7 +9,7 @@
      - [继承构造函数](#inherit_constructor)
   - [析构函数](#destructor)
   - [this指针](#this)
-  - [友元函数和友元类](#friend)
+  - [friend友元函数和友元类](#friend)
   - [运算符重载](#operator_overload)
 - [类的继承](#extend)
   - [继承访问控制](#inherit_access_control)
@@ -252,17 +252,32 @@ int main(int argc, char *argv[])
 }
 ```
 
-#### delegate constructor
+#### delegate_constructor
 
 委托构造函数是一种特殊的构造函数，它允许一个构造函数调用另一个构造函数来初始化对象。委托构造函数的名称与类的名称相同，并且在参数列表中使用冒号（:）来调用另一个构造函数。
 
+委托构造函数的语法如下所示。
+
+```cpp
+class demo {
+public:
+    demo(int x): x_(x) {}
+    demo(int x, int y): demo(x){
+        y_ = y;
+    }
+
+private:
+    int x_;
+    int y_;
+};
+```
+
 对于委托构造函数，需要注意以下特性。
 
-1. 每个构造函数都可以委托另一个构造函数为代理，但是不能形成循环调用。
-2. 委托构造函数必须在构造函数的初始化列表中调用，不能在函数体中调用。
-3. 委托构造函数，在初始化列表中不能对其它数据成员和基类进行初始化。
-4. 委托构造函数的执行顺序是先执行代理构造函数的初始化列表、函数的主体，最后执行委托构造函数的主体。
-5. 如果在代理构造函数执行完成后，委托构造函数主体抛出了异常，则自动调用该类型的析构函数。
+- 每个构造函数都可以委托另一个构造函数为代理，但是不能形成循环调用。
+- 委托构造函数必须在构造函数的初始化列表中调用，不能在函数体中调用，在初始化列表中不能对其它数据成员和基类进行初始化。
+- 委托构造函数的执行顺序是先执行代理构造函数的初始化列表、函数的主体，最后执行委托构造函数的主体。
+- 委托构造函数执行完成后，委托构造函数主体抛出了异常，则自动调用该类型的析构函数。
 
 可使用模板构造函数来实现通用的构造函数，这样在调用委托构造函数时可以简化操作。
 
@@ -341,18 +356,35 @@ int main(int argc, const char *argv[])
 }
 ```
 
-#### inherit constructor
+#### inherit_constructor
 
-继承构造函数是一种特殊的构造函数，它允许派生类的构造函数调用基类的构造函数来初始化基类的成员。继承构造函数的名称与基类的名称相同，并且在参数列表中使用冒号（:）来调用基类的构造函数。
+继承构造函数是一种特殊的构造函数，它允许派生类的构造函数调用基类的构造函数来初始化基类的成员。
 
-对于继承构造函数，具有以下特征。
+对于继承构造函数，其格式如下所示。
 
-1. 派生类是隐式继承了构造函数，只有程序中使用了构造函数才会为派生类生成。
-2. 派生类不会继承基类的默认构造函数和复制构造函数
-3. 继承构造函数不会影响派生类默认构造函数的隐式声明，也就是说对于继承基类构造函数的派生类，编译器依然会为其自动生成默认构造函数的代码
-4. 在派生类中声明签名相同的构造函数，在使用继承构造函数时，会屏蔽相应的构造函数。
-5. 派生类继承多个签名相同的构造函数会导致编译失败，一般多重继承时有可能触发。
-6. 继承构造函数的基类构造函数不能为私有，否则无法编译通过。
+```cpp
+class Base {
+public:
+    Base() {}
+};
+
+/// inherit constructor
+class Derived: public Base {
+public:
+    using Base::Base;
+
+    /// derived call base constructor
+    Derived(): Base() {}
+};
+```
+
+对于继承构造函数，包含以下特性。
+
+- 派生类是隐式继承了构造函数，只有程序中使用了构造函数才会为派生类生成，派生类不会继承基类的默认构造函数和复制构造函数。
+- 继承构造函数不会影响派生类默认构造函数的隐式声明，也就是说对于继承基类构造函数的派生类，编译器依然会为其自动生成默认构造函数的代码。
+- 在派生类中声明签名相同的构造函数，在使用继承构造函数时，会屏蔽相应的构造函数。
+- 派生类继承多个签名相同的构造函数会导致编译失败，一般多重继承时有可能触发。
+- 继承构造函数的基类构造函数不能为私有，否则无法编译通过。
 
 具体示例如下所示。
 
@@ -615,11 +647,30 @@ int main(int argc, char *argv[])
 
 友元一定程度上破坏了类的封装性，它允许类的外部函数访问类的私有成员和保护成员。不过在特定的场景下，如测试框架、调试打印等场景，友元函数可以提供方便的访问方式，简化了操作，C++种友元不是洪水猛兽，而是一种可选的工具；在理解自己需求时妥善使用，才是最好的选择。
 
+对于C++11来说，friend声明一个类是另一个类的友元时，可以不在使用class关键字，同样能够使用typedef或者using定义的类别名。基于此改进，可以为类模板声明友元，格式如下所示。
+
+```cpp
+// 模板声明友元
+// 如果T类型是基础类型如int、float则被忽略
+// T类型是类时则能够访问demo的所有变量。
+template <class T>
+class demo {
+public:
+    friend T;
+};
+```
+
 关于友元的具体示例如下所示。
 
 ```cpp
 #include <iostream>
 
+class friend_class;
+
+//typedef friend_class FC1;
+using FC1 = friend_class;
+
+template<typename T = int>
 class demo {
 public:
     /// constructor
@@ -629,10 +680,13 @@ public:
     demo(int a) : var_(a) {}
     
     /// friend function
-    friend void friend_func(demo& obj);
+    friend void friend_func(demo<>& obj);
 
     /// friend class
-    friend class friend_class;
+    friend FC1;
+
+    // friend class
+    friend T;
     
     /// member function
     friend demo operator+(demo& obj1, demo& obj2)
@@ -643,20 +697,28 @@ private:
     int var_{-1};
 };
 
-void friend_func(demo& obj) {
-    std::cout << obj.var_ << std::endl;
-}
-
 class friend_class {
 public:
-    void func(demo& obj) {
+    void func(demo<>& obj) {
         std::cout << obj.var_ << std::endl;
     }
 };
 
+class friend_test_class {
+public:
+    void func(demo<friend_test_class>& obj) {
+        std::cout << obj.var_ << std::endl;
+    }
+};
+
+void friend_func(demo<>& obj) {
+    std::cout << obj.var_ << std::endl;
+}
+
 int main(int argc, char* argv[])
 {
-    demo obj;
+    // 测试友元函数
+    demo<> obj;
     friend_func(obj);
 
     friend_class fc;
@@ -664,6 +726,12 @@ int main(int argc, char* argv[])
 
     auto&& obj1 = obj + obj;
     friend_func(obj1);
+
+    // 测试友元类模板
+    demo<friend_test_class> obj2;
+    friend_test_class test;
+    test.func(obj2);
+
     return 0;
 }
 ```
@@ -1072,12 +1140,12 @@ int main(int argc, char *argv[])
 
 ### override
 
-override是一个标识符，它用于指示某个函数是从基类继承而来的，并且在派生类中被重新定义。
+override是一个标识符，它用于指示某个函数是从基类继承而来的，并且在派生类中被重写基类中的相应虚函数。
 
 - override函数需要声明在派生类中。
 - override函数需要重写基类中的虚函数(基类中标明为虚函数，否则无法重写)。
 
-通过override标识，可以确保派生类种必然重写了基类中的虚函数，如果不存在，则编译会报错；通过编译器检查，可以降低拼写错误导致未正确重写的风险。
+通过override标识，可以确保派生类种必然重写了基类中的虚函数；如果不存在，则编译会报错。通过编译器检查，可以降低拼写错误导致未正确重写的风险。
 
 具体示例如下所示。
 
@@ -1111,7 +1179,7 @@ int main(int argc, char *argv[])
 
 ### final
 
-final是一个关键字，用于指定某个类、虚函数或虚函数的重载不能被继承或重写。
+final是一个关键字，用于指定类或者虚函数不能被继承或重写。
 
 - 当final用于类时，表示该类不能被继承。
 - 当final用于函数时，表示该虚函数不能在派生类中被重写。
@@ -1130,12 +1198,23 @@ public:
     }
 };
 
+// 编译报错，demo类不能被继承
+// class demo_derived: public demo {
+// };
+
 /// virtual_demo
 class virtual_demo {
 public:
     virtual void func1() final {
         std::cout << "virtual_demo" << std::endl;
     }
+};
+
+class demo_derived: public virtual_demo {
+// public:
+//     void func1() override { // 编译报错，不能重写final函数
+//         std::cout << "demo_derived" << std::endl;
+//     }
 };
 
 int main(int argc, char *argv[]) 
@@ -1349,7 +1428,7 @@ demo(std::initializer_list<int> list) {
 
 具体示例如下所示。
 
-```c
+```cpp
 #include <initializer_list>
 #include <iostream>
 #include <vector>
@@ -1432,6 +1511,39 @@ public:
     }
 };
 
+class demo4 {
+public:
+    demo4 &operator [](std::initializer_list<int> l) {
+        for (const auto& i: l) {
+            vec_index_.push_back(i);
+        }
+        return *this;
+    }
+
+    demo4 &operator = (int val) {
+        if (!vec_index_.empty()) {
+            for (const auto& i: vec_index_) {
+                if (i > vec_value_.size()) {
+                    vec_value_.resize(i);
+                }
+                vec_value_[i-1] = val;
+            }
+            vec_index_.clear();
+        }
+        return *this;
+    }
+
+    void print(void) {
+        for (const auto& val : vec_value_) {
+            std::cout << val << " ";
+        }
+        std::cout << std::endl;
+    }
+private:
+    std::vector<int> vec_index_;
+    std::vector<int> vec_value_;
+};
+
 int main(int argc, char* argv[])
 {
     // 基础类型
@@ -1455,6 +1567,21 @@ int main(int argc, char* argv[])
     demo3 obj3 = {1, 2};
     obj3.print();       // 1 2
 
+    // 基础类型支持列表初始化
+    int *i1 = new int{1};
+    double *d1 = new double{1.0f};
+    char *c1 = new char{'a'};
+
+    std::cout << *i1 << " " << *d1 << " " << *c1 << std::endl;
+    delete i1;
+    delete d1;
+    delete c1;
+
+    demo4 obj4;
+    obj4[{1, 3}] = 2;
+    obj4[{2, 4, 5}] = 1;
+    obj4.print();
+
     return 0;
 }
 ```
@@ -1463,8 +1590,8 @@ int main(int argc, char* argv[])
 
 类的非静态成员的立即初始化是指在类的定义中为非静态成员变量提供初始值，其具有如下特性。
 
-- 类的非静态成员可以在类的定义中使用"等号="或者"花括号{}"来进行初始化。
-- 对于位域，也支持通过"="或者"花括号{}"进行初始化。
+- 类的非静态成员可以在类的定义中使用`等号=`或`花括号{}`来进行初始化。
+- 对于位域，也支持通过`等号=`或`花括号{}`进行初始化。
 - 对于联合体，也支持类的非静态成员立即初始化。
 - 类对象的初始化顺序为"立即初始化 => 成员初始化列表 => 构造函数调用", 结果以最后一步的值为准。
 
@@ -1630,7 +1757,7 @@ int main(int argc, char* argv[])
 
 ### sizeof_member
 
-类的非静态数据成员的长度可以使用sizeof运算符来计算，而不需要实例化对象(C++11支持)。
+对于类的静态成员变量，既可以使用sizeof(对象.成员名)来获取成员变量的长度，也可以使用sizeof(类名::成员名)来获取成员变量的长度。而非静态成员，在C++11之前只能使用sizeof(对象.成员名)来获取成员变量的长度，C++11之后也可以使用sizeof(类名::成员名)来获取成员变量的长度。
 
 ```cpp
 #include <iostream>
@@ -1643,17 +1770,23 @@ public:
     ~demo() = default;  
         
     int var1_;
+
+    static int var2_;
 };
 
 int main(int argc, char* argv[])    
 {
-    // 使用nullptr指针来获取类的非静态数据成员的长度
-    auto s1 = sizeof(static_cast<demo *>(nullptr)->var1_);
-    std::cout << s1 << std::endl;
+    demo d1;
 
-    // 使用sizeof直接获得类的非静态数据成员的长度
-    s1 = sizeof(demo::var1_);
-    std::cout << s1 << std::endl;
+    // 非静态成员变量的sizeof
+    std::cout << "nullptr sizeof(var1_) = " << sizeof(static_cast<demo *>(nullptr)->var1_) << std::endl;    // 4
+    std::cout << "d1.var1_ sizeof = " << sizeof(d1.var1_) << std::endl;                                     // 4
+    std::cout << "demo::var1_ sizeof = " << sizeof(demo::var1_) << std::endl;                               // C++11后支持
+
+    // 静态成员变量的sizeof
+    std::cout << "nullptr sizeof(var2_) = " << sizeof(static_cast<demo *>(nullptr)->var2_) << std::endl;     // 4
+    std::cout << "d1.var2_ sizeof = " << sizeof(d1.var2_) << std::endl;                                      // 4
+    std::cout << "demo::var2_ sizeof = " << sizeof(demo::var2_) << std::endl;                                // 4
     return 0;
 }
 ```
@@ -1698,7 +1831,9 @@ int main(int argc, char* argv[])
 
 ## enum_extend
 
-枚举类型的列表初始化，枚举类型，花括号语法初始化枚举类型的变量；具体示例如下所示。
+对于C++中，枚举的类型、枚举的成员遍历都是全局可见的，这样如果不同的枚举类型定义了相同的枚举标识符，那么就会产生冲突。另外，枚举的成员也是全局可见，因此匿名枚举也可以被支持。
+
+关于枚举类型的应用，具体示例如下所示。
 
 ```cpp
 #include <iostream>
@@ -1710,6 +1845,9 @@ enum Color {
     BLUE
 };
 
+// 匿名枚举类型
+enum { Male, Female };
+
 int main(int argc, const char* argv[]) 
 {
     Color c1 = RED;
@@ -1720,20 +1858,33 @@ int main(int argc, const char* argv[])
     std::cout << (c2 == GREEN) << std::endl;
     std::cout << (c3 == BLUE) << std::endl;
 
+    auto c4 = Male;
+    auto c5 = Female;
+    if (c4 == Male) {
+        std::cout << "Male" << std::endl;
+    }
+
+    if (c5 == Female) {
+        std::cout << "Female" << std::endl;
+    }
     return 0;
 }
 ```
 
-枚举类型在处理时，可以被隐式转换为整型，缺乏类型检查，这会导致一些潜在的错误；强枚举类型（enum class）是C++11引入的一种新的枚举类型，它提供了更强的类型安全性和更好的封装性。
+枚举类型在处理时，可以被隐式转换为整型，缺乏类型检查，这会导致一些潜在的错误；另外内部变量也会暴露到全局作用域，这会导致命名冲突。
+
+### enum_class
+
+强枚举类型（enum class）是C++11引入的一种新的枚举类型，它提供了更强的类型安全性和更好的封装性。
 
 强枚举类型具有以下特征：
 
-- 枚举标识符属于强枚举类型的作用域，允许不同强枚举类型的枚举标识符具有相同的名称。
+- 枚举标识符属于强枚举类型的作用域，允许不同强枚举类型的枚举标识符具有相同的名称，因此匿名强枚举类型可以被声明，但无法被赋值。
 - 强枚举类型不会隐式转换为整型，需要使用作用域运算符来访问枚举标识符。
 - 可以指定强枚举类型的底层类型，默认是int类型；对于C++11，普通枚举类型也支持指定底层类型，不过没有默认指定类型。
 - C++17开始，指定了类型的枚举和强枚举类型，可以支持使用整型进行直接列表初始化。
 
-使用using关键字可以打开强枚举类型，简化操作。
+另外使用using关键字可以打开强枚举类型，简化操作。
 
 具体示例如下所示。
 
@@ -1821,7 +1972,7 @@ int main(int argc, const char* argv[])
 
 对于非受限联合体，具有以下特点。
 
-- 突破传统联合体只能是POD类型的限制
+- 突破传统联合体只能是POD类型的限制。
 - 手动内存管理，需要显示调用非平凡类型的构造函数和析构函数。
 - 默认函数删除，编译器会自动删除默认构造、析构函数，需要手动实现。
 

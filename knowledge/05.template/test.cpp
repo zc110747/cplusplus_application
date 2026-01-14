@@ -1,0 +1,20 @@
+//////////////////////////////////////////////////////////////////////////////
+//  (c) copyright 2023-by ZC Inc.  
+//  All Rights Reserved
+//
+//  Name:
+//      test.cpp
+//
+//  Purpose:
+//      1. 外部模板
+//
+// Author:
+//      @公众号 <嵌入式技术总结>
+//
+// Revision History:
+//      Version V1.0b1 Create.
+/////////////////////////////////////////////////////////////////////////////
+#include "test.hpp"
+
+template void extern_func<int>(int);
+

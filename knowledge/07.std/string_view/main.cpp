@@ -10,25 +10,36 @@
 //      2. std::string_view方法
 //
 // Author:
-//      @zc
+//      @公众号 <嵌入式技术总结>
 //
 // Revision History:
 //      Version V1.0b1 Create.
 /////////////////////////////////////////////////////////////////////////////
 #include <iostream>
+#include <array>
 #include <string_view>
 
-namespace CONSTRUCTOR {
-    void test() {
+namespace CONSTRUCTOR 
+{
+    int test(void) 
+    {
         std::cout << "========================= CONSTRUCTOR =========================" << std::endl;
         std::string_view sv1;
         std::string_view sv2("Hello, World!");
         std::string_view sv3(sv2);
         std::string_view sv4(sv2.data(), sv2.size());
+        
         std::string s1 = "Hello, World!";
         std::string_view sv5 = {"Hello, World!"};
         std::string_view sv6{"hello, world!"};
+       
+        std::array<char, 5> arr = {'H', 'e', 'l', 'l', 'o'};
+        std::string_view sv7(arr.data(), arr.size());
+        std::cout << "sv7: " << sv7 << std::endl;
         
+        std::string_view sv8(arr.begin(), arr.end());
+        std::cout << "sv8: " << sv8 << std::endl;
+
         sv1 = s1;
 
         std::cout << "sv1: " << sv1 << std::endl;
@@ -37,16 +48,21 @@ namespace CONSTRUCTOR {
         std::cout << "sv4: " << sv4 << std::endl;
         std::cout << "sv5: " << sv5 << std::endl;
         std::cout << "sv6: " << sv6 << std::endl;
+        std::cout << "sv7: " << sv7 << std::endl;
+        std::cout << "sv8: " << sv8 << std::endl;
+        return 0;
     }
 }
 
-namespace MEMBER_FUNCTION {
+namespace MEMBER_FUNCTION 
+{
     
     void print_stringview(const std::string_view& sv) {
         std::cout << "length: " << sv.length() << ", content: " << sv << std::endl;
     }
 
-    void test() {
+    int test(void) 
+    {
         std::cout << "========================= MEMBER_FUNCTION =========================" << std::endl;
 
         // 从 C 风格字符串创建 std::string_view
@@ -102,6 +118,8 @@ namespace MEMBER_FUNCTION {
         sv4.remove_prefix(1);
         sv4.remove_suffix(1);
         std::cout << "sv4: " << sv4 << std::endl;
+
+        return 0;
     }
 }
 

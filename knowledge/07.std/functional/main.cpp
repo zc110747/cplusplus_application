@@ -12,7 +12,7 @@
 //      4. 函数对象和仿函数
 //
 // Author:
-//      @zc
+//      @公众号 <嵌入式技术总结>
 //
 // Revision History:
 //      Version V1.0b1 Create.

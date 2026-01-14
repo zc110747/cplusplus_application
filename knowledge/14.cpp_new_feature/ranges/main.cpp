@@ -9,7 +9,7 @@
 //      1. std::views::filter / std::views::transform
 //
 // Author:
-//      @zc
+//      @公众号 <嵌入式技术总结>
 //
 // Revision History:
 //      Version V1.0b1 Create.
@@ -33,6 +33,85 @@ void show_container(const T& container)
     std::cout<<std::endl;
 }
 
+namespace RANGES
+{
+    template<int... Is>
+    constexpr auto generate_row_fold(int row) {
+        std::string result;
+        ((result += Is <= row?(result.empty() ? "" : "\t") + 
+            std::to_string(Is) + "*" + std::to_string(row) + "=" + std::to_string(row * Is):""), ...);
+        return result;
+    }
+
+    template<int... Rs>
+    constexpr auto generate_table_fold() {
+        std::vector<std::string> table;
+        (table.push_back(generate_row_fold<1, 2, 3, 4, 5, 6, 7, 8, 9>(Rs)), ...);
+        return table;
+    }
+
+    // 便捷函数：生成9x9乘法表
+    inline std::vector<std::string> generate_9x9_multiplication_table() {
+        return generate_table_fold<1, 2, 3, 4, 5, 6, 7, 8, 9>();
+    }
+
+    int test(void)
+    {
+        std::vector<int> numbers = {1, 4, 3, 6, 5, 2, 4};
+
+        // begin、cbegin、rbegin、crbegin, end、cend、rend、crend
+        std::cout << "begin: " << *std::ranges::begin(numbers) << std::endl;
+        std::cout << "cbegin: " << *std::ranges::cbegin(numbers) << std::endl;
+        std::cout << "rbegin: " << *std::ranges::rbegin(numbers) << std::endl;
+        std::cout << "crbegin: " << *std::ranges::crbegin(numbers) << std::endl;
+        for (auto it = std::ranges::begin(numbers); it != std::ranges::end(numbers); ++it) {
+            std::cout << *it << " ";
+        }
+        std::cout << std::endl;
+        std::cout << "size: " << std::ranges::size(numbers) << std::endl;
+        std::cout << "ssize: " << std::ranges::ssize(numbers) << std::endl;
+        std::cout << "empty: " << std::ranges::empty(numbers) << std::endl;
+
+        std::string str = "hello world";
+        std::cout << "str: " << std::ranges::data(str) << std::endl;
+        std::cout << "cstr: " << std::ranges::cdata(str) << std::endl;
+
+        // sort
+        std::ranges::sort(numbers);
+        for (const auto& str : numbers) {
+            std::cout << str <<' ';
+        }
+        std::cout<<std::endl;
+
+        // find
+        auto it = std::ranges::find(numbers, 4);
+        if (it != std::ranges::end(numbers)) {
+            std::cout << "4 found at index: " << std::distance(std::ranges::begin(numbers), it) << std::endl;
+        } else {
+            std::cout << "4 not found" << std::endl;
+        }
+
+        // count
+        auto count = std::ranges::count(numbers, 4);
+        std::cout << "count: " << count << std::endl;
+
+        // for_each
+        std::ranges::for_each(numbers, [](int n) { std::cout << n << ' '; });
+        std::cout<<std::endl;
+        
+        // copy
+        std::vector<int> numbers_copy(numbers.size());
+        std::ranges::copy(numbers, numbers_copy.begin());
+        show_container(numbers_copy);
+        
+        auto table = generate_9x9_multiplication_table();
+        for (const auto& row : table) {
+            std::cout << row << std::endl;
+        }
+        return 0;
+    }
+}
+
 namespace VIEWS
 {
     int test(void)
@@ -51,61 +130,9 @@ namespace VIEWS
     }
 }
 
-namespace RANGES
-{
-    int test(void)
-    {
-        std::vector<int> numbers = {1, 4, 3, 6, 5, 2, 4, 1, 0, 8};
-
-        std::ranges::sort(numbers);
-        for (const auto& str : numbers) {
-            std::cout << str <<' ';
-        }
-        std::cout<<std::endl;
-
-        auto count = std::ranges::count(numbers, 4);
-        std::cout << "count: " << count << std::endl;
-
-        std::ranges::for_each(numbers, [](int n) { std::cout << n << ' '; });
-        std::cout<<std::endl;
-        
-        return 0;
-    }
-}
-
-// 模板元编程：计算乘法表的一行
-// template<int N>
-// struct MultiplicationRow {
-//     static std::string value() {
-//         std::string row;
-//         for (int i = 1; i <= N; ++i) {
-//             row += std::to_string(i) + " x " + std::to_string(N) + " = " + std::to_string(i * N) + "\t";
-//         }
-//         return row;
-//     }
-// };
-
-// // 模板元编程：生成乘法表
-// template<int... Ns>
-// struct MultiplicationTable {
-//     static std::vector<std::string> value() {
-//         return { MultiplicationRow<Ns>::value()... };
-//     }
-// };
-
-// // 辅助函数：生成整数序列
-// template<int... Ns>
-// constexpr auto index_sequence = std::integer_sequence<int, Ns...>{};
-
-// // 辅助函数：生成乘法表
-// template<int N, int... Ns>
-// constexpr auto make_multiplication_table(index_sequence<Ns...>) {
-//     return MultiplicationTable<Ns...>::value();
-// }
-
 int main(int argc, char* argv[])
 {
-    VIEWS::test();
+    //VIEWS::test();
 
     RANGES::test();
 

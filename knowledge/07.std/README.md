@@ -104,15 +104,46 @@ int main(int argc, char const *argv[])
 
 ## bit
 
-std::bit是C++20标准库中引入的一个类模板，用于表示固定大小的位序列。它提供了一种方便的方式来处理二进制数据，例如位操作、位计数、位测试等。
+bit是C++20标准库中引入的一个类模板，用于表示固定大小的位序列。它提供了一种方便的方式来处理二进制数据，例如位操作、位计数、位测试等。
 
-std::bit参考网址: <https://en.cppreference.com/w/cpp/utility/bit.html>
+bit参考网址: <https://en.cppreference.com/w/cpp/header/bit.html>。
+
+对于bit支持的函数方法如下。
+
+| 函数方法 | 说明 |
+| --- | --- |
+| has_single_bit | 检查位序列是否只有一个位被设置为1。 |
+| bit_ceil | 返回大于或等于给定值的最小2的幂。 |
+| bit_floor | 返回小于或等于给定值的最大2的幂。 |
+| bit_width | 返回给定值的二进制表示所需的位数。 |
+| rotl | 左旋转位序列。 |
+| rotr | 右旋转位序列。 |
+| countl_zero | 返回位序列中最左边的连续0位的数量。 |
+| countl_one | 返回位序列中最左边的连续0位的数量。 |
+| countr_zero | 返回位序列中最右边的连续0位的数量。 |
+| countr_one | 返回位序列中最右边的连续1位的数量。 |
+| popcount | 返回位序列中设置为1的位数。 |
+
+具体示例如下所示。
+
+```cpp
+#include <bit>
+#include <iostream>
+
+int main(int argc, char const *argv[])
+{
+    std::bitset<8> bs(0b10101010);
+    std::cout << bs << std::endl;
+    std::cout << std::popcount(bs.to_ulong()) << std::endl;
+    return 0;
+}
+```
 
 ### bitset
 
 std::bitset是标准库中的一个类模板，用于表示固定大小的位序列。它提供了一种方便的方式来处理二进制数据，例如位操作、位计数、位测试等。
 
-std::bitset参考网址: <https://en.cppreference.com/w/cpp/utility/bitset.html>
+std::bitset参考网址: <https://en.cppreference.com/w/cpp/utility/bitset.html>。
 
 - 格式
 
@@ -145,6 +176,23 @@ template <size_t N> class bitset;
 | to_string | 将位序列转换为字符串。 |
 | to_ulong | 将位序列转换为无符号整数。 |
 | to_ullong | 将位序列转换为无符号长整数。 |
+
+具体示例如下所示。
+
+```cpp
+#include <bitset>
+#include <iostream>
+
+int main(int argc, char const *argv[])
+{
+    std::bitset<8> bs(0b10101010);
+    std::cout << bs << std::endl;
+    std::cout << bs.count() << std::endl;
+    std::cout << bs.to_ulong() << std::endl;
+    std::cout << bs.to_ullong() << std::endl;
+    return 0;
+}
+```
 
 ### bit_cast
 
@@ -188,15 +236,11 @@ int main(int argc, char const *argv[])
 
 std::charconv是C++20引入的一个类模板，用于在不同类型之间进行字符级别的转换。它提供了一种类型安全的方式来将字符序列转换为数值类型，或将数值类型转换为字符序列。
 
-## compare
-
-std::compare是C++20引入的一个类模板，用于比较两个对象的大小关系。它提供了一种类型安全的方式来比较不同类型的对象，避免了传统的比较运算符（如 <、>、<=、>=）可能带来的未定义行为。
-
 ## complex
 
-std::complex是C++标准库中的一个类模板，用于表示复数。它提供了对复数运算的支持，如加、减、乘、除、取模、取实部、取虚部等。
+complex是用于表示复数的头文件库。它提供了对复数运算的支持，如加、减、乘、除、取模、取实部、取虚部等。
 
-std::complex参考网址: <https://en.cppreference.com/w/cpp/numeric/complex.html>
+complex参考网址: <https://en.cppreference.com/w/cpp/header/complex.html>
 
 对于complex类，其内部支持的方法如下所示。
 
@@ -757,7 +801,7 @@ int main(int argc, char *argv[])
 
 std::generator是C++23引入的一个类模板，用于生成序列。它提供了一种类型安全的方式来生成不同类型的序列，例如整数序列、字符序列等。
 
-std::generator参考网址: <https://en.cppreference.com/w/cpp/utility/generator.html>
+std::generator参考网址: <https://en.cppreference.com/w/cpp/header/generator.html>
 
 ## locale
 
@@ -816,6 +860,8 @@ int main()
 ## memory_resource
 
 std::memory_resource是C++23引入的一个类模板，用于管理内存资源。它提供了一种类型安全的方式来分配和释放内存，避免了传统的new和delete操作符可能带来的未定义行为。
+
+std::memory_resource参考网址: <https://en.cppreference.com/w/cpp/header/memory_resource.html>
 
 ## new
 

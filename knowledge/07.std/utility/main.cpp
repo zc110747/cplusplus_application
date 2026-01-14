@@ -10,7 +10,7 @@
 //      2. 相关组件方法, std::swap, std::make_pair
 //      3. std::declval
 // Author:
-//      @zc
+//      @公众号 <嵌入式技术总结>
 //
 // Revision History:
 //      Version V1.0b1 Create.

@@ -1,11 +1,18 @@
 # CPP基础语法
 
-- [基础语法](#basic_grammar)
-  - [基本类型](#base_type)
-  - [格式化](#format)
-  - [内存布局](#layout)
+- [基本类型](#base_type)
+- [复合类型](#compound_type)
+  - [array](#array)
+  - [pointer](#pointer)
+  - [struct](#string)
+  - [union](#union)
+  - [enum](#enum)
+- [格式化](#stdio_format)
+- [内存布局](#layout)
 - [C基础库](#c_lib)
 - [C++扩展语法](#cpp_extend)
+  - [function](#function)
+  - [pre_processor](#pre_processor)
   - [limits](#limits)
   - [numbers](#numbers)
   - [stdfloat](#stdfloat)
@@ -14,7 +21,9 @@
 
 ## basic_grammar
 
-### base_type
+## base_type
+
+基础类型:
 
 - char，字符类型，长度1字节
 - int，整型，不小于2字节
@@ -22,13 +31,294 @@
 - double，双精度浮点类型，一般长度8字节
 - long double, 双精度长浮点型，一般长度为16字节
 
-修饰符
+修饰符:
+
 - short, 修饰符，可以int搭配，short int(可省略), 表示占用可能比int更少的存储空间（一般为2字节）
 - long, 修饰符，可以int搭配，long int(可省略), 表示占用可能比int更多的存储空间（一般为4字节）
 - long long, 修饰符，可以int搭配，long long int(可省略), 表示占用可能比int更多的存储空间（一般为8字节）
 - unsigned/signed，有符号/无符号，和任意整型搭配(char, int, long)，unsigned int(可省略)表示无符号，signed int(可省略)表示有符号
 
-### format
+扩展类型:
+
+- chart8_t, C++20支持，8位字符类型，长度1字节
+- char16_t, 16位字符类型，长度2字节
+- char32_t, 32位字符类型，长度4字节
+- bool, 布尔类型，长度1字节
+- void, 空类型，长度0字节
+- wchar_t, 宽字符类型，长度2字节
+- size_t, 存储大小类型，长度为sizeof(size_t)字节，unsigned int(可省略)
+- float16_t, 16位浮点类型，长度2字节
+- float32_t, 32位浮点类型，长度4字节
+- float64_t, 64位浮点类型，长度8字节
+
+类型后缀：
+
+- u : 无符号整型，unsigned int类型。
+- l: 长整型，long类型。
+- ul : 无符号长整型，unsigned long类型。
+- ll : 长长整型，long long类型。
+- ull : 无符号长长整型，unsigned long long类型。
+- f: 单精度浮点类型，float类型。
+- f32: 32位浮点类型，float类型。
+- f64: 64位浮点类型，double类型。
+
+隐式整型转换。
+
+- 隐式整型转换时，遵从从低等级到高等级的转换规则；有符号向无符号转换。
+- 至于转换等级，长度越长的整型等级越高，例如short < int；长度相同时，标准整型高于扩展整型。
+
+具体示例如下：
+
+```c
+#include <iostream>
+#include <stdfloat>
+
+int main(int argc, const char *argv[])
+{
+    int a1 = 10;
+    unsigned int a2 = 10ul;
+    long a3 = 10ll;
+
+    std::cout << "a1: " << a1 << std::endl;
+    std::cout << "a2: " << a2 << std::endl;
+    std::cout << "a3: " << a3 << std::endl;
+
+    float f1 = 10.0f;
+    std::float16_t f2 = 10.0f16;
+    std::float32_t f3 = 10.0f32;
+    std::float64_t f4 = 10.0f64;
+    std::float128_t f5 = 10.0f128;
+
+    std::cout << "f1: " << f1 << std::endl;
+    std::cout << "f2: " << f2 << std::endl;
+    std::cout << "f3: " << f3 << std::endl;
+    std::cout << "f4: " << f4 << std::endl;
+
+    return 0;
+}
+```
+
+## compound_type
+
+复合类型是通过基本类型组合或者处理得到的数据类型。包含数组、指针、结构体、联合体、枚举等。
+
+### array
+
+数组是一组相同类型的元素，存储在一起，元素个数固定，元素类型固定，元素类型和数组类型一致。可通过sizeof运算符获取数组的长度，单位为字节。另外还支持多维数组，例如int a[2][3]表示一个2行3列的整型数组。
+
+具体示例如下：
+
+```c
+#include <iostream>
+
+int main(int argc, const char *argv[])
+{
+    // 一维数组
+    int a[5] = {1, 2, 3, 4, 5};
+    size_t nums = sizeof(a)/sizeof(a[0]);
+
+    std::cout << "nums: " << nums << std::endl;
+
+    for (int i = 0; i < nums; i++) {
+        std::cout << a[i] << " ";
+    }
+    std::cout << std::endl;
+
+    // 多维数组
+    int arr[2][3] = {
+        {1, 2, 3}, 
+        {4, 5, 6}
+    };
+    for (int i = 0; i < 2; i++) {
+        for (int j = 0; j < 3; j++) {
+            std::cout << arr[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
+```
+
+### pointer
+
+指针是一种数据类型，它保存一个内存地址，指针类型和被保存的地址类型一致。可以使用&运算符获取指针指向的内存地址，使用*运算符获取指针指向的值。另外对于指针可以使用C语言中的malloc，free来分配和释放内存，也可以使用C++中的new，delete/new，delete[]来分配和释放内存。
+
+另外pointer也可以使用sizeof运算符获取指针的长度，这个是指针占用的地址，而非指针指向的内存地址或类型的长度，与平台以及使用的编译环境相关。一般32位平台为4字节，64位平台根据编译选项不同，可以为4字节或8字节。
+
+具体示例如下：
+
+```c
+#include <iostream>
+
+int main(int argc, const char *argv[])
+{
+    int a = 10;
+    short b = 20;
+
+    // 取得指针
+    int *pa = &a;
+    short *pb = &b;
+
+    // 解指针、获取指针长度
+    std::cout << "pa: " << *pa << std::endl;
+    std::cout << "pb: " << *pb << std::endl;
+    std::cout << "pa size: " << sizeof(pa) << std::endl;
+    std::cout << "pb size: " << sizeof(pb) << std::endl;
+
+    int arr[5] = {1, 2, 3, 4, 5};
+    int *p1 = arr;
+
+    // 指针的运算，加减偏移类型的长度
+    p1 += 1;
+    std::cout << "p1: " << *p1 << std::endl;
+    std::cout << "offset: " << (uint64_t)p1 - (uint64_t)arr << std::endl;
+
+    // malloc, free
+    int *p2 = (int *)malloc(sizeof(int));
+    if (p2 == nullptr) {
+        std::cout << "malloc failed" << std::endl;
+        return -1;
+    }
+    *p2 = 10;
+    std::cout << "p2: " << *p2 << std::endl;
+    free(p2);
+
+    // new, delete/new, delete[]
+    int *p3 = new int(10);               //申请单个变量并初始化
+    std::cout << "p3: " << *p3 << std::endl;
+    delete p3;
+
+    // new[], delete[]
+    int *p4 = new int[5]{1, 2, 3, 4, 5};   //申请数组并初始化
+    std::cout << "p4: " << *p4 << std::endl;
+    delete[] p4;
+
+    return 0;
+}
+```
+
+#### struct
+
+结构体是一种数据类型，它保存一组变量，变量存储在一起，元素个数可变，元素类型可变，元素类型和结构体类型一致。在C++中，结构体的功能和类非常相似，但结构体和类之间有如下区别：
+
+- 结构体默认所有成员都是public的，而类是private的。
+- 结构体默认继承的访问权限也是public的，而类是private的。
+
+具体示例如下所示。
+
+```cpp
+#include <iostream>
+
+struct test_struct {
+    int a;
+    int b;
+    int c;
+    inline static int d{1};
+    static int get_d() {
+        return d;
+    }
+};
+
+struct bit_field
+{
+    int a1: 2;
+    int a2: 3;
+    int a3: 2;
+    int def: 25;
+};
+
+int main(int argc, const char *argv[])
+{ 
+    // 结构体初始化
+    test_struct s1 = {1, 2, 3};
+    std::cout << "s1.a: " << s1.a << std::endl;
+    std::cout << "s1.b: " << s1.b << std::endl;
+    std::cout << "s1.c: " << s1.c << std::endl;
+
+    test_struct s2 = {.a = 1, .b = 2, .c = 3};
+    std::cout << "s2.a: " << s2.a << std::endl;
+    std::cout << "s2.b: " << s2.b << std::endl;
+    std::cout << "s2.c: " << s2.c << std::endl;
+
+    // 静态成员变量
+    std::cout << "test_struct::d: " << test_struct::d << std::endl;
+    std::cout << "s1.d: " << s1.d << std::endl;
+    s1.d = 2;
+    std::cout << "test_struct::get_d(): " << test_struct::get_d() << std::endl;
+    std::cout << "s2.d: " << s2.get_d() << std::endl;
+
+    // sizeof
+    std::cout << "sizeof(s1): " << sizeof(s1) << std::endl;
+
+    // bit_field 位域
+    // 计算机中以补码存储，最高位为符号位，0为正，1为负，对于3bit, 范围为[-4, 3]，最大值011，最小值100
+    bit_field bf1 = {.a1 = 1, .a2 = 7, .a3 = 3};
+    std::cout << "sizeof(bf1): " << sizeof(bf1) << std::endl;
+    std::cout << "bf1.a1: " << bf1.a1 << std::endl;     // 1
+    std::cout << "bf1.a2: " << bf1.a2 << std::endl;     // -1
+    std::cout << "bf1.a3: " << bf1.a3 << std::endl;     // -1
+    std::cout << "bf1.def: " << bf1.def << std::endl;
+    return 0;
+}
+```
+
+### union
+
+联合体是一种数据类型，它保存一组变量，变量存储在一起，元素个数可变，元素类型可变，元素类型和联合体类型一致。联合体中的所有变量共享同一块内存空间，因此联合体的大小等于其最大的成员的大小。联合体内部的变量默认访问权限和结构体默认访问权限一致，都是public。
+
+具体示例如下所示。
+
+```cpp
+#include <iostream>
+
+union union_struct
+{
+    uint32_t val_;
+
+    struct {
+        uint32_t a1_:1;
+        uint32_t a2_:3;
+        uint32_t a3_:4;
+        uint32_t def_:24;
+    } bits;
+};
+
+int main(int argc, const char *argv[])
+{
+    union_type u1;
+    u1.a1 = 10;
+    std::cout << "u1.a1: " << u1.a1 << std::endl;
+    std::cout << "u1.a2: " << u1.a2 << std::endl;
+
+    if (u1.a1 == u1.a2) {
+        std::cout << "小端存储" << std::endl;
+    } else {
+        std::cout << "大端存储" << std::endl;
+    }
+
+    u1.a2 = 20;
+    std::cout << "u1.a1: " << u1.a1 << std::endl;
+    std::cout << "u1.a2: " << u1.a2 << std::endl;
+
+    u1.f1 = 30.0f;
+    std::cout << "u1.a1: " << u1.a1 << std::endl;
+    std::cout << "u1.a2: " << u1.a2 << std::endl;
+    std::cout << "u1.f1: " << u1.f1 << std::endl;
+
+    // bit_field
+    union_struct u2 = {.val_ = 0x12345678};
+    std::cout << std::hex;
+    std::cout << "u2.bits.a1_: 0x" << u2.bits.a1_ << std::endl;
+    std::cout << "u2.bits.a2_: 0x" << u2.bits.a2_ << std::endl;
+    std::cout << "u2.bits.a3_: 0x" << u2.bits.a3_ << std::endl;
+    std::cout << "u2.bits.def_: 0x" << u2.bits.def_ << std::endl;
+    return 0;
+};
+```
+
+### stdio_format
 
 - printf：格式化输出
 - scanf：格式化输入
@@ -165,37 +455,145 @@
 
 ## cpp_extend
 
-- 新字符类型(Unicode)
-  - C++20:char8_t，Unicode字符(1字节)
-  - C++17:char16_t, char32_t；Unicode字符(2字节，4字节)
+### function
 
-- c++函数
-  - 函数声明，函数定义，函数调用 
-- 函数的默认参数允许你为函数的一个或多个参数提供默认值
-  - 在C++中，函数的默认参数允许你为函数的一个或多个参数提供默认值。当调用该函数时，如果没有为这些参数提供值，那么将使用默认值
+C++函数和C99标准类似，但有额外的功能支持，具体说明如下所示。
 
-- 预处理器
+- 和C语言类型，包含函数声明、函数定义和函数调用，与C语言基本一致。 
+- 对于C++函数来说，支持函数重载，即可以定义多个函数，函数名相同但参数不同。
+- 在C++中，函数的默认参数允许你为函数的一个或多个参数提供默认值。当调用该函数时，如果没有为这些参数提供值，那么将使用默认值。
+
+具体示例如下：
+
+```cpp
+#include <iostream>
+
+// 函数声明，可以带默认值
+int add(int a, int b = 1);
+int add(int a, int b, int c);
+
+int main(int argc, const char *argv[]) 
+{
+    std::cout << add(1) << std::endl;
+    std::cout << add(1, 2) << std::endl;
+    std::cout << add(1, 2, 3) << std::endl;
+    return 0;
+}
+
+// 函数定义
+// 函数重载
+int add(int a, int b) {
+    return a + b;
+}
+
+int add(int a, int b, int c) {
+    return a + b + c;
+}
+```
+
+### pre_processor
+
+宏定义和预处理器是C语言支持的功能，具体如下所示。C语言提供了丰富的预处理机制，方便了跨平台的代码的实现，此外C语言通过宏机制实现的数据和代码块替换，字符串格式化，代码段切换，对于工程应用具有重要意义，下面按照功能需求，描述在C语言运用中的常用预处理机制。
+
+`#include`：包含文件命令，在C语言中，它执行的效果是将包含文件中的所有内容插入到当前位置，这不只包含头文件，一些参数文件，配置文件，也可以使用该文件插入到当前代码的指定位置。其中<>和""分别表示从标准库路径还是用户自定义路径开始检索。
+
+`#define`：宏定义，常见的用法包含定义常量或者代码段别名，当然某些情况下配合##格式化字符串，可以实现接口的统一化处理，实例如下：
+
+```cpp
+#define MAX_SIZE  10
+#define MODULE_ON  1
+#define ERROR_LOOP() do{ \
+                     printf("error loop\n"); \
+                   }while(0);
+#define global(val) g_##val
+int global(v) = 10;
+int global(add)(int a, int b)
+{
+    return a+b;
+}
+```
+
+`#if..#elif...#else...#endif`：条件选择判断，根据预定义的宏参数，选择不同的代码块执行。
+
+`#ifdef..#endif, #ifndef...#endif`：条件选择判断，根据预定义的宏参数，选择不同的代码块执行。这种综合性项目和跨平台项目中为了满足多种情况下的需求往往会被使用。
+
+`#undef`：取消定义的参数，避免重定义问题。
+
+`#error，#warning`：用于用户自定义的告警信息，配合#if，#ifdef使用，可以限制错误的预定义配置。
+
+`#pragma`：带参数的预定义处理，常见的`#pragma pack(1)`, 不过使用后会导致后续的整个文件都以设置的字节对齐，配合push和pop可以解决这种问题，代码如下。
+
+```cpp
+#pragma pack(push)
+#pragma pack(1)
+struct TestA
+{
+   char i;
+   int b;
+}A;
+#pragma pack(pop); //注意要调用pop，否则会导致后续文件都以pack定义值对齐，执行不符合预期
+```
+
+等同于
+
+```cpp
+ struct _TestB{  
+   char i;
+   int b;
+ }__attribute__((packed))A; 
+```
+
+- 常用宏定义
 
 | 预处理器宏 | 说明 |
 | --- | --- |
-| \__func\__ | 获取函数名称 |
-| \__VA_ARGS\__ | 获取可变参数 |
-| \__FILE\__ | 获取文件名称 |
-| \__LINE\__ | 获取行号 |
-| \__DATE\__ | 获取编译日期 |
-| \__TIME\__ | 获取编译时间 |
-| \__STDC_VERSION\__ | 获取C++标准版本 |
-| \__INT_MAX\__ | 最大的有符号整数 |
-| \__INT_MIN\__ | 最小的有符号整数 |
-| \__UINT_MAX\__ | 最大的无符号整数 |
-| \__LONG_MAX\__ | 最大的有符号长整数 |
-| \__LONG_MIN\__ | 最小的有符号长整数 |
-| \__ULONG_MAX\__ | 最大的无符号长整数 |
-| \__has_include\__ | 检查是否包含头文件, C++17支持 |
-| \__has_feature\__ | 检查是否支持某个特性 |
-| \__has_extension\__ | 检查是否支持某个扩展 |
-| \__has_builtin\__ | 检查是否支持某个内建函数 |
-| \__has_attribute\__ | 检查是否支持某个属性 |
+| `__func__` | 获取函数名称 |
+| `__cplusplus` | 获取C++标准版本 |
+| `__VA_ARGS__` | 获取可变参数 |
+| `__FILE__` | 获取文件名称 |
+| `__LINE__` | 获取行号 |
+| `__DATE__` | 获取编译日期 |
+| `__TIME__` | 获取编译时间 |
+| `__STDC__` | 表示编译器的实现是否与C标准兼容 |
+| `__STDC_VERSION__` | 获取C标准版本 |
+| `__STDC_HOSTED__` | 编译器的目标系统环境是否包含完整的c库 |
+| `__INT_MAX__` | 最大的有符号整数 |
+| `__INT_MIN__` | 最小的有符号整数 |
+| `__UINT_MAX__` | 最大的无符号整数 |
+| `__LONG_MAX__` | 最大的有符号长整数 |
+| `__LONG_MIN__` | 最小的有符号长整数 |
+| `__ULONG_MAX__` | 最大的无符号长整数 |
+| `__has_include__` | 检查是否包含头文件, C++17支持 |
+| `__has_feature__` | 检查是否支持某个特性 |
+| `__has_extension__` | 检查是否支持某个扩展 |
+| `__has_builtin__` | 检查是否支持某个内建函数 |
+| `__has_attribute__` | 检查是否支持某个属性 |
+
+- `__Pragma`
+
+`__Pragma`操作符是C++11引入的，用于在编译时执行一些操作，其格式如下所示。
+
+```cpp
+// 语法
+__Pragma(字符串字面量)
+```
+
+目前主要实现的有`__Pragma("once")`，等同于`#pragma once`, 用于防止头文件被重复包含。
+
+- `__VA_ARGS__`
+
+`__VA_ARGS__` 是C99标准引入的，可以使用变长参数的宏定义，C++11同样也支持该功能，主要使用方法如下所示。
+
+```cpp
+// 配合printf使用
+#define PR(...) printf(__VA_ARGS__)
+
+#define ERR(...) do { \
+                    fprintf(stderr, "%s:%d: ", __FILE__, __LINE__); \
+                    fprintf(stderr, __VA_ARGS__); \
+                    fprintf(stderr, "\n");
+                } while (0)
+```
 
 ### limits
 
@@ -361,6 +759,9 @@ int main(int argc, char const *argv[])
 {
     std::float16_t f16 = 0.1f16;
     std::cout << "f16: " << f16 << std::endl;
+
+    std::float32_t f32 = 0.1f32;
+    std::cout << "f32: " << f32 << std::endl;
 
     std::float64_t f64 = 0.1f64;
     std::cout << "f64: " << f64 << std::endl;

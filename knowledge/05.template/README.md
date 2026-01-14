@@ -17,7 +17,8 @@
   - [ADL查找规则](#adl_search)
   - [用户自定义推导](#user_guides)
   - [SFINAE](#sfinae)
-  - [外部模板](#explicit_template)
+  - [显式模板实例化](#explicit_template)
+  - [外部模板](#extern_template)
   - [模板元编程](#metaprogramming)
 - [返回主页](../../README.md)
 
@@ -65,7 +66,7 @@ int main(int argc, char *argv[])
 
 模板按照参数分为非类型模板和类型模板。
 
-- 类型模板是最常见的模板类型，它允许你定义一个通用的类或函数，其中某些类型可以在实例化时指定，类型模板可以使用typename或class关键字来声明。
+- 类型模板是最常见的模板类型，它允许你定义一个通用的类或函数，其中某些类型可以在实例化时指定，类型模板可以使用typename或class关键字来声明。对于C++11开始，局部类型和匿名类型（需要使用typedef重命名)也可以作为类型模板参数。
 - 非类型模板参数允许你在模板中使用非类型的值，如整数、指针、引用和枚举。其中引用作为参数需要满足以下条件：必须是const引用，引用对象必须是全局或者静态变量。
 
 具体示例如下所示。
@@ -110,6 +111,11 @@ public:
     }
 };
 
+typedef struct
+{
+    int a;
+} C1;
+
 int main(int argc, char *argv[])
 {
     demo_type<int> d1;
@@ -121,6 +127,16 @@ int main(int argc, char *argv[])
     demo_non_type_ref<global_val, &global_val> d3;
     std::cout << "d3.get_size() = " << d3.get_size() << std::endl;
     std::cout << "*d3.get_ptr() = " << *d3.get_ptr() << std::endl;
+
+    // 类型模板参数(局部类型)
+    struct C {};
+    demo_type<C> d4;
+    std::cout << "d4.get_size() = " << d4.get_size() << std::endl;
+
+    // 类型模板参数(匿名类型)
+    demo_type<C1> d5;
+    std::cout << "d5.get_size() = " << d5.get_size() << std::endl;
+
     return 0;
 }
 ```
@@ -381,11 +397,16 @@ int main(int argc, char *argv[])
 
 ### template_default
 
-默认模板参数主要是指在模板定义中为模板参数提供一个默认值，当调用模板时如果没有指定模板参数，那么就会使用默认值。在使用默认模板参数时，需要注意以下几点：
+默认模板参数主要是指在模板定义中为模板参数提供一个默认值，当调用模板时如果没有指定模板参数，那么就会使用默认值。
+
+在使用默认模板参数时，需要注意以下几点：
 
 - 默认模板参数只能在模板定义中指定，不能在模板调用中指定。
 - 默认模板参数只能指定从右向左的默认值，中间不能够跳过，否则会导致编译错误。
 - 默认模板参数只能在模板定义中指定一次，不能在模板调用中指定多次。
+- 默认模板参数仅在未指定类型或者无法根据参数进行类型推导时有效。
+
+如果模板参数只有一个，且指定了默认值，可以使用`demo`或`demo<>`来使用默认模板参数，如果作为函数的形参类型，只能使用`demo<>`格式来声明。
 
 具体示例如下所示。
 
@@ -402,6 +423,10 @@ public:
     }
     ~demo() {
         std::cout << "~demo" << std::endl;
+    }
+    
+    demo(T val) : val_(val) {
+        std::cout << "demo(T val)" << std::endl;
     }
 
     T get_val() {return val_;}
@@ -423,11 +448,26 @@ public:
     int val2{N2};
 };
 
+void func(demo<> d1) {
+    std::cout << d1.get_val() << std::endl;
+}
+
 int main(int argc, char *argv[]) 
 {
+    // 调用默认模板参数，输出demo<int>
     demo d1;
     std::cout << d1.get_val() << std::endl;
     d1.set_val(1); 
+    
+    // 调用默认模板参数，输出demo<int>
+    demo<> d1_1;
+    std::cout << d1_1.get_val() << std::endl;
+
+    // 通过浮点类型推导为float，不使用默认模板参数
+    demo d1_2(1.2f);
+    std::cout << d1_2.get_val() << std::endl;
+
+    func(d1);
 
     demo_2<int> d2;
     demo_2<double, 2> d3;
@@ -642,10 +682,10 @@ SFINAE（Substitution Failure Is Not An Error）是C++中的一个重要概念�
 
 C++中，函数模板与同名的非模板函数重载时，应遵循下列调用原则：
 
-1. 寻找一个参数完全匹配的函数，若找到就调用它。若参数完全匹配的函数多于一个，则这个调用是一个错误的调用。
-2. 寻找一个函数模板，若找到就将其实例化生成一个匹配的模板函数并调用它。
-3. 若上面两条都失败，则使用函数重载的方法，通过类型转换产生参数匹配，若找到就调用它。
-4. 若上面三条都失败，还没有找都匹配的函数，则这个调用是一个错误的调用。
+- 寻找一个参数完全匹配的函数，若找到就调用它。若参数完全匹配的函数多于一个，则这个调用是一个错误的调用。
+- 寻找一个函数模板，若找到就将其实例化生成一个匹配的模板函数并调用它。
+- 若上面两条都失败，则使用函数重载的方法，通过类型转换产生参数匹配，若找到就调用它。
+- 若上面三条都失败，还没有找都匹配的函数，则这个调用是一个错误的调用。
 
 具体示例如下所示：
 
@@ -688,7 +728,7 @@ int main(int argc, char* argv[]) {
 
 ### explicit_template
 
-外部模板（Explicit Template Instantiation）是C++中的一个特性，它允许程序员在一个编译单元中显式地实例化一个模板，而在其他编译单元中使用这个实例化的模板，而不需要再次实例化。
+显式模板实例化（Explicit Template Instantiation）是C++中的一个特性，它允许程序员在一个编译单元中显式地实例化一个模板，而在其他编译单元中使用这个实例化的模板，而不需要再次实例化。
 
 ```cpp
 #include <iostream>
@@ -711,6 +751,27 @@ int main(int argc, char* argv[])
     std::cout << obj.getValue() << std::endl;
     return 0;
 }
+```
+
+### extern_template
+
+外部模板实例化（Extern Template Instantiation）是C++中的一个特性，它允许程序员在一个编译单元中显式地实例化一个模板，而在其他编译单元中通过extern使用这个实例化的模板，而不需要再次实例化。
+
+```cpp
+// .hpp
+template<typename T>
+class demo {
+};
+
+// 1.cpp
+// 显示实例化demo<int>
+#include ".hpp"
+template class demo<int>;
+
+// 1.cpp
+// 显示实例化demo<int>
+#include ".hpp"
+extern template class demo<int>;
 ```
 
 ### enable_if

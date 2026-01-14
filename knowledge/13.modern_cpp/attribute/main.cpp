@@ -16,7 +16,7 @@
 //      8. [[no_unique_address]]: 表示变量的地址可能会被重复使用
 //
 // Author:
-//      @zc
+//      @公众号 <嵌入式技术总结>
 //
 // Revision History:
 //      Version V1.0b1 Create.

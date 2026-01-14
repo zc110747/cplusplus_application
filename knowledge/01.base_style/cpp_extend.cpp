@@ -11,7 +11,7 @@
 //     3. 包含文件信息的定义
 //
 // Author:
-//      @zc
+//      @公众号 <嵌入式技术总结>
 //
 // Revision History:
 //      Version V1.0b1 Create.
@@ -55,15 +55,15 @@ void printMessage(const std::string& message) {
     std::cout << message << std::endl;
 }
 
-double SumOfFloat(int cont, ...){
+// 使用va_list获取可变参数，并处理
+double SumOfFloat(int count, ...){
     va_list ap;
     double sum = 0;
-    va_start(ap, cont);
+    va_start(ap, count);
 
-    for(int i=0; i<cont; i++) {
+    for(int i=0; i<count; i++) {
         sum += va_arg(ap, double);
     }
-
 
     va_end(ap);
     return sum;
@@ -107,6 +107,7 @@ void standard_improve(void)
     std::cout << "signaling_NaN: " << std::numeric_limits<int>::signaling_NaN() << std::endl;
     std::cout << "denorm_min: " << std::numeric_limits<int>::denorm_min() << std::endl;
 
+    // numbers
 #if __cplusplus >= 202007L
     std::cout << "e: " << std::numbers::e << std::endl;
     std::cout << "log2e: " << std::numbers::log2e << std::endl;
@@ -125,9 +126,13 @@ void standard_improve(void)
     std::cout << "warn: numbers support in 202007L, current: " << __cplusplus << std::endl;
 #endif
 
+    // stdfloat
 #if __cplusplus >= 202302L
     std::float16_t f16 = 0.1f16;
     std::cout << "f16: " << f16 << std::endl;
+
+    std::float32_t f32 = 0.1f32;
+    std::cout << "f32: " << f32 << std::endl;
 
     std::float64_t f64 = 0.1f64;
     std::cout << "f64: " << f64 << std::endl;
@@ -135,6 +140,7 @@ void standard_improve(void)
     std::cout << "warn: stdfloat support in 202302L, current: " << __cplusplus << std::endl;
 #endif
 
+    // version
 #if __cplusplus >= 202007L
     std::cout << "__cpp_lib_any: " << __cpp_lib_any << std::endl;
     std::cout << "__cpp_lib_apply: " << __cpp_lib_apply << std::endl;

@@ -9,7 +9,7 @@
 # This is object should be build and will link to generate
 # the executables
 STD_VERSION = -std=c++23
-objects = main.o base.o clib.o cpp_extend.o
+objects = main.o basic.o clib.o cpp_extend.o
 
 # This is the file name of the executables and path where 
 # place the executables

@@ -42,6 +42,11 @@ namespace <namespace_name> {
     } 
 }
 
+// c++17支持嵌套命名空间简化
+namespace <name_a>::<name_b>::<name_c> {
+    // 声明或定义变量、函数、类等
+}
+
 // 访问嵌套命名空间中的成员时，需要使用多个::来指定完整的路径：
 <namespace_name>::<nested_namespace_name>::variable_name;
 ```
@@ -50,15 +55,21 @@ namespace <namespace_name> {
 
 ```cpp
 #include <iostream>
+
 namespace outer_namespace {
     namespace inner_namespace {
         int x = 10;
     }
 }
 
+namespace na::nb::nc {
+    int x = 10;
+}
+
 int main(int argc, char *argv[]) 
 {
     std::cout << outer_namespace::inner_namespace::x << std::endl;
+    std::cout << na::nb::nc::x << std::endl;
     return 0;
 }
 ```

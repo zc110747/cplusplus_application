@@ -10,7 +10,7 @@
 //、    2. std::shared_lock
 //
 // Author:
-//      @zc
+//      @公众号 <嵌入式技术总结>
 //
 // Revision History:
 //      Version V1.0b1 Create.
@@ -205,9 +205,14 @@ namespace SHARD_TIME_MUTEX
 
         int get(void)
         {   
-            std::shared_lock<std::shared_timed_mutex> lck(smtx_);
-            int val = val_;
-            return val;
+            std::shared_lock<std::shared_timed_mutex> lck(smtx_, std::defer_lock);
+            if (lck.try_lock_for(std::chrono::seconds(1)))
+            {
+                int val = val_;
+                lck.unlock();
+                return val;
+            }
+            return -1;
         }
 
     private:

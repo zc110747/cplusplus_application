@@ -8,7 +8,7 @@
 
 # This is object should be build and will link to generate
 # the executables
-objects = main.o
+objects = main.o test.o
 
 # This is the file name of the executables and path where 
 # place the executables

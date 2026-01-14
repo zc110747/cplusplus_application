@@ -111,40 +111,52 @@ int &&rref = static_cast<int&&>(x);
 具体示例如下所示。
 
 ```cpp
-#include <iostream>
+include <iostream>
 
 class demo
 {
 public:
     /// constructor
-    demo() {
+    demo(): ptr_(new int(0)) {
         std::cout << "constructor" << std::endl;
     }
 
     /// copy constructor
-    demo(const demo &other) {
+    demo(const demo &other): ptr_(new int(*other.ptr_)) {
         std::cout << "copy constructor" << std::endl;
     }
 
     /// move constructor
-    demo(demo &&other) {
+    demo(demo &&other): ptr_(other.ptr_) {
+        other.ptr_ = nullptr;
         std::cout << "move constructor" << std::endl;
     }
     
     /// move assignment operator
     /// 移动构造函数和赋值构造函数的返回值需要是引用类型，否则会造成复制
     demo& operator=(demo &&other) {
+        ptr_ = other.ptr_;
+        other.ptr_ = nullptr;
         std::cout << "move assignment operator" << std::endl;
         return *this;
     }
 
     ~demo() {
+        if (ptr_ != nullptr) {
+            delete ptr_;
+            ptr_ = nullptr;
+        } else {
+            std::cout << "invalid ptr" << std::endl;
+        }
         std::cout << "destructor" << std::endl;
     }
 
     void show(void) {
-        std::cout << "show" << std::endl;
+        std::cout << "show:" << *ptr_ << std::endl;
     }
+
+public:
+    int *ptr_{nullptr};
 };
 
 
@@ -167,7 +179,7 @@ int main(int argc, char *argv[])
     std::cout << "x: " << x << std::endl;       //8
     std::cout << "rref2: " << rref2 << std::endl; //1
 
-
+    std::cout << "================== class move shows ===============" << std::endl;
     std::cout << "test 1:" << std::endl;
     {
         demo d1;
@@ -178,7 +190,7 @@ int main(int argc, char *argv[])
     std::cout << "\ntest 2:" << std::endl;
     {
         demo d1;
-        demo d3 = std::move(d1);
+        demo d3 = std::move(d1);    // 移动构造函数，d1将内存资源转移到d3
         d3.show();
     }
 

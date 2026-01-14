@@ -11,7 +11,7 @@
 //      3. std::vector常用算法配合
 //
 // Author:
-//      @zc
+//      @公众号 <嵌入式技术总结>
 //
 // Revision History:
 //      Version V1.0b1 Create.
@@ -22,6 +22,7 @@
 #include <string>
 #include <unistd.h>
 #include <numeric>
+#include <random>
 
 template<typename T>
 void show_container(T container_val, std::string qstring)
@@ -88,8 +89,8 @@ void algorithm_process(void)
     show_container(vcon_0, "reverse");
     std::rotate(vcon_0.begin(), vcon_0.begin()+1, vcon_0.end());
     show_container(vcon_0, "rotate");
-    std::random_shuffle(vcon_0.begin(), vcon_0.end());
-    show_container(vcon_0, "random_shuffle");
+    std::shuffle(vcon_0.begin(), vcon_0.end(), std::default_random_engine());
+    show_container(vcon_0, "shuffle");
 
     // 变换算法
     std::cout<<"======= transform ======="<<std::endl;
@@ -238,8 +239,12 @@ int main(int argc, char* argv[])
     std::vector<int> intv(array, array+5);
     std::vector<int> uservector(intv);
     std::vector<std::string> listvector;
+
+    // 创建一个包含5个元素的vector，每个元素初始值为0
+    std::vector<int> vec_init(5);
+    show_container(vec_init, "vec_init");
     
-    //operator=
+    //operator =
     listvector = std::vector<std::string>({"0x00", "0x01", "0x02"}); //list initialize
     show_container(listvector, "listvector");
 

@@ -11,7 +11,7 @@
 //      3. 模板规则
 //
 // Author:
-//      @zc
+//      @公众号 <嵌入式技术总结>
 //
 // Revision History:
 //      Version V1.0b1 Create.
@@ -604,6 +604,11 @@ namespace MEATPROGRAMING
     }
 }
 
+#include "test.hpp"
+
+// 这样extern_func只实例化一次，在test.cpp中
+extern template void extern_func<int>(int);
+
 int main(int argc, char *argv[])
 {
     TYPE::test();
@@ -611,6 +616,8 @@ int main(int argc, char *argv[])
     APPLICATION::test();
 
     RULE::test();
+
+    extern_func(10);
 
     MEATPROGRAMING::test();
     return 0;

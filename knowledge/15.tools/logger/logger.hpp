@@ -10,7 +10,7 @@
 //      C++版本需要至少高于C++11
 //
 //  Author:
-//     	@听心跳的声音
+//     	@公众号 <嵌入式技术总结>
 //
 //  Assumptions:
 //
@@ -63,29 +63,7 @@ namespace LOGGER {
         /// @param format - the string base format.
         /// @param args - args process int the format   
         template<typename... Args>
-        void logger_message(LOGGER_LEVEL level, const std::string& f_str, Args... args) const {
-            if (level >= level_) {
-                std::lock_guard<std::mutex> lock(log_mutex_);
-                const char* level_str = "";
-                switch(level) {
-                    case LOGGER_LEVEL::DEBUG: level_str = "D"; break;
-                    case LOGGER_LEVEL::INFO:  level_str = "I";  break;
-                    case LOGGER_LEVEL::WARN:  level_str = "W";  break;
-                    case LOGGER_LEVEL::ERROR: level_str = "E"; break;
-                    case LOGGER_LEVEL::FATAL: level_str = "F"; break;
-                }
-                auto now = std::chrono::system_clock::now();
-                auto now_time = std::chrono::system_clock::to_time_t(now);
-                std::tm* local_time = std::localtime(&now_time);
-                std::stringstream ss;
-                ss << std::put_time(local_time, "%Y-%m-%d %H:%M");
-                #ifndef PROGRAM_NAME
-                fmt::println("[{}][{}] {}", level_str, ss.str(), fmt::format(f_str, std::forward<Args>(args)...));
-                #else
-                fmt::println("[{}][{}][{}] {}", level_str, ss.str(), PROGRAM_NAME, fmt::format(f_str, std::forward<Args>(args)...));    
-                #endif
-            }
-        }
+        void logger_message(LOGGER_LEVEL level, const char* f_str, Args... args);
 
         /// @brief logger_message
         /// - This method is used to print the log message.
@@ -114,27 +92,29 @@ namespace LOGGER {
     };
 }
 
+using namespace LOGGER;
+
 #if LOG_MODULE_ON == 1
 #define LOG_MESSAGE(...)    do {  \
-    LOGGER::logger_manage::get_instance()->logger_message(__VA_ARGS__); \
+    logger_manage::get_instance()->logger_message(__VA_ARGS__); \
 }while(0);
 #define LOG_DEBUG(...)      do { \
-    LOGGER::logger_manage::get_instance()->logger_message(LOGGER::logger_manage::LOGGER_LEVEL::DEBUG, __VA_ARGS__); \
+    logger_manage::get_instance()->logger_message(logger_manage::LOGGER_LEVEL::DEBUG, __VA_ARGS__); \
 }while(0);          
 #define LOG_INFO(...)       do {  \
-    LOGGER::logger_manage::get_instance()->logger_message(LOGGER::logger_manage::LOGGER_LEVEL::INFO, __VA_ARGS__); \
+    logger_manage::get_instance()->logger_message(logger_manage::LOGGER_LEVEL::INFO, __VA_ARGS__); \
 }while(0);
 #define LOG_WARN(...)       do {  \
-    LOGGER::logger_manage::get_instance()->logger_message(LOGGER::logger_manage::LOGGER_LEVEL::WARN, __VA_ARGS__); \
+    logger_manage::get_instance()->logger_message(logger_manage::LOGGER_LEVEL::WARN, __VA_ARGS__); \
 }while(0);
 #define LOG_ERROR(...)      do {  \
-    LOGGER::logger_manage::get_instance()->logger_message(LOGGER::logger_manage::LOGGER_LEVEL::ERROR, __VA_ARGS__); \
+    logger_manage::get_instance()->logger_message(logger_manage::LOGGER_LEVEL::ERROR, __VA_ARGS__); \
 }while(0);
 #define LOG_FATAL(...)      do {  \
-    LOGGER::logger_manage::get_instance()->logger_message(LOGGER::logger_manage::LOGGER_LEVEL::FATAL, __VA_ARGS__); \
+    logger_manage::get_instance()->logger_message(logger_manage::LOGGER_LEVEL::FATAL, __VA_ARGS__); \
 }while(0);
 #define LOG_SET_LEVEL(level)     do {  \
-    LOGGER::logger_manage::get_instance()->set_log_level(level); \
+    logger_manage::get_instance()->set_log_level(level); \
 }while(0);
 #else
 #define LOG_MESSAGE(...)
