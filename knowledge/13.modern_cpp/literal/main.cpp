@@ -11,7 +11,7 @@
 //      3. 单引号作为整数分隔符
 //
 // Author:
-//      @公众号 <嵌入式技术总结>
+//      @公众号：<嵌入式技术总结>
 //
 // Revision History:
 //      Version V1.0b1 Create.

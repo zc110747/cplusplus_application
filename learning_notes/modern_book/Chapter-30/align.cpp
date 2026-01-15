@@ -9,7 +9,7 @@
 //      第30章 alignas 和 alignof
 //
 //  Author:
-//     	@公众号 <嵌入式技术总结>
+//     	@公众号：<嵌入式技术总结>
 //
 //  Assumptions:
 //

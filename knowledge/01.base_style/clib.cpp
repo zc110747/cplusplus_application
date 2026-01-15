@@ -14,7 +14,7 @@
 //     6. #include <cstring> 包含字符串处理的一些函数
 //
 // Author:
-//      @公众号 <嵌入式技术总结>
+//      @公众号：<嵌入式技术总结>
 //
 // Revision History:
 //      Version V1.0b1 Create.

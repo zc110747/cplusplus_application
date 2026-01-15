@@ -14,7 +14,7 @@
 //      6. 类的对齐机制
 //
 // Author:
-//      @公众号 <嵌入式技术总结>
+//      @公众号：<嵌入式技术总结>
 //
 // Revision History:
 //      Version V1.0b1 Create.

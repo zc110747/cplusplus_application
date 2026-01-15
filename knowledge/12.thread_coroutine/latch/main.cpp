@@ -9,7 +9,7 @@
 //      1. std::latch
 //
 // Author:
-//      @公众号 <嵌入式技术总结>
+//      @公众号：<嵌入式技术总结>
 //
 // Revision History:
 //      Version V1.0b1 Create.

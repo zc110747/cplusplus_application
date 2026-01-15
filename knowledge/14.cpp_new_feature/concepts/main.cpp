@@ -10,7 +10,7 @@
 //      2. concept定义和使用
 //
 // Author:
-//      @公众号 <嵌入式技术总结>
+//      @公众号：<嵌入式技术总结>
 //
 // Revision History:
 //      Version V1.0b1 Create.
