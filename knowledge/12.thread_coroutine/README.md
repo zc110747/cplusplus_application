@@ -1,4 +1,4 @@
-## threading
+# threading
 
 线程库是C++提供的用于线程创建和管理，线程间交互，原子类型，条件变量和互斥量以及超时处理的函数库。
 
@@ -13,6 +13,8 @@
 - [condition_variable](#condition_variable)
 - [execution](#execution)
 - [future](#future)
+  - [async](#async)
+  - [promise](#promise)
 - [latch](#latch)
 - [mutex](#mutex)
   - [recursive_mutex](#recursive_mutex)
@@ -31,7 +33,7 @@
 
 ## atomic
 
-atomic是C++标准库中的模板类，定义在<atomic>头文件里，用于实现原子操作。原子操作指的是不可被中断的操作，在多线程环境下能保证数据的一致性和线程安全，避免数据竞争问题。
+atomic是C++标准库中的模板类，定义在`<atomic>`头文件里，用于实现原子操作。原子操作指的是不可被中断的操作，在多线程环境下能保证数据的一致性和线程安全，避免数据竞争问题。
 
 atomic参考网址：<https://en.cppreference.com/w/cpp/header/atomic.html>
 
@@ -228,7 +230,7 @@ int main(int argc, char const *argv[])
 
 ### atomic_flag
 
-std::atomic_flag是C++标准库中最简单的原子类型，定义于<atomic>头文件。它是一种无锁的布尔标志，主要用于实现简单的同步机制，像自旋锁这类场景；
+std::atomic_flag是C++标准库中最简单的原子类型，定义于`<atomic>`头文件。它是一种无锁的布尔标志，主要用于实现简单的同步机制，像自旋锁这类场景；
 
 - 格式
 
@@ -354,7 +356,7 @@ int main(int argc, char const *argv[])
 
 ### memory_order
 
-std::memory_order是C++标准库中用于控制原子操作内存顺序的枚举类型，定义于<atomic>头文件。它提供了多种选项，用于指定原子操作的内存顺序，具体如下所示。
+std::memory_order是C++标准库中用于控制原子操作内存顺序的枚举类型，定义于`<atomic>`头文件。它提供了多种选项，用于指定原子操作的内存顺序，具体如下所示。
 
 - std::memory_order_relaxed：宽松顺序，不保证任何顺序关系。
 - std::memory_order_consume：消费顺序，保证在当前线程中，后续的读操作不会被重排到当前操作之前。
@@ -409,7 +411,7 @@ int main(int argc, const char *argv[])
 
 ## barrier
 
-std::barrier是C++20引入的同步原语，定义在<barrier>头文件，用于多线程同步，确保一组线程在特定点同步，所有线程到达该点后才能继续执行后续操作。
+std::barrier是C++20引入的同步原语，定义在`<barrier>`头文件，用于多线程同步，确保一组线程在特定点同步，所有线程到达该点后才能继续执行后续操作。
 
 barrier参考网址: <https://en.cppreference.com/w/cpp/header/barrier>
 
@@ -484,7 +486,7 @@ int main(int argc, char const *argv[])
 
 chrono是一个非常重要的库，它提供了一套时间和日期的处理工具。chrono依赖于系统时钟，修改系统时钟可能会影响chrono的行为。
 
-chrono参考网址: https://en.cppreference.com/w/cpp/header/chrono.html
+chrono参考网址: <https://en.cppreference.com/w/cpp/header/chrono.html>
 
 std::chrono下主要包含system_clock、high_resolution_clock和steady_clock三种时钟，也支持一系列延时操作，具体如下所示。
 
@@ -805,9 +807,19 @@ int main(int argc, const char* argv[])
 
 ## future
 
-std::future是C++11引入的一个类模板，用于表示异步操作的结果。它提供了一种机制，允许在一个线程中等待另一个线程的结果。
+std::future是C++11引入的异步编程机制之一，定义在头文件`<future>`中。它主要用于在一个执行上下文中启动任务，在另一个执行上下文中获取任务结果。
 
-相关说明：https://cplusplus.com/reference/future/
+相关说明：<https://cplusplus.com/reference/future/>
+
+对于future标准库，定义了如下类型支持功能。
+
+- `std::async()`，方便地异步执行可调用对象，并返回关联的 future。它不等于线程池。
+- `std::future<T>`，获取异步任务的结果。可以等待结果、读取结果，也可以接收任务抛出的异常。
+- `std::promise<T>`，由生产结果的一方主动设置值或异常，另一方通过关联的 future 获取。
+- `std::shared_future<T>`， 允许多个接收方读取同一个共享结果，适用于多个任务等待同一项计算结果的场景。
+- `std::packaged_task<R(Args...)>`，将可调用对象包装成任务，并把执行结果或异常存入共享状态，供关联的 future 获取。
+
+下面分别进行说明。
 
 ### async
 
@@ -877,11 +889,71 @@ promise类模板支持方法如下。
 
 具体使用方法如下。
 
+```c
+#include <future>
+#include <iostream>
+#include <thread>
+
+void worker(std::promise<int> promise)
+{
+    // 模拟后台工作
+    int result = 100 + 200;
+
+    // 设置结果，通知等待方
+    promise.set_value(result);
+}
+
+int main()
+{
+    std::promise<int> promise;
+    std::future<int> future = promise.get_future();
+
+    std::thread t(worker, std::move(promise));
+
+    std::cout << "等待结果...\n";
+
+    int result = future.get();
+
+    std::cout << "结果: " << result << '\n';
+
+    t.join();
+}
+```
+
+### packaged_task
+
+std::packaged_task 可以将一个普通函数或可调用对象包装成具有结果通道的任务。其中packaged_task负责包装任务，但不负责自动启动线程
+
+```c
+#include <future>
+#include <iostream>
+#include <thread>
+
+int multiply(int a, int b)
+{
+    return a * b;
+}
+
+int main()
+{
+    std::packaged_task<int(int, int)> task(multiply);
+
+    std::future<int> result = task.get_future();
+
+    std::thread worker(
+        std::move(task), 6, 7);
+
+    std::cout << result.get() << '\n'; // 42
+
+    worker.join();
+}
+```
+
 ## latch
 
-std::latch是C++20引入的同步原语，定义在<latch>头文件中，用于多线程同步，可让一组线程等待直到某个事件完成。它的工作模式是一次性的，一旦计数器减到0，就不能再重置。
+std::latch是C++20引入的同步原语，定义在`<latch>`头文件中，用于多线程同步，可让一组线程等待直到某个事件完成。它的工作模式是一次性的，一旦计数器减到0，就不能再重置。
 
-具体网址: https://en.cppreference.com/w/cpp/header/latch.html
+具体网址: <https://en.cppreference.com/w/cpp/header/latch.html>
 
 其构造函数如下所示。
 
@@ -932,7 +1004,7 @@ int main(int argc, const char* argv[])
 
 ## mutex
 
-std::mutex是C++标准库中用于实现线程同步的互斥锁类，定义在 <mutex> 头文件中。它的主要作用是保护共享资源，防止多个线程同时访问这些资源而导致数据竞争和不一致的问题。
+std::mutex是C++标准库中用于实现线程同步的互斥锁类，定义在`<mutex>`头文件中。它的主要作用是保护共享资源，防止多个线程同时访问这些资源而导致数据竞争和不一致的问题。
 
 std::mutex参考链接: <https://en.cppreference.com/w/cpp/header/mutex.html>
 
@@ -1107,7 +1179,7 @@ int main(int argc, const char *argv[])
 
 ### recursive_mutex
 
-std::recursive_mutex是C++标准库中提供的一种递归互斥锁，定义在 <mutex> 头文件中。与普通的互斥锁不同，递归互斥锁允许同一个线程多次获取同一个互斥锁，而不会发生死锁。这在某些情况下非常有用，比如在递归函数或嵌套的锁保护下。
+std::recursive_mutex是C++标准库中提供的一种递归互斥锁，定义在`<mutex>`头文件中。与普通的互斥锁不同，递归互斥锁允许同一个线程多次获取同一个互斥锁，而不会发生死锁。这在某些情况下非常有用，比如在递归函数或嵌套的锁保护下。
 
 std::recursive_mutex支持的方法如下所示。
 
@@ -1165,7 +1237,7 @@ int main(int argc, const char *argv[])
 }
 ```
 
-recursive_timed_mutex是C++标准库中提供的一种递归定时互斥锁，定义在 <mutex> 头文件中。它结合了递归互斥锁和定时互斥锁的功能，允许同一个线程多次获取同一个互斥锁，并且在等待互斥锁时可以设置超时时间。
+recursive_timed_mutex是C++标准库中提供的一种递归定时互斥锁，定义在`<mutex>`头文件中。它结合了递归互斥锁和定时互斥锁的功能，允许同一个线程多次获取同一个互斥锁，并且在等待互斥锁时可以设置超时时间。
 
 recursive_timed_mutex支持的方法如下。
 
@@ -1245,7 +1317,7 @@ int main(int argc, const char *argv[])
 
 ### lock_guard
 
-std::lock_guard是C++标准库中提供的一种RAII（资源获取即初始化）风格的互斥锁包装器，定义在 <mutex> 头文件中。它的主要作用是在构造函数中获取互斥锁，在析构函数中释放互斥锁，确保互斥锁的正确获取和释放。lock_guard仅用于通过RAII管理互斥锁的资源，而不是直接使用互斥锁。
+std::lock_guard是C++标准库中提供的一种RAII（资源获取即初始化）风格的互斥锁包装器，定义在`<mutex>`头文件中。它的主要作用是在构造函数中获取互斥锁，在析构函数中释放互斥锁，确保互斥锁的正确获取和释放。lock_guard仅用于通过RAII管理互斥锁的资源，而不是直接使用互斥锁。
 
 关于lock_guard的原型如下所示。
 
@@ -1293,7 +1365,7 @@ int main(int argc, const char *argv[])
 
 ### unique_lock
 
-std::unique_lock是C++标准库中提供的一种RAII风格的互斥锁包装器，定义在 <mutex> 头文件中。与std::lock_guard不同，std::unique_lock提供了更多的灵活性，例如延迟锁定、超时等待等。
+std::unique_lock是C++标准库中提供的一种RAII风格的互斥锁包装器，定义在`<mutex>`头文件中。与std::lock_guard不同，std::unique_lock提供了更多的灵活性，例如延迟锁定、超时等待等。
 
 unique_lock格式原型如下所示。
 
@@ -1369,7 +1441,7 @@ int main(int argc, const char *argv[])
 
 ### scoped_lock
 
-std::scoped_lock是C++17引入的模板类，定义在 <mutex> 头文件中，用于在作用域内管理多个互斥锁，避免死锁问题。它可以同时锁定多个互斥锁，并且在其生命周期结束时自动解锁这些互斥锁。
+std::scoped_lock是C++17引入的模板类，定义在`<mutex>`头文件中，用于在作用域内管理多个互斥锁，避免死锁问题。它可以同时锁定多个互斥锁，并且在其生命周期结束时自动解锁这些互斥锁。
 
 scoped_lock格式原型如下所示。
 
@@ -1429,7 +1501,7 @@ int main(int argc, const char *argv[])
 
 semaphore是C++20引入的同步原义库文件，用于多线程同步，可让一组线程等待直到某个事件完成。对于semaphore库文件，主要支持counting_semaphore和binary_semaphore.
 
-semaphore参考网址: https://en.cppreference.com/w/cpp/header/semaphore.html
+semaphore参考网址: <https://en.cppreference.com/w/cpp/header/semaphore.html>
 
 ### counting_semaphore
 
@@ -1734,19 +1806,122 @@ int main(int argc, const char *argv[])
 
 ## stop_token
 
-std::stop_token是C++20引入的同步原语，定义在<stop_token>头文件中，用于多线程同步，可让一组线程等待直到某个事件完成。它的工作模式是基于计数器的，初始值为0，当调用release()方法时，计数器会增加，当调用acquire()方法时，计数器会减少。如果计数器为0，调用acquire()方法的线程会阻塞，直到计数器增加到非0值。
+std::stop_token是C++20引入的同步原语，定义在`<stop_token>`头文件中，用于多线程同步，可让一组线程等待直到某个事件完成。
+
+它的工作模式是基于计数器的，初始值为0，当调用release()方法时，计数器会增加，当调用acquire()方法时，计数器会减少。如果计数器为0，调用acquire()方法的线程会阻塞，直到计数器增加到非0值。
+
+其提供以下三种重要类型。
+
+- std::stop_source，发出停止请求
+- std::stop_token，查询停止状态，或注册停止回调
+- std::stop_callback，停止请求发生时执行回调
+
+具体示例如下所示。
+
+```cpp
+#include <chrono>
+#include <iostream>
+#include <stop_token>
+#include <thread>
+
+using namespace std::chrono_literals;
+
+void worker(std::stop_token token)
+{
+    int count = 0;
+
+    while (!token.stop_requested())
+    {
+        std::cout << "[Worker] Processing task "
+                  << ++count << '\n';
+
+        std::this_thread::sleep_for(200ms);
+    }
+
+    std::cout << "[Worker] Stop requested. Exiting.\n";
+}
+
+int main()
+{
+    std::cout << "[Main] Starting worker.\n";
+
+    std::jthread thread(worker);
+
+    std::this_thread::sleep_for(750ms);
+
+    std::cout << "[Main] Requesting worker to stop.\n";
+    thread.request_stop();
+
+    std::cout << "[Main] Waiting for worker to finish.\n";
+
+    // The jthread destructor joins the thread.
+    // It also requests stop if the thread is still joinable.
+
+    std::cout << "[Main] Leaving scope.\n";
+
+    return 0;
+}
+```
 
 ## syncstream
 
-std::syncstream是C++20引入的同步原语，定义在<syncstream>头文件中，用于多线程同步，可让一组线程等待直到某个事件完成。它的工作模式是基于计数器的，初始值为0，当调用release()方法时，计数器会增加，当调用acquire()方法时，计数器会减少。如果计数器为0，调用acquire()方法的线程会阻塞，直到计数器增加到非0值。
+std::syncstream是 C++20 引入的标准库头文件，主要用于解决多线程同时向 std::cout 等输出流写入内容时，日志交错、输出混杂的问题。
+
+对于syncstream模块，其核心类型是std::osyncstream和std::basic_syncbuf。
+
+- std::osyncstream，提供线程安全的流式输出接口
+- std::basic_syncbuf，负责缓冲与同步提交机制
+
+具体示例如下所示。
+
+```cpp
+#include <iostream>
+#include <syncstream>
+#include <thread>
+#include <vector>
+
+void worker(int id)
+{
+    for (int i = 0; i < 5; ++i)
+    {
+        std::osyncstream(std::cout)
+            << "[Thread " << id << "] "
+            << "Message " << i
+            << " - Processing task\n";
+    }
+}
+
+int main()
+{
+    std::cout << "[Main] Starting workers.\n";
+
+    std::vector<std::thread> threads;
+
+    for (int i = 0; i < 4; ++i)
+    {
+        threads.emplace_back(worker, i);
+    }
+
+    for (auto& thread : threads)
+    {
+        thread.join();
+    }
+
+    std::cout << "[Main] All workers completed.\n";
+
+    return 0;
+}
+```
 
 ## thread
 
-std::thread是C++11 引入的标准库类，定义在<thread>头文件中，用于创建和管理线程。它提供了一种跨平台的方式来实现多线程编程，使得开发者可以方便地在C++程序中创建新的执行线程。
+std::thread是C++11 引入的标准库类，定义在`<thread>`头文件中，用于创建和管理线程。
+
+它提供了一种跨平台的方式来实现多线程编程，使得开发者可以方便地在C++程序中创建新的执行线程。
 
 - 格式
 
-```cpp 
+```cpp
 // 默认初始化
 thread() noexcept; 
 
@@ -1758,7 +1933,7 @@ explicit thread (Fn&& fn, Args&&... args);
 thread (thread&& x);
 ```
 
-std::thread参考链接: https://cplusplus.com/reference/thread/
+std::thread参考链接: <https://cplusplus.com/reference/thread/>
 
 - 成员函数
 

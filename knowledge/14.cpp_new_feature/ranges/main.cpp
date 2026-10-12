@@ -132,31 +132,26 @@ namespace VIEWS
 
 int main(int argc, char* argv[])
 {
-    //VIEWS::test();
+    VIEWS::test();
 
     RANGES::test();
 
-    // std::vector<int> numbers = {1, 4, 3, 6, 5, 2, 4, 1, 0, 8};
+    std::vector<int> numbers = {1, 4, 3, 6, 5, 2, 4, 1, 0, 8};
 
-    // // 使用视图过滤偶数并转换为字符串
-    // auto even_strings = numbers | std::views::filter([](int n) { return n % 2 == 0; })
-    //                             | std::views::transform([](int n) { return std::to_string(n); });
+    // 使用视图过滤偶数并转换为字符串
+    auto even_strings = numbers | std::views::filter([](int n) { return n % 2 == 0; })
+                                | std::views::transform([](int n) { return std::to_string(n); });
 
-    // // 输出结果
-    // for (const auto& str : even_strings) {
-    //     std::cout << str << ' ';
-    // }
-    // std::cout<<std::endl;
+    // 输出结果
+    for (const auto& str : even_strings) {
+        std::cout << str << ' ';
+    }
+    std::cout<<std::endl;
 
-    // std::ranges::sort(numbers);
-    // for (const auto& str : numbers) {
-    //     std::cout << str <<' ';
-    // }
-    // std::cout<<std::endl;
-
-    // // 使用 ranges 库输出乘法表
-    // std::ranges::for_each(make_multiplication_table<9>(index_sequence<1, 2, 3, 4, 5, 6, 7, 8, 9>{}), [](const std::string& row) {
-    //     std::cout << row << std::endl;
-    // });
+    std::ranges::sort(numbers);
+    for (const auto& str : numbers) {
+        std::cout << str <<' ';
+    }
+    std::cout<<std::endl;
     return 0;
 }

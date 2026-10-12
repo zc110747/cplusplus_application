@@ -57,8 +57,8 @@ int main(int argc, char const *argv[])
         std::cout << "p1 is greater than p2" << std::endl;
     } else {
         std::cout << "p1 and p2 are not comparable" << std::endl;
-    }   
-    
+    }
+
     float_point fp1{1.1f, 2.2f};
     float_point fp2{3.3f, 4.4f};
 
@@ -83,13 +83,22 @@ int main(int argc, char const *argv[])
     // strong_ordering
     std::cout << "name: " << typeid(decltype(5 <=> 7)).name() << std::endl;
 
-    // partial_ordering
-    std::cout << "name: " << typeid(decltype(1.5 <=> 7)).name() << std::endl;
-
     // weak_ordering
     usr_string s1{"hello"};
     usr_string s2{"world"};
     std::cout << "name: " << typeid(decltype(s1 <=> s2)).name() << std::endl;
- 
+
+    // partial_ordering
+    std::cout << "name: " << typeid(decltype(1.5 <=> 7)).name() << std::endl;
+    
+    auto r3 = s1 <=> s2;
+    if (r3 == 0) {
+        std::cout << "s1 and s2 are equivalent" << std::endl;
+    } else if (r3 < 0) {
+        std::cout << "s1 is less than s2" << std::endl;
+    } else {
+        std::cout << "s1 and s2 are not comparable" << std::endl;
+    }  
+
     return 0;
 }

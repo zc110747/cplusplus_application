@@ -7,7 +7,6 @@ C++标准库是C++编程语言的一部分，它提供了一组通用的类和�
   - [bitset](#bitset)
   - [bit_cast](#bit_cast)
 - [charconv](#charconv)
-- [compare](#compare)
 - [complex](#complex)
 - [filesystem](#filesystem)
 - [functional](#functional)
@@ -18,13 +17,12 @@ C++标准库是C++编程语言的一部分，它提供了一组通用的类和�
 - [locale](#locale)
 - [memory_resource](#memory_resource)
 - [new](#new)
-- [numbers](#numbers)
 - [optional](#optional)
   - [std::nullopt](#nullopt)
 - [random](#random)
 - [ratio](#ratio)
 - [regex](#regex)
-- [scope_allocator](#scope_allocator)
+- [scoped_allocator](#scoped_allocator)
 - [source_location](#source_location)
 - [stream](#stream)
   - [iostream](#iostream)
@@ -196,7 +194,7 @@ int main(int argc, char const *argv[])
 
 ### bit_cast
 
-std::bit_cast是C++20引入的一个函数模板，定义在<bit>头文件中，用于在不同类型之间进行位级别的转换。它提供了一种类型安全的方式来重新解释对象的位模式，避免了传统的类型转换（如 reinterpret_cast）可能带来的未定义行为。
+std::bit_cast是C++20引入的一个函数模板，定义在`<bit>`头文件中，用于在不同类型之间进行位级别的转换。它提供了一种类型安全的方式来重新解释对象的位模式，避免了传统的类型转换（如 reinterpret_cast）可能带来的未定义行为。
 
 std::bit_cast的特点如下所示。
 
@@ -234,7 +232,117 @@ int main(int argc, char const *argv[])
 
 ## charconv
 
-std::charconv是C++20引入的一个类模板，用于在不同类型之间进行字符级别的转换。它提供了一种类型安全的方式来将字符序列转换为数值类型，或将数值类型转换为字符序列。
+std::charconv是C++20引入的一个类模板，用于在不同类型之间进行字符级别的转换。
+
+它提供了一种类型安全的方式来将字符序列转换为数值类型，或将数值类型转换为字符序列。
+
+其核心接口如下所示。
+
+| 接口 | 说明 |
+| --- | --- |
+| std::to_chars() | 将数值转换为字符序列 |
+| std::from_chars() | 将字符序列解析为数值 |
+
+具体示例如下所示。
+
+```c
+#include <charconv>
+#include <iostream>
+#include <system_error>
+#include <string_view>
+
+int main()
+{
+    char buffer[64];
+
+    // Test 1: Integer to characters
+    int value = 12345;
+
+    auto result = std::to_chars(
+        buffer,
+        buffer + sizeof(buffer),
+        value
+    );
+
+    if (result.ec == std::errc{})
+    {
+        std::cout << "[INFO] Integer to characters: "
+                  << std::string_view(
+                         buffer,
+                         result.ptr - buffer)
+                  << '\n';
+    }
+    else
+    {
+        std::cout << "[ERROR] Integer conversion failed.\n";
+    }
+
+    // Test 2: Characters to integer
+    std::string_view text = "-6789";
+    int parsedValue = 0;
+
+    auto parseResult = std::from_chars(
+        text.data(),
+        text.data() + text.size(),
+        parsedValue
+    );
+
+    if (parseResult.ec == std::errc{} &&
+        parseResult.ptr == text.data() + text.size())
+    {
+        std::cout << "[INFO] Parsed integer: "
+                  << parsedValue << '\n';
+    }
+    else
+    {
+        std::cout << "[ERROR] Integer parsing failed.\n";
+    }
+
+    // Test 3: Convert an integer to hexadecimal
+    int hexValue = 255;
+
+    auto hexResult = std::to_chars(
+        buffer,
+        buffer + sizeof(buffer),
+        hexValue,
+        16
+    );
+
+    if (hexResult.ec == std::errc{})
+    {
+        std::cout << "[INFO] Hexadecimal: "
+                  << std::string_view(
+                         buffer,
+                         hexResult.ptr - buffer)
+                  << '\n';
+    }
+
+    // Test 4: Parse an integer from a substring
+    std::string_view input = "123abc";
+    int number = 0;
+
+    auto partialResult = std::from_chars(
+        input.data(),
+        input.data() + input.size(),
+        number
+    );
+
+    if (partialResult.ec == std::errc{})
+    {
+        std::cout << "[INFO] Parsed prefix: "
+                  << number << '\n';
+
+        std::cout << "[INFO] Remaining characters: "
+                  << std::string_view(
+                         partialResult.ptr,
+                         input.data() + input.size()
+                             - partialResult.ptr)
+                  << '\n';
+    }
+
+    return 0;
+}
+```
 
 ## complex
 
@@ -526,12 +634,12 @@ std::functional参考网址: <https://en.cppreference.com/w/cpp/header/functiona
 | bit_or | 逻辑或 |
 | bit_xor | 逻辑异或 |
 | bit_not | 逻辑非(C++14) |
-| not_fn | 	是函数对象类型，该对象会返回其所包含函数对象结果的补集。|
-| identity | 是函数对象类型，其 operator() 返回其不更改的参数。|
-| hash | 是函数对象类型，该对象会返回其参数的哈希值。|
-| bind | 是函数对象类型，该对象会绑定其参数的某些部分，并返回一个新函数对象。|
-| ref/cref | 创建一个 std::reference_wrapper 对象，其类型由其参数自动推导得出。|
-| invoke/invoke_r | 创建一个函数对象，该对象会调用其参数指定的函数。|
+| not_fn | 函数对象类型，该对象会返回其所包含函数对象结果的补集 |
+| identity | 函数对象类型，其 operator() 返回其不更改的参数 |
+| hash | 是函数对象类型，该对象会返回其参数的哈希值 |
+| bind | 是函数对象类型，该对象会绑定其参数的某些部分，并返回一个新函数对象 |
+| ref/cref | 创建一个 std::reference_wrapper 对象，其类型由其参数自动推导得出 |
+| invoke/invoke_r | 创建一个函数对象，该对象会调用其参数指定的函数 |
 
 - 举例说明
 
@@ -614,7 +722,7 @@ int main (int argc, char *argv[])
 
 ### function
 
-std::function是C++11引入的一个通用的多态函数包装器，定义在<functional>头文件中。它可以包装任何可调用的目标，包括普通函数、Lambda表达式、函数对象、成员函数等。
+std::function是C++11引入的一个通用的多态函数包装器，定义在`<functional>`头文件中。它可以包装任何可调用的目标，包括普通函数、Lambda表达式、函数对象、成员函数等。
 
 - 函数原型
 
@@ -663,7 +771,7 @@ int main(int argc, char const *argv[])
 
 ### bind
 
-std::bind是C++11引入的一个函数模板，定义在<functional>头文件中。它用于创建函数对象，通过将参数绑定到可调用对象来创建新的可调用对象。
+std::bind是C++11引入的一个函数模板，定义在`<functional>`头文件中。它用于创建函数对象，通过将参数绑定到可调用对象来创建新的可调用对象。
 
 - 函数原型
 
@@ -741,7 +849,7 @@ int main(int argc, char const *argv[])
 
 ### invoke
 
-std::invoke是C++17引入的一个标准库函数模板，位于 <functional> 头文件中。它提供了一种统一的方式来调用对象，包括函数、函数指针、成员函数指针、成员对象指针、lambda表达式等。
+std::invoke是C++17引入的一个标准库函数模板，位于`<functional>`头文件中。它提供了一种统一的方式来调用对象，包括函数、函数指针、成员函数指针、成员对象指针、lambda表达式等。
 
 - 函数原型
 
@@ -825,8 +933,8 @@ locale -a
 | global | 设置全局 std::locale 对象, 该对象表示使用指定本地化环境。 |
 | name | 返回当前 std::locale 对象的名称。 |
 | operator= | 设置当前 std::locale 对象，该对象表示使用指定本地化环境。 |
-| operator== | 比较两个 std::locale 对象是否相等。 |
-| operator!= | 比较两个 std::locale 对象是否不相等。|
+| operator== | 比较两个 std::locale 对象是否相等 |
+| operator!= | 比较两个 std::locale 对象是否不相等 |
 | operator() | 使用本地locale参数进行本地化比较 |
 
 主要特点：
@@ -859,9 +967,38 @@ int main()
 
 ## memory_resource
 
-std::memory_resource是C++23引入的一个类模板，用于管理内存资源。它提供了一种类型安全的方式来分配和释放内存，避免了传统的new和delete操作符可能带来的未定义行为。
+std::memory_resource是C++23引入的一个类模板，用于管理内存资源。
+
+它提供了一种类型安全的方式来分配和释放内存，避免了传统的new和delete操作符可能带来的未定义行为。
 
 std::memory_resource参考网址: <https://en.cppreference.com/w/cpp/header/memory_resource.html>
+
+- std::pmr::memory_resource：定义实际从哪里分配和释放内存。
+- std::pmr::polymorphic_allocator：把容器的分配请求转发给指定的 memory_resource。
+
+具体示例如下所示。
+
+```cpp
+#include <iostream>
+#include <memory_resource>
+#include <vector>
+
+int main()
+{
+    std::byte buffer[1024];
+
+    std::pmr::monotonic_buffer_resource pool(
+        buffer, sizeof(buffer),
+        std::pmr::null_memory_resource());
+
+    std::pmr::vector<int> values(&pool);
+
+    for (int i = 0; i < 100; ++i)
+        values.push_back(i);
+
+    std::cout << values.size() << '\n';
+}
+```
 
 ## new
 
@@ -1052,7 +1189,6 @@ int main(int argc, char *argv[])
 }
 ```
 
-
 ### nullopt
 
 std::nullopt是一个特殊常量，用于表示std::optional对象不包含任何值（空状态）。
@@ -1106,7 +1242,7 @@ int main(int argc, char const *argv[])
 
 std::random是C++标准库中的一个组件，用于生成伪随机数。它提供了多种随机数生成器和分布，以满足不同场景的需求。
 
-相关网址: https://cplusplus.com/reference/random/
+相关网址: <https://cplusplus.com/reference/random/>
 
 对于随机数发生器，主要定义如下。
 
@@ -1221,9 +1357,9 @@ int main(int argc, char const *argv[])
 
 ## ratio
 
-std::ratio是C++11 引入的一个模板类，定义在 <ratio> 头文件中，用于在编译时表示有理数。它主要用于处理编译时的分数运算，比如时间单位的转换、频率的计算等，能在编译阶段完成分数的化简和计算，提高程序的性能和安全性。
+std::ratio是C++11 引入的一个模板类，定义在`<ratio>`头文件中，用于在编译时表示有理数。它主要用于处理编译时的分数运算，比如时间单位的转换、频率的计算等，能在编译阶段完成分数的化简和计算，提高程序的性能和安全性。
 
-相关网址如下：https://cplusplus.com/reference/ratio/
+相关网址如下：<https://cplusplus.com/reference/ratio/>
 
 具体原型如下所示。
 
@@ -1295,13 +1431,112 @@ int main(int argc, char const *argv[])
 
 ## regex
 
-std::regex 是 C++ 标准库中的一个类，用于处理正则表达式。正则表达式是一种强大的文本处理工具，用于匹配、查找和替换字符串中的模式。regex提供了一种类型安全且高效的方式来处理正则表达式。
+std::regex是C++11引入的正则表达式库，定义在头文件`<regex>`中，用于对字符串进行模式匹配、查找、提取和替换。
 
-## scope_allocator
+regex提供了一种类型安全且高效的方式来处理正则表达式，提供接口如下所示。
 
-std::scope_allocator是C++23引入的一个类模板，用于管理内存资源。它提供了一种类型安全的方式来分配和释放内存，避免了传统的new和delete操作符可能带来的未定义行为。
+| 函数 | 功能说明 |
+| --- | --- |
+| std::regex | 编译并保存正则表达式 |
+| std::regex_match() | 判断整个字符串是否匹配 |
+| std::regex_search() | 查找字符串中是否存在匹配部分 |
+| std::regex_replace() | 替换匹配内容 |
+| std::smatch | 保存 std::string 的匹配结果 |
+| std::cmatch | 保存 C 风格字符串的匹配结果 |
+| std::regex_iterator | 遍历所有匹配项 |
+| std::regex_token_iterator | 提取匹配内容或分隔后的字段 |
+| std::regex_error | 正则表达式构造或处理失败时的异常类型 |
+
+具体示例如下所示。
+
+```cpp
+#include <iostream>
+#include <regex>
+#include <string>
+
+int main()
+{
+    std::regex pattern(R"(DEV-[0-9]{4})");
+
+    std::string id = "DEV-1234";
+
+    if (std::regex_match(id, pattern))
+        std::cout << "编号合法\n";
+    else
+        std::cout << "编号非法\n";
+}
+```
+
+## scoped_allocator
+
+scoped_allocator将外层容器使用的分配器自动传递给内部嵌套容器，使多层容器能够统一管理内存分配, 减少手动传递分配器的工作。
+
+主要提供类型如下所示。
+
+- std::scoped_allocator_adaptor：作用域分配器适配器
+- std::allocator_traits：分配器相关的通用操作（定义在`<memory>`中）。
+
+具体示例如下所示。
+
+```c
+#include <iostream>
+#include <vector>
+#include <scoped_allocator>
+#include <memory>
+
+int main()
+{
+    using Inner = std::vector<int>;
+    using Alloc = std::allocator<int>;
+    using ScopedAlloc =
+        std::scoped_allocator_adaptor<
+            std::allocator<Inner>,
+            Alloc
+        >;
+
+    // 嵌套内存对象 
+    std::vector<Inner, ScopedAlloc> data;
+
+    data.emplace_back(10, 42);
+
+    std::cout << data[0][0] << '\n'; // 42
+}
+```
 
 ## source_location
+
+source_location是C++20引入的标准库，主要用于在运行时获取源代码中的位置信息，支持类型如下所示。
+
+- std::source_location，包含文件名、行号、列号和函数名等信息
+
+提供信息如下所示。
+
+| 接口 | 功能说明 |
+| --- | --- |
+| current | 获取当前源代码位置信息 |
+| file_name | 获取文件名 |
+| function_name | 获取函数名 |
+| line | 获取行号 |
+| column | 获取列号 |
+
+具体示例如下所示。
+
+```c
+#include <iostream>
+#include <source_location>
+
+void log(const std::string& message, const std::source_location& location = std::source_location::current()) {
+    std::cout << "File: " << location.file_name() << std::endl;
+    std::cout << "Line: " << location.line() << std::endl;
+    std::cout << "Function: " << location.function_name() << std::endl;
+    std::cout << "Message: " << message << std::endl;
+}
+
+int main() {
+    log("This is a test message");
+    return 0;
+}
+```
 
 ## stream
 
@@ -1418,7 +1653,7 @@ int main(int argc, char const *argv[])
 
 ### fstream
 
-std::fstream是C++标准库中的一个类，其位于<fstream>头文件中，用于处理文件输入输出。另外支持两个子类，std::ifstream和std::ofstream，分别用于从文件读取数据、向文件写入数据。
+std::fstream是C++标准库中的一个类，其位于`<fstream>`头文件中，用于处理文件输入输出。另外支持两个子类，std::ifstream和std::ofstream，分别用于从文件读取数据、向文件写入数据。
 
 访问地址：<https://en.cppreference.com/w/cpp/header/fstream.html>
 
@@ -1632,7 +1867,7 @@ int main(int argc, char const *argv[])
 
 ## string
 
-std::string 是 C++ 标准库中的一个类，用于表示和操作字符串。它提供了丰富的成员函数和操作符，使得字符串的处理变得更加方便和高效。
+std::string是C++标准库中的一个类，用于表示和操作字符串。它提供了丰富的成员函数和操作符，使得字符串的处理变得更加方便和高效。
 
 - 格式
 
@@ -1647,7 +1882,7 @@ class basic_string;
 typedef basic_string<char> string;
 ```
 
-相关网址： https://cplusplus.com/reference/string/string/
+相关网址：<https://cplusplus.com/reference/string/string/>
 
 - 常用构造方法
 
@@ -1837,7 +2072,7 @@ std::tuple是C++标准库中的一个模板类，用于将多个不同类型的�
 template <class... Types> class tuple;
 ```
 
-相关网址： https://cplusplus.com/reference/tuple/tuple/
+相关网址：<https://cplusplus.com/reference/tuple/tuple/>
 
 - 常用构造方法
 
@@ -1869,14 +2104,14 @@ tuple中支持一系列函数来进行元组操作，主要如下所示。
 
 | 函数 | 描述 |
 | --- | --- |
-| std::get<N>(t) | 返回元组t中第N个元素 |
-| std::tuple_size<T> | 返回元组T的元素个数 |
-| std::tuple_element<N, T> | 返回元组T中第N个元素的类型 |
-| std::tuple_cat(t1, t2, ...) | 将多个元组连接成一个元组 |
-| std::make_tuple(t1, t2, ...) | 创建一个元组，包含多个元素 |
-| std::forward_as_tuple(t1, t2, ...) | 将多个参数转发为一个元组 |
-| std::tie(t1, t2, ...) | 将多个参数绑定到一个元组中 |
-| std::ignore | 一个占位符，用于忽略元组中的元素，配合std::tie()使用 |
+| `std::get<N>(t)` | 返回元组t中第N个元素 |
+| `std::tuple_size<T>` | 返回元组T的元素个数 |
+| `std::tuple_element<N, T>` | 返回元组T中第N个元素的类型 |
+| `std::tuple_cat(t1, t2, ...)` | 将多个元组连接成一个元组 |
+| `std::make_tuple(t1, t2, ...)` | 创建一个元组，包含多个元素 |
+| `std::forward_as_tuple(t1, t2, ...)` | 将多个参数转发为一个元组 |
+| `std::tie(t1, t2, ...)` | 将多个参数绑定到一个元组中 |
+| `std::ignore` | 一个占位符，用于忽略元组中的元素，配合std::tie()使用 |
 
 具体实例如下所示。
 
@@ -1923,7 +2158,7 @@ int main(int argc, char const *argv[])
 
 std::apply是C++17引入的一个模板函数，位于`<tuple>`头文件中，用于将一个元组中的元素应用到一个函数或lambda表达式中。
 
-参考地址：https://en.cppreference.com/w/cpp/utility/apply.html
+参考地址：<https://en.cppreference.com/w/cpp/utility/apply.html>
 
 其原型如下。
 
@@ -1988,7 +2223,7 @@ std::type_traits是C++标准库中的一个模板库，它提供了一系列的�
 
 std::type_traits 中的模板类和模板函数都是通过模板特化和模板元编程技术实现的，它们可以在编译时进行类型检查和类型转换，从而提高代码的效率和安全性。
 
-相关网址： https://cplusplus.com/reference/type_traits/
+相关网址： <https://cplusplus.com/reference/type_traits/>
 
 std::type_traits中常用的模板类和模板函数分类如下所示。
 
@@ -1996,135 +2231,135 @@ std::type_traits中常用的模板类和模板函数分类如下所示。
 
 | 模板类 | 描述 |
 | --- | --- |
-| std::is_array<T> | 判断类型T是否是数组类型 |
-| std::is_class<T> | 判断类型T是否是类类型 |
-| std::is_enum<T> | 判断类型T是否是枚举类型 |
-| std::is_floating_point<T> | 判断类型T是否是浮点数类型 |
-| std::is_function<T> | 判断类型T是否是函数类型 |
-| std::is_integral<T> | 判断类型T是否是整数类型 |
-| std::is_lvalue_reference<T> | 判断类型T是否是左值引用类型 |
-| std::is_member_function_pointer<T> | 判断类型T是否是成员函数指针类型 |
-| std::is_member_object_pointer<T> | 判断类型T是否是成员对象指针类型 |
-| std::is_pointer<T> | 判断类型T是否是指针类型 |
-| std::is_rvalue_reference<T> | 判断类型T是否是右值引用类型 |
-| std::is_union<T> | 判断类型T是否是联合体类型 |
-| std::is_void<T> | 判断类型T是否是 void 类型 |
+| `std::is_array<T>` | 判断类型T是否是数组类型 |
+| `std::is_class<T>` | 判断类型T是否是类类型 |
+| `std::is_enum<T>` | 判断类型T是否是枚举类型 |
+| `std::is_floating_point<T>` | 判断类型T是否是浮点数类型 |
+| `std::is_function<T>` | 判断类型T是否是函数类型 |
+| `std::is_integral<T>` | 判断类型T是否是整数类型 |
+| `std::is_lvalue_reference<T>` | 判断类型T是否是左值引用类型 |
+| `std::is_member_function_pointer<T>` | 判断类型T是否是成员函数指针类型 |
+| `std::is_member_object_pointer<T>` | 判断类型T是否是成员对象指针类型 |
+| `std::is_pointer<T>` | 判断类型T是否是指针类型 |
+| `std::is_rvalue_reference<T>` | 判断类型T是否是右值引用类型 |
+| `std::is_union<T>` | 判断类型T是否是联合体类型 |
+| `std::is_void<T>` | 判断类型T是否是 void 类型 |
 
 - 复合类型类别
 
 | 模板类 | 描述 |
 | --- | --- |
-| std::is_arithmetic<T> | 判断类型T是否是算术类型 |
-| std::is_compound<T> | 判断类型T是否是复合类型 |
-| std::is_fundamental<T> | 判断类型T是否是基础类型 |
-| std::is_member_pointer<T> | 判断类型T是否是成员指针类型 |
-| std::is_object<T> | 判断类型T是否是对象类型 |
-| std::is_reference<T> | 判断类型T是否是引用类型 |
-| std::is_scalar<T> | 判断类型T是否是标量类型 |
+| `std::is_arithmetic<T>` | 判断类型T是否是算术类型 |
+| `std::is_compound<T>` | 判断类型T是否是复合类型 |
+| `std::is_fundamental<T>` | 判断类型T是否是基础类型 |
+| `std::is_member_pointer<T>` | 判断类型T是否是成员指针类型 |
+| `std::is_object<T>` | 判断类型T是否是对象类型 |
+| `std::is_reference<T>` | 判断类型T是否是引用类型 |
+| `std::is_scalar<T>` | 判断类型T是否是标量类型 |
 
 - 类型属性
 
 | 模板类 | 描述 |
 | --- | --- |
-| std::is_abstract<T> | 判断类型T是否是抽象类型 |
-| std::is_const<T> | 判断类型T是否是const类型 |
-| std::is_constant_evaluated<T> | 判断类型T是否在常量表达式中 |
-| std::is_empty<T> | 判断类型T是否是空类型 |
-| std::is_literal_type<T> | 判断类型T是否是字面量类型 |
-| std::is_pod<T> | 判断类型T是否是POD类型 |
-| std::is_polymorphic<T> | 判断类型T是否是多态类型 |
-| std::is_signed<T> | 判断类型T是否是signed类型 |
-| std::is_standard_layout<T> | 判断类型T是否是标准布局类型 |
-| std::is_trivial<T> | 判断类型T是否是trivial类型 |
-| std::is_trivially_copyable<T> | 判断类型T是否是trivially copyable类型 |
-| std::is_unsigned<T> | 判断类型T是否是unsigned类型 |
-| std::is_volatile<T> | 判断类型T是否是volatile类型 |
+| `std::is_abstract<T>` | 判断类型T是否是抽象类型 |
+| `std::is_const<T>` | 判断类型T是否是const类型 |
+| `std::is_constant_evaluated<T>` | 判断类型T是否在常量表达式中 |
+| `std::is_empty<T>` | 判断类型T是否是空类型 |
+| `std::is_literal_type<T>` | 判断类型T是否是字面量类型 |
+| `std::is_pod<T>` | 判断类型T是否是POD类型 |
+| `std::is_polymorphic<T>` | 判断类型T是否是多态类型 |
+| `std::is_signed<T>` | 判断类型T是否是signed类型 |
+| `std::is_standard_layout<T>` | 判断类型T是否是标准布局类型 |
+| `std::is_trivial<T>` | 判断类型T是否是trivial类型 |
+| `std::is_trivially_copyable<T>` | 判断类型T是否是trivially copyable类型 |
+| `std::is_unsigned<T>` | 判断类型T是否是unsigned类型 |
+| `std::is_volatile<T>` | 判断类型T是否是volatile类型 |
 
 - 类型特征
 
 | 模板类 | 描述 |
 | --- | --- |
-| has_virtual_destructor<T> | 检测类型T是否具有虚析构函数 |
-| std::is_assignable<T, U> | 检测类型T是否可赋值给类型U |
-| std::is_constructible<T, Args...> | 检测类型T是否可构造 |
-| std::is_copy_assignable<T> | 检测类型T是否可复制赋值 |
-| std::is_copy_constructible<T> | 检测类型T是否可复制构造 |
-| std::is_destructible<T> | 检测类型T是否可析构 |
-| std::is_default_constructible<T> | 检测类型T是否可默认构造 |
-| std::is_move_assignable<T> | 检测类型T是否可移动赋值 |
-| std::is_move_constructible<T> | 检测类型T是否可移动构造 |
-| std::is_trivially_assignable<T, U> | 检测类型T是否可 trivially 赋值给类型U |
-| std::is_triaially_constructible<T, Args...> | 检测类型T是否可 trivially 构造 |
-| std::is_trivially_copy_assignable<T> | 检测类型T是否可 trivially 复制赋值 |
-| std::is_trivially_copy_constructible<T> | 检测类型T是否可 trivially 复制构造 |
-| std::is_trivially_destructible<T> | 检测类型T是否可 trivially 析构 |
-| std::is_trivially_default_constructible<T> | 检测类型T是否可 trivially 默认构造 |
-| std::is_trivially_move_assignable<T> | 检测类型T是否可 trivially 移动赋值 |
-| std::is_trivially_move_constructible<T> | 检测类型T是否可 trivially 移动构造 |
-| std::is_nothrow_assignable<T, U> | 检测类型T是否可 noexcept 赋值给类型U |
-| std::is_nothrow_constructible<T, Args...> | 检测类型T是否可 noexcept 构造 |
-| std::is_nothrow_copy_assignable<T> | 检测类型T是否可 noexcept 复制赋值 |
-| std::is_nothrow_copy_constructible<T> | 检测类型T是否可 noexcept 复制构造 |
-| std::is_nothrow_destructible<T> | 检测类型T是否可 noexcept 析构 |
-| std::is_nothrow_default_constructible<T> | 检测类型T是否可 noexcept 默认构造 |
-| std::is_nothrow_move_assignable<T> | 检测类型T是否可 noexcept 移动赋值 |
-| std::is_nothrow_move_constructible<T> | 检测类型T是否可 noexcept 移动构造 |
-| std::is_invocable<F, Args...> | 检测类型F是否可调用 |
-| std::is_nothrow_invocable<F, Args...> | 检测类型F是否可 noexcept 调用 |
+| `has_virtual_destructor<T>` | 检测类型T是否具有虚析构函数 |
+| `std::is_assignable<T, U>` | 检测类型T是否可赋值给类型U |
+| `std::is_constructible<T, Args...>` | 检测类型T是否可构造 |
+| `std::is_copy_assignable<T>` | 检测类型T是否可复制赋值 |
+| `std::is_copy_constructible<T>` | 检测类型T是否可复制构造 |
+| `std::is_destructible<T>` | 检测类型T是否可析构 |
+| `std::is_default_constructible<T>` | 检测类型T是否可默认构造 |
+| `std::is_move_assignable<T>` | 检测类型T是否可移动赋值 |
+| `std::is_move_constructible<T>` | 检测类型T是否可移动构造 |
+| `std::is_trivially_assignable<T, U>` | 检测类型T是否可 trivially 赋值给类型U |
+| `std::is_triaially_constructible<T, Args...>` | 检测类型T是否可 trivially 构造 |
+| `std::is_trivially_copy_assignable<T>` | 检测类型T是否可 trivially 复制赋值 |
+| `std::is_trivially_copy_constructible<T>` | 检测类型T是否可 trivially 复制构造 |
+| `std::is_trivially_destructible<T>` | 检测类型T是否可 trivially 析构 |
+| `std::is_trivially_default_constructible<T>` | 检测类型T是否可 trivially 默认构造 |
+| `std::is_trivially_move_assignable<T>` | 检测类型T是否可 trivially 移动赋值 |
+| `std::is_trivially_move_constructible<T>` | 检测类型T是否可 trivially 移动构造 |
+| `std::is_nothrow_assignable<T, U>` | 检测类型T是否可 noexcept 赋值给类型U |
+| `std::is_nothrow_constructible<T, Args...>` | 检测类型T是否可 noexcept 构造 |
+| `std::is_nothrow_copy_assignable<T>` | 检测类型T是否可 noexcept 复制赋值 |
+| `std::is_nothrow_copy_constructible<T>` | 检测类型T是否可 noexcept 复制构造 |
+| `std::is_nothrow_destructible<T>` | 检测类型T是否可 noexcept 析构 |
+| `std::is_nothrow_default_constructible<T>` | 检测类型T是否可 noexcept 默认构造 |
+| `std::is_nothrow_move_assignable<T>` | 检测类型T是否可 noexcept 移动赋值 |
+| `std::is_nothrow_move_constructible<T>` | 检测类型T是否可 noexcept 移动构造 |
+| `std::is_invocable<F, Args...>` | 检测类型F是否可调用 |
+| `std::is_nothrow_invocable<F, Args...>` | 检测类型F是否可 noexcept 调用 |
 
 - 类型关系
 
 | 模板类 | 描述 |
 | --- | --- |
-| std::is_base_of<Base, Derived> | 检测类型Derived是否是类型Base的基类 |
-| std::is_convertible<From, To> | 检测类型From是否可以转换为类型To |
-| std::is_same<T, U> | 检测类型T是否与类型U相同 |
+| `std::is_base_of<Base, Derived>` | 检测类型Derived是否是类型Base的基类 |
+| `std::is_convertible<From, To>` | 检测类型From是否可以转换为类型To |
+| `std::is_same<T, U>` | 检测类型T是否与类型U相同 |
 
 - 所有查询
 
 | 模板类 | 描述 |
 | --- | --- |
-| std::alignment_of<T> | 获取类型T的对齐字节数 |
-| std::extent<T> | 获取类型T的元素数量 |
-| std::rank<T> | 获取类型T的维数 |
+| `std::alignment_of<T>` | 获取类型T的对齐字节数 |
+| `std::extent<T>` | 获取类型T的元素数量 |
+| `std::rank<T>` | 获取类型T的维数 |
 
 - 去除符号
 
 | 模板类 | 描述 |
 | --- | --- |
-| std::add_const<T> | 添加const修饰符 |
-| std::add_cv<T> | 添加const和volatile修饰符 |
-| std::add_volatile<T> | 添加volatile修饰符 |
-| std::remove_const<T> | 移除const修饰符 |
-| std::remove_cv<T> | 移除const和volatile 修饰符 |
-| std::remove_volatile<T> | 移除volatile修饰符 |
+| `std::add_const<T>` | 添加const修饰符 |
+| `std::add_cv<T>` | 添加const和volatile修饰符 |
+| `std::add_volatile<T>` | 添加volatile修饰符 |
+| `std::remove_const<T>` | 移除const修饰符 |
+| `std::remove_cv<T>` | 移除const和volatile 修饰符 |
+| `std::remove_volatile<T>` | 移除volatile修饰符 |
 
 - 复合型变化
 
 | 模板类 | 描述 |
 | --- | --- |
-| std::add_pointer<T> | 添加指针修饰符 |
-| std::add_lvalue_reference<T> | 添加左值引用修饰符 |
-| std::add_rvalue_reference<T> | 添加右值引用修饰符 |
-| std::decay<T> | 移除cv 和 引用修饰符 |
-| std::make_signed<T> | 创建一个与类型T对应的有符号类型 |
-| std::make_unsigned<T> | 创建一个与类型T对应无符号类型 |
-| std::remove_all_extents<T> | 移除数组的维数 |
-| std::remove_extent<T> | 移除数组的维数 |
-| std::remove_pointer<T> | 移除指针修饰符 |
-| std::remove_reference<T> | 移除引用修饰符 |
-| std::underlying_type<T> | 获取类型T的底层类型 |
+| `std::add_pointer<T>` | 添加指针修饰符 |
+| `std::add_lvalue_reference<T>` | 添加左值引用修饰符 |
+| `std::add_rvalue_reference<T>` | 添加右值引用修饰符 |
+| `std::decay<T>` | 移除cv 和 引用修饰符 |
+| `std::make_signed<T>` | 创建一个与类型T对应的有符号类型 |
+| `std::make_unsigned<T>` | 创建一个与类型T对应无符号类型 |
+| `std::remove_all_extents<T>` | 移除数组的维数 |
+| `std::remove_extent<T>` | 移除数组的维数 |
+| `std::remove_pointer<T>` | 移除指针修饰符 |
+| `std::remove_reference<T>` | 移除引用修饰符 |
+| `std::underlying_type<T>` | 获取类型T的底层类型 |
 
 - 其它类型转换
 
 | 模板类 | 描述 |
 | --- | --- |
-| std::aligned_storage<Len, Align> | 创建一个长度为Len且对齐字节数为Align的未初始化对象 |
-| std::aligned_union<Len, T1, T2, ...> | 创建一个长度为Len且对齐字节数为std::max(alignof(T1), alignof(T2), ...)的未初始化对象 |
-| std::common_type<T1, T2> | 获取两个类型T1和T2的公共类型 |
-| std::conditional<Cond, T1, T2> | 根据条件Cond来选择 T1 或 T2 |
-| std::enable_if<Cond, T> | 根据条件Cond来选择 T |
-| std::result_of<F(Args...)> | 获取函数F的返回类型 |
+| `std::aligned_storage<Len, Align>` | 创建一个长度为Len且对齐字节数为Align的未初始化对象 |
+| `std::aligned_union<Len, T1, T2, ...>` | 创建一个长度为Len且对齐字节数为std::max(alignof(T1), alignof(T2), ...)的未初始化对象 |
+| `std::common_type<T1, T2>` | 获取两个类型T1和T2的公共类型 |
+| `std::conditional<Cond, T1, T2>` | 根据条件Cond来选择 T1 或 T2 |
+| `std::enable_if<Cond, T>` | 根据条件Cond来选择 T |
+| `std::result_of<F(Args...)>` | 获取函数F的返回类型 |
 
 具体示例如下所示。
 
@@ -2264,7 +2499,7 @@ int main(int argc, char const *argv[])
 
 ### declval
 
-declval 是 C++11 引入的一个工具函数，定义在 <utility> 头文件中。它的主要作用是在不创建对象实例的情况下返回T&&类型。这在模板元编程中非常有用，特别是在需要处理类型的默认构造函数不可用或不希望创建对象实例的情况下。对于declval来说，有如下两个作用。
+declval 是 C++11 引入的一个工具函数，定义在`<utility>`头文件中。它的主要作用是在不创建对象实例的情况下返回T&&类型。这在模板元编程中非常有用，特别是在需要处理类型的默认构造函数不可用或不希望创建对象实例的情况下。对于declval来说，有如下两个作用。
 
 1. 不必经过构造函数就能使用该类型的成员函数。
 2. 返回T&&类型，用于实现完美转发。
@@ -2460,7 +2695,7 @@ int main(int argc, char* argv[])
 std::variant是C++17标准库中引入的一个类型安全的联合体（union）替代品。它允许你在一个变量中存储多种不同类型的值，并且在运行时可以安全地访问和操作这些值。
 与传统的联合体不同，std::variant会跟踪当前存储的是哪种类型的值，从而避免了类型不安全的问题。
 
-相关网址： https://learn.microsoft.com/zh-cn/cpp/standard-library/variant-operators?view=msvc-170
+相关网址： <https://learn.microsoft.com/zh-cn/cpp/standard-library/variant-operators?view=msvc-170>
 
 std::variant 提供了以下功能：
 
@@ -2471,10 +2706,10 @@ std::variant 提供了以下功能：
 
 相关方法：
 
-1. std::get<T>(var)：返回std::variant中类型为T的值。如果std::variant当前存储的类型不是T，则会抛出std::bad_variant_access异常。
-2. std::get_if<T>(var)：返回std::variant中类型为T的值的指针。如果std::variant当前存储的类型不是T，则返回nullptr。
-3. std::holds_alternative<T>(var)：判断std::variant是否存储了类型为T的值。如果是，则返回true；否则返回false。
-4. std::swap(var1, var2)：交换两个std::variant的值。
+1. `std::get<T>(var)`：返回std::variant中类型为T的值。如果std::variant当前存储的类型不是T，则会抛出std::bad_variant_access异常。
+2. `std::get_if<T>(var)`：返回std::variant中类型为T的值的指针。如果std::variant当前存储的类型不是T，则返回nullptr。
+3. `std::holds_alternative<T>(var)`：判断std::variant是否存储了类型为T的值。如果是，则返回true；否则返回false。
+4. `std::swap(var1, var2)`：交换两个std::variant的值。
 
 ```cpp
 #include <iostream>

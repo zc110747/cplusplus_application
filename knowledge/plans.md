@@ -6,7 +6,8 @@
 
 | 添加C++版本 | 头文件 | 目前状态 | 所属模块 |
 | --- | --- | --- | --- |
-| C++ Base | algorithm | ✅ | 06.stl |
+| **C++ Base** | | | |
+| | algorithm | ✅ | 06.stl |
 | | iomanip | ✅ | 07.std/stream |
 | | list | ✅ | 06.stl |
 | | ostream | ✅ | 07.std/stream |
@@ -38,52 +39,57 @@
 | | vector | ✅ | 06.stl |
 | | functional | ✅ | 07.std |
 | | limits | ✅ | 01.base_style |
-| C++11增加 | array | ✅ | 06.stl |
+| **C++11 add** | | | |
+| | array | ✅ | 06.stl |
 | | condition_variable | ✅ | 12.thread_coroutine |
 | | mutex | ✅ | 12.thread_coroutine |
-| | scope_allocator | ❌ | 07.std | 
+| | scoped_allocator | ✅ | 07.std |
 | | type_traits | ✅ | 07.std |
 | | atomic | ✅ | 12.thread_coroutine |
 | | forward_list | ✅ | 06.stl |
 | | system_error | ✅ | 08.exception |
-| | typeindex | ✅ | 11.type_conversion | 
+| | typeindex | ✅ | 11.type_conversion |
 | | chrono | ✅ | 12.thread_coroutine |
-| | future | ❌ | 12.thread_coroutine |
+| | future | ✅ | 12.thread_coroutine |
 | | ratio | ✅ | 07.std |
 | | thread | ✅ | 12.thread_coroutine |
 | | unordered_map | ✅ | 06.stl |
 | | initializer_list | ✅ | 04.class |
-| | regex | ❌ | 07.std |
+| | regex | ✅ | 07.std |
 | | tuple | ✅ | 07.std |
 | | unordered_set | ✅ | 06.stl |
-| C++14增加 | shared_mutex | ✅ | 12.thread_coroutine |
-| C++17增加 | any | ✅ | 07.std |
+| **C++14 add** | | | |
+| | shared_mutex | ✅ | 12.thread_coroutine |
+| **C++17 add** | | | |
+| | any | ✅ | 07.std |
 | | execution | ✅ | 12.thread_coroutine |
-| | memory_resource | ❌ | 07.std |
-| | string_view | ✅  | 07.std |
+| | memory_resource | ✅ | 07.std |
+| | string_view | ✅ | 07.std |
 | | variant | ✅ | 07.std |
-| | charconv | ❌ | 07.std |
+| | charconv | ✅ | 07.std |
 | | filesystem | ✅ | 07.std |
-| | optional | ✅  | 07.std |
-| C++20增加 | barrier | ❌ | 12.thread_coroutine |
+| | optional | ✅ | 07.std |
+| **C++20 add** | | | |
+| | barrier | ✅ | 12.thread_coroutine |
 | | concepts | ✅ | 14.cpp_new_feature |
 | | latch | ✅ | 12.thread_coroutine |
 | | semaphore | ✅ | 12.thread_coroutine |
-| | stop_token | ❌ | 12.thread_coroutine |
+| | stop_token | ✅ | 12.thread_coroutine |
 | | bit | ✅ | 07.std/bit |
-| | coroutine | ❌ | 14.cpp_new_feature |
+| | coroutine | ✅ | 14.cpp_new_feature |
 | | numbers | ✅ | 07.std |
-| | source_location | ❌ | 07.std |
-| | syncstream | ❌ | 12.thread_coroutine |
+| | source_location | ✅ | 07.std |
+| | syncstream | ✅ | 12.thread_coroutine |
 | | compare | ✅ | 14.cpp_new_feature |
 | | format | ✅ | 14.cpp_new_feature |
-| | ranges | ❌ | 14.cpp_new_feature |
-| | span | ✅ | 06.stl | 
-| | version | ✅  | 01.base_style |
-| C++23增加 | excepted | ✅ | 08.exception | 
+| | ranges | ✅ | 14.cpp_new_feature |
+| | span | ✅ | 06.stl |
+| | version | ✅ | 01.base_style |
+| **C++23 add** | | | |
+| | excepted | ✅ | 08.exception |
 | | flat_set | ✅ | 06.stl |
-| | mdspan | ✅ |  06.stl |
-| | spanstream | ✅ |  06.stl |
+| | mdspan | ✅ | 06.stl |
+| | spanstream | ✅ | 06.stl |
 | | stdfloat | ✅ | 01.base_style |
 | | flat_map | ✅ | 06.stl |
 | | generator | ❌ | 14.cpp_new_feature |
@@ -91,7 +97,7 @@
 | | stacktrace | ❌ | 14.cpp_new_feature |
 | C++26增加 | contracts | ❌ | 14.cpp_new_feature |
 | | hazard_pointer | ❌ | 14.cpp_new_feature |
-| | inplace_vector | ❌ | 14.cpp_new_feature  |
+| | inplace_vector | ❌ | 14.cpp_new_feature |
 | | rcu | ❌ | 14.cpp_new_feature |
 | | text_encoding | ❌ | 14.cpp_new_feature |
 | | debugger | ❌ | 14.cpp_new_feature |
