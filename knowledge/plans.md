@@ -151,9 +151,9 @@
 | 第1章：新基础类型 | ✅ | 01.base_style |
 | 第2章：内联和嵌套命名空间 | ✅ | 02.namespace |
 | 第3章：auto占位符 | ✅ | 13.modern_cpp/auto |
-| 第4章：decltype说明符 | ❌ | 13.modern_cpp |
+| 第4章：decltype说明符 | ✅ | 13.modern_cpp/auto |
 | 第5章：函数返回类型后置 | ❌ | 13.modern_cpp |
-| 第6章：右值引用 | ❌ | 03.reference |
+| 第6章：右值引用 | ✅ | 03.reference |
 | 第7章：Lambda表达式 | ❌ | 13.modern_cpp |
 | 第8章：非静态成员默认初始化 | ❌ | 04.class |
 | 第9章：列表初始化 | ❌ | 04.class |

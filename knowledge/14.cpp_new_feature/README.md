@@ -8,7 +8,7 @@
   - [concept](#concept)
 - [coroutines](#coroutines)
 - [format](#format)
-- [module](#module)
+- [generator](#generator)
 - [ranges](#ranges)
 
 ## compare
@@ -247,7 +247,7 @@ Coroutines(协程)是C++20引入的重要特性。它允许一个函数暂停执
 | --- | --- | --- |
 | co_await | 等待一个操作 | 暂停当前协程，等待某个操作满足恢复条件，再继续执行 |
 | co_yield | 产生一个值并暂停 | 常用于生成器（Generator），每次调用方请求下一个值时，协程继续运行直到产生下一个值。 |
-| co_return | 结束协程 | 表示协程执行结束，可以通过协程的返回对象传递最终结果 | 
+| co_return | 结束协程 | 表示协程执行结束，可以通过协程的返回对象传递最终结果 |
 
 关于协程的应用示例如下所示。
 
@@ -334,14 +334,14 @@ format是C++20引入的标准库头文件，提供了一种类型安全的字符
 
 format的应用主要是std::format库，实现类型安全且灵活的字符串格式化，替代传统的printf函数和std::stringstream。
 
-format参考网址： https://en.cppreference.com/w/cpp/header/format.html
+format参考网址： <https://en.cppreference.com/w/cpp/header/format.html>
 
 其支持的主要方法如下。
 
 | 方法 | 描述 |
 | --- | --- |
 | format | 格式化字符串，返回一个std::string对象 |
-| format_to | 格式化字符串并写入到指定的输出迭代器|
+| format_to | 格式化字符串并写入到指定的输出迭代器 |
 | format_to_n | 格式化字符串并写入到指定的输出迭代器，最多写入n个字符，返回一个std::format_to_n_result对象 |
 | formatted_size | 获取格式化字符串的长度 |
 | runtime_format | 运行时格式化字符串(C++26) |
@@ -395,7 +395,9 @@ int main(int argc, char const *argv[])
 }
 ```
 
-## module
+## generator
+
+std::generator是C++23引入的标准库协程工具，定义在头文件 <generator> 中。它用于让函数通过 co_yield 逐个生成数据，调用者按需获取数据，而不必一次性构造整个结果集合
 
 ## ranges
 
@@ -608,18 +610,18 @@ int main()
 
 | 算法 | 功能 |
 | --- | --- |
-| std::ranges::sort | 排序
-| std::ranges::find	| 查找元素
-| std::ranges::count | 统计指定值的出现次数
-| std::ranges::count_if | 统计符合条件的元素数
-| std::ranges::copy | 复制元素
-| std::ranges::transform | 将转换结果写入目标范围
-| std::ranges::for_each | 对每个元素执行操作
-| std::ranges::all_of | 判断所有元素是否满足条件
-| std::ranges::any_of | 判断是否存在满足条件的元素
-| std::ranges::none_of | 判断是否没有元素满足条件
-| std::ranges::remove_if |将符合条件的元素移到逻辑移除区域
-| std::ranges::lower_bound | 在有序范围中查找下界
+| std::ranges::sort | 排序 |
+| std::ranges::find | 查找元素 |
+| std::ranges::count | 统计指定值的出现次数 |
+| std::ranges::count_if | 统计符合条件的元素数 |
+| std::ranges::copy | 复制元素 |
+| std::ranges::transform | 将转换结果写入目标范围 |
+| std::ranges::for_each | 对每个元素执行操作 |
+| std::ranges::all_of | 判断所有元素是否满足条件 |
+| std::ranges::any_of | 判断是否存在满足条件的元素 |
+| std::ranges::none_of | 判断是否没有元素满足条件 |
+| std::ranges::remove_if | 将符合条件的元素移到逻辑移除区域 |
+| std::ranges::lower_bound | 在有序范围中查找下界 |
 
 注意：std::ranges::transform 是算法，不等同于 std::views::transform。前者通常把结果写入目标位置，后者则创建一个按需计算的视图。
 
@@ -674,10 +676,11 @@ int main()
 
 考虑下面的代码：
 
+```cpp
 auto result = values
     | std::views::filter(is_valid)
     | std::views::transform(convert);
-
+```
 
 通常不会立即把所有结果计算出来并存储到新容器中。创建视图主要是在构建一套遍历规则，实际筛选和转换通常发生在遍历时。
 
