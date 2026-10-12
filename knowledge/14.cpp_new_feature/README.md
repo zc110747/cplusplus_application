@@ -9,6 +9,7 @@
 - [coroutines](#coroutines)
 - [format](#format)
 - [generator](#generator)
+- [print](#print)
 - [ranges](#ranges)
 
 ## compare
@@ -397,7 +398,174 @@ int main(int argc, char const *argv[])
 
 ## generator
 
-std::generator是C++23引入的标准库协程工具，定义在头文件 <generator> 中。它用于让函数通过 co_yield 逐个生成数据，调用者按需获取数据，而不必一次性构造整个结果集合
+Generator（生成器）是C++23引入的按需逐个生成数据的机制。
+
+它通常基于协程实现，每次调用方请求一个值时，生成器才继续执行，产生下一个值，然后暂停，等待下一次请求。
+
+具体示例如下所示。
+
+```cpp
+#include <generator>
+#include <iostream>
+
+std::generator<int> numbers(int count)
+{
+    for (int i = 1; i <= count; ++i) {
+        co_yield i;
+    }
+}
+
+int main()
+{
+    for (int value : numbers(5)) {
+        std::cout << value << '\n';
+    }
+}
+```
+
+## print
+
+std::print是C++23引入的标准输出格式化功能，定义在头文件`<print>`中。
+
+它将 std::format 的格式化能力与输出操作结合起来，可以用更简洁、类型安全的方式输出变量、结构化数据和调试信息。
+
+- 基本输出
+
+主要涉及两个函数。
+
+- std::print：格式化输出，不会自动添加换行符
+- std::println：格式化输出，并自动添加换行符
+
+```cpp
+#include <print>
+
+int main()
+{
+    int id = 10;
+    double voltage = 3.3;
+
+    std::print("Device ID: {}\n", id);
+    std::print("Voltage: {:.2f} V\n", voltage);
+    std::println("Device ID: {}, Voltage: {:.2f} V",
+                 id, voltage);
+}
+```
+
+- 格式化字符串
+
+| 格式化类型 | 功能说明 |
+| --- | --- |
+| {} | 默认格式 |
+| {:d} | 十进制格式化 |
+| {:b} | 二进制格式化 |
+| {:o} | 八进制格式化 |
+| {:x}/{:X} | 十六进制格式化 |
+| {#x} | 带0x的十六进制格式化 |
+| {:.2f} | 固定小数形式，保留两位小数 |
+| {:.3e} | 科学计数法，精度为三位小数 |
+| {:.4g} | 通用浮点格式，精度为四位有效数字 |
+| {:<10} | 左对齐，长度10 |
+| {:^10} | 居中对齐，长度10 |
+| {:>10} | 右对齐，长度10 |
+| {:*<10} | 自定义填充字符进行左对齐 |
+
+具体示例如下所示。
+
+```cpp
+#include <print>
+#include <string>
+
+int main(void)
+{
+    int value = 255;
+
+    std::println("Default: {}", value);
+    std::println("Decimal: {:d}", value);
+    std::println("Binary:  {:b}", value);
+    std::println("Octal:   {:o}", value);
+    std::println("Hex:     {:x}", value);
+    std::println("HEX:     {:X}", value);
+    std::println("Prefixed hex: {:#x}", value);
+
+    double value = 3.1415926535;
+
+    std::println("Default: {}", value);
+    std::println("Fixed:   {:.2f}", value);
+    std::println("Precise: {:.6f}", value);
+    std::println("Exp:     {:.3e}", value);
+    std::println("General: {:.4g}", value);
+
+    std::string name = "RobotForge";
+
+    std::println("Name: {}", name);
+    std::println("Width: |{:20}|", name);
+    std::println("Left:  |{:<20}|", name);
+    std::println("Center:|{:^20}|", name);
+    std::println("Right: |{:>20}|", name);
+    std::println("Short: {}", name.substr(0, 5));
+    std::println("*: |{:*^20}|", name); 
+
+    return 0;
+}
+```
+
+- 参数索引与重复使用参数
+
+默认情况下，{} 按顺序消费参数；也可以使用显式参数索引。
+
+注意: **顺序消费参数和显示参数索引不可以混用**。
+
+```cpp
+#include <print>
+
+int main(void)
+{
+    int a = 10;
+    int b = 20;
+
+    std::println("{} + {} = {}", a, b, a + b);
+    std::println("{1} - {0} = {2}", a, b, b - a);
+    std::println("{1} - {0} - {0} = {2}", a, b, b - a - a);
+    
+    return 0;
+}
+```
+
+- 自定义数据类型使用std::print
+
+使用std::formatter重写输出函数。
+
+```cpp
+#include <format>
+#include <print>
+#include <string>
+
+struct Version {
+    int major;
+    int minor;
+    int patch;
+};
+
+template<>
+struct std::formatter<Version> : std::formatter<std::string> {
+    auto format(const Version& v, std::format_context& ctx) const
+    {
+        return std::formatter<std::string>::format(
+            std::to_string(v.major) + "." +
+            std::to_string(v.minor) + "." +
+            std::to_string(v.patch),
+            ctx
+        );
+    }
+};
+
+int main(void)
+{
+    Version v{1, 2, 3};
+    std::println("Firmware version: {}", v);
+    return 0;
+}
+```
 
 ## ranges
 
@@ -705,3 +873,59 @@ auto make_view()
 这段代码存在生命周期问题：返回的过滤视图引用局部 values，而 values 在函数返回时已经销毁。随后遍历该视图会产生未定义行为。
 
 因此，使用视图时要确认底层数据仍然有效。某些适配器可以拥有或保存底层范围，但不能假定所有视图都会自动延长数据的生命周期。
+
+## stacktrace
+
+std::stacktrace是C++23引入的标准库功能，用于在程序运行时获取当前调用栈信息；需要使用-lstdc++exp链接。
+
+它可以帮助开发者定位函数调用路径、分析异常发生的位置，以及排查复杂的程序运行问题。
+
+对于stacktrace，主要提供以下接口应用。
+
+| 类型或接口 | 作用 |
+| --- | --- |
+| std::stacktrace | 保存一组调用栈条目 |
+| std::stacktrace_entry | 表示单个调用栈条目 |
+| std::stacktrace::current() | 获取当前调用栈 |
+| std::stacktrace::size() | 获取栈条目数量 |
+| std::stacktrace::empty() | 判断调用栈是否为空 |
+| std::stacktrace::begin() / end() | 遍历调用栈 |
+| std::stacktrace_entry::description() | 获取条目的描述信息 |
+| std::stacktrace_entry::source_file() | 获取可能关联的源文件名 |
+| std::stacktrace_entry::source_line() | 获取可能关联的源代码行号 |
+
+具体示例如下所示。
+
+```cpp
+#include <iostream>
+#include <stacktrace>
+
+void print_stacktrace()
+{
+    auto trace = std::stacktrace::current();
+
+    for (const auto& entry : trace)
+    {
+        std::cout
+            << "Description: "
+            << entry.description()
+            << '\n';
+
+        std::cout
+            << "Source file: "
+            << entry.source_file()
+            << '\n';
+
+        std::cout
+            << "Source line: "
+            << entry.source_line()
+            << "\n\n";
+    }
+}
+
+int main()
+{
+    print_stacktrace();
+    return 0;
+}
+```

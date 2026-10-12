@@ -8,7 +8,7 @@
 
 # This is object should be build and will link to generate
 # the executables
-STD_VERSION = -std=c++26
+STD_VERSION = -std=c++26 -lstdc++exp
 objects = main.o
 
 # This is the file name of the executables and path where 

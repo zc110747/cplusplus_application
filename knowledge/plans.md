@@ -92,18 +92,19 @@
 | | spanstream | ✅ | 06.stl |
 | | stdfloat | ✅ | 01.base_style |
 | | flat_map | ✅ | 06.stl |
-| | generator | ❌ | 14.cpp_new_feature |
-| | print | ❌ | 14.cpp_new_feature |
-| | stacktrace | ❌ | 14.cpp_new_feature |
-| C++26增加 | contracts | ❌ | 14.cpp_new_feature |
-| | hazard_pointer | ❌ | 14.cpp_new_feature |
-| | inplace_vector | ❌ | 14.cpp_new_feature |
-| | rcu | ❌ | 14.cpp_new_feature |
-| | text_encoding | ❌ | 14.cpp_new_feature |
-| | debugger | ❌ | 14.cpp_new_feature |
-| | hive | ❌ | 14.cpp_new_feature |
-| | linalg | ❌ | 14.cpp_new_feature |
-| | simd | ❌ | 14.cpp_new_feature |
+| | generator | ✅ | 14.cpp_new_feature |
+| | print | ✅ | 14.cpp_new_feature |
+| | stacktrace | ✅ | 14.cpp_new_feature |
+| **C++26add** | | | |
+| | contracts | 暂无计划 | 14.cpp_new_feature |
+| | hazard_pointer | 暂无计划 | 14.cpp_new_feature |
+| | inplace_vector | 暂无计划 | 14.cpp_new_feature |
+| | rcu | 暂无计划 | 14.cpp_new_feature |
+| | text_encoding | 暂无计划 | 14.cpp_new_feature |
+| | debugger | 暂无计划 | 14.cpp_new_feature |
+| | hive | 暂无计划 | 14.cpp_new_feature |
+| | linalg | 暂无计划 | 14.cpp_new_feature |
+| | simd | 暂无计划 | 14.cpp_new_feature |
 
 ## cxx_book
 
@@ -152,41 +153,41 @@
 | 第2章：内联和嵌套命名空间 | ✅ | 02.namespace |
 | 第3章：auto占位符 | ✅ | 13.modern_cpp/auto |
 | 第4章：decltype说明符 | ✅ | 13.modern_cpp/auto |
-| 第5章：函数返回类型后置 | ❌ | 13.modern_cpp |
+| 第5章：函数返回类型后置 | ✅ | 13.modern_cpp |
 | 第6章：右值引用 | ✅ | 03.reference |
-| 第7章：Lambda表达式 | ❌ | 13.modern_cpp |
-| 第8章：非静态成员默认初始化 | ❌ | 04.class |
-| 第9章：列表初始化 | ❌ | 04.class |
-| 第10章：默认和删除函数 | ❌ | 04.class |
-| 第11章：非受限联合类型 | ❌ | 04.class |
-| 第12章：委托构造函数 | ❌ | 04.class |
-| 第13章：继承构造函数 | ❌ | 04.class |
-| 第14章：强类型枚举 | ❌ | 04.class |
-| 第15章：扩展的聚合类型 | ❌ | 04.class |
-| 第16章：override和final说明符 | ❌ | 04.class |
-| 第17章：基于范围的for循环 | ❌ | 13.modern_cpp |
-| 第18章：支持初始化语句的if和switch | ❌ | 13.modern_cpp |
-| 第19章：static_assert声明 | ❌ | 13.modern_cpp |
-| 第20章：结构化绑定 | ❌ | 13.modern_cpp |
-| 第21章：noexcept关键字 | ❌ | 08.exception |
-| 第22章：类型别名和别名模板 | ❌ | 05.template |
-| 第23章：指针字面量nullptr | ❌ | 13.modern_cpp |
-| 第24章：三向比较 | ❌ | 14.cpp_new_feature |
-| 第25章：线程局部存储 | ❌ | 12.thread_coroutine |
-| 第26章：扩展的inline说明符 | ❌ | 4.class |
-| 第27章：常量表达式 | ❌ | 13.modern_cpp |
-| 第28章：确定的表达式求值顺序 | ❌ | 01.base_style |
-| 第29章：字面量优化 | ❌ | 13.modern_cpp |
-| 第30章：alignas和alignof | ❌ | 09.layout |
-| 第31章：属性说明符和标准属性 | ❌ | 13.modern_cpp |
-| 第32章：新增预处理器和宏 | ❌ | 01.base_style |
-| 第33章：协程 | ❌ | 12.thread_coroutine |
-| 第34章：基础特性的其它优化 | ❌ | 13.modern_cpp |
-| 第35章：可变参数模板 | ❌ | 05.template |
-| 第36章：typename优化 | ❌ | 05.template |
-| 第37章：模板参数优化 | ❌ | 05.template |
-| 第38章：类模板的模板实参推导 | ❌ | 05.template |
-| 第39章：用户自定义推导指引 | ❌ | 05.template |
-| 第40章：SFINAE | ❌ | 05.template |
-| 第41章：概念和约束 | ❌ | 14.cpp_new_feature |
-| 第42章：模板特性的其它优化 | ❌ | 05.template |
+| 第7章：Lambda表达式 | ✅ | 13.modern_cpp |
+| 第8章：非静态成员默认初始化 | ✅ | 04.class |
+| 第9章：列表初始化 | ✅ | 04.class |
+| 第10章：默认和删除函数 | ✅ | 04.class |
+| 第11章：非受限联合类型 | ✅ | 04.class |
+| 第12章：委托构造函数 | ✅ | 04.class |
+| 第13章：继承构造函数 | ✅ | 04.class |
+| 第14章：强类型枚举 | ✅ | 04.class |
+| 第15章：扩展的聚合类型 | ✅ | 04.class |
+| 第16章：override和final说明符 | ✅ | 04.class |
+| 第17章：基于范围的for循环 | ✅ | 13.modern_cpp |
+| 第18章：支持初始化语句的if和switch | ✅ | 13.modern_cpp |
+| 第19章：static_assert声明 | ✅ | 13.modern_cpp |
+| 第20章：结构化绑定 | ✅ | 13.modern_cpp |
+| 第21章：noexcept关键字 | ✅ | 08.exception |
+| 第22章：类型别名和别名模板 | ✅ | 05.template |
+| 第23章：指针字面量nullptr | ✅ | 13.modern_cpp |
+| 第24章：三向比较 | ✅ | 14.cpp_new_feature |
+| 第25章：线程局部存储 | ✅ | 12.thread_coroutine |
+| 第26章：扩展的inline说明符 | ✅ | 4.class |
+| 第27章：常量表达式 | ✅ | 13.modern_cpp |
+| 第28章：确定的表达式求值顺序 | ✅ | 01.base_style |
+| 第29章：字面量优化 | ✅ | 13.modern_cpp |
+| 第30章：alignas和alignof | ✅ | 09.layout |
+| 第31章：属性说明符和标准属性 | ✅ | 13.modern_cpp |
+| 第32章：新增预处理器和宏 | ✅ | 01.base_style |
+| 第33章：协程 | ✅ | 12.thread_coroutine |
+| 第34章：基础特性的其它优化 | ✅ | 13.modern_cpp |
+| 第35章：可变参数模板 | ✅ | 05.template |
+| 第36章：typename优化 | ✅ | 05.template |
+| 第37章：模板参数优化 | ✅ | 05.template |
+| 第38章：类模板的模板实参推导 | ✅ | 05.template |
+| 第39章：用户自定义推导指引 | ✅ | 05.template |
+| 第40章：SFINAE | ✅ | 05.template |
+| 第41章：概念和约束 | ✅ | 14.cpp_new_feature |
+| 第42章：模板特性的其它优化 |✅ | 05.template |
