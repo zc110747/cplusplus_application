@@ -95,5 +95,6 @@
     },
     "trae.tab.enableRename": false,
     "trae.tab.enableAutoImport": false,
-    "cmake.sourceDirectory": "C:/zc/cnb/cplusplus_project/learning_notes/modern_book"
+    "cmake.sourceDirectory": "C:/zc/cnb/cplusplus_project/learning_notes/modern_book",
+    "files.autoGuessEncoding": true
 }

@@ -7,6 +7,7 @@
   - [requires](#requires)
   - [concept](#concept)
 - [coroutines](#coroutines)
+- [deducing_this](#deducing_this)
 - [format](#format)
 - [generator](#generator)
 - [print](#print)
@@ -328,6 +329,104 @@ int main()
     }
 }
 ```
+
+## deducing_this
+
+deducing this是C++23引入的一项重要语言特性，正式名称是Explicit Object Parameter（显式对象形参）。
+
+它允许成员函数显式声明调用对象的类型，不再完全依赖隐式的 this 指针。这使得 C++ 可以更自然地实现递归调用、减少const重载、编写通用成员函数，以及简化CRTP等模板设计。
+
+### 消除const重载
+
+可以使用deducing this代替const重载运算，具体示例如下所示。
+
+```cpp
+class Buffer {
+public:
+    int data = 42;
+
+    int& front() {
+        return data;
+    }
+
+    const int& front() const {
+        return data;
+    }
+};
+
+// 等同于上面的代码
+class Buffer {
+public:
+    int data = 42;
+
+    decltype(auto) front(this auto&& self) {
+        return (self.data);
+    }
+};
+```
+
+### 递归lambda
+
+deducing this可以用于实现递归lambda，具体示例如下所示。
+
+```cpp
+auto factorial = [](auto&& self, int n) -> int {
+    if (n <= 1) {
+        return 1;
+    }
+    return n * self(self, n - 1);
+};
+
+int result = factorial(factorial, 5);
+```
+
+### 简化CRTP模板编程
+
+deducing this可以用于简化CRTP，具体实例如下所示。
+
+```c
+template<class Derived>
+class Base {
+public:
+    void interface() {
+        static_cast<Derived&>(*this).impl();
+    }
+};
+
+class Device : public Base<Device> {
+public:
+    void impl() {
+        // 具体实现
+    }
+};
+
+// 使用self处理
+template<class Derived>
+class Base {
+public:
+    void interface(this Derived& self) {
+        self.impl();
+    }
+};
+
+class Device : public Base<Device> {
+public:
+    void impl() {
+        // 具体实现
+    }
+};
+```
+
+对于deducing this类型，功能说明如下。
+
+| 写法 | 主要用途 |
+| --- | --- |
+| `this Counter& self` | 只接受非 `const` 左值对象 |
+| `this const Counter& self` | 接受普通对象和常量左值对象，但只能通过 `self` 进行常量访问 |
+| `this Counter&& self` | 只接受非 `const` 右值对象 |
+| `this auto& self` | 根据对象类型推导，接受左值对象 |
+| `this auto&& self` | 根据调用对象推导类型，适用于通用成员函数 |
+| `this Self&& self` | 在模板上下文中使用显式的模板类型参数 |
 
 ## format
 
