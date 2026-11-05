@@ -4,7 +4,7 @@
 - [复合类型](#compound_type)
   - [array](#array)
   - [pointer](#pointer)
-  - [struct](#string)
+  - [struct](#struct)
   - [union](#union)
   - [enum](#enum)
 - [格式化](#stdio_format)
@@ -17,7 +17,6 @@
   - [numbers](#numbers)
   - [stdfloat](#stdfloat)
   - [version](#version)
-- [返回主页](../../README.md)
 
 ## basic_grammar
 
@@ -104,7 +103,9 @@ int main(int argc, const char *argv[])
 
 ### array
 
-数组是一组相同类型的元素，存储在一起，元素个数固定，元素类型固定，元素类型和数组类型一致。可通过sizeof运算符获取数组的长度，单位为字节。另外还支持多维数组，例如int a[2][3]表示一个2行3列的整型数组。
+数组是一组相同类型的元素，存储在一起，元素个数固定，元素类型固定，元素类型和数组类型一致。
+
+可通过sizeof运算符获取数组的长度，单位为字节。另外还支持多维数组，例如`int a[2][3]`表示一个2行3列的整型数组。
 
 具体示例如下：
 
@@ -199,7 +200,7 @@ int main(int argc, const char *argv[])
 }
 ```
 
-#### struct
+### struct
 
 结构体是一种数据类型，它保存一组变量，变量存储在一起，元素个数可变，元素类型可变，元素类型和结构体类型一致。在C++中，结构体的功能和类非常相似，但结构体和类之间有如下区别：
 
@@ -266,7 +267,9 @@ int main(int argc, const char *argv[])
 
 ### union
 
-联合体是一种数据类型，它保存一组变量，变量存储在一起，元素个数可变，元素类型可变，元素类型和联合体类型一致。联合体中的所有变量共享同一块内存空间，因此联合体的大小等于其最大的成员的大小。联合体内部的变量默认访问权限和结构体默认访问权限一致，都是public。
+联合体是一种数据类型，它保存一组变量，变量存储在一起，元素个数可变，元素类型可变，元素类型和联合体类型一致。
+
+联合体中的所有变量共享同一块内存空间，因此联合体的大小等于其最大的成员的大小。联合体内部的变量默认访问权限和结构体默认访问权限一致，都是public。
 
 具体示例如下所示。
 
@@ -318,7 +321,41 @@ int main(int argc, const char *argv[])
 };
 ```
 
-### stdio_format
+### enum
+
+enum用于定义枚举类型，用于定义一组具有名称的整数常量。
+
+enum可以让代码比直接使用数字更容易理解，常用于状态机、设备状态、通信协议、错误码等场景。
+
+具体示例如下所示。
+
+```cpp
+#include <iostream>
+typedef enum 
+{
+    STATE_IDLE,
+    STATE_RUNNING,
+    STATE_ERROR
+}SYSTEM_STATE;
+
+int main(int argc, const char *argv[])
+{
+    SYSTEM_STATE state = STATE_IDLE;
+
+    if (state == STATE_IDLE)
+    {
+        std::cout<<"state idle"<<std::endl;
+    }
+    else
+    {
+        std::cout<<"state other"<<std::endl;
+    }
+
+    return 0;
+}
+```
+
+## stdio_format
 
 - printf：格式化输出
 - scanf：格式化输入
@@ -340,7 +377,7 @@ int main(int argc, const char *argv[])
 | %e/E | 科学计数法输出的浮点型 | float/double |
 | %% | 打印一个百分号 | - |
 | %p | 打印一个指针 | - |
-   
+
 ### layout
 
 最小存储单位是位(bit)，存储0、1，是计算机存储的基本构造位。
@@ -459,7 +496,7 @@ int main(int argc, const char *argv[])
 
 C++函数和C99标准类似，但有额外的功能支持，具体说明如下所示。
 
-- 和C语言类型，包含函数声明、函数定义和函数调用，与C语言基本一致。 
+- 和C语言类型，包含函数声明、函数定义和函数调用，与C语言基本一致。
 - 对于C++函数来说，支持函数重载，即可以定义多个函数，函数名相同但参数不同。
 - 在C++中，函数的默认参数允许你为函数的一个或多个参数提供默认值。当调用该函数时，如果没有为这些参数提供值，那么将使用默认值。
 
@@ -629,7 +666,7 @@ limits参考网址: <https://en.cppreference.com/w/cpp/types/numeric_limits.html
 | traps | 是否为陷阱类型 |
 | tinyness_before | 是否在四舍五入之前检测非正规数损失 |
 | min | 返回类型T的最小负值 |
-| lowest | 返回类型T的最小负值（对于有符号类型）或最大负值（对于无符号类型） |   
+| lowest | 返回类型T的最小负值（对于有符号类型）或最大负值（对于无符号类型） |
 | max | 返回类型T的最大正值 |
 | epsilon | 类型T的最小正值 |
 | round_error | 四舍五入误差 |
@@ -637,7 +674,6 @@ limits参考网址: <https://en.cppreference.com/w/cpp/types/numeric_limits.html
 | quiet_NaN | 返回类型T的quite的NaN值 |
 | signaling_NaN | 返回类型T的signaling的NaN值 |
 | denorm_min | 类型T的非正规数最小值 |
-
 
 具体示例如下所示。
 
@@ -776,14 +812,14 @@ version是C++20引入的一个命名空间，用于提供一些常用的数学�
 
 version参考网址: <https://en.cppreference.com/w/cpp/header/version.html>。
 
-其内部通过包含<ciso646>定义了大量了C++特征宏常量，例如__cpp_strong_enums、__cpp_ranges等。
+其内部通过包含`<ciso646>`定义了大量了C++特征宏常量，例如__cpp_strong_enums、__cpp_ranges等。
 
 这里以C++20为例，展示列表如下地址: <https://en.cppreference.com/w/cpp/utility/feature_test.html>。这里展示下关键的已经支持的宏常量。
 
 | 宏常量 | 说明 |
 | --- | --- |
 | __cpp_lib_any | 支持std::any |
-| __cpp_lib_apply | 支持std::apply | 
+| __cpp_lib_apply | 支持std::apply |
 | __cpp_lib_as_const | 支持std::as_const |
 | __cpp_lib_chrono | 支持std::chrono |
 | __cpp_lib_variant | 支持std::variant |

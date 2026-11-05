@@ -4,7 +4,6 @@
 - [嵌套命名空间](#nested_namespace)
 - [内联命名空间](#inline_namespace)
 - [命名空间别名](#namespace_alias)
-- [返回主页](../../README.md)
 
 ## use_namespace
 
