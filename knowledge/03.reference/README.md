@@ -167,18 +167,18 @@ int func() {
 
 int main(int argc, char *argv[]) 
 {
-    int x = 10;             //x是左值, 10是右值
-    int &ref = x;           //左值引用
-    int &&rref = 10;        //右值引用
-    int &&rref2 = func();   //右值引用
-    int &&rref3 = std::move(x); //右值引用，左值绑定到右值需要用到std::move
+    int x = 10;                 // x是左值, 10是右值
+    int &ref = x;               // 左值引用
+    int &&rref = 10;            // 右值引用
+    int &&rref2 = func();       // 右值引用
+    int &&rref3 = std::move(x); // 右值引用，左值绑定到右值需要用到std::move
 
-    std::cout << "x: " << x << std::endl;       //10
+    std::cout << "x: " << x << std::endl;           //10
     ref = 5;
-    std::cout << "x: " << x << std::endl;       //5
+    std::cout << "x: " << x << std::endl;           //5
     rref3 = 8;
-    std::cout << "x: " << x << std::endl;       //8
-    std::cout << "rref2: " << rref2 << std::endl; //1
+    std::cout << "x: " << x << std::endl;           //8
+    std::cout << "rref2: " << rref2 << std::endl;   //1
 
     std::cout << "================== class move shows ===============" << std::endl;
     std::cout << "test 1:" << std::endl;
@@ -224,7 +224,13 @@ int main(int argc, char *argv[])
 | T&& | R& | R& |
 | T&& | R&& | R&& |
 
-引用折叠配合auto关键字，就可以实现万能引用。这是C++11中引入的一个概念；它是一种特殊的引用类型，右值引用只能绑定到右值，而万能引用可以绑定到左值或右值。
+引用折叠配合auto关键字，就可以实现万能引用。
+
+万能引用是C++11中引入的一个概念；它是一种特殊的引用类型，右值引用只能绑定到右值，而万能引用可以绑定到左值或右值。
+
+万能引用的特点如下:
+
+同一个引用声明，根据传入参数是左值还是右值，既可以推导为左值引用，也可以推导为右值引用。
 
 具体示例如下所示。
 
@@ -232,6 +238,7 @@ int main(int argc, char *argv[])
 #include <iostream>
 #include <type_traits>
 
+// 这里的T&&的就是万能引用，
 template <typename T>
 void print(T&& param)
 {
@@ -264,7 +271,7 @@ int main(int argc, char const *argv[])
 
     print(a);             // int& 类型
     print(std::move(a));  // int类型
-    
+
     return 0;
 }
 ```
@@ -330,9 +337,9 @@ int main(int argc, char const *argv[])
 
 std::ref和std::cref是C++标准库中的函数模板，用于创建std::reference_wrapper对象；这些对象可以像引用一样使用，但可以被复制和存储。
 
-1. std::ref函数接受一个左值引用参数，并返回一个std::reference_wrapper对象，该对象可以被复制和存储，并且可以像引用一样使用。
-2. std::cref函数接受一个常量左值引用参数，并返回一个 std::reference_wrapper 对象，该对象可以被复制和存储，并且可以像常量引用一样使用。
-3. std::reference_wrapper对象是一个类模板，用于封装一个对象引用，并允许对象被复制和存储。
+1. std::ref函数接受一个左值引用参数，并返回一个std::reference_wrapper对象，该对象可以被复制和存储，并且可以像引用一样使用
+2. std::cref函数接受一个常量左值引用参数，并返回一个 std::reference_wrapper 对象，该对象可以被复制和存储，并且可以像常量引用一样使用
+3. std::reference_wrapper对象是一个类模板，用于封装一个对象引用，并允许对象被复制和存储
 
 std::ref和std::cref的主要用途是与std::bind函数一起使用，以实现函数对象的参数绑定。
 
