@@ -608,6 +608,7 @@ namespace MEATPROGRAMING
 
 // 这样extern_func只实例化一次，在test.cpp中
 extern template void extern_func<int>(int);
+extern int event_bus_manage(void);
 
 int main(int argc, char *argv[])
 {
@@ -620,5 +621,7 @@ int main(int argc, char *argv[])
     extern_func(10);
 
     MEATPROGRAMING::test();
+
+    event_bus_manage();
     return 0;
 }

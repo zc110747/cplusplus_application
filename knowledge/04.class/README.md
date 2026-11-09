@@ -5,13 +5,13 @@
 - [类的封装特性](#packaged)
   - [访问控制权限](#access_control)
   - [构造函数](#constructor)
-     - [委托构造函数](#delegate_constructor)
-     - [继承构造函数](#inherit_constructor)
+    - [委托构造函数](#delegate_constructor)
+    - [继承构造函数](#inherit_constructor)
   - [析构函数](#destructor)
   - [this指针](#this)
   - [friend友元函数和友元类](#friend)
   - [运算符重载](#operator_overload)
-- [类的继承](#extend)
+- [类的继承](#inheritance)
   - [继承访问控制](#inherit_access_control)
   - [多重继承](#multiple_inherit)
   - [虚继承](#virtual_inherit)
@@ -1682,7 +1682,6 @@ class demo {
 };
 ```
 
-
 具体示例代码如下所示。
 
 ```cpp
@@ -1711,7 +1710,9 @@ int main(int argc, char* argv[])
 
 ### singleton
 
-单例模式是一种设计模式，它确保一个类只有一个实例，并提供一个全局访问点来访问该实例。在C++11后，单例模式可以使用内联静态成员变量来实现，可以保证只有一个实例被创建。
+单例模式是一种设计模式，它确保一个类只有一个实例，并提供一个全局访问点来访问该实例。
+
+在C++11后，单例模式可以使用内联静态成员变量来实现，可以保证只有一个实例被创建。
 
 ```cpp
 #include <iostream>
