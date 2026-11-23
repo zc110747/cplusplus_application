@@ -4,16 +4,13 @@ cmake_minimum_required(VERSION 3.10)
 # 设置项目名称
 project(target)
 
-# 设备交叉编译工具链
-set(CMAKE_SYSTEM_NAME Windows)
-
-# 指定 C++ 标准
+# 指定 C++ 标准(源码含 concepts / 协程, 需要 C++20 以上)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # 添加可执行文件
-## 添加头文件搜索路径
-include_directories(*)
+## 添加头文件搜索路径(工程根目录)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 ## 添加子文件
 file(GLOB_RECURSE SRC_FILES

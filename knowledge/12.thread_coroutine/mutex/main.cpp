@@ -23,7 +23,6 @@
 #include <thread>
 #include <chrono>    // std::chrono::seconds
 #include <mutex>
-#include <unistd.h>
 #include <ctime>
 #include <vector>
 
@@ -146,7 +145,7 @@ namespace LOCK_GUARD
     std::mutex mutex_1;
     int val = 0;
 
-    void func(int id)
+    void func(int /*id*/)
     {
         std::lock_guard<std::mutex> lock_guard(mutex_1);
         val++;
@@ -216,7 +215,7 @@ namespace UNIQUE_LOCK
         return 0;
     }
 }
-int main(int argc, char* argv[])
+int main()
 {
     MUTEX::test();
 

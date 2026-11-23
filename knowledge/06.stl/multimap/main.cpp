@@ -20,7 +20,6 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
-#include <unistd.h>
 
 // 辅助模板,检测是否为std::multimap
 template<typename T, typename = std::enable_if_t<std::is_same<T, std::multimap<typename T::key_type, typename T::mapped_type>>::value>>
@@ -163,7 +162,7 @@ void algorithm_process(void)
     // // std::negate<>() 执行取反操作
 }
 
-int main(int argc, char* argv[])
+int main()
 {
     std::multimap<std::string, int> usermultimap = {
         {"alpha", 0},

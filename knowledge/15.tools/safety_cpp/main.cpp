@@ -19,8 +19,9 @@ class A
 {
 public:
     A(){}
-        ~A(){}
-    
+    //多态基类必须虚析构: 否则通过 A* 删除派生对象是未定义行为
+    virtual ~A() = default;
+
     virtual void printf() = 0;
 };
 
@@ -52,7 +53,7 @@ template<typename T, size_t H=10>
 void func(T val)
 {
     static_assert(std::is_same_v<T, int>, "must be int");
-    static_assert(H<=10, "H Must be less than 10");
+    static_assert(H<=10, "H must not be greater than 10");
     std::cout<<"int val:0x"<<std::hex<<val+H<<std::endl;
 } 
 
@@ -66,7 +67,7 @@ inline T Max(T a, T b){
     return 1;
 };
 
-int main(int argc, char *argv[])
+int main()
 {
     //static_cast 
     int a = 10;
@@ -83,9 +84,8 @@ int main(int argc, char *argv[])
     ptrA->printf();
 
     //enum class
-    MyColor MyColor;
-    MyColor = MyColor::Red;
-    if (MyColor == MyColor::Blue) {
+    MyColor color{MyColor::Red};
+    if (color == MyColor::Blue) {
         std::cout<<"Color Equal"<<std::endl;
     } else {
         std::cout<<"Color No Equal"<<std::endl;
@@ -94,11 +94,11 @@ int main(int argc, char *argv[])
     //static_assert
     func(1);
     func<int, 5>(2);
-    //func<int, 12>(2); //error: static assertion failed: H Must be less than 10
+    //func<int, 12>(2); //error: static assertion failed: H must not be greater than 10
     //func(1.0f); //static assertion failed: must be int
 
     //is_arithmetic_v 
-    std::cout<<Max(5, 4)<<std::endl;
+    std::cout<<std::dec<<Max(5, 4)<<std::endl;
 
     //[[nodiscard]]
     std::cout<<connect()<<std::endl;

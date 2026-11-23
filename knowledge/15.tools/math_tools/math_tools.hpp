@@ -13,14 +13,15 @@
 // Revision History:
 //      Version V1.0b1 Create.
 /////////////////////////////////////////////////////////////////////////////
-#ifndef _MATH_TOOLS_HPP_
-#define _MATH_TOOLS_HPP_
+#ifndef MATH_TOOLS_HPP_
+#define MATH_TOOLS_HPP_
 
 #include <stdint.h>
 #include <stdlib.h>
 #include <openssl/evp.h> // 包含 OpenSSL 通用消息摘要头文件
 
 #include <random>
+#include <mutex>
 #include <iostream>
 
 // 定义 CRC8模式的多项式和初始值
@@ -117,7 +118,7 @@ namespace MATH_TOOLS
 
                 // 遍历输入数据
                 while (len--) {
-                    crc ^= (uint16_t)*ptr++ << 24;
+                    crc ^= (uint32_t)*ptr++ << 24;
                     // 处理每个字节的 8 位
                     for (i = 0; i < 8; ++i) {
                         if (crc & 0x80000000) {
@@ -130,23 +131,6 @@ namespace MATH_TOOLS
                 return crc;
             }
 
-            /// @brief generate_crc8_table
-            /// - generate crc8 table for search
-            /// @param polynomial crc8 polynomial
-            void generate_crc8_table(uint8_t polynomial) {
-                for (int i = 0; i < 256; i++) {
-                    uint8_t crc = i;
-                    for (int j = 0; j < 8; j++) {
-                        if (crc & 0x80) {
-                            crc = (crc << 1) ^ polynomial;
-                        } else {
-                            crc <<= 1;
-                        }
-                    }
-                    crc8_table_[i] = crc;
-                }
-            }
-
             /// @brief crc8_search_table
             /// - search crc8 value in table for input data
             /// @param ptr input data
@@ -155,10 +139,8 @@ namespace MATH_TOOLS
             uint8_t crc8_search_table(const uint8_t *ptr, uint32_t len) {
                 uint8_t crc = CRC8_INIT;
 
-                if (!is_table_generated_) {
-                    generate_crc8_table(CRC8_POLYNOMIAL);
-                    is_table_generated_ = true;
-                }
+                //惰性初始化: call_once 保证多线程首次并发调用也只生成一次表
+                std::call_once(crc8_once_, [this] { generate_crc8_table(CRC8_POLYNOMIAL); });
 
                 for (size_t i = 0; i < len; i++) {
                     crc = crc8_table_[crc ^ ptr[i]];
@@ -166,25 +148,26 @@ namespace MATH_TOOLS
                 return crc;
             }
 
-            /// @brief md5_calc
+            /// @brief calc_md5
              // MD5 计算函数实现
-            uint16_t calc_md5(uint8_t *ptr, uint32_t len, uint8_t *result) {
-                EVP_MD_CTX *mdctx;
-                const EVP_MD *md;
-                unsigned int md_len;
+            /// @return 实际写入 result 的字节数, 失败返回 0
+            unsigned int calc_md5(const uint8_t *ptr, uint32_t len, uint8_t *result) {
+                unsigned int md_len = 0;
 
                 // 初始化上下文
-                mdctx = EVP_MD_CTX_new();
-                md = EVP_md5();
+                EVP_MD_CTX *mdctx = EVP_MD_CTX_new();
+                if (mdctx == nullptr) {
+                    return 0;
+                }
 
-                // 初始化摘要计算
-                EVP_DigestInit_ex(mdctx, md, NULL);
+                const EVP_MD *md = EVP_md5();
 
-                // 更新摘要
-                EVP_DigestUpdate(mdctx, ptr, len);
-
-                // 完成摘要计算
-                EVP_DigestFinal_ex(mdctx, result, &md_len);
+                // 初始化/更新/结束摘要计算, 任一步失败都释放上下文并返回 0
+                if (EVP_DigestInit_ex(mdctx, md, NULL) != 1
+                    || EVP_DigestUpdate(mdctx, ptr, len) != 1
+                    || EVP_DigestFinal_ex(mdctx, result, &md_len) != 1) {
+                    md_len = 0;
+                }
 
                 // 释放上下文
                 EVP_MD_CTX_free(mdctx);
@@ -246,7 +229,7 @@ namespace MATH_TOOLS
                 // 创建一个均匀分布，生成 1 到 255 之间的随机数
                 std::uniform_int_distribution<> dis(1, 255);
 
-                for (int n = 0; n < length; ++n) {
+                for (std::size_t n = 0; n < length; ++n) {
                     buffer[n] = dis(gen);
                 }
             }
@@ -298,13 +281,31 @@ namespace MATH_TOOLS
             }
             
         private:
+            /// @brief generate_crc8_table
+            /// - generate crc8 table for search
+            /// - 只允许内部以固定的 CRC8 多项式生成一次, 避免外部替换已生效的表
+            /// @param polynomial crc8 polynomial
+            void generate_crc8_table(uint8_t polynomial) {
+                for (int i = 0; i < 256; i++) {
+                    uint8_t crc = i;
+                    for (int j = 0; j < 8; j++) {
+                        if (crc & 0x80) {
+                            crc = (crc << 1) ^ polynomial;
+                        } else {
+                            crc <<= 1;
+                        }
+                    }
+                    crc8_table_[i] = crc;
+                }
+            }
+
             /// @brief crc8_table_
             /// - crc8 table for search
-            uint8_t crc8_table_[256];
+            uint8_t crc8_table_[256]{};
 
-            /// @brief is_table_generated_
-            /// - is crc8 table generated
-            bool is_table_generated_{false};
+            /// @brief crc8_once_
+            /// - 保证 crc8_table_ 在并发场景下只初始化一次
+            std::once_flag crc8_once_;
     };
 }
 

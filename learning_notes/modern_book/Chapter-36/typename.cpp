@@ -106,9 +106,9 @@ namespace TYPENAME
             D<Wrap> d1;
         #if __MORE_THAN_CPP20__
             T1<Wrap> t1;
-            auto t2 = func<Wrap>();
+            [[maybe_unused]] auto t2 = func<Wrap>();
             L<Wrap> c1;
-            auto c2 = c1.f();
+            [[maybe_unused]] auto c2 = c1.f();
         #else
             __LOWRE_THAN_CPP20_RUN
         #endif

@@ -20,7 +20,6 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
-#include <unistd.h>
 #include <numeric>
 #include <vector>
 
@@ -198,7 +197,7 @@ bool comparsion(const T& a, const T& b) {
     return a < b;
 }
 
-int main(int argc, char* argv[])
+int main()
 {
     int array[5] = {8, 2, 1, 3, 5};
     std::forward_list<int> intv(array, array+5);
@@ -225,9 +224,9 @@ int main(int argc, char* argv[])
 
     //begin,  end,  cbegin,  cend
     std::forward_list<int>::iterator iterbegin = userforward_list.begin();
-    std::forward_list<int>::iterator iterend = userforward_list.end();
+    [[maybe_unused]] std::forward_list<int>::iterator iterend = userforward_list.end();
     std::forward_list<int>::const_iterator iterconstbegin = userforward_list.cbegin();
-    std::forward_list<int>::const_iterator iterconstend = userforward_list.cend();
+    [[maybe_unused]] std::forward_list<int>::const_iterator iterconstend = userforward_list.cend();
     std::cout<<"begin:"<<*iterbegin<<" ";
     std::cout<<"cbegin:"<<*iterconstbegin<<std::endl;
 

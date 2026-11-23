@@ -40,7 +40,7 @@ void print_container(T container_val, std::string qstring = "")
     std::cout <<std::endl;
 }
 
-int main(int argc, char* argv[])
+int main()
 {
     std::valarray<int> v1{1};
     v1 = -1;

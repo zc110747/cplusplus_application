@@ -46,7 +46,7 @@ void measure(std::vector<int> v)
               << '\n';    
 }
 
-int main(int argc, const char* argv[])
+int main()
 {
     std::vector<int> vec(1'000'000);
     std::mt19937 gen(std::random_device{}());

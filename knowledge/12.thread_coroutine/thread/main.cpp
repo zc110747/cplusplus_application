@@ -72,9 +72,10 @@ namespace THREAD_PROCESS
         //native_handle, get_id
         auto nh = t1.native_handle();
         mutex_lock.lock();
-        std::cout << "hardware_concurrency: " << std::thread::hardware_concurrency() << std::endl;
+        std::cout << "hardware_concurrency: " << std::dec << std::thread::hardware_concurrency() << std::endl;
         std::cout << "native_handle: 0x" << std::hex << nh <<std::endl;
-        std::cout << "get_id: 0x" << t1.get_id() << std::endl;
+        //hex 只用于 id, 打印完立刻恢复十进制, 避免影响后续输出
+        std::cout << "get_id: 0x" << t1.get_id() << std::dec << std::endl;
 
         //joinable, join
         std::cout << "joinable:" << std::boolalpha << t1.joinable() <<std::endl;
@@ -84,11 +85,10 @@ namespace THREAD_PROCESS
         t0.join();
         t1.join();
 
-        std::thread t2(worker_task_0, "detech task!", 5);
-        t2.detach();
+        //用 join 代替 detach: 保证线程结束、输出完成后再继续
+        std::thread t2(worker_task_0, "join task!", 5);
+        t2.join();
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        
         // ready设置标志位，通知worker_task_2线程
         ready.store(true);
         t3.join();
@@ -104,7 +104,7 @@ namespace THREAD_LOCAL
 
     void thread_task_0(void)
     {
-        int i = 0;
+        [[maybe_unused]] int i = 0;
 
         for (int i = 0; i < 5; i++){
             
@@ -165,7 +165,7 @@ namespace THREAD_LOCAL
 
 }
 
-int main(int argc, char* argv[])
+int main()
 {
     try {
         // std::thread

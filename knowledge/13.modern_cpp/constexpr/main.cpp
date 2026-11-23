@@ -273,7 +273,7 @@ namespace CONSTEXPR_EXTEND
     }
 }
 
-int main(int argc, char *argv[])
+int main()
 {
     CONSTEXPR_BASIC::test();
 

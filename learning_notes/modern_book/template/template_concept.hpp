@@ -1,3 +1,3 @@
-_Pragma("once")
+#pragma once
 
 void template_concept(void);

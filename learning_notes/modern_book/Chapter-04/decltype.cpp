@@ -137,19 +137,19 @@ namespace DECLTYPE
         A a_3;
         const A* d_3 = new A();
         decltype(a_3.x) b_3;                            //double
-        decltype((a_3.x)) c_3 = b_3;                    //double &
-        decltype((d_3->x)) e_3 = b_3;                   //const double &
+        [[maybe_unused]] decltype((a_3.x)) c_3 = b_3;                    //double &
+        [[maybe_unused]] decltype((d_3->x)) e_3 = b_3;                   //const double &
 
         int *j_3;
-        decltype(j_3) h_3;                              //int *
+        [[maybe_unused]] decltype(j_3) h_3;                              //int *
         int n_3[10];
-        decltype(n_3) s_3;                              //int[10]
+        [[maybe_unused]] decltype(n_3) s_3;                              //int[10]
         decltype(foo) func_;                            //int const &&(void)
-        decltype(x_3=1) l_3 = x_3;                      //int&
-        decltype(0, x_3)  a1_3 = x_3;                   //int& 表达式返回的是后面的值，左值
+        [[maybe_unused]] decltype(x_3=1) l_3 = x_3;                      //int&
+        [[maybe_unused]] decltype(0, x_3)  a1_3 = x_3;                   //int& 表达式返回的是后面的值，左值
         decltype(x_3, 0)  b1_3;                         //int
-        decltype(*j_3)  c1_3 = b1_3;                    //int &
-        decltype(static_cast<int &&>(b1_3)) d1_3 = 53;  //int &&
+        [[maybe_unused]] decltype(*j_3)  c1_3 = b1_3;                    //int &
+        [[maybe_unused]] decltype(static_cast<int &&>(b1_3)) d1_3 = 53;  //int &&
         cout<<typeid(decltype("hello world!")).name()<<" | ";   //const char (&str)[13]
 
         //4.4 cv限定符的推导
@@ -160,7 +160,7 @@ namespace DECLTYPE
         const int i_4 = 0;
         decltype(i_4) j_4 = 1;              //const int
         const A* k_4 = new A();
-        decltype(k_4->x) a_4;               //double，const属性被忽略
+        decltype(k_4->x) a_4{};             //double，const属性被忽略
         decltype((k_4->x)) b_4 = 2.5;       //const double&
         cout<<i_4<<" | "<<j_4<<" | "<<a_4<<" | "<<b_4<<" | ";
 
@@ -168,10 +168,10 @@ namespace DECLTYPE
         //C++14标准支持decltyp(auto),救赎告知编译器用decltype的格式推导auto
         #if __MORE_THAN_CPP14__
         cout<<"\nchapter4.5\n  ";
-        decltype(auto) x_5 = 1;
+        [[maybe_unused]] decltype(auto) x_5 = 1;
         int i_5 = 5;
-        decltype(auto) y_5 = i_5;
-        decltype(foo()) z_5 = 6;
+        [[maybe_unused]] decltype(auto) y_5 = i_5;
+        [[maybe_unused]] decltype(foo()) z_5 = 6;
         cout<<std::is_reference<decltype(return_ref_1(i_5))>::value;
         #else
         __LOWRE_THAN_CPP14_RUN;

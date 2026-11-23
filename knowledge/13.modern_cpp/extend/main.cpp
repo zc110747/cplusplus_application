@@ -250,7 +250,7 @@ namespace FOR_EXTENSION
     }
 }
 
-int main(int argc, char* argv[]) 
+int main() 
 {
     // 带初始化的条件语句if, switch
     INIT_CONDITION::test();

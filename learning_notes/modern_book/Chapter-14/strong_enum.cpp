@@ -128,7 +128,12 @@ namespace STRONG_ENUM
         cout<<"\nchapter14.1\n  ";
         School x1 = student;
         Company y1 = manage;
-        auto b1 = (x1 == y1);  
+        // 不同枚举类型直接比较会整型提升后比较，正是本节要演示的弊端
+        #pragma GCC diagnostic push
+        #pragma GCC diagnostic ignored "-Wenum-compare"
+        auto b1 = (x1 == y1);
+        #pragma GCC diagnostic pop
+
         cout<<b1<<" | ";
         auto c1 = e1<e3; //不同平台到enum存储不一致，输出可能不一致
         cout<<c1<<" | ";
@@ -142,10 +147,10 @@ namespace STRONG_ENUM
         //4.枚举类型也可以指定底层类型
         cout<<"\nchapter14.2\n  ";
         HighSchool x_2 = HighSchool::student;
-        University y_2 = University::student;
+        [[maybe_unused]] University y_2 = University::student;
         bool b_2 = x_2 < HighSchool::principal;
         cout<<b_2<<" | ";
-        E2 z_2 = E2::e2_1;
+        [[maybe_unused]] E2 z_2 = E2::e2_1;
         bool c_2 = E2::e2_1 < E2::e2_2;
         cout<<c_2<<" | ";
 

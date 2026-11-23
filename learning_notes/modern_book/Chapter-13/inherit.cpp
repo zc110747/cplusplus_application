@@ -51,7 +51,7 @@ namespace INHERIT
     {
     public:
         using Base::Base;
-        Derived_Extend(int x){
+        Derived_Extend(int /*x*/){
             cout<<"Derived_Extend"<<" | ";
         }   
     };    

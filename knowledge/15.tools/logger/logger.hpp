@@ -21,14 +21,13 @@
 #error "This library requires C++11 or later. Please update your compiler."
 #endif
 
-#ifndef __LOGGER_HPP__
-#define __LOGGER_HPP__
+#ifndef LOGGER_HPP_
+#define LOGGER_HPP_
 
-#include <unistd.h>
-#include <fcntl.h>
 #include <mutex>
 #include <string>
 #include <chrono>
+#include <ctime>
 #include <iomanip>
 #include <sstream>
 
@@ -60,10 +59,46 @@ namespace LOGGER {
 
         /// @brief logger_message
         /// - This method is used to print the log message.
-        /// @param format - the string base format.
+        /// - 模板定义必须留在头文件里: 只放在某一个 .cpp 中, 其他翻译单元
+        ///   使用 LOG_DEBUG/INFO/WARN/ERROR/FATAL 会直接链接失败.
+        /// @param level - the log level of this message.
+        /// @param f_str - the string base format.
         /// @param args - args process int the format   
         template<typename... Args>
-        void logger_message(LOGGER_LEVEL level, const char* f_str, Args... args);
+        void logger_message(LOGGER_LEVEL level, const char* f_str, Args... args)
+        {
+            if (level < level_) {
+                return;
+            }
+
+            std::lock_guard<std::mutex> lock(log_mutex_);
+
+            const char* level_str = "D";
+            switch(level) {
+                case LOGGER_LEVEL::DEBUG: level_str = "D"; break;
+                case LOGGER_LEVEL::INFO:  level_str = "I"; break;
+                case LOGGER_LEVEL::WARN:  level_str = "W"; break;
+                case LOGGER_LEVEL::ERROR: level_str = "E"; break;
+                case LOGGER_LEVEL::FATAL: level_str = "F"; break;
+            }
+
+            auto now = std::chrono::system_clock::now();
+            auto now_time = std::chrono::system_clock::to_time_t(now);
+            std::tm local_time{};
+#if defined(_WIN32)
+            localtime_s(&local_time, &now_time);
+#else
+            localtime_r(&now_time, &local_time);
+#endif
+            std::stringstream ss;
+            ss << std::put_time(&local_time, "%Y-%m-%d %H:%M");
+
+#ifndef PROGRAM_NAME
+            fmt::println("[{}][{}] {}", level_str, ss.str(), fmt::format(f_str, std::forward<Args>(args)...));
+#else
+            fmt::println("[{}][{}][{}] {}", level_str, ss.str(), PROGRAM_NAME, fmt::format(f_str, std::forward<Args>(args)...));
+#endif
+        }
 
         /// @brief logger_message
         /// - This method is used to print the log message.
@@ -92,30 +127,36 @@ namespace LOGGER {
     };
 }
 
-using namespace LOGGER;
+//不引入 using namespace: 头文件里展开命名空间会污染所有包含者, 统一写 LOGGER:: 前缀
+//(LOG_* 宏内部已经是全限定名, 使用宏的地方不需要前缀)
+
+//默认开启日志: 否则忘记 #define 时所有 LOG_* 静默失效, 故障很难定位
+#ifndef LOG_MODULE_ON
+#define LOG_MODULE_ON 1
+#endif
 
 #if LOG_MODULE_ON == 1
 #define LOG_MESSAGE(...)    do {  \
-    logger_manage::get_instance()->logger_message(__VA_ARGS__); \
-}while(0);
+    LOGGER::logger_manage::get_instance()->logger_message(__VA_ARGS__); \
+} while(0)
 #define LOG_DEBUG(...)      do { \
-    logger_manage::get_instance()->logger_message(logger_manage::LOGGER_LEVEL::DEBUG, __VA_ARGS__); \
-}while(0);          
+    LOGGER::logger_manage::get_instance()->logger_message(LOGGER::logger_manage::LOGGER_LEVEL::DEBUG, __VA_ARGS__); \
+} while(0)
 #define LOG_INFO(...)       do {  \
-    logger_manage::get_instance()->logger_message(logger_manage::LOGGER_LEVEL::INFO, __VA_ARGS__); \
-}while(0);
+    LOGGER::logger_manage::get_instance()->logger_message(LOGGER::logger_manage::LOGGER_LEVEL::INFO, __VA_ARGS__); \
+} while(0)
 #define LOG_WARN(...)       do {  \
-    logger_manage::get_instance()->logger_message(logger_manage::LOGGER_LEVEL::WARN, __VA_ARGS__); \
-}while(0);
+    LOGGER::logger_manage::get_instance()->logger_message(LOGGER::logger_manage::LOGGER_LEVEL::WARN, __VA_ARGS__); \
+} while(0)
 #define LOG_ERROR(...)      do {  \
-    logger_manage::get_instance()->logger_message(logger_manage::LOGGER_LEVEL::ERROR, __VA_ARGS__); \
-}while(0);
+    LOGGER::logger_manage::get_instance()->logger_message(LOGGER::logger_manage::LOGGER_LEVEL::ERROR, __VA_ARGS__); \
+} while(0)
 #define LOG_FATAL(...)      do {  \
-    logger_manage::get_instance()->logger_message(logger_manage::LOGGER_LEVEL::FATAL, __VA_ARGS__); \
-}while(0);
+    LOGGER::logger_manage::get_instance()->logger_message(LOGGER::logger_manage::LOGGER_LEVEL::FATAL, __VA_ARGS__); \
+} while(0)
 #define LOG_SET_LEVEL(level)     do {  \
-    logger_manage::get_instance()->set_log_level(level); \
-}while(0);
+    LOGGER::logger_manage::get_instance()->set_log_level(level); \
+} while(0)
 #else
 #define LOG_MESSAGE(...)
 #define LOG_DEBUG(...)
@@ -123,5 +164,6 @@ using namespace LOGGER;
 #define LOG_WARN(...)
 #define LOG_ERROR(...)
 #define LOG_FATAL(...)
+#define LOG_SET_LEVEL(level)
 #endif
 #endif

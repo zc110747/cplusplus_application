@@ -35,10 +35,24 @@ namespace detail {
 
 using steady_clock = std::chrono::steady_clock;
 
+/// Shared "the owning Scheduler is still alive" flag.  The Scheduler owns the
+/// strong reference and clears the flag in its destructor; TimerHandle, Event
+/// and Channel keep a weak reference so their destructors can detect a
+/// already-destroyed Scheduler instead of calling back into freed memory.
+using SchedulerLifetime = std::shared_ptr<std::atomic<bool>>;
+
+/// True only while the token exists *and* the flag has not been cleared.
+inline bool scheduler_alive(const std::weak_ptr<std::atomic<bool>>& token) noexcept {
+  const std::shared_ptr<std::atomic<bool>> alive = token.lock();
+  return alive != nullptr && alive->load(std::memory_order_acquire);
+}
+
 /// Shared state of a callback timer.  Held by the TimerHandle and by the
 /// queued entry, so the callback stays alive until it fires or is cancelled.
 struct TimerControl {
   Scheduler* scheduler = nullptr;
+  /// Weak back-reference to the scheduler's lifetime flag; see scheduler_alive().
+  std::weak_ptr<std::atomic<bool>> owner_alive{};
   std::uint64_t id = 0;
   std::atomic<bool> cancelled{false};
   bool periodic = false;

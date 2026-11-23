@@ -121,7 +121,7 @@ namespace PROMISE
     }
 }
 
-int main(int argc, char* argv[])
+int main()
 {
     ASYNC::test();
     PROMISE::test();

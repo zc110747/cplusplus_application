@@ -18,7 +18,7 @@
 #include <filesystem>
 #include <fstream>
 
-int main(int argc, const char* argv[])
+int main()
 {
     // 路径类std::filesystem::path
     std::filesystem::path p("file.txt");

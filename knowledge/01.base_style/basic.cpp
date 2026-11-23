@@ -59,7 +59,7 @@ int type_process(void)
     std::cout << "pa2: " <<*pa2 << std::endl;
     std::cout << "pa3: " << *pa3 << std::endl;
 
-    printf("a1 size: %d\n", sizeof(a1));
+    printf("a1 size: %zu\n", sizeof(a1));
     printf("a1: %d\n", a1);
     printf("a2: %d\n", a2);
     printf("a3: %d\n", a3);
@@ -105,7 +105,7 @@ int arrar_process(void)
     std::cout << "======================= array_process =======================" << std::endl;
     std::cout << "nums: " << nums << std::endl;
 
-    for (int i = 0; i < nums; i++) {
+    for (std::size_t i = 0; i < nums; i++) {
         std::cout << a[i] << " ";
     }
     std::cout << std::endl;
@@ -321,7 +321,7 @@ int struct_process(void)
 
     // bit_field 位域
     // 计算机中以补码存储，最高位为符号位，0为正，1为负，对于3bit, 范围为[-4, 3]，最大值011，最小值100
-    bit_field bf1 = {.a1 = 1, .a2 = 7, .a3 = 3};
+    bit_field bf1 = {.a1 = 1, .a2 = 7, .a3 = 3, .def = 0};
     std::cout << "sizeof(bf1): " << sizeof(bf1) << std::endl;
     std::cout << "bf1.a1: " << bf1.a1 << std::endl;     // 1
     std::cout << "bf1.a2: " << bf1.a2 << std::endl;     // -1

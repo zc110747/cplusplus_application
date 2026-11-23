@@ -56,15 +56,15 @@ namespace ENABLE_IF
     struct is_test_integral<int> : std::true_type {};
 
     template<class T>
-    bool test_integral(T i) requires std::is_integral_v<T>
+    bool test_integral(T /*i*/) requires std::is_integral_v<T>
     {
         return is_integral<T>::value;
     }
 
     template<class T, typename L= std::enable_if<is_floating_point_v<T>, float>::type>
-    bool test_float(T i)
+    bool test_float(T /*i*/)
     {
-        L v;
+        L v{};
 
         cout<<typeid(v).name()<<" | ";
         return is_floating_point_v<T>;
@@ -74,10 +74,10 @@ namespace ENABLE_IF
     class enable_if_test
     {
     public:
-        enable_if_test(T a) requires std::is_integral_v<T> {
+        enable_if_test(T /*a*/) requires std::is_integral_v<T> {
             cout<<"int"<<" | ";
         }
-        enable_if_test(T a) requires std::is_floating_point_v<T> {
+        enable_if_test(T /*a*/) requires std::is_floating_point_v<T> {
             cout<<"float"<<" | ";
         }     
     };
@@ -92,7 +92,7 @@ namespace ENABLE_IF
     typename std::enable_if<is_std_vector<T>::value, T>::type
     propery(void)
     {
-        T value;
+        T value{};      // 必须值初始化，否则返回的是不确定值
         cout<<"vector"<<endl;
         return value;
     };
@@ -101,7 +101,7 @@ namespace ENABLE_IF
     typename std::enable_if<!is_std_vector<T>::value, T>::type
     propery(void)
     {
-        T value;
+        T value{};      // 必须值初始化，否则返回的是不确定值
         cout<<"normal"<<endl;
         return value;
     };
@@ -125,8 +125,8 @@ namespace ENABLE_IF
         cout<<test_integral(4)<<" | ";
         cout<<test_float(4.3)<<" | ";
 
-        enable_if_test t1 = {1};
-        enable_if_test t2 = {1.5};
+        [[maybe_unused]] enable_if_test t1 = {1};
+        [[maybe_unused]] enable_if_test t2 = {1.5};
 
         FUNCTION_END()
     }

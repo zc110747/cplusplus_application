@@ -32,7 +32,7 @@ void schedular_loop_task(int id) {
     }
 }
 
-int main(int argc, char* argv[]) 
+int main() 
 {
     THREAD_POOL::thread_pool pool;
 

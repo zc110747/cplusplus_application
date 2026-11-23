@@ -19,7 +19,7 @@
 #include <iostream>
 #include <ratio>
 
-int main(int argc, char const *argv[])
+int main()
 {
     using r1 = std::ratio<1, 2>;
     using r2 = std::ratio<2, 3>;

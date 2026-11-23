@@ -72,12 +72,12 @@ namespace USER_LITERAL
     };
 
     // 定义自定义字面量后缀
-    user_string operator"" _my(const char* str, size_t len) {
+    user_string operator""_my(const char* str, size_t len) {
         return user_string(std::string(str, len));
     }
     
     template<char ...c>
-    user_string operator"" _my() {
+    user_string operator""_my() {
         user_string str("");
 
         //折叠表达式
@@ -87,7 +87,7 @@ namespace USER_LITERAL
     }
 
     template <char...c>
-    std::string operator "" _w()
+    std::string operator""_w()
     {
         std::string str;
 
@@ -98,7 +98,7 @@ namespace USER_LITERAL
     }
 
         //字符串转换成string对象
-    std::string operator "" _string(const char* str, size_t len)
+    std::string operator""_string(const char* str, size_t len)
     {
         return std::string(str, len);
     }
@@ -108,7 +108,7 @@ namespace USER_LITERAL
         int g;
         int b;
         int a;
-        RGBA(int R, int G, int B, int A =- 0):r(R), g(G), b(B){
+        RGBA(int R, int G, int B, int /*A*/ =- 0):r(R), g(G), b(B){
         }
     };
 
@@ -119,7 +119,7 @@ namespace USER_LITERAL
         return out;
     }
 
-    RGBA operator "" _C(const char *col, size_t n) {
+    RGBA operator""_C(const char *col, size_t n) {
         std::string s(col, n);
         std::vector<int> result;
         std::istringstream ss(s);
@@ -136,7 +136,7 @@ namespace USER_LITERAL
     struct volt{
         unsigned int d;
     };
-    volt operator "" _v(unsigned long long d) {
+    volt operator""_v(unsigned long long d) {
         return {(unsigned int)d};
     }
 
@@ -144,12 +144,12 @@ namespace USER_LITERAL
         return out<<vol.d;
     }
 
-    size_t operator "" _len(char const *ch, size_t l)
+    size_t operator""_len(char const */*ch*/, size_t l)
     {
         return l;
     }
 
-    std::string operator "" _add(const char *ch, size_t l)
+    std::string operator""_add(const char *ch, size_t /*l*/)
     {
         return "happy " + std::string(ch);
     }

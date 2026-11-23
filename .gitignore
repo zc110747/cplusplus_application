@@ -1,5 +1,4 @@
 executables/*
-asio_book/asio/*
 
 *.o
 *.exe
@@ -8,3 +7,6 @@ target
 knowledge/*/build/*
 knowledge/*/*/build/*
 learning_notes/modern_book/build/*
+
+# ctags 索引（make tags 生成，不入库）
+tags

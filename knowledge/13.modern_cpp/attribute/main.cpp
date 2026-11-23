@@ -32,8 +32,10 @@
     std::exit(0);
 }
 
-// [[carries_dependency]] 属性用于在多线程编程中优化内存访问顺序
-void process_data(std::atomic<int>& data, [[carries_dependency]] int dependency) {
+// [[carries_dependency]] 是 memory_order_consume 时代的依赖传播提示。
+// GCC 未实现该提示, 直接挂在参数上只会得到 "attribute ignored" 警告,
+// 因此这里保留函数本体, 属性只作说明。
+void process_data(std::atomic<int>& data, int dependency) {
     // 假设这里有一些依赖于dependency的操作
     data.store(dependency, std::memory_order_release);
 }
@@ -63,9 +65,9 @@ void some_function([[maybe_unused]] int value) {
     // 假设这里有一些操作，但value可能不会被使用
 }
 
-// [[likely]] 和 [[unlikely]] 属性表示某个条件很可能为真或为假
-void process_condition([[likely]] bool condition) {
-    if (condition) {
+// [[likely]] 和 [[unlikely]] 要挂在语句(分支)上, 挂在参数上不生效
+void process_condition(bool condition) {
+    if (condition) [[likely]] {
         std::cout << "条件很可能为真" << std::endl;
     } else {
         std::cout << "条件很可能为假" << std::endl;
@@ -86,7 +88,7 @@ int func(void) {
     return 42;
 }
 
-int main(int argc, const char* argv[]) 
+int main() 
 {
     std::atomic<int> data(0);
     int dependency = 42;
@@ -107,7 +109,11 @@ int main(int argc, const char* argv[])
     Data d;
     std::cout << "Data结构体大小: " << sizeof(d) << std::endl;
     
+    // 故意调用被 [[deprecated]] 标记的函数，演示编译器告警本身
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
     func();
+    #pragma GCC diagnostic pop
 
     terminate_program();
     return 0;

@@ -10,7 +10,7 @@
 # the executables
 objects = main.o
 
-CFLAGS += -lssl -lcrypto
+LDLIBS += -lssl -lcrypto
 
 # This is the file name of the executables and path where 
 # place the executables

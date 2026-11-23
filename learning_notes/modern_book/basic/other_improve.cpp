@@ -95,7 +95,7 @@ namespace RVO_PROCESS
     {
     public:
         X() {cout<<"x construct"<<" | ";}
-        X(const X& x) {cout<<"x copy construct"<<" | ";}
+        X(const X& /*x*/) {cout<<"x copy construct"<<" | ";}
         ~X() {cout<<"x destory"<<" | ";}
     };
 
@@ -121,7 +121,7 @@ namespace NEW_INFER
     {
         FUNCTION_START()
 
-        int x[]{1, 2, 3};
+        [[maybe_unused]] int x[]{1, 2, 3};
         char s[]{"hello world"};
         cout<<s<<" | ";
         int *px = new int[3]{1, 2, 3};

@@ -24,6 +24,7 @@
 #include <vector>
 #include <map>
 #include <algorithm>
+#include <utility>
 
 // 类的封装，继承，友元，权限控制
 // 运算符重载
@@ -70,13 +71,13 @@ namespace PACKAGE
         ~Circle() = default;
         
         /// @brief 拷贝赋值函数，用于将一个对象的值赋给另一个对象。
-        Circle& operator=(const Circle &circle) {
+        Circle& operator=(const Circle &/*circle*/) {
             std::cout << "拷贝赋值函数" << std::endl;
             return *this;
         }
 
         /// @brief 移动赋值函数，用于将一个对象的值赋给另一个对象。
-        Circle& operator=(Circle &&circle) {
+        Circle& operator=(Circle &&/*circle*/) {
             std::cout << "移动赋值函数" << std::endl;
             return *this;
         }
@@ -406,14 +407,32 @@ namespace RAII
         resource_ptr(int *p) : ptr(p) {
             std::cout << "constructor" << std::endl;
         }
-        ~resource_ptr() { 
-            if (ptr)    
+
+        //独占资源: 拷贝会导致双重释放, 必须显式删除
+        resource_ptr(const resource_ptr&) = delete;
+        resource_ptr& operator=(const resource_ptr&) = delete;
+
+        //移动: 转移所有权, 源对象不再持有指针
+        resource_ptr(resource_ptr&& rhs) noexcept : ptr(rhs.ptr) {
+            rhs.ptr = nullptr;
+        }
+
+        resource_ptr& operator=(resource_ptr&& rhs) noexcept {
+            if (this != &rhs) {
                 delete ptr;
+                ptr = rhs.ptr;
+                rhs.ptr = nullptr;
+            }
+            return *this;
+        }
+
+        ~resource_ptr() { 
+            delete ptr;
             ptr = nullptr; 
             std::cout << "destructor" << std::endl;
         }
 
-        int* get_ptr(void) {
+        int* get_ptr(void) const {
             return ptr;
         }
     };
@@ -425,6 +444,10 @@ namespace RAII
         {
             resource_ptr ptr(new int(10));
             std::cout<<*ptr.get_ptr() << std::endl;
+
+            //所有权转移, 移动后 ptr 不再持有指针, 不会重复释放
+            resource_ptr other(std::move(ptr));
+            std::cout<<*other.get_ptr() << std::endl;
         }
     }
 }
@@ -533,7 +556,7 @@ namespace EXTRA
     }
 }
 
-int main(int argc, char *argv[])
+int main()
 {
     PACKAGE::test();
 

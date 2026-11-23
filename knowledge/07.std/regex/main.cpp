@@ -18,7 +18,7 @@
 #include <iostream>
 #include <regex>
 
-int main(int argc, char* argv[])
+int main()
 {
     // 创建一个正则表达式对象，用于匹配一个或多个数字
     std::regex pattern("\\d+");

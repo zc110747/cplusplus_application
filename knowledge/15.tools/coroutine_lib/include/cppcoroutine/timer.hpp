@@ -90,7 +90,9 @@ inline bool TimerHandle::cancel() noexcept {
   if (!control_) {
     return false;
   }
-  if (control_->scheduler == nullptr) {
+  //Scheduler 已销毁(或从未绑定)时只做本地标记, 不能回调已释放的 Impl
+  if (control_->scheduler == nullptr || !detail::scheduler_alive(control_->owner_alive)) {
+    control_->scheduler = nullptr;
     return !control_->cancelled.exchange(true, std::memory_order_acq_rel);
   }
   return control_->scheduler->cancel_callback_timer(control_);
@@ -166,6 +168,7 @@ inline TimerHandle Scheduler::set_timeout(clock::duration delay, Callback callba
 inline TimerHandle Scheduler::set_timeout_at(clock::time_point deadline, Callback callback) {
   auto control = std::make_shared<detail::TimerControl>();
   control->scheduler = this;
+  control->owner_alive = lifetime_token();
   control->periodic = false;
   control->callback = std::move(callback);
   add_callback_timer(control, deadline);
@@ -178,6 +181,7 @@ inline TimerHandle Scheduler::set_interval(clock::duration period, Callback call
   }
   auto control = std::make_shared<detail::TimerControl>();
   control->scheduler = this;
+  control->owner_alive = lifetime_token();
   control->periodic = true;
   control->period = period;
   control->callback = std::move(callback);

@@ -114,7 +114,7 @@ namespace SFINAE
         // foo2(bar21);
 
         X3 x1, x2;
-        X3 x3 = foo3(x1, x2);
+        [[maybe_unused]] X3 x3 = foo3(x1, x2);
 
         char a[1];
         foo4<1>(&a);

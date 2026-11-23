@@ -164,7 +164,7 @@ namespace CONSTEXPR
     };
     constexpr int union_func()
     {
-        Foo foo{};
+        [[maybe_unused]] Foo foo{};
 
         foo.i = 3;
         foo.f = 12.5;
@@ -180,7 +180,9 @@ namespace CONSTEXPR
     //27.16 判断常量求值环境
     constexpr int func_const(int x)
     {
-        if constexpr(std::is_constant_evaluated()) {
+        // 必须用普通 if：if constexpr 的条件本身就是常量求值环境，
+        // 写成 if constexpr 会让条件恒为 true，运行时分支永远进不去
+        if (std::is_constant_evaluated()) {
             return x;
         } else {
             return 0;
@@ -379,7 +381,7 @@ namespace CONSTEXPR
         //声明为常量初始化的程序不要求具有常量属性
         cout<<"\nchapter27.15\n  ";
     #if __MORE_THAN_CPP20__
-        constinit static int x_init = 11;
+        [[maybe_unused]] constinit static int x_init = 11;
         cout<<"x_init"<<" | ";
     #else
         __LOWRE_THAN_CPP20_RUN;

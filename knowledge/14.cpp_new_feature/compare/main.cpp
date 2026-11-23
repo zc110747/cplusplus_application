@@ -42,7 +42,7 @@ private:
     std::string str_;
 };
 
-int main(int argc, char const *argv[])
+int main()
 {
     point p1{1, 2};
     point p2{3, 4};

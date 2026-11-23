@@ -20,7 +20,6 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
-#include <unistd.h>
 #include <numeric>
 #include <vector>
 #include <random>
@@ -209,7 +208,7 @@ void algorithm_process(void)
     std::cout<<"transform_reduce:"<<result<<std::endl;
 }
 
-int main(int argc, char* argv[])
+int main()
 {
     std::array<int, 5> vcon_0 = {1, 2, 3, 4, 5};
 

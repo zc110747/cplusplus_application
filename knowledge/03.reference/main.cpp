@@ -183,10 +183,10 @@ namespace REFER_MOVE
         RefClass() {
             std::cout << "RefClass default" << std::endl;
         } 
-        RefClass(const RefClass &ref) {
+        RefClass(const RefClass &/*ref*/) {
             std::cout << "RefClass copy" << std::endl;
         }
-        RefClass(const RefClass &&ref) {
+        RefClass(const RefClass &&/*ref*/) {
             std::cout << "RefClass mov" << std::endl;
         }
         ~RefClass() {
@@ -225,7 +225,7 @@ namespace REFER_MOVE
 
         {
             T t1;
-            T&& t2 = std::move(t1);
+            [[maybe_unused]] T&& t2 = std::move(t1);
         }
      
         {
@@ -289,10 +289,10 @@ namespace REFER_FORWARD
     class A{
     };
    
-    void foo(A &t){
+    void foo(A &/*t*/){
         std::cout << "T& type" << " | ";
     }
-    void foo(A &&t){
+    void foo(A &&/*t*/){
         std::cout << "T&& type" << " | ";
     }
 

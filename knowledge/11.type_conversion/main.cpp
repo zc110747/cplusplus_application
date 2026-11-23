@@ -20,6 +20,10 @@
 //      Version V1.0b1 Create.
 /////////////////////////////////////////////////////////////////////////////
 #include <iostream>
+#include <string>
+#include <typeindex>
+#include <typeinfo>
+#include <unordered_map>
 
 namespace TYPEID
 {
@@ -124,7 +128,7 @@ namespace REINTERPRET_CAST
         std::cout << *pf << " | ";
 
         A a1{1};
-        B *b1 = reinterpret_cast<B *>(&a1); //可以转换，但不符合应用
+        [[maybe_unused]] B *b1 = reinterpret_cast<B *>(&a1); //可以转换，但不符合应用
         std::cout << a1.val << " | ";
 
         C c1;
@@ -209,7 +213,7 @@ namespace STATIC_CAST
             B& b = static_cast<B &>(c);
             std::cout << b.get_b() << " | ";
 
-            C&& d = static_cast<C &&>(c);
+            [[maybe_unused]] C&& d = static_cast<C &&>(c);
             std::cout << c.get_a()  << " | ";
             std::cout << c.get_b()  << std::endl;
         }
@@ -347,6 +351,52 @@ namespace EXPLICIT
     }
 }
 
+namespace TYPE_INDEX
+{
+    /*
+    std::type_index 是 type_info 的可比较、可哈希包装,
+    可以安全地作为关联容器的键, 用来按类型分发数据.
+    */
+    struct Point {
+        int x;
+        int y;
+    };
+
+    struct Circle {
+        double r;
+    };
+
+    template<typename T>
+    const char *type_name()
+    {
+        return typeid(T).name();
+    }
+
+    int test(void)
+    {
+        std::cout << "============= type_index =============" << std::endl;
+
+        std::unordered_map<std::type_index, std::string> type_names;
+        type_names[std::type_index(typeid(Point))] = "Point";
+        type_names[std::type_index(typeid(Circle))] = "Circle";
+        type_names[std::type_index(typeid(int))] = "int";
+
+        std::cout << "Point  -> " << type_names[std::type_index(typeid(Point))] << std::endl;
+        std::cout << "Circle -> " << type_names[std::type_index(typeid(Circle))] << std::endl;
+        std::cout << "int    -> " << type_names[std::type_index(typeid(int))] << std::endl;
+
+        //同一个类型的 type_index 相等且 hash 相同
+        std::type_index a = typeid(Point);
+        std::type_index b = typeid(Point);
+        std::cout << "a == b: " << std::boolalpha << (a == b)
+                  << ", hash equal: " << (a.hash_code() == b.hash_code()) << std::endl;
+
+        std::cout << "Point name: " << type_name<Point>() << std::endl;
+
+        return 0;
+    }
+}
+
 int main(void)
 {
     TYPEID::test();
@@ -360,6 +410,8 @@ int main(void)
     DYNAMIC_CAST::test();
 
     EXPLICIT::test();
+
+    TYPE_INDEX::test();
 
     return 0;
 }

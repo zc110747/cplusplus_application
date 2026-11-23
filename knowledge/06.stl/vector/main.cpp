@@ -20,7 +20,6 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
-#include <unistd.h>
 #include <numeric>
 #include <random>
 
@@ -233,7 +232,7 @@ std::ostream& operator<<(std::ostream& os, const MyStruct& obj)
     return os;
 }
 
-int main(int argc, char* argv[])
+int main()
 {
     int array[5] = {8, 2, 1, 3, 5};
     std::vector<int> intv(array, array+5);

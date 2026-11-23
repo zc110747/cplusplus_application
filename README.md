@@ -8,7 +8,7 @@ C++是支持多范式不同实践的语言，往往很多应用也仅仅是C++�
 
 本系列主要用于C++的学习，包含基础应用，也有扩展和参考各工具书的学习实践。可以把本系列当作C++学习中的目录指引，遇到不理解的概念，可以参考相应例程去了解，也可以参考相关资料进行说明。
 
-本系列中大部分例程都是单项目文件，可以直接在线运行。另外测试使用版本是g++9.5.0、同时使用g++15.2.0验证，早期版本可能编译报错，一般为不支持最新特性。
+本系列中大部分例程都是单项目文件，可以直接在线运行。当前以 `g++ 15.2.0`（MSYS2 mingw64）为主验证；`g++ 9.5.0` 只能编译早期章节，C++20/23/26 的例程需要对应版本的编译器，涉及 `popen`、`pthread` 的示例还需要 POSIX 环境。
 
 建议在如下环境测试。
 
@@ -41,6 +41,7 @@ C++是支持多范式不同实践的语言，往往很多应用也仅仅是C++�
 - [Modern C++扩展功能](#modern_cpp)
 - [c++ 2020~扩展语法](#cpp_new_feature)
 - [工具类应用](#tools)
+- [其它目录（algorithm / accumulation / learning_notes）](#others)
 
 ## C++知识点总结
 
@@ -86,7 +87,8 @@ __VA_ARGS__       // 预处理器参数，表示函数输入的变长参数
 ```
 
 - limits: C++标准库中的头文件，包含了关于整数类型的限制和范围的常量。
-- stdfloat: C++标准库中的头文件，包含了关于浮点数类型的限制和范围的常量。
+- stdfloat: C++23引入的头文件，提供了定宽浮点类型（std::float32_t、std::float64_t 等）；
+  浮点数的限制和范围常量由 <limits> 提供，两者职责不同。
 - numbers: C++20引入的数值类，提供了数值相关的功能。
 - version: C++20引入的版本类，用于表示C++标准的库定义。
 
@@ -193,8 +195,8 @@ STL（Standard Template Library）是C++标准库的一部分，它提供了一�
 - stack：栈，遵循后进先出（LIFO）原则。
 - unordered_map：无序关联容器，键唯一。
 - unordered_multimap：无序关联容器，允许重复键。
-- unordered_multiset：无序集合，元素唯一。
-- unordered_set：无序集合，允许重复元素。
+- unordered_multiset：无序集合，允许重复元素。
+- unordered_set：无序集合，元素唯一。
 - vector：动态数组，支持随机访问，尾部插入具有常数复杂度。
 
 迭代器
@@ -207,7 +209,7 @@ STL（Standard Template Library）是C++标准库的一部分，它提供了一�
 算法
 
 - 查找算法：all_of，any_of，none_of，adjacent_find，find, find_if, find_first_of, find_end, search, search_n，binary_search。
-- 排序算法：sort, stable_sort, partial_sort, partial_sort_copy, is_sorted, is_sorted_until，random_shuffle，reserve，rotate，rotate_copy。
+- 排序算法：sort, stable_sort, partial_sort, partial_sort_copy, is_sorted, is_sorted_until，shuffle，rotate，rotate_copy。
 - 变换算法：transform, replace, replace_if, replace_copy, replace_copy_if。
 - 计数算法：count, count_if, accumulate, inner_product, partial_sum, adjacent_difference。
 - 比较算法：equal, mismatch, lexicographical_compare。
@@ -232,7 +234,7 @@ C++标准库是C++编程语言的一部分，它提供了一组通用的类和�
 - bit: C++20引入的位操作类，用于对二进制位进行操作。
   - bitset：位集合类，用于存储和操作二进制位。
   - bit_cast：是C++20引入的一个函数模板，用于在不同类型的对象之间进行位级转换。
-- charconv：C++17引入的字符转换类，用于在不同类型的字符之间进行转换。
+- charconv：C++17引入的数值/字符串转换类，用于数值与字符串之间的相互转换。
 - complex: 提供了复数相关的运算功能。
 - filesystem: C++17引入的文件系统类，提供了跨平台的文件系统操作功能。
 - functional: 是函数对象的包装器，用于将函数、函数指针、函数对象等转换为可调用对象。
@@ -259,7 +261,7 @@ C++标准库是C++编程语言的一部分，它提供了一组通用的类和�
 - source_location：C++20支持的源位置类，用于获取当前函数的源位置信息。
 - tuple：元组类，用于存储多个不同类型的值。
   - std::apply：C++17引入的一个函数模板，用于将一个元组中的元素应用到一个函数或lambda表达式中。
-- type_traits：类型特性类，提供了类型的特性信息。另外支持通过std::enable_if和std::disable_if来进行条件编译，用于模板函数和模板类的SFINAE查询。
+- type_traits：类型特性类，提供了类型的特性信息。另外支持通过std::enable_if进行条件编译，用于模板函数和模板类的SFINAE查询（标准库没有std::disable_if，需要"不启用"时给std::enable_if传false或取反条件）。
 - utility: 供了一系列实用工具和通用类型，如std::swap, std::make_pair、std::move，std::forward，std::declval等。
   - std::declval在不创建对象实例的情况下获取类型的右值引用。
 - valarray：定长数组类，用于存储固定长度的元素。
@@ -359,7 +361,7 @@ C++标准库提供了三种主要的智能指针：unique_ptr、shared_ptr和wea
   - std::call_once是函数模板，用于保证多线程环境下某个函数只被调用一次。
   - std::lock_guard是类模板，用于在构造函数中获取互斥锁，在析构函数中释放互斥锁。
   - std::unique_lock是类模板，用于在构造函数中获取互斥锁，在析构函数中释放互斥锁。
-  - std::scope_lock是类模板，用于在构造函数中获取多个互斥锁，在析构函数中释放多个互斥锁。
+  - std::scoped_lock是类模板，用于在构造函数中获取多个互斥锁，在析构函数中释放多个互斥锁。
 - semaphore: C++20引入的用于多线程同步的类，可让一组线程等待直到某个事件完成。
   - std::counting_semaphore是计数信号量，用于控制多个线程对共享资源的访问。
   - std::binary_semaphore是计数信号量设置为1的二进制信号量，用于控制多个线程对共享资源的访问。
@@ -388,7 +390,7 @@ C++标准库提供了三种主要的智能指针：unique_ptr、shared_ptr和wea
     - 返回类型推导是C++14引入的特性，允许编译器自动推导函数的返回类型，简化代码编写。
     - 非类型模板参数的auto作为占位符。
   - decltype类型推导表达式和函数返回类型后置语法
-    - decltype(auto)，C++14引入，与auto相比，推导时保留cv限定符(const、volatile)。
+    - decltype(auto)，C++14引入，按decltype规则推导，因此保留引用性和值类别；const/volatile 也随 decltype 规则保留。
 - constexpr常量表达式、编译器条件判断
   - constexpr是C++11引入的关键字，用于声明常量表达式, const表示常量。
   - constexpr再C++14中放宽限制，constexpr函数支持局部变量和赋值语句、if/switch条件语句、for/while/do-while循环语句，以及修改对象的非const成员等。
@@ -444,6 +446,8 @@ C++标准库提供了三种主要的智能指针：unique_ptr、shared_ptr和wea
 
 主要包含C++应用中涉及的工具类和GCC相关的功能说明，也包含未整理仅验证的代码。
 
+详细文档: [tools 工具模块](./knowledge/15.tools/README.md)
+
 - exec: 执行系统命令的函数。
 - image: 图片处理工具类。
 - logger: 日志工具类。
@@ -461,8 +465,20 @@ C++标准库提供了三种主要的智能指针：unique_ptr、shared_ptr和wea
   - -O2：开启优化等级2，常见的优化等级有-O0、-O1、-O2、-O3、-Os。
   - -fno-elide-constructors：禁用构造函数的省略优化，确保在需要时调用构造函数。
   - -g：生成调试信息，支持使用gdb调试。
-  - -fcoroutines：开启C++20协程支持。
+  - -fcoroutines：C++17时代的协程 TS 开关，-std=c++20 及以后默认开启，无需再传。
   - -fmodules-ts：开启C++20模块支持。
-  - -fconcepts：开启C++20概念支持。
+  - -fconcepts：C++17时代的概念 TS 开关（与C++20标准的 concepts 不是同一套实现），-std=c++20 及以后无需再传。
   - -fconcepts-diagnostics-depth=2：开启C++20概念诊断深度2，用于显示更详细的概念错误信息。
   - -l[lib]：链接指定的库文件。例如，-lm 链接数学库、-lpthread 链接线程库。
+
+## 其它目录
+
+除 `knowledge/` 按知识点组织的示例外，仓库还包含三块独立内容，各目录均有独立说明文档：
+
+| 目录 | 内容 | 说明文档 |
+| --- | --- | --- |
+| `algorithm/` | 手写数据结构与算法题（合并有序链表、反转链表、单/双向链表模板、数位 DP、两有序数组中位数） | [algorithm/README.md](./algorithm/README.md) |
+| `accumulation/` | 按文章来源原样保留的验证代码（手写 `any`、`enable_if`、单例、lambda） | [accumulation/README.md](./accumulation/README.md) |
+| `learning_notes/` | 《现代 C++ 语言核心特性解析》逐章实践，共 42 章 | [learning_notes/README.md](./learning_notes/README.md) |
+
+三者均以 `g++ -std=c++23 -Wall -Wextra` 构建，零告警。

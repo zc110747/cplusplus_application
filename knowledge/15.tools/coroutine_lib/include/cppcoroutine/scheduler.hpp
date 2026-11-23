@@ -11,6 +11,16 @@
 //     post(), request_stop(), cancel(), TimerHandle::cancel().
 //     Those enqueue a request; they never resume a coroutine themselves.
 //
+// Object lifetime
+// ---------------
+//   * Event, Channel and TimerHandle keep a weak reference to the Scheduler's
+//     lifetime flag.  They may therefore be destroyed *after* the Scheduler:
+//     their destructors detect the dead scheduler and degrade to local
+//     cleanup instead of waking tasks through a destroyed Impl.
+//   * Everything else (coroutines, tasks awaiting results) must be finished
+//     before the Scheduler is destroyed - the destructor cancels and destroys
+//     the frames it still owns.
+//
 // Header-only
 // -----------
 // This library ships as headers only: there is no .cpp to compile and no
@@ -161,11 +171,15 @@ class Scheduler {
   // Cancellation
   // -------------------------------------------------------------------------
 
-  /// Requests cancellation of `task`.  Idempotent.  Returns true if the
-  /// request was accepted (the task existed and was not already terminal).
+  /// Requests cancellation of `task`.  Idempotent.
   ///
-  /// Thread-safe: when called from a foreign thread the request is queued and
-  /// applied by the loop thread.
+  /// Return value:
+  ///   * Called on the loop thread (or while the loop is not running): returns
+  ///     true if the task existed and was not already terminal.
+  ///   * Called from a foreign thread: the request is only *enqueued*, so the
+  ///     return value means "accepted for processing" - it cannot know yet
+  ///     whether the task is still alive.  Use `task_state()` on the loop
+  ///     thread if you need the definitive answer.
   bool cancel(TaskId task);
 
   /// Requests cancellation of every non-terminal task.
@@ -270,9 +284,19 @@ class Scheduler {
   /// Moves a task id into the ready queue (used by `post`-style wake-ups).
   void push_ready(TaskId task) noexcept;
 
+  /// Internal: shared "still alive" flag.  Event/Channel/TimerHandle keep a
+  /// weak reference to it so their destructors can tell whether this Scheduler
+  /// has already been destroyed instead of calling back into freed memory.
+  [[nodiscard]] std::weak_ptr<std::atomic<bool>> lifetime_token() const noexcept {
+    return lifetime_;
+  }
+
  private:
   struct Impl;
   std::unique_ptr<Impl> impl_;
+
+  /// Strong reference to the lifetime flag; cleared in the destructor.
+  detail::SchedulerLifetime lifetime_{std::make_shared<std::atomic<bool>>(true)};
 };
 
 // ---------------------------------------------------------------------------
@@ -635,6 +659,9 @@ struct Scheduler::Impl {
 inline Scheduler::Scheduler() : impl_(std::make_unique<Impl>()) { impl_->owner = this; }
 
 inline Scheduler::~Scheduler() {
+  //外部对象(Event/Channel/TimerHandle)可能在 Scheduler 之后析构, 先清存活标志
+  lifetime_->store(false, std::memory_order_release);
+
   if (!impl_) {
     return;
   }

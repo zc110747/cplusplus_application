@@ -52,12 +52,16 @@ namespace ATTRIBUTE
     #endif
 
     //31.5 标准属性
+    //[[noreturn]] 表示函数不会返回，函数体必须真的不返回（抛异常/abort/死循环），
+    //否则编译器报 "'noreturn' function does return"，属性也就名不副实
     [[noreturn]]
     void foo5(void) {
         cout<<__func__<<" | ";
+        throw std::runtime_error("foo5 is declared noreturn");
     }
     
-    [[carries_dependency]]
+    //[[carries_dependency]] 是 memory_order_consume 时代的依赖传播提示,
+    //GCC 未实现该提示(挂上会报 attribute ignored), 这里保留函数本体作对照
     static void carries_func(void)
     {
         cout<<__func__<<" | ";
@@ -98,7 +102,7 @@ namespace ATTRIBUTE
     }
     #endif
 
-    [[may_unused]]
+    [[maybe_unused]]
     int may_unused_func()
     {
         return 0;
@@ -183,7 +187,11 @@ namespace ATTRIBUTE
         cout<<"\nchapter31.5\n  ";
         carries_func();
         #if __MORE_THAN_CPP14__
+        // 故意调用被 [[deprecated]] 标记的函数，演示的就是编译器给出的弃用告警
+        #pragma GCC diagnostic push
+        #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
         deprecated_func();
+        #pragma GCC diagnostic pop
         #endif
         
         #if __MORE_THAN_CPP17__

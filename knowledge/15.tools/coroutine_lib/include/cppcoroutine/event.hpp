@@ -23,10 +23,12 @@
 #ifndef CPPCOROUTINE_EVENT_HPP
 #define CPPCOROUTINE_EVENT_HPP
 
+#include <atomic>
 #include <coroutine>
 #include <cstddef>
 #include <cstdint>
 #include <exception>
+#include <memory>
 #include <stdexcept>
 #include <utility>
 
@@ -44,6 +46,15 @@ namespace detail {
 struct EventWaitAwaiter;
 }
 
+/// Threading contract
+/// ------------------
+///   * `wait()` is a coroutine operation and therefore only runs on the loop
+///     thread.
+///   * The write side - `notify_one()`, `notify_all()`, `reset()`,
+///     `try_acquire()` - touches `signaled_` and the waiter list without any
+///     lock, so it must ALSO be called from the loop thread only.
+///     Notifying an Event from a foreign thread is not supported: use
+///     `Scheduler::post()` and notify from the posted callback instead.
 class Event {
  public:
   enum class Mode {
@@ -99,6 +110,9 @@ class Event {
   void fail_all_waiters(const char* reason);
 
   Scheduler* scheduler_ = nullptr;
+  /// Weak reference to the scheduler's lifetime flag: the destructor must not
+  /// call back into a Scheduler that has already been destroyed.
+  std::weak_ptr<std::atomic<bool>> lifetime_{};
   Mode mode_ = Mode::ManualReset;
   bool signaled_ = false;
   detail::WaitQueue waiters_{};
@@ -108,7 +122,8 @@ class Event {
 // Event implementation (was src/event.cpp)
 // ---------------------------------------------------------------------------
 
-inline Event::Event(Scheduler& scheduler, Mode mode) : scheduler_(&scheduler), mode_(mode) {}
+inline Event::Event(Scheduler& scheduler, Mode mode)
+    : scheduler_(&scheduler), lifetime_(scheduler.lifetime_token()), mode_(mode) {}
 
 inline Event::~Event() {
   fail_all_waiters("event destroyed while a coroutine was waiting on it");
@@ -191,7 +206,9 @@ inline std::size_t Event::waiter_count() const {
 }
 
 inline void Event::fail_all_waiters(const char* reason) {
-  if (scheduler_ == nullptr) {
+  //Scheduler 已销毁: 等待者不可能再被唤醒, 只清队列, 不回调
+  if (scheduler_ == nullptr || !detail::scheduler_alive(lifetime_)) {
+    scheduler_ = nullptr;
     waiters_.clear();
     return;
   }

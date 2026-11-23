@@ -3,12 +3,14 @@
 > 本文正文只**记录问题**，条目描述保持取证时的原始状态（基于 commit `7574c3b`），
 > 修复进展统一记录在下方「修复状态」表中。所有条目均基于**实际编译 / 实际运行**取证，
 > 未验证的推测会被显式标注「未验证」。
-> 未改动 `README.md`，也未改动任何源码。
+> 正文保留取证时的原始描述（"未改动 README / 源码"指取证阶段而言），实际修复已全部落地。
 
 - 取证时间：2026-11-23
 - 编译器：`g++ 15.2.0`（MSYS2 mingw64）、`GNU Make 4.2.1`、`CMake 4.2.1`
 - 方法：在仓库**副本**中执行 `make`（不污染工作区）、`-Wall -Wextra` 全量语法检查、
   对可疑代码单独编译并在独立进程中运行以观察行为
+- 收尾回归（2026-11-23）：副本内 `make` 全量 97/97 目标通过、**0 warning**（`-Wall -Wextra` 已进 `build.mk`）；
+  关键验证程序（`t_any` / `t_list` / `t_bmp` / `t_bmp_edge` / `t_coro_lifetime` / `t_resptr`）复跑全部通过
 
 ## 修复状态
 
@@ -24,7 +26,35 @@
 | M-06 双链表 | ✅ 已修复 | 删除唯一节点后反向遍历为空（`tail` 不再悬垂）；删空后正反向均为空；析构无泄漏 |
 | M-08 BMP 位深 < 8 | ✅ 已修复 | 5 个自带样例（1/4/8/24/32bpp）逐像素与独立解析器完全一致 |
 | M-09 BMP 其它缺陷 | ✅ 已修复 | 24bpp 宽 3 行对齐、负高度 top-down、截断文件、非 bmp 文件、空对象存盘不破坏文件：5 项边界用例通过 |
-| M-07 / M-10 / T-* / L-* / U-* / D-* / S-* | ⬜ 待处理 | — |
+| M-07 `resource_ptr` 可拷贝 | ✅ 已修复 | `static_assert` 校验拷贝构造/拷贝赋值已删除、移动可用且 `noexcept`；移动后源指针为 `0`；`new=2 delete=2 leaked=0` |
+| M-10 `operator new/delete` 不成对 | ✅ 已修复 | 实跑 `07.std/new`：`safety memory` 8 → 32 → 40 → **0**（`delete` / `delete[]` / `nothrow delete` 三条路径全部归还）；5 线程 × 200 轮 × 2 次分配后仍为 **0** |
+| T-01 ~ T-03 定时器 | ✅ 已修复 | 改为持有 `std::thread` 并 `join`；`stop()` 用 `exchange`、`run()` 用谓词 `wait_for`；实跑循环数稳定在 5 次后正常退出（不再刷屏） |
+| T-04 / T-05 协程库生命周期 | ✅ 已修复 | `TimerHandle`/`Event`/`Channel` 持有 `weak_ptr` 存活令牌；旧头文件同测试 `exit=139`（SIGSEGV），新头文件输出 `cancel after scheduler death: 1 (no crash)` |
+| T-06 / T-07 thread_pool | ✅ 已修复 | `init()` 幂等（`workers_` 非空即返回）；`std::invoke_result_t` 替换 `std::result_of`；实跑 10 个任务全部完成 |
+| T-08 multi_queue | ✅ 已修复 | `sprintf` → `snprintf` 并校验长度与缓冲区边界；实跑输出 `high thread N` / `low thread N` 无越界（该示例本身是 Ctrl+C 结束的常驻观察程序） |
+| T-09 `thread/main.cpp` detach | ✅ 已修复 | `detach()` → `join()`，不再依赖进程存活；实跑正常退出 |
+| T-10 CRC 表无同步 | ✅ 已修复 | 惰性建表改用 `std::call_once` + `std::once_flag`；实跑 `calc_crc8: 0x6D` 与 CRC-8/MAXIM 标准值一致 |
+| L-01 ~ L-04 logger | ✅ 已修复 | 模板定义移入头文件并新增 `logger_user.cpp` 第二个 TU 验证（`log from another translation unit: 42`）；宏改 `do{...}while(0)` 无分号；`LOG_MODULE_ON` 默认开；去掉头文件里的 `using namespace` |
+| L-05 / L-06 `Event` / `event_bus` | ✅ 已修复 | `Event` 补充线程契约注释；`Callback` 改 `std::function<void(const Event&, const void*)>`；实跑输出 `duplicate subscribe accepted: 0`（重复注册被拒） |
+| L-07 `safety_cpp` | ✅ 已修复 | `~A(){}` → `virtual ~A() = default;`；`static_assert` 文案与条件一致；`MyColor MyColor;` 改名消除类型/变量同名 |
+| L-08 `calc_md5` 返回类型 | ✅ 已修复 | 改为 `unsigned int` 并逐级检查返回；实跑 `calc md5-32: 486eb652…`、`calc md5-16: 74adb864…` 与标准一致 |
+| U-01 保留标识符 | ✅ 已修复 | 保护宏统一为 `*_HPP_`（如 `THREAD_POOL_HPP_`、`MATH_TOOLS_HPP_`） |
+| U-02 `_Pragma("once")` | ✅ 已修复 | 51 处统一为 `#pragma once` |
+| U-03 `09.layout` memcpy 示范 | ✅ 已修复 | 对含析构函数的类型不再 `memcpy`，改赋值并断言 `is_trivially_copyable_v == false`；另加 `PlainPoint` 演示合法 `memcpy` |
+| U-04 `calc_crc32` 类型标注 | ✅ 已修复 | 中间变量 `(uint16_t)` → `(uint32_t)`，`printf` 用 `0x%08X` |
+| U-05 `exec` GCC 扩展 | ✅ 已修复 | 语句表达式改即时 lambda；`popen` 演示改本地 `echo`，不再依赖外网；`main()` 去参数 |
+| U-06 `unistd.h` 可移植性 | ✅ 已修复 | 删除 24 处未使用的 `#include <unistd.h>` |
+| D-01 ~ D-04 README / plans | ✅ 已修复 | 12 处事实错误全部订正（`unordered_set/multiset` 描述、`random_shuffle`→`shuffle`、`std::scope_lock`→`std::scoped_lock`、`std::disable_if` 删除、编译器版本、`excepted`/`SFINEA`/目录名） |
+| D-05 `typeindex` 示例缺失 | ✅ 已修复 | `11.type_conversion/main.cpp` 新增 `TYPE_INDEX` 段（`std::type_index` + `unordered_map` + `hash_code`），实跑有输出 |
+| D-06 `15.tools` 无 README | ✅ 已修复 | 新增 `knowledge/15.tools/README.md`（11 个子模块索引 + 构建方式 + 已知限制），根 README 已加链接 |
+| D-07 注释与实现不符 | ✅ 已修复 | 文件名/选项/语义注释逐条对齐实现 |
+| S-01 297 条告警 / 未开 `-Wall -Wextra` | ✅ 已修复 | **297 → 0**：`build/build.mk` 启用 `-Wall -Wextra`，`-lpthread -lm` 从 `CFLAGS` 拆到 `LDLIBS`；全量构建 97/97 且 **0 warning** |
+| S-02 属性示例无效 | ✅ 已修复 | `is_constant_evaluated` 由 `if constexpr` 改普通 `if`（否则恒为 true）；`[[noreturn]]` 函数改为真的不返回；`X<=Y<=Z` 加括号说明；逗号下标等示教点改为 `#pragma GCC diagnostic` 就近关闭 |
+| S-03 `tags` 生成物入库 | ✅ 已修复 | `git rm --cached learning_notes/modern_book/tags`；`.gitignore` 新增 `tags` 规则（`git check-ignore` 已验证） |
+| S-04 `.gitignore` 失效规则 | ✅ 已修复 | 删除不存在的 `asio_book/asio/*` |
+| S-06 索引完整性 | ✅ 已修复 | 新增 `algorithm/README.md`、`accumulation/README.md`（3 行 → 完整索引）、`learning_notes/README.md`（42 章对照表）；根 `README.md` 增加「其它目录」一节 |
+| B-11 `build/` 索引大小写 | ✅ 已修复 | `git mv Build→build` 纯大小写重命名，前后 blob 哈希同为 `f5d089f`；索引现有路径 `build/build.mk` 与 97 个 Makefile 的 `include ../build/build.mk` 一致 |
+| B-10 / S-05 产物名 `target` vs `target.exe` | ⬜ 待处理 | 需同步修改 97 个 `Makefile`（加 `$(EXEEXT)`），本轮未做；只影响增量构建效率，不影响正确性 |
 
 ## 摘要
 
@@ -189,6 +219,25 @@ g++ -o target main.o ...
   用 mingw64 g++ 构建时，`target.exe` 正是当前构建规则的真实产物。
 - 影响：不影响正确性，只影响增量构建效率；彻底修法是让 `executables` 带上 `$(EXEEXT)`（或统一 `target.exe`），
   需同步修改 97 个 Makefile，本轮未做。
+
+### B-11 `build/` 在 git 索引里是大写 `Build`，大小写敏感文件系统上全量构建失效（P1，已修）
+
+- 位置：git 索引 `Build/build.mk`；磁盘目录名与全部 Makefile 都写作 `build/build.mk`
+- 现象：`git ls-files` 列出的是 `Build/build.mk`，而 97 个 Makefile 一律 `include ../build/build.mk`
+  （深层模块为 `../../build/build.mk`、`../../../build/build.mk`）。
+  Windows 文件系统大小写不敏感，本机完全无感；在 Linux/macOS 上 clone/checkout 会生成 `Build/` 目录，
+  97 个目标的 `include` 全部失败，等于整个仓库构建不了。
+- 证据：
+
+```
+$ git ls-files | grep -i build.mk
+Build/build.mk
+$ ls -d [Bb]uild*
+build
+```
+
+- 修复：纯大小写重命名，内容不变——`git mv Build _btmpbuild && git mv _btmpbuild build`；
+  重命名前后 blob 哈希同为 `f5d089f`，证明只改了大小写、未动内容。
 
 ---
 

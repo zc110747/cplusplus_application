@@ -132,8 +132,13 @@ namespace TEMPLATE_OPTIMIZE
         //右尖括号号会优先和左尖括号匹配
         cout<<"\nchapter42.2\n  "; 
         using veflags = std::vector<std::vector<bool>>;
+        [[maybe_unused]] veflags veflags_obj{};
+        // 下面两行刻意展示「右尖括号先匹配」的解析结果，比较链是演示的一部分
+        #pragma GCC diagnostic push
+        #pragma GCC diagnostic ignored "-Wparentheses"
         cout<<(Y<X<1> >::c > ::c > ::c)<<" | ";
         cout<<(Y<X<1>>::c > ::c > ::c)<<" | ";
+        #pragma GCC diagnostic pop
 
         //42.3 friend声明模板形参
         cout<<"\nchapter42.3\n  "; 

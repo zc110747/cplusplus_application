@@ -29,7 +29,7 @@ namespace OVERRIDE
         virtual void f() {
             cout<<"A_Base::f"<<" | ";
         }
-        void f(int a){  
+        void f(int /*a*/){  
             cout<<"A_Base::f(int)"<<" | ";
         }
         void f1(){
@@ -58,13 +58,16 @@ namespace OVERRIDE
     // };
 
     //16.2 重写引发的问题
+    // 下面的 Derived2 是刻意写错的反例，会隐藏基类同名重载（-Woverloaded-virtual 报在此处）
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Woverloaded-virtual"
     class Base2
     {
     public:
         virtual void some_func() {
             cout<<"Base2::some_func"<<" | ";
         }
-        virtual void foo(int x) {
+        virtual void foo(int /*x*/) {
             cout<<"Base2::foo"<<" | ";
         }
         virtual void bar() const {
@@ -75,12 +78,13 @@ namespace OVERRIDE
         }
     };
 
+    // 本节的反例：签名写错导致重写失败，同时把基类同名重载全部隐藏
     class Derived2: public Base2 {
     public:
         virtual void sone_func() {
             cout<<"Base2::some_func"<<" | ";
         }
-        virtual void foo(int &x) {
+        virtual void foo(int &/*x*/) {
             cout<<"Base2::foo"<<" | ";
         }
         virtual void bar() {
@@ -90,6 +94,7 @@ namespace OVERRIDE
             cout<<"Base2::baz"<<" | ";
         }
     };
+    #pragma GCC diagnostic pop
 
     //16.3 使用override说明符
     class Derived3: public Base2 {
@@ -97,7 +102,7 @@ namespace OVERRIDE
         virtual void some_func() override{
             cout<<"Base2::some_func"<<" | ";
         }
-        virtual void foo(int x) override {
+        virtual void foo(int /*x*/) override {
             cout<<"Base2::foo"<<" | ";
         }
         virtual void bar() const override{

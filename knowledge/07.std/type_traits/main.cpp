@@ -55,7 +55,8 @@ namespace TYPE_CATEGORY
         std::cout << "is_rvalue_reference<int&&>: " << std::is_rvalue_reference<decltype(rv1)>::value << std::endl;
 
         std::cout << "is_function<void(int)>: " << std::is_function<void(int)>::value << std::endl;
-        std::cout << "is_pod<Test>: " << std::is_pod<Test>::value << std::endl;
+        // std::is_pod 自 C++20 起弃用，等价于 is_standard_layout && is_trivial
+        std::cout << "is_pod<Test>: " << (std::is_standard_layout_v<Test> && std::is_trivial_v<Test>) << std::endl;
         return 0;
     } 
 }
@@ -128,7 +129,7 @@ namespace TEMPLATE_FEATURES
         std::cout << "is_odd(3): " << is_odd(3) << std::endl;
         std::cout << "is_odd(4): " << is_odd(4) << std::endl;
 
-        info<int> i1;
+        [[maybe_unused]] info<int> i1;
 
         std::cout << is_integral_type<int>::value << std::endl;
         std::cout << is_integral_type<float>::value << std::endl;
@@ -138,7 +139,7 @@ namespace TEMPLATE_FEATURES
     }
 }
 
-int main(int argc, char* argv[])
+int main()
 {
     TYPE_CATEGORY::test();
 

@@ -25,7 +25,7 @@ void math_crc_schedular(void)
 
     printf("calc_crc8: 0x%02X\n", math_tools::get_instance()->calc_crc8(buffer, strlen((char *)buffer)));
     printf("calc_crc16: 0x%04X\n", math_tools::get_instance()->calc_crc16(buffer, strlen((char *)buffer)));
-    printf("calc_crc32: 0x%04X\n", math_tools::get_instance()->calc_crc32(buffer, strlen((char *)buffer)));
+    printf("calc_crc32: 0x%08X\n", math_tools::get_instance()->calc_crc32(buffer, strlen((char *)buffer)));
 
     printf("calc_crc8: 0x%02X\n", math_tools::get_instance()->crc8_search_table(buffer, strlen((char *)buffer)));
 
@@ -50,7 +50,7 @@ void math_md5_schedular(void)
     uint8_t buffer[] = "this is a test string";
     // md5 32位计算
     uint8_t md5_val[EVP_MAX_MD_SIZE];
-    uint16_t md5_len = math_tools::get_instance()->calc_md5(buffer, strlen((char *)buffer), md5_val);
+    unsigned int md5_len = math_tools::get_instance()->calc_md5(buffer, strlen((char *)buffer), md5_val);
     
     printf("calc md5-32:");
     for(unsigned int i = 0; i < md5_len; i++) {
@@ -93,7 +93,7 @@ void math_aes_schedular(void)
     int ciphertext_len = math_tools::get_instance()->aes_encrypt(plaintext, plaintext_len, key, iv, ciphertext);
     if (ciphertext_len > 0) {
         printf("calc aes:");
-        for(unsigned int i = 0; i < ciphertext_len; i++) {
+        for(int i = 0; i < ciphertext_len; i++) {
             printf("%02x", ciphertext[i]);     
         }
         printf("\n");
@@ -106,7 +106,7 @@ void math_aes_schedular(void)
     }  
 }
 
-int main(int argc, char **argv) 
+int main() 
 {
     math_crc_schedular();
 

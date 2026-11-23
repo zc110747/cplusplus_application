@@ -20,7 +20,6 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
-#include <unistd.h>
 #include <vector>
 
 namespace TUPLE_CONSTURCT {
@@ -180,7 +179,7 @@ namespace TUPLE_APPLY
     }
 }
 
-int main(int argc, char* argv[])
+int main()
 {
     TUPLE_CONSTURCT::test();
 

@@ -142,7 +142,7 @@ namespace TYPE
         std::cout << std::endl;
 
         Array<int, 5> arr{1, 2, 3, 4, 5};
-        for(int i = 0; i < arr.size(); i++) {
+        for(std::size_t i = 0; i < arr.size(); i++) {
             std::cout << arr[i] << "  ";
         }
         std::cout << std::endl;
@@ -436,7 +436,7 @@ namespace RULE
     // 备用函数模板，当T不支持operator<<时调用
     template <typename T>
     typename std::enable_if<!has_output_operator<T>::value, void>::type
-    print(T value) {
+    print(T /*value*/) {
         std::cout << "Type does not support output operator" << std::endl;
     }
 
@@ -610,7 +610,7 @@ namespace MEATPROGRAMING
 extern template void extern_func<int>(int);
 extern int event_bus_manage(void);
 
-int main(int argc, char *argv[])
+int main()
 {
     TYPE::test();
     

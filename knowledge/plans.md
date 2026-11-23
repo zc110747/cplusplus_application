@@ -43,7 +43,7 @@
 | | array | ✅ | 06.stl |
 | | condition_variable | ✅ | 12.thread_coroutine |
 | | mutex | ✅ | 12.thread_coroutine |
-| | scoped_allocator | ✅ | 07.std |
+| | scoped_allocator | ✅ | 07.std/scope_allocator |
 | | type_traits | ✅ | 07.std |
 | | atomic | ✅ | 12.thread_coroutine |
 | | forward_list | ✅ | 06.stl |
@@ -86,7 +86,7 @@
 | | span | ✅ | 06.stl |
 | | version | ✅ | 01.base_style |
 | **C++23 add** | | | |
-| | excepted | ✅ | 08.exception |
+| | expected | ✅ | 08.exception |
 | | flat_set | ✅ | 06.stl |
 | | mdspan | ✅ | 06.stl |
 | | spanstream | ✅ | 06.stl |
@@ -137,7 +137,7 @@
 | 3.8 用户自定义字面量 | ✅ | 13.modern_cpp/literal |
 | 3.9 内联名字空间 | ✅ | 02.namespace |
 | 3.10 模板别名 | ✅ | 05.template |
-| 3.11 一般化的SFINEA规则 | ✅ | 05.template |
+| 3.11 一般化的SFINAE规则 | ✅ | 05.template |
 | 4.1 右尖括号>的改进 | ✅ | 05.template |
 | 4.2 auto类型推导 | ✅ | 13.modern_cpp/auto |
 | 4.3 decltype | ✅ | 13.modern_cpp/decltype |
@@ -174,7 +174,7 @@
 | 第23章：指针字面量nullptr | ✅ | 13.modern_cpp |
 | 第24章：三向比较 | ✅ | 14.cpp_new_feature |
 | 第25章：线程局部存储 | ✅ | 12.thread_coroutine |
-| 第26章：扩展的inline说明符 | ✅ | 4.class |
+| 第26章：扩展的inline说明符 | ✅ | 04.class |
 | 第27章：常量表达式 | ✅ | 13.modern_cpp |
 | 第28章：确定的表达式求值顺序 | ✅ | 01.base_style |
 | 第29章：字面量优化 | ✅ | 13.modern_cpp |

@@ -176,7 +176,7 @@ namespace INLINE
     }
 }
 
-int main(int argc, char const *argv[])
+int main()
 {
     BASIC::test();
 

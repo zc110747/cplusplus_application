@@ -15,7 +15,7 @@
 //  Revision History:
 //      4/19/2023   Create New Version
 /////////////////////////////////////////////////////////////////////////////
-_Pragma("once")
+#pragma once
 
 #include <iostream>
 #include <string>
@@ -40,6 +40,7 @@ _Pragma("once")
 #include <thread>
 #include <mutex>
 #include <new>
+#include <stdexcept>
 
 #define FUNCTION_START()  {std::cout<<__func__<<":\n";}{
 #define FUNCTION_END()    }{std::cout<<"\n\n";  } 

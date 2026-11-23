@@ -163,7 +163,7 @@ namespace SPANSTREAM
     }
 }
 
-int main(int argc, char* argv[])
+int main()
 {
     SPAN::test();
 

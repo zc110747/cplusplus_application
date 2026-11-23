@@ -25,7 +25,7 @@ namespace LITERAL
 {
     //将数字转成字符串的字面量
     template <char...c>
-    std::string operator "" _w()
+    std::string operator""_w()
     {
         std::string str;
 
@@ -36,7 +36,7 @@ namespace LITERAL
     }
 
     //字符串转换成string对象
-    std::string operator "" _string(const char* str, size_t len)
+    std::string operator""_string(const char* str, size_t len)
     {
         return std::string(str, len);
     }
@@ -110,10 +110,10 @@ namespace LITERAL
         cout<<hello_HTML;
 
         #if __MORE_THAN_CPP20__
-        char8_t u8v[] = u8R"(hello world!)";
+        [[maybe_unused]] char8_t u8v[] = u8R"(hello world!)";
         #endif
-        char16_t u16v[] = uR"(hello world!)";
-        char32_t u32v[] = UR"(hello world!)";
+        [[maybe_unused]] char16_t u16v[] = uR"(hello world!)";
+        [[maybe_unused]] char32_t u32v[] = UR"(hello world!)";
 
         //29.5 用户自定义字面量
         //可通过自定义后缀，将整数、浮点数、字符及字符串转成特定对象

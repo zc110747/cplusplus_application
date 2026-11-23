@@ -36,12 +36,12 @@ namespace ALG_MOSTGIVE
             int out_num = 0;
 
             //小于位数的，值为平方的累加和
-            for (int i = 1; i < str.size(); i++) {
+            for (std::size_t i = 1; i < str.size(); i++) {
                 out_num += std::pow(num, i); 
             }
 
             //处理与n位数相同的情况
-            for (int i = 0; i < str.size(); i++) {
+            for (std::size_t i = 0; i < str.size(); i++) {
                 bool hasSame = false;
                 for (const auto& digit : digits) {
                     if (digit[0] < str[i]) {

@@ -19,7 +19,6 @@
 #include <atomic>
 #include <iostream>
 #include <thread>
-#include <unistd.h>
 #include <chrono>    // std::chrono::seconds
 #include <vector>
 
@@ -95,7 +94,7 @@ namespace ATOMIC_EXAMPLE
 
         // cleanup:
         Node* it; 
-        while (it=list_head) {
+        while ((it = list_head) != nullptr) {
             list_head=it->next;
             delete it;
         }
@@ -293,7 +292,7 @@ namespace ATOMIC_MEMORY_ORDER_EXAMPLE
     }
 }
 
-int main(int argc, char* argv[])
+int main()
 {
     ATOMIC_EXAMPLE::test();
 

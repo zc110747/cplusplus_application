@@ -26,7 +26,7 @@ namespace REFERENCE
     void set_val(int val)
     {
         int *p = &val;  //函数的输入值，可以取值，所以为右值
-        int x = val;
+        [[maybe_unused]] int x = val;
         cout<<(long long)p<<" | ";
     }
 
@@ -121,13 +121,13 @@ namespace REFERENCE
 
     //6.8 万能引用和引用折叠
     template<typename T>
-    void RunCode(T &m){cout<<"lvalue ref"<<" | "; }
+    void RunCode(T &/*m*/){cout<<"lvalue ref"<<" | "; }
 
     template<typename T>
-    void RunCode(T &&m){cout<<"rvalue ref"<<" | ";}
+    void RunCode(T &&/*m*/){cout<<"rvalue ref"<<" | ";}
 
     template<typename T>
-    void RunCode(const T &m){cout<<"const lvalue ref"<<" | "; }
+    void RunCode(const T &/*m*/){cout<<"const lvalue ref"<<" | "; }
 
     template<typename T>
     void RunCode(const T &&m){cout<<"const rvalue ref"<<" | "; }

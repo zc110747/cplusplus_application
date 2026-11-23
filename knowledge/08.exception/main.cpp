@@ -138,7 +138,7 @@ namespace EXCEPTION_VARIABLE
         {
             std::cout<<"["<<__func__<<"] ";
             std::vector<int> val(10);
-            val.at(100);
+            (void)val.at(100);      // at() 带 [[nodiscard]]，显式丢弃返回值
         }
         catch(const std::out_of_range& e)
         {
@@ -373,7 +373,7 @@ namespace SYSTEM_ERROR
     } 
 }
 
-int main(int argc, char *argv[])
+int main()
 {
     EXCEPTION_BASE::test();
 

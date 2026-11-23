@@ -130,7 +130,7 @@ namespace VIEWS
     }
 }
 
-int main(int argc, char* argv[])
+int main()
 {
     VIEWS::test();
 

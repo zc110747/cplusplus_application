@@ -68,7 +68,7 @@ namespace TEMPLATE_VAR
         return t;
     }
     template<class ...Args>
-    void foo2(Args ...args)
+    void foo2([[maybe_unused]] Args ...args)
     {}
 
     template<class ...Args>
@@ -84,7 +84,7 @@ namespace TEMPLATE_VAR
     };
 
     template<class ...T>
-    int baz21(T ...t)
+    int baz21([[maybe_unused]] T ...t)
     {
         return 0;
     }
@@ -107,7 +107,7 @@ namespace TEMPLATE_VAR
     {
         //在括号中用逗号分隔的表达式会以从左往右的顺序执行
         //最后返回最右表达式的结果
-        int tmp[] = {(cout<<args(7, 11)<<" | ", 0)...};
+        [[maybe_unused]] int tmp[] = {(cout<<args(7, 11)<<" | ", 0)...};
     }
     
     //35.3 sizeof...运算符

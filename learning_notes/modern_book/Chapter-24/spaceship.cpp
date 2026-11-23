@@ -73,7 +73,11 @@ namespace SPACESHIP
     };
     #endif
 
+    // std::rel_ops 在 C++20 已弃用（改用 <=>），此处保留以对比新旧做法
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
     using namespace std::rel_ops;
+    #pragma GCC diagnostic pop
 
     void test_run()
     {

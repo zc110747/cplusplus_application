@@ -20,7 +20,7 @@ extern void basic_type_process(void);
 extern void standard_improve(void);
 extern void c_standard_lib(void);
 
-int main(int argc, char **argv)
+int main()
 {
     basic_type_process();
 

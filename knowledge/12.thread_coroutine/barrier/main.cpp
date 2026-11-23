@@ -24,7 +24,7 @@ void completion_callback() {
     std::cout << "completion! " << std::endl;
 }
 
-int main(int arg, const char* argv[]) 
+int main(int /*arg*/, const char* /*argv*/[]) 
 {
     const int num_threads = 3;
 

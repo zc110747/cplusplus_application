@@ -16,9 +16,11 @@
 //  Revision History:
 //      12/19/2022   Create New Version
 /////////////////////////////////////////////////////////////////////////////
-_Pragma("once")
+#pragma once
 
 #include <mutex>
+#include <chrono>
+#include <cstdint>
 #include <condition_variable>
 
 namespace EVENT

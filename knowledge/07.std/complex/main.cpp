@@ -19,7 +19,7 @@
 #include <iostream>
 #include <complex>
 
-int main(int argc, char* argv[])
+int main()
 {
     std::complex<double> c1(1.0, 2.0);
     std::complex<double> c2(3.0, 4.0);

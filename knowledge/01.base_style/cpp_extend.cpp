@@ -85,7 +85,7 @@ void standard_improve(void)
     PR("Hello World!\n");
 
     // long long int: 64位整型
-    long long int lli = -90000000000LL;
+    [[maybe_unused]] long long int lli = -90000000000LL;
     unsigned long long int ulli = 9000000000000ULL;
     std::cout <<"LLONG_MIN: "<< LLONG_MIN << std::endl;    //LLONG_MIN: -9223372036854775808
     std::cout <<"LLONG_MAX: "<< LLONG_MAX << std::endl;    //LLONG_MAX: 9223372036854775807

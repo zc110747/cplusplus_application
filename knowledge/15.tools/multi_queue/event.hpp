@@ -16,9 +16,10 @@
 //  Revision History:
 //      12/19/2022   Create New Version
 /////////////////////////////////////////////////////////////////////////////
-_Pragma("once")
+#pragma once
 
 #include <cinttypes>
+#include <cstdint>
 #include <type_traits>
 
 class Event

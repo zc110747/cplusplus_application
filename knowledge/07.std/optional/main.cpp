@@ -28,7 +28,7 @@ std::optional<int> find_value(int value)
     }
 }
 
-int main(int argc, char *argv[]) 
+int main() 
 {
     std::optional<int> opt = find_value(46);
     

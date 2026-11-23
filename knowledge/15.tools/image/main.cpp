@@ -23,7 +23,7 @@ using namespace std;
 
 #define BMP_IMAGE "bmp/bmp_24.bmp"
 
-int main(int argc, char *argv[])
+int main()
 {
     bmp_img::bmp_decoder decoder;
     

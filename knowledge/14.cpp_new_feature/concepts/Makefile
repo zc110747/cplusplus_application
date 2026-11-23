@@ -9,7 +9,7 @@
 # This is object should be build and will link to generate
 # the executables
 STD_VERSION = -std=c++23
-CFLAGS = -fconcepts-diagnostics-depth=4
+CFLAGS += -fconcepts-diagnostics-depth=4
 objects = main.o
 
 # This is the file name of the executables and path where 

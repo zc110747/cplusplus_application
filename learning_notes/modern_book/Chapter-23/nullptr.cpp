@@ -63,7 +63,7 @@ namespace NULLPTR
 
         //23.1 零值整数字面量
         cout<<"\nchapter23.1\n  ";
-        char *p_1 = NULL;
+        [[maybe_unused]] char *p_1 = NULL;
 
         //f(NULL);  //call of overloaded ‘f(NULL)’ is ambiguous
         f(reinterpret_cast<int *>(NULL));

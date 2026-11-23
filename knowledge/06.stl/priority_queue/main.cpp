@@ -41,7 +41,7 @@ void show_container(T container_val, std::string qstring)
     std::cout << std::endl;
 }
 
-int main(int argc, char** argv) 
+int main() 
 {
     std::priority_queue<int> qcon_0;
 

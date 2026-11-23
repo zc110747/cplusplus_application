@@ -2,9 +2,10 @@
  * 现代C++语言指的是在C++11之后，增加的方便C++开发，以及增强功能的新特性，
  * 这些特性十分繁杂，因此这里也仅测试和展示其中的一部分。
  * 编译选项
- * gcc      -std=c++11 -lpthread -fconcepts, 可以是C++14,C++17,C++2a
- * msvc     /std:c++20  可以是C++17, C++14, C++11
- * clang    -std=c++11
+ * gcc      -std=c++23 -lpthread -lm (本工程的 Makefile 默认值)
+ * msvc     /std:c++latest
+ * clang    -std=c++23
+ * CMake    CMAKE_CXX_STANDARD=23 (见同目录 CMakeLists.txt)
  * 本篇参考书籍:
  * <现代C++语言核心特性解析>
  * 第01章 新基础类型
@@ -114,7 +115,7 @@ pfunc function_list[] = {
     CONCEPT::test_run,            TEMPLATE_OPTIMIZE::test_run
 };
 
-int main(int argc, char *argv[])
+int main()
 {
     std::cout<<"cpp version:"<<__cplusplus<<std::endl;
 

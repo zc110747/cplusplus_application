@@ -20,7 +20,6 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
-#include <unistd.h>
 #include <numeric>
 #include <vector>
 
@@ -175,7 +174,7 @@ void algorithm_process(void)
     std::cout << "transform_reduce:" <<result <<std::endl;
 }
 
-int main(int argc, char* argv[])
+int main()
 {
     int array[] = {8, 2, 1, 3, 5, 4, 10};
     std::unordered_multiset<int> umcon_0(array, array + sizeof(array) / sizeof(int));
@@ -203,9 +202,9 @@ int main(int argc, char* argv[])
 
     //begin,  end,  cbegin,  cend
     std::unordered_multiset<int>::iterator iterbegin = umcon_1.begin();
-    std::unordered_multiset<int>::iterator iterend = umcon_1.end();
+    [[maybe_unused]] std::unordered_multiset<int>::iterator iterend = umcon_1.end();
     std::unordered_multiset<int>::const_iterator iterconstbegin = umcon_1.cbegin();
-    std::unordered_multiset<int>::const_iterator iterconstend = umcon_1.cend();
+    [[maybe_unused]] std::unordered_multiset<int>::const_iterator iterconstend = umcon_1.cend();
     std::cout << "begin:" << *iterbegin<<" ";
     std::cout << "cbegin:" << *iterconstbegin << std::endl;
 
@@ -213,7 +212,7 @@ int main(int argc, char* argv[])
     std::cout << "bucket:" << umcon_1.bucket(5) << std::endl;
     auto bucket_count = umcon_1.bucket_count();
     std::cout << "bucket count:" << bucket_count << std::endl;
-    for(auto i=0; i<bucket_count; i++) {
+    for(std::size_t i=0; i<bucket_count; i++) {
         std::cout << "bucket #" << i<<" has " << umcon_1.bucket_size(i)<<" elements." << std::endl;
     }
 

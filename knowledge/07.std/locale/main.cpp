@@ -18,7 +18,7 @@
 #include <iostream>
 #include <locale>
 
-int main(int argc, char* argv[]) 
+int main() 
 {
     // 设置全局的默认 locale 为用户的默认 locale
     std::locale::global(std::locale(""));

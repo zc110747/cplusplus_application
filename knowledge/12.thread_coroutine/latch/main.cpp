@@ -19,7 +19,7 @@
 #include <vector>
 #include <latch>
 
-int main(int argc, const char* argv[])
+int main()
 {
     const int num_threads = 3;
 

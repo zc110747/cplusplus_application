@@ -19,9 +19,8 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
-#include <unistd.h>
 
-int main(int argc, char* argv[])
+int main()
 {
     //queue
     std::queue<std::string> qcon_0;

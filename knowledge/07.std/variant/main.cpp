@@ -190,7 +190,7 @@ namespace VISIT
     }
 }
 
-int main(int argc, char* argv[])
+int main()
 {
     VARIANT::test();
 

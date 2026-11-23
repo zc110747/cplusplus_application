@@ -85,7 +85,7 @@ namespace ALIGN
         cout<<alignof(a_default::a)<<" "<<alignof(a_default::b)<<" "<<alignof(a_default::c)<<" "<<alignof(a_default)<<"\n  ";
         cout<<"int size:"<<alignof(int)<<"\n  ";
         cout<<"int* size:"<<alignof(int*)<<"\n  ";
-        auto func = [&](int a){};
+        auto func = [&](int /*a*/){};
         cout<<"func size:"<<alignof(func)<<"\n  ";
         int *p = new int(1);
         cout<<"0x"<<std::hex<<(long long)p<<"\n  ";
@@ -119,10 +119,14 @@ namespace ALIGN
         cout<<"chapter 30.5\n  ";
         #if __MORE_THAN_CPP17__
         cout<<std::alignment_of<int>::value<<" "<<std::alignment_of<int>()<<" | ";  //4, 4
+        // aligned_storage_t / aligned_union_t 自 C++23 起弃用，仅为对照历史写法而保留
+        #pragma GCC diagnostic push
+        #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
         std::aligned_storage_t<256, 8> buffer;
         cout<<sizeof(buffer)<<" "<<alignof(buffer)<<" | ";                          //256 8
         std::aligned_union_t<64, int, char, double> union_b;
         cout<<sizeof(union_b)<<" "<<alignof(union_b)<<" | ";                        //64 8
+        #pragma GCC diagnostic pop
         #else
         __LOWRE_THAN_CPP17_RUN;
         #endif

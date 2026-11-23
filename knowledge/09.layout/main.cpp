@@ -160,6 +160,12 @@ namespace STANDARD_LAYOUT_TYPE
         int x_;
     };
 
+    //真正可以按字节复制的类型: 标准布局 + 可平凡复制
+    struct PlainPoint {
+        int x;
+        int y;
+    };
+
     int process(void)
     { 
         std::cout << "============ STANDARD LAYOUT ============" << std::endl;
@@ -170,11 +176,25 @@ namespace STANDARD_LAYOUT_TYPE
         std::cout << "MyClass2 is standard layout: " << std::is_standard_layout_v<MyClass2> << std::endl;   //false
         std::cout << "MyClass3 is standard layout: " << std::is_standard_layout_v<MyClass3> << std::endl;   //true
 
+        /*
+            "标准布局" 只保证成员的内存排列规则, 并**不**代表可以 memcpy:
+            能否按字节复制看的是 is_trivially_copyable.
+            MyClass3 有用户提供的构造/析构函数, 因此不是可平凡复制的.
+        */
+        std::cout << "MyClass3 is trivially copyable: " << std::is_trivially_copyable_v<MyClass3> << std::endl;
+
         MyClass3 obj3(10);
         std::cout << "obj3.x: " << obj3.x_ << std::endl;
         MyClass3 obj4(0);
-        memcpy(&obj4, &obj3, sizeof(MyClass3));
+        obj4 = obj3;                                  //有析构语义的类型用赋值, 不能 memcpy
         std::cout << "obj4.x: " << obj4.x_ << std::endl;
+
+        //可平凡复制的类型才允许 memcpy
+        std::cout << "PlainPoint is trivially copyable: " << std::is_trivially_copyable_v<PlainPoint> << std::endl;
+        PlainPoint p1{1, 2};
+        PlainPoint p2{};
+        std::memcpy(&p2, &p1, sizeof(PlainPoint));
+        std::cout << "p2: " << p2.x << ", " << p2.y << std::endl;
 
         return 0;
     }
@@ -242,14 +262,12 @@ namespace POD_TYPE
         std::cout << s.x_ << " " << s.y_ << std::endl;
 
         std::cout << std::boolalpha;
-        std::cout << std::is_pod_v<MyStruct> << std::endl;            //true
+        //is_pod 自 C++20 起弃用, 判据拆成 is_trivial && is_standard_layout
+        std::cout << pod_detect<MyStruct> << std::endl;               //true
 
         MyStruct1 s1 = {1, 2.0, 3};
         std::cout << s1.x_ << " " << s1.y_ << " " << s1.z_ << std::endl;
 
-        std::cout << std::is_pod_v<MyStruct1> << std::endl;           //false
-
-        std::cout << pod_detect<MyStruct> << std::endl;               //true
         std::cout << pod_detect<MyStruct1> << std::endl;              //false
 
         MyStruct s2;
@@ -376,15 +394,18 @@ namespace ALIGNMENT
         std::cout << "struct_align_8: " << std::alignment_of<struct_align_8>::value << std::endl;
 
         // aligned_storage_t和aligned_union_t用于分配指定对齐长度和大小的一块内存(C++23已弃用，不建议使用)
+        #pragma GCC diagnostic push
+        #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
         std::aligned_storage_t<256, 8> buffer;
         std::cout << sizeof(buffer) << " " << alignof(buffer) << std::endl;                          //256 8
         std::aligned_union_t<64, int, char, double> union_b;
-        std::cout << sizeof(union_b) << " " << alignof(union_b) << std::endl;                        //64 8
+        std::cout << sizeof(union_b) << " " << alignof(union_b) << std::endl;
+        #pragma GCC diagnostic pop                        //64 8
         return 0; 
     } 
 }
 
-int main(int argc, char *argv[])
+int main()
 {
     TRIVIAL_COPYABLE_TYPE::process();
 

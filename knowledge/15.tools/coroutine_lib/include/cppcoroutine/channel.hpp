@@ -21,11 +21,13 @@
 #ifndef CPPCOROUTINE_CHANNEL_HPP
 #define CPPCOROUTINE_CHANNEL_HPP
 
+#include <atomic>
 #include <coroutine>
 #include <cstddef>
 #include <cstdint>
 #include <deque>
 #include <exception>
+#include <memory>
 #include <optional>
 #include <stdexcept>
 #include <utility>
@@ -79,6 +81,7 @@ class Channel {
                    std::size_t byte_budget = 0,
                    SizeFunction size_function = nullptr)
       : scheduler_(&scheduler),
+        lifetime_(scheduler.lifetime_token()),
         capacity_(capacity),
         byte_budget_(byte_budget),
         size_function_(size_function) {}
@@ -194,6 +197,9 @@ class Channel {
   void fail_waiters(const char* reason);
 
   Scheduler* scheduler_ = nullptr;
+  /// Weak reference to the scheduler's lifetime flag: the destructor must not
+  /// call back into a Scheduler that has already been destroyed.
+  std::weak_ptr<std::atomic<bool>> lifetime_{};
   std::size_t capacity_ = default_channel_capacity;
   std::size_t byte_budget_ = 0;
   SizeFunction size_function_ = nullptr;
@@ -341,6 +347,14 @@ void Channel<T>::close() {
 
 template <class T>
 void Channel<T>::fail_waiters(const char* reason) {
+  //Scheduler 已销毁: 等待者不可能再被唤醒, 只清队列, 不回调
+  if (scheduler_ == nullptr || !detail::scheduler_alive(lifetime_)) {
+    scheduler_ = nullptr;
+    senders_.clear();
+    receivers_.clear();
+    return;
+  }
+
   const std::exception_ptr error =
       std::make_exception_ptr(ObjectDestroyedError(reason));
   for (auto& slot : senders_) {

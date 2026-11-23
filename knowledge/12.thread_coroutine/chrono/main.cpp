@@ -20,7 +20,6 @@
 /////////////////////////////////////////////////////////////////////////////
 #include <iostream>
 #include <thread>
-#include <unistd.h>
 #include <chrono>
 
 namespace SYSTEM_CLOCK
@@ -156,7 +155,7 @@ namespace DURATION_CAST
     } 
 }
 
-int main(int argc, char* argv[])
+int main()
 {
     SYSTEM_CLOCK::test();
 

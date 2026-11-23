@@ -44,13 +44,13 @@ public:
     int data{0};
 };
 
-int main(int argc, char const *argv[]) 
+int main() 
 {
     check_size<int>();    // 编译通过，int类型大小通常为4字节
     // check_size<double>();  // 编译失败，double类型大小通常为8字节
 
     int a = 10;
-    double b = 3.14;
+    [[maybe_unused]] double b = 3.14;
     float c = 2.718;
 
     bit_copy(a, c);  // 编译通过，int和float类型大小相同

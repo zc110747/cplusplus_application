@@ -165,7 +165,7 @@ namespace VFORMAT
     } 
 }
 
-int main(int argc, const char* argv[])
+int main()
 {
     FORMAT::test();
     

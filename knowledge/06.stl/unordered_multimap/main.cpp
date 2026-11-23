@@ -20,7 +20,6 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
-#include <unistd.h>
 #include <vector>
 
 // 辅助模板,检测是否为std::unordered_multimap
@@ -181,7 +180,7 @@ void algorithm_process(void)
     // // std::negate<>() 执行取反操作
 }
 
-int main(int argc, char* argv[])
+int main()
 {
     std::unordered_multimap<std::string, int> ucon_0 = {
         {"alpha", 0},
@@ -207,16 +206,16 @@ int main(int argc, char* argv[])
     std::cout << "bucket:" << ucon_0.bucket("beta") << std::endl;
     auto bucket_count = ucon_0.bucket_count();
     std::cout << "bucket count:" << bucket_count << std::endl;
-    for(auto i=0; i < bucket_count; i++)
+    for(std::size_t i=0; i < bucket_count; i++)
     {
         std::cout << "bucket #" << i<<" has " << ucon_0.bucket_size(i)<<" elements." << std::endl;
     }
 
     //begin, end, cbegin, cend
     std::unordered_multimap<std::string, int>::iterator iterbegin = ucon_0.begin();
-    std::unordered_multimap<std::string, int>::iterator iterend = ucon_0.end();
+    [[maybe_unused]] std::unordered_multimap<std::string, int>::iterator iterend = ucon_0.end();
     std::unordered_multimap<std::string, int>::const_iterator iterconstbegin = ucon_0.cbegin();
-    std::unordered_multimap<std::string, int>::const_iterator iterconstend = ucon_0.cend();
+    [[maybe_unused]] std::unordered_multimap<std::string, int>::const_iterator iterconstend = ucon_0.cend();
     std::cout << "begin: " << iterbegin->first<<"=>" << iterbegin->second<<",";
     std::cout << "cbegin: " << iterconstbegin->first<<"=>" << iterconstbegin->second<<",";
 

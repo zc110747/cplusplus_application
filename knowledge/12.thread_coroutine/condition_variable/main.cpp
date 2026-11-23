@@ -194,7 +194,7 @@ void thread_receive_task(void)
     ThreadSemaphore.signal();
 }
 
-int main(int argc, char* argv[])
+int main()
 {
     std::thread t1(thread_send_task);
     std::thread t2(thread_receive_task);

@@ -41,7 +41,7 @@ namespace MDSPAN
     } 
 }
 
-int main(int argc, char* argv[])
+int main()
 {
     MDSPAN::test();
 

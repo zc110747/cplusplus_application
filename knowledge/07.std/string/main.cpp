@@ -18,9 +18,8 @@
 #include <string>
 #include <iostream>
 #include <algorithm>
-#include <unistd.h>
 
-int main(int argc, char* argv[])
+int main()
 {
     std::string str_0{"ustr,"};
     std::string str_1 = std::string("Let's go!");

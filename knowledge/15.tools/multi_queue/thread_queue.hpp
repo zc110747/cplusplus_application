@@ -16,9 +16,11 @@
 //  Revision History:
 //      12/19/2022   Create New Version
 /////////////////////////////////////////////////////////////////////////////
-_Pragma("once")
+#pragma once
 
 #include <queue>
+#include <mutex>
+#include <cstdint>
 #include <iostream>
 #include "semaphore.hpp"
 
@@ -49,7 +51,7 @@ public:
     /// \return wheather success receive the queue.
     bool receive(T& Object, uint32_t timeout)
     {
-        int ret = false;
+        bool ret = false;
 
         if (semaphore_.wait(timeout))
         {
@@ -74,7 +76,7 @@ private:
     std::mutex  mutex_;
 
     /// \brief semaphore_
-    /// - semaphore used to protect the queue.
+    /// - 计数信号量, 只负责"有数据"的通知, 队列本身由 mutex_ 保护.
     semaphore semaphore_;
 };
 

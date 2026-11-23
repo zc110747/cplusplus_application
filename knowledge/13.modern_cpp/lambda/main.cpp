@@ -117,8 +117,10 @@ namespace LAMBDA_CAPTURE
 
         //lambda &reference value from
         auto func = [&v1](int size) -> int {
-            auto min = size>v1.size()?v1.size():size;
-            return min;
+            // 有符号与无符号混比会整型提升成无符号，负数会变成极大值，先显式转换
+            std::size_t limit = static_cast<std::size_t>(size);
+            std::size_t min = limit < v1.size() ? limit : v1.size();
+            return static_cast<int>(min);
         };
         std::cout << func(3) << std::endl;
 
@@ -250,7 +252,7 @@ namespace LAMBDAT_CAPTURE_INIT
     }
 }
 
-int main(int argc, char* argv[])
+int main()
 {
     LAMBDA_CAPTURE::test();
 

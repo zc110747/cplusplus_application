@@ -221,7 +221,7 @@ namespace SSTREAM
     }
 }
 
-int main(int argc, char* argv[]) 
+int main() 
 {
     IOSTREAM::test();
 

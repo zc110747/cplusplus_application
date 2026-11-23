@@ -75,7 +75,7 @@ namespace TEMPLATE_IMPROVE
     {
         int b;
     }Obj2;
-    template<class T> void f2(T t){
+    template<class T> void f2(T /*t*/){
         cout<<typeid(T).name()<<" | ";
     }
 

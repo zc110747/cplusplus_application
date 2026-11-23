@@ -288,7 +288,7 @@ namespace INVOKE_PROCESS
     }
 }
 
-int main(int argc, char* argv[])
+int main()
 {
     FUNCTIONAL_BASE::test();
 

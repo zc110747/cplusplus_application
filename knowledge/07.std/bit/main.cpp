@@ -19,7 +19,6 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
-#include <unistd.h>
 #include <bit>
 #include <bitset>
 #include <cstdint>
@@ -103,7 +102,7 @@ namespace BITSET
         
         //size, test
         std::cout << "size:" << bits_1.size() << std::endl ;
-        for(int index=0; index<bits_1.size(); index++)
+        for(std::size_t index=0; index<bits_1.size(); index++)
         {
             std::cout << "index:" << index<<" value:" << bits_1.test(index) << std::endl ;
         }
@@ -120,7 +119,7 @@ namespace BITSET
         std::cout << "ullong:" << bits_1.to_ullong() << std::endl ;
         std::cout << "ulong:" << bits_1.to_ulong() << std::endl ;
         
-        auto val = bits_1.to_ulong();
+        [[maybe_unused]] auto val = bits_1.to_ulong();
         std::bitset<8> bitsetval{bits_1.to_ulong()};
         std::cout << "bitset:" << bitsetval << std::endl ;
         return 0;
@@ -146,7 +145,7 @@ namespace BITCAST
         return 0;
     }
 }
-int main(int argc, char* argv[])
+int main()
 {
     BIT::test();
 

@@ -9,7 +9,7 @@
 #include "006.mostgive.hpp"
 #include "007.mediatwo.hpp"
 
-int main(int argc, char *argv[])
+int main()
 {
     ALG_MEGRE::test();
 

@@ -22,34 +22,9 @@
 
 #include "logger.hpp"
 
-namespace LOGGER
-{
-    template<typename... Args>
-    void logger_manage::logger_message(LOGGER_LEVEL level, const char* f_str, Args... args)
-    {
-        if (level >= level_) {
-            std::lock_guard<std::mutex> lock(log_mutex_);
-            const char* level_str = "";
-            switch(level) {
-                case LOGGER_LEVEL::DEBUG: level_str = "D"; break;
-                case LOGGER_LEVEL::INFO:  level_str = "I";  break;
-                case LOGGER_LEVEL::WARN:  level_str = "W";  break;
-                case LOGGER_LEVEL::ERROR: level_str = "E"; break;
-                case LOGGER_LEVEL::FATAL: level_str = "F"; break;
-            }
-            auto now = std::chrono::system_clock::now();
-            auto now_time = std::chrono::system_clock::to_time_t(now);
-            std::tm* local_time = std::localtime(&now_time);
-            std::stringstream ss;
-            ss << std::put_time(local_time, "%Y-%m-%d %H:%M");
-            #ifndef PROGRAM_NAME
-            fmt::println("[{}][{}] {}", level_str, ss.str(), fmt::format(f_str, std::forward<Args>(args)...));
-            #else
-            fmt::println("[{}][{}][{}] {}", level_str, ss.str(), PROGRAM_NAME, fmt::format(f_str, std::forward<Args>(args)...));    
-            #endif
-        }
-    }
-}
+//另一个翻译单元里也使用 LOG_*, 用于验证模板定义确实在头文件中
+void logger_user_demo(void);
+
 struct Point {
     int x;
     int y;
@@ -98,7 +73,7 @@ int main(void)
 
     LOG_SET_LEVEL(LOGGER::logger_manage::LOGGER_LEVEL::FATAL);
     LOG_WARN("This is a warning message");     // not logger_manage
-    LOG_FATAL("This is a fatal message")
+    LOG_FATAL("This is a fatal message");
 
     LOG_SET_LEVEL(LOGGER::logger_manage::LOGGER_LEVEL::DEBUG);
     LOG_DEBUG("This is a debug message");
@@ -115,6 +90,9 @@ int main(void)
 
     Network net{"192.168.1.1", 8080};
     LOG_FATAL("{0}", net);
+
+    //跨翻译单元调用日志宏
+    logger_user_demo();
 
     return 0;
 }

@@ -56,7 +56,7 @@ namespace OTHER_OPTIMIZE
     {
     public:
         X3() {cout<<"x3 ctor"<<" | ";}
-        X3(const X3 &x) {cout<<"copy x3 ctor"<<" | ";}
+        X3(const X3 &/*x*/) {cout<<"copy x3 ctor"<<" | ";}
         ~X3() {cout<<"x3 dtor"<<" | "; }
     };
 
@@ -105,6 +105,13 @@ namespace OTHER_OPTIMIZE
             cout<<"call delete"<<" | ";
             ::operator delete(ptr);
         }
+        // destroying delete 只在对象构造完成后生效；构造抛出时对象还不存在，
+        // 必须另有普通的 operator delete 负责释放内存
+        void operator delete(void *ptr) noexcept
+        {
+            cout<<"call delete(release)"<<" | ";
+            ::operator delete(ptr);
+        }
     };
     #endif
 
@@ -140,7 +147,7 @@ namespace OTHER_OPTIMIZE
         cout<<"\nchapter34.2\n  ";
         #if __MORE_THAN_CPP17__
         U2 u2 = {{1}};
-        X2 *p2 = new(&u2.x) X2{2};
+        [[maybe_unused]] X2 *p2 = new(&u2.x) X2{2};
         cout<<((*std::launder(&u2.x.n)) == 2)<<" | ";
         #else
         __LOWRE_THAN_CPP17_RUN;
@@ -220,7 +227,12 @@ namespace OTHER_OPTIMIZE
         cout<<"\nchapter34.11\n  ";
         int a11[]{1, 2, 3};
         int x = 1, y = 2;
+        // 本节演示的是「不推荐这么写」：C++23 起下标里的顶层逗号表达式含义已改变
+        #pragma GCC diagnostic push
+        #pragma GCC diagnostic ignored "-Wcomma-subscript"
+        #pragma GCC diagnostic ignored "-Wunused-value"
         cout<<a11[x, y]<<" | ";
+        #pragma GCC diagnostic pop
 
         //34.12 模块
         //import module

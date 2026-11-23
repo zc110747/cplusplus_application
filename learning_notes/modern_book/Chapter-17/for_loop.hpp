@@ -15,7 +15,7 @@
 //  Revision History:
 //      4/19/2023   Create New Version
 /////////////////////////////////////////////////////////////////////////////
-_Pragma("once")
+#pragma once
 
 namespace FOR_LOOP
 {

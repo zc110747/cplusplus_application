@@ -20,7 +20,6 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
-#include <unistd.h>
 #include <numeric>
 #include <vector>
 
@@ -175,7 +174,7 @@ void algorithm_process(void)
     std::cout << "transform_reduce:" <<result <<std::endl;
 }
 
-int main(int argc, char* argv[])
+int main()
 {
     int array[5] = {8, 2, 1, 3, 5};
     std::set<int> arr_set(array, array+5);

@@ -20,7 +20,6 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
-#include <unistd.h>
 #include <numeric>
 #include <type_traits>
 #include <utility>
@@ -171,7 +170,7 @@ struct compare_by_length {
     }
 };
 
-int main(int argc, char* argv[])
+int main()
 {
     std::flat_map<std::string, int> usermap = {
         {"alpha", 4},

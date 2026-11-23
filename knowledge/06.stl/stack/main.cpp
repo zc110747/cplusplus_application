@@ -20,7 +20,6 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
-#include <unistd.h>
 #include <vector>
 
 template<typename T>
@@ -44,7 +43,7 @@ void show_container(T container_val, std::string qstring)
     std::cout << std::endl;
 }
 
-int main(int argc, char* argv[])
+int main()
 {
     // stack
     std::stack<std::string> scon_0;

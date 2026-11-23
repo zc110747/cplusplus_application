@@ -20,7 +20,6 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
-#include <unistd.h>
 #include <numeric>
 #include <vector>
 
@@ -198,7 +197,7 @@ public:
     }
     
     // 内存释放
-    void deallocate(T* p, std::size_t n) noexcept {
+    void deallocate(T* p, std::size_t /*n*/) noexcept {
         ::operator delete(p);
     }
     
@@ -218,7 +217,7 @@ public:
 // 使用自定义分配器的multiset
 using CustomMultiset = std::multiset<int, std::less<int>, CustomAllocator<int>>;
 
-int main(int argc, char* argv[])
+int main()
 {
     int array[5] = {8, 2, 1, 3, 5};
     std::multiset<int> intv(array, array+5);

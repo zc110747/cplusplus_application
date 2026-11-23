@@ -23,6 +23,8 @@
 #include <mutex>
 #include <thread>
 #include <chrono>
+#include <cstddef>
+#include <cstdlib>
 
 namespace NEW_BASE
 {
@@ -112,7 +114,11 @@ namespace NEW_REDEFINE
     class MEM_ALLOC
     {
     private:
-        /* data */
+        // 分配块头部: 记录长度, 并保证返回给用户的内存满足 max_align_t 对齐
+        struct alignas(std::max_align_t) block_header {
+            size_t size;
+        };
+
         inline static size_t mem_size = 0;
         inline static std::mutex mtx;
 
@@ -123,25 +129,46 @@ namespace NEW_REDEFINE
         }
 
     public:
-        static void *new_with_throw(size_t size) {
-            void *pT = static_cast<void *>(malloc(size));
-            if(pT == NULL) {
-                std::bad_alloc ba;
-                throw ba;
+        // 统一分配入口: 头部记录长度, 无尺寸的 delete 也能正确归还
+        static void *allocate(size_t size) noexcept {
+            void *raw = malloc(sizeof(block_header) + size);
+            if(raw == nullptr) {
+                return nullptr;
             }
+
+            block_header *header = static_cast<block_header *>(raw);
+            header->size = size;
             mem_size += size;
+            return static_cast<void *>(header + 1);
+        }
+
+        // 统一释放入口: 从头部取回长度, 不依赖 delete 的 size 参数
+        static void release(void *ptr) noexcept {
+            if(ptr == nullptr) {
+                return;
+            }
+
+            block_header *header = static_cast<block_header *>(ptr) - 1;
+            if(mem_size >= header->size) {
+                mem_size -= header->size;
+            } else {
+                mem_size = 0;
+            }
+            free(header);
+        }
+
+        static void *new_with_throw(size_t size) {
+            void *pT = allocate(size);
+            if(pT == nullptr) {
+                throw std::bad_alloc();
+            }
             return pT;
         }
 
-        static void *new_without_throw(size_t size) noexcept{
-            void *pT = static_cast<void *>(malloc(size));
-            if(pT == NULL) {
-                return nullptr;
-            }
-            mem_size += size;
-            return pT;
+        static void *new_without_throw(size_t size) noexcept {
+            return allocate(size);
         }
-        
+
         void *operator new(size_t size) {
             if constexpr(is_safe) {
                 std::lock_guard<std::mutex> lk(mtx);
@@ -152,6 +179,7 @@ namespace NEW_REDEFINE
         }
 
         void *operator new(size_t size, const int& id) {
+            (void)id;
             if constexpr(is_safe) {
                 std::lock_guard<std::mutex> lk(mtx);
                 return new_with_throw(size);
@@ -159,7 +187,6 @@ namespace NEW_REDEFINE
                 return new_with_throw(size);
             }
         }
-
 
         void *operator new(size_t size, const std::nothrow_t&) noexcept {
             if constexpr(is_safe) {
@@ -170,7 +197,6 @@ namespace NEW_REDEFINE
             }
         }
 
-
         void *operator new[](size_t size) {
             if constexpr(is_safe) {
                 std::lock_guard<std::mutex> lk(mtx);
@@ -180,32 +206,46 @@ namespace NEW_REDEFINE
             }
         }
 
-        static void delete_ptr(void *ptr, size_t size) {
-           if (ptr != nullptr) {
-                free(ptr);
-                mem_size -= size;
-            }
-        }
-
-        void operator delete(void *ptr, size_t size) {
+        // 无尺寸释放: 长度取自分配时写入的头部
+        void operator delete(void *ptr) noexcept {
             if constexpr(is_safe) {
                 std::lock_guard<std::mutex> lk(mtx);
-                delete_ptr(ptr, size);
+                release(ptr);
             } else {
-                delete_ptr(ptr, size);
+                release(ptr);
             }
         }
 
-        void operator delete[](void *ptr, size_t size) {
+        void operator delete[](void *ptr) noexcept {
             if constexpr(is_safe) {
                 std::lock_guard<std::mutex> lk(mtx);
-                delete_ptr(ptr, size);
+                release(ptr);
             } else {
-                delete_ptr(ptr, size);
+                release(ptr);
             }
         }
 
-        static int get_size()  { return mem_size; }
+        // 带尺寸释放: 保留以匹配 sized deallocation, 长度仍以头部为准
+        void operator delete(void *ptr, size_t size) noexcept {
+            (void)size;
+            operator delete(ptr);
+        }
+
+        void operator delete[](void *ptr, size_t size) noexcept {
+            (void)size;
+            operator delete[](ptr);
+        }
+
+        // new(std::nothrow) 失败或构造抛异常时的配对版本
+        void operator delete(void *ptr, const std::nothrow_t&) noexcept {
+            operator delete(ptr);
+        }
+
+        void operator delete[](void *ptr, const std::nothrow_t&) noexcept {
+            operator delete[](ptr);
+        }
+
+        static size_t get_size(void)  { return mem_size; }
     };
 
     class USER_SAFE: public MEM_ALLOC<true>
@@ -233,6 +273,12 @@ namespace NEW_REDEFINE
         void* operator new(size_t size) {
             std::cout << "new demo" << std::endl;
             return ::operator new(size);
+        }
+
+        //与 operator new 配对的普通释放版本, 供 destroying delete 之外的场景使用
+        void operator delete(void *ptr) noexcept {
+            std::cout << "delete demo(void*)" << std::endl;
+            ::operator delete(ptr);
         }
 
         void operator delete(demo *ptr, std::destroying_delete_t) {
@@ -292,7 +338,7 @@ namespace NEW_REDEFINE
     }
 }
 
-int main(int argc, const char *argv[])
+int main()
 {
     NEW_BASE::test();
 

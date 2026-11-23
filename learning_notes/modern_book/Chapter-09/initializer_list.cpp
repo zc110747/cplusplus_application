@@ -168,11 +168,16 @@ namespace INITIALIZE_LIST
         #if __MORE_THAN_CPP20__
         Point p5{.x = 4, .y = 5};
         cout<<p5.x<<" | "<<p5.y<<" | ";
+        // 故意省略 .y：未列出的成员按值初始化（此处为 0）
+        // -Wextra 的 -Wmissing-field-initializers 会对省略成员告警，示教代码在此局部关闭
+        #pragma GCC diagnostic push
+        #pragma GCC diagnostic ignored "-Wmissing-field-initializers"
         Point pl5{.x = 4};
+        #pragma GCC diagnostic pop
         cout<<pl5.x<<" | "<<pl5.y<<" | ";
 
-        u f5 = {.a = 1};
-        u fl5 = {.b = "adsda"};
+        [[maybe_unused]] u f5 = {.a = 1};
+        [[maybe_unused]] u fl5 = {.b = "adsda"};
         #else
         __LOWRE_THAN_CPP20_RUN
         #endif

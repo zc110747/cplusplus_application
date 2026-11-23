@@ -11,7 +11,15 @@
 STD_VERSION ?= -std=c++20
 CC = $(CROSS_COMPILE)g++
 
-CFLAGS += $(STD_VERSION) -lpthread -lm -fconcepts $(gdef)
+# 告警默认全开：示例代码里确属"故意演示"的写法用
+# #pragma GCC diagnostic ignored "..." 就近关闭，不要退回全局静音
+WARN_FLAGS ?= -Wall -Wextra
+
+# 编译选项（不含任何链接库）
+CFLAGS += $(STD_VERSION) $(WARN_FLAGS) $(gdef)
+
+# 链接库（只出现在链接行）
+LDLIBS += -lpthread -lm
 
 # this is the rule how to complie file with type .cpp to middle file .o 
 # then link the object and generate the executables.
@@ -21,7 +29,7 @@ all : $(executables)
 	$(CC) $(CFLAGS) -c $< -o $@ $(include_path)
 
 $(executables): $(objects)
-	$(CC) -o $(executables) $(objects) $(LIB) $(CFLAGS)
+	$(CC) -o $(executables) $(objects) $(LIB) $(CFLAGS) $(LDLIBS)
 	$(shell if [ -d $(executables_path) ]; then echo; else mkdir $(executables_path); fi)
 ifneq ($(executables_path),./)
 	mv $(executables) $(executables_path)

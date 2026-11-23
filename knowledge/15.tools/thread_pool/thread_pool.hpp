@@ -13,8 +13,8 @@
 // Revision History:
 //      Version V1.0b1 Create.
 /////////////////////////////////////////////////////////////////////////////
-#ifndef __THREAD_POOL_HPP__
-#define __THREAD_POOL_HPP__
+#ifndef THREAD_POOL_HPP_
+#define THREAD_POOL_HPP_
 
 #include <vector>
 #include <queue>
@@ -25,6 +25,8 @@
 #include <future>
 #include <atomic>
 #include <iostream>
+#include <type_traits>
+#include <stdexcept>
 
 namespace THREAD_POOL 
 {
@@ -56,6 +58,11 @@ public:
     /// @param threadCount thread count in thread pool, default is std::thread::hardware_concurrency()
     /// @return NULL
     void init(size_t threadCount = std::thread::hardware_concurrency()) { 
+        //重复调用会让线程数翻倍, 已初始化则直接返回
+        if (!workers_.empty()) {
+            return;
+        }
+
         thread_count_ = threadCount;
         if (thread_count_ == 0) {
             thread_count_ = 4;
@@ -89,8 +96,8 @@ public:
     /// @return return value of function
     template<class F, class... Args>
     auto enqueue(F&& f, Args&&... args) 
-        -> std::future<typename std::result_of<F(Args...)>::type> {
-        using return_type = typename std::result_of<F(Args...)>::type;
+        -> std::future<typename std::invoke_result_t<F, Args...>> {
+        using return_type = typename std::invoke_result_t<F, Args...>;
 
         auto task = std::make_shared< std::packaged_task<return_type()> >(
             std::bind(std::forward<F>(f), std::forward<Args>(args)...)

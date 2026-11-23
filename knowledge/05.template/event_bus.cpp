@@ -2,6 +2,7 @@
 #include <array>
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <iostream>
 #include <tuple>
 #include <type_traits>
@@ -104,8 +105,10 @@ public:
     // Callback interface
     // --------------------------------------------------------
 
+    // 用 std::function 承载回调: 裸函数指针无法接收捕获 lambda / 成员函数
+    // context 声明为 const void*, 调用方可以直接传字符串字面量, 不必 const_cast
     template<typename Event>
-    using Callback = void (*)(const Event&, void*);
+    using Callback = std::function<void(const Event&, const void*)>;
 
 private:
     template<typename Event>
@@ -113,21 +116,46 @@ private:
     {
         struct Entry
         {
-            Callback<Event> callback = nullptr;
-            void* context = nullptr;
+            Callback<Event> callback{};
+            const void* context = nullptr;
         };
 
         std::array<Entry, MaxSubscribers> entries{};
         std::size_t count = 0;
 
-        bool add(Callback<Event> callback, void* context)
+        bool add(Callback<Event> callback, const void* context)
         {
+            if (!callback)
+            {
+                return false;
+            }
+
+            // 同一「函数指针 + 上下文」不重复注册(捕获 lambda 无法比较, 只做去重尽力而为)
+            const auto* target =
+                callback.template target<void (*)(const Event&, const void*)>();
+
+            for (std::size_t i = 0; i < count; ++i)
+            {
+                if (entries[i].context != context)
+                {
+                    continue;
+                }
+
+                const auto* existing =
+                    entries[i].callback.template target<void (*)(const Event&, const void*)>();
+
+                if (target != nullptr && existing != nullptr && *target == *existing)
+                {
+                    return false;
+                }
+            }
+
             if (count >= MaxSubscribers)
             {
                 return false;
             }
 
-            entries[count++] = {callback, context};
+            entries[count++] = {std::move(callback), context};
             return true;
         }
 
@@ -180,19 +208,14 @@ public:
     template<typename Event>
     bool subscribe(
         Callback<Event> callback,
-        void* context = nullptr)
+        const void* context = nullptr)
     {
         static_assert(
             (std::is_same_v<Event, Events> || ...),
             "Unsupported event type");
 
-        if (callback == nullptr)
-        {
-            return false;
-        }
-
         return std::get<SubscriberList<Event>>(subscribers_)
-            .add(callback, context);
+            .add(std::move(callback), context);
     }
 
     // --------------------------------------------------------
@@ -324,7 +347,7 @@ public:
 
 void on_temperature(
     const TemperatureEvent& event,
-    void* context)
+    const void* context)
 {
     const char* name =
         static_cast<const char*>(context);
@@ -335,7 +358,7 @@ void on_temperature(
 
 void on_motor(
     const MotorEvent& event,
-    void*)
+    const void*)
 {
     std::cout << "[Motor] ID="
               << static_cast<int>(event.motor_id)
@@ -345,7 +368,7 @@ void on_motor(
 
 void on_position(
     const PositionEvent& event,
-    void*)
+    const void*)
 {
     std::cout << "[Position] "
               << event.x << ", "
@@ -388,14 +411,30 @@ int event_bus_manage(void)
     // Subscribe
     bus.subscribe<TemperatureEvent>(
         on_temperature,
-        const_cast<char*>("Main"));
+        "Main");
 
     bus.subscribe<TemperatureEvent>(
         on_temperature,
-        const_cast<char*>("Logger"));
+        "Logger");
 
     bus.subscribe<MotorEvent>(on_motor);
     bus.subscribe<PositionEvent>(on_position);
+
+    // 捕获 lambda 也能订阅(裸函数指针做不到)
+    int lambda_hits = 0;
+    bus.subscribe<MotorEvent>(
+        [&lambda_hits](const MotorEvent& event, const void*)
+        {
+            ++lambda_hits;
+            std::cout << "[Lambda][Motor] angle="
+                      << event.angle << '\n';
+        });
+
+    // 重复注册同一「函数 + 上下文」会被拒绝
+    const bool duplicated =
+        bus.subscribe<TemperatureEvent>(on_temperature, "Main");
+    std::cout << "duplicate subscribe accepted: "
+              << duplicated << '\n';
 
     // Producer: publish events
     bus.publish(
@@ -421,6 +460,8 @@ int event_bus_manage(void)
     std::cout << "\n========== Consumer ==========\n";
 
     bus.process_all();
+
+    std::cout << "lambda hits: " << lambda_hits << '\n';
 
     return 0;
 }

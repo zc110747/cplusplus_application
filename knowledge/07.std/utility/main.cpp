@@ -23,12 +23,12 @@
 
 namespace UTILITY_BASE
 {
-    void over_func1 (const int& x) 
+    void over_func1 (const int& /*x*/) 
     {
         std::cout << "[lvalue]" << std::endl;
     }
 
-    void over_func1 (int&& x) 
+    void over_func1 (int&& /*x*/) 
     {
         std::cout << "[rvalue]" << std::endl;
     }
@@ -54,11 +54,11 @@ namespace UTILITY_BASE
         }
     };
 
-    void foo(int& arg) {
+    void foo(int& /*arg*/) {
         std::cout << "lvalue" << std::endl;
     }
     
-    void foo(int&& arg) {
+    void foo(int&& /*arg*/) {
         std::cout << "rvalue" << std::endl;
     }
 
@@ -101,7 +101,11 @@ namespace UTILITY_BASE
         func(a1);
         func(0);
 
+        // std::rel_ops 在 C++20 已弃用（改用 <=>），此处保留以演示其自动派生的比较运算符
+        #pragma GCC diagnostic push
+        #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
         using namespace std::rel_ops;
+        #pragma GCC diagnostic pop
         A<int> ac1(1, 2), ac2(3, 4);
         std::cout << "ac1 == ac2: " << (ac1 == ac2) << std::endl;
         std::cout << "ac1 < ac2: " << (ac1 < ac2) << std::endl;

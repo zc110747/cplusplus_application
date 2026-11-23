@@ -19,7 +19,6 @@
 #include <any>
 #include <string>
 #include <iostream>
-#include <unistd.h>
 #include <vector>
 #include <complex>
 
@@ -125,7 +124,7 @@ namespace ANY_METHOD
     } 
 }
 
-int main(int argc, char* argv[])
+int main()
 {
     ANY_DECLARATION::test();
 
