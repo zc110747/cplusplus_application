@@ -7,4 +7,4 @@ target
 
 knowledge/*/build/*
 knowledge/*/*/build/*
-modern_book/build/*
+learning_notes/modern_book/build/*

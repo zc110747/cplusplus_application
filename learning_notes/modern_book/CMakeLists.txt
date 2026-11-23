@@ -5,10 +5,10 @@ cmake_minimum_required(VERSION 3.10)
 project(target)
 
 # 设备交叉编译工具链
-set(CMAKE_SYSTEM_NAME Linux)
+set(CMAKE_SYSTEM_NAME Windows)
 
 # 指定 C++ 标准
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # 添加可执行文件

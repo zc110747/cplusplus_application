@@ -65,4 +65,4 @@ CFLAGS += -g
 command = $(executables_path)/$(executables)
 
 # Including this file allows access to the Build System.
-include ../build/build.mk
+include ../../build/build.mk

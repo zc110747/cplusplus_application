@@ -8,7 +8,7 @@
 
 # This is object should be build and will link to generate
 # the executables
-STD_VERSION := -std=c++23
+STD_VERSION := -std=c++23 
 
 objects = main.o
 

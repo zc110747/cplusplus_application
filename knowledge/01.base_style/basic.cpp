@@ -89,7 +89,7 @@ int type_process(void)
         std::cout << "a6 type: " << typeid(a6).name() << " | ";         //s
         std::cout << "a7 type: " << typeid(a7).name() << std::endl;     //i
 
-        __int32_t a8 = 1;
+        unsigned int a8 = 1;
         auto a9 = a8 + a1;
         std::cout << "a8 type: " << typeid(a8).name() << " | ";         //i
         std::cout << "a9 type: " << typeid(a9).name() << std::endl;     //i
