@@ -35,5 +35,5 @@ int main(int argc, char *argv[])
     decoder.show_info();
     decoder.save_to_bmp("test.bmp");
 
-    return 1;
+    return 0;
 }

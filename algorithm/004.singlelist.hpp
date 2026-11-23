@@ -20,6 +20,7 @@
 
 #include <iostream>
 #include <string>
+#include <utility>
 
 namespace ALG_SINGAL_LIST
 {
@@ -41,28 +42,54 @@ namespace ALG_SINGAL_LIST
     class SingleList
     {
     public:
-        SingleList():name_(__func__) {
+        SingleList():name_("SingleList") {
         }
-        SingleList(std::initializer_list<T> list) {
-            if(list.size() > 0) {
-                Node<T>* ptr = nullptr;
-                for(const auto *item = list.begin(); item != list.end(); ++item)
-                {
-                    if(head == nullptr) {
-                        head = new Node<T>;
-                        ptr = head;
-                        ptr->next = nullptr;
-                    } else {
-                        ptr->next = new Node<T>;
-                        ptr = ptr->next;
-                        ptr->next = nullptr;
-                    }
-                    ptr->data = *item;
-                }
+        SingleList(std::initializer_list<T> list):name_("SingleList") {
+            Node<T> **dst = &head;
+            for(const auto &item : list)
+            {
+                *dst = new Node<T>{item, nullptr};
+                dst = &(*dst)->next;
             }
         }
+
+        //深拷贝, 两个对象持有各自独立的节点
+        SingleList(const SingleList& rhs):name_(rhs.name_) {
+            Node<T> **dst = &head;
+            for(const Node<T> *src = rhs.head; src != nullptr; src = src->next) {
+                *dst = new Node<T>{src->data, nullptr};
+                dst = &(*dst)->next;
+            }
+        }
+
+        SingleList& operator=(const SingleList& rhs) {
+            if (this != &rhs) {
+                SingleList tmp(rhs);
+                swap(tmp);
+            }
+            return *this;
+        }
+
+        //移动构造直接接管对方的链, 不复制节点
+        SingleList(SingleList&& rhs) noexcept:head{rhs.head}, name_{rhs.name_} {
+            rhs.head = nullptr;
+        }
+
+        SingleList& operator=(SingleList&& rhs) noexcept {
+            if (this != &rhs) {
+                clear();
+                head = rhs.head;
+                rhs.head = nullptr;
+            }
+            return *this;
+        }
+
+        //析构函数释放全部节点
+        ~SingleList() {
+            clear();
+        }
     
-        void show() {
+        void show() const {
             Node<T>* ptr = head;
     
             while(ptr != nullptr) {
@@ -72,26 +99,31 @@ namespace ALG_SINGAL_LIST
             std::cout<<std::endl;
         }
     
-        STATUS insert_elem(int index, T& elem) {
-            return insert_elem(index, std::move(elem));
+        //左值实参复制一份, 不做隐式移动
+        STATUS insert_elem(int index, const T& elem) {
+            T copy(elem);
+            return insert_elem(index, std::move(copy));
         }
     
         STATUS insert_elem(int index, T&& elem) {
-            int j = 1;
-            Node<T> *p;
-    
-            p = head;
-            while (p && j < index) {
-                p = p->next;
-                ++j;
-            }
-    
-            if (!p && index != 0)
+            if (index < 0) {
                 return ERROR;
-    
-            Node<T> *nod = new Node<T>;
-            nod->data = elem;
-    
+            }
+
+            Node<T> *p = head;
+            if (index != 0) {
+                int j = 1;
+                while (p && j < index) {
+                    p = p->next;
+                    ++j;
+                }
+                if (p == nullptr) {
+                    return ERROR;
+                }
+            }
+
+            Node<T> *nod = new Node<T>{std::move(elem), nullptr};
+
             if (index == 0) {
                 nod->next = head;
                 head = nod;
@@ -103,37 +135,54 @@ namespace ALG_SINGAL_LIST
         }
     
         STATUS delete_elem(int index) {
-            int j = 1;
-            Node<T> *p;
-    
-            p = head;
-            while (p && j < index) {
-                p = p->next;
-                ++j;
-            }
-    
-            if (!p)
-            {
+            if (index < 0 || head == nullptr) {
                 std::cout<<"delete, nullptr!"<<std::endl;
                 return ERROR;
             }
-            
+
             if (index == 0) {
                 Node<T> *nod = head;
                 head = head->next;
                 delete nod;
-            } else {
-                Node<T> *nod = p->next;
-                p->next = nod->next;
-                delete nod;
+                return OK;
             }
+
+            int j = 1;
+            Node<T> *p = head;
+            while (p && j < index) {
+                p = p->next;
+                ++j;
+            }
+
+            //目标位置不存在时 p 或 p->next 为空, 不能继续解引用
+            if (p == nullptr || p->next == nullptr) {
+                std::cout<<"delete, nullptr!"<<std::endl;
+                return ERROR;
+            }
+
+            Node<T> *nod = p->next;
+            p->next = nod->next;
+            delete nod;
             return OK;
         }
     
     private:
+        void clear() noexcept {
+            while (head != nullptr) {
+                Node<T> *next = head->next;
+                delete head;
+                head = next;
+            }
+        }
+
+        void swap(SingleList& rhs) noexcept {
+            std::swap(head, rhs.head);
+            std::swap(name_, rhs.name_);
+        }
+
         Node<T> *head{nullptr};
 
-        char *name_;
+        const char *name_{nullptr};
     };
     
     void test()

@@ -19,6 +19,8 @@
 #include "basic_any.hpp"
 #include "../includes.hpp"
 
+#include <exception>
+
 using namespace std;
 
 /*
@@ -32,9 +34,20 @@ namespace BASIC_ANY
         int y{5};
     };
 
+    //类型不匹配或对象为空时抛出的异常
+    struct bad_any_cast: public std::exception
+    {
+        const char* what() const noexcept override {
+            return "bad_any_cast: object empty or type mismatch";
+        }
+    };
+
     struct Base
     {
-        virtual Base* copy() = 0;
+        virtual Base* copy() const = 0;
+
+        //多态基类必须有虚析构, 否则 delete Base* 不会调用派生类析构函数
+        virtual ~Base() = default;
     };
     
     template<typename T>
@@ -42,10 +55,10 @@ namespace BASIC_ANY
     {
         T data_;
         
-        Derived(const T& val):data_{val} {
+        explicit Derived(const T& val):data_{val} {
         }
 
-        virtual Base* copy() {
+        Base* copy() const override {
             return new Derived<T>(data_);
         }
     };
@@ -63,54 +76,41 @@ namespace BASIC_ANY
         }
 
         //复制构造函数
-        basic_any(const basic_any& rhs)
+        basic_any(const basic_any& rhs):ptr_{rhs.ptr_ ? rhs.ptr_->copy() : nullptr}
         {   
             std::cout<<"copy construct function"<<" | ";
-
-            if (ptr_) {
-                delete ptr_;
-                ptr_ = nullptr;
-            }
-
-            if (rhs.ptr_) {
-                ptr_ = rhs.ptr_->copy();
-            }
         }
 
-        //赋值函数
+        //赋值函数: 先复制后释放, 自赋值时 rhs 与 this 相同也不会访问已释放内存
         basic_any& operator= (const basic_any& rhs)
         {
             std::cout<<"copy function"<<" | ";
 
-            if (ptr_) {
-                delete ptr_;
-                ptr_ = nullptr;
-            } 
-
-            if(rhs.ptr_)
-            {
-                ptr_ = rhs.ptr_->copy();
+            if (this == &rhs) {
+                return *this;
             }
+
+            Base *new_ptr = rhs.ptr_ ? rhs.ptr_->copy() : nullptr;
+            delete ptr_;
+            ptr_ = new_ptr;
             return *this;
         }
 
         virtual ~basic_any()
         {
-            if(!ptr_)
-            {
-                delete ptr_;
-                ptr_ = nullptr;
-            }
+            delete ptr_;
+            ptr_ = nullptr;
         }
 
         template<typename T>
         T &get()
         {
-            if(ptr_) {
-                return static_cast<Derived<T> *>(ptr_)->data_;
-            } else {
-                throw "ptr nullptr issue!";
+            //dynamic_cast 校验真实类型, 类型不符时抛异常而不是未定义行为
+            Derived<T> *p = dynamic_cast<Derived<T> *>(ptr_);
+            if (p == nullptr) {
+                throw bad_any_cast{};
             }
+            return p->data_;
         }
     private:
         Base *ptr_{nullptr};
@@ -143,12 +143,17 @@ namespace BASIC_ANY
             str_val = 16;
             cout<<str_val.get<int>()<<"\n";
 
+            //自赋值: 赋值运算符内部先复制后释放, 不会把自身数据删掉
+            basic_any self_val = 5;
+            self_val = self_val;
+            cout<<self_val.get<int>()<<"\n";
+
             basic_any any_val;
             cout<<any_val.get<int>(); 
         }
-        catch(const char* str)
+        catch(const std::exception& e)
         {
-            std::cout << str << '\n';
+            std::cout << e.what() << '\n';
         }
         
         FUNCTION_END()

@@ -19,6 +19,7 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <utility>
 
 namespace ALG_DOUBLE_LIST 
 {
@@ -43,29 +44,49 @@ namespace ALG_DOUBLE_LIST
     public:
         DoubleList() = default;
         DoubleList(std::initializer_list<T> list) {
-            if(list.size() > 0) {
-                Node<T>* ptr = nullptr;
-                for(const auto *item = list.begin(); item != list.end(); ++item)
-                {
-                    if(head == nullptr) {
-                        head = new Node<T>;
-                        ptr = head;
-                        tail = head;
-                        ptr->next = nullptr;
-                        ptr->prev = nullptr;
-                    } else {
-                        ptr->next = new Node<T>;
-                        ptr->next->prev = ptr;
-                        ptr = ptr->next;
-                        ptr->next = nullptr;
-                    }
-                    ptr->data = *item;
-                }
-                tail = ptr;
+            for(const auto &item : list)
+            {
+                append_node(item);
             }
         }
 
-        void show() {
+        //深拷贝, 两个对象持有各自独立的节点
+        DoubleList(const DoubleList& rhs) {
+            for(const Node<T> *src = rhs.head; src != nullptr; src = src->next) {
+                append_node(src->data);
+            }
+        }
+
+        DoubleList& operator=(const DoubleList& rhs) {
+            if (this != &rhs) {
+                DoubleList tmp(rhs);
+                swap(tmp);
+            }
+            return *this;
+        }
+
+        DoubleList(DoubleList&& rhs) noexcept:head{rhs.head}, tail{rhs.tail} {
+            rhs.head = nullptr;
+            rhs.tail = nullptr;
+        }
+
+        DoubleList& operator=(DoubleList&& rhs) noexcept {
+            if (this != &rhs) {
+                clear();
+                head = rhs.head;
+                tail = rhs.tail;
+                rhs.head = nullptr;
+                rhs.tail = nullptr;
+            }
+            return *this;
+        }
+
+        //析构函数释放全部节点
+        ~DoubleList() {
+            clear();
+        }
+
+        void show() const {
             Node<T>* ptr = head;
 
             while(ptr != nullptr) {
@@ -75,7 +96,7 @@ namespace ALG_DOUBLE_LIST
             std::cout<<std::endl;
         }
 
-        void show_reseverd() {
+        void show_reseverd() const {
             Node<T>* ptr = tail;
 
             while(ptr != nullptr) {
@@ -85,34 +106,39 @@ namespace ALG_DOUBLE_LIST
             std::cout<<std::endl;  
         }
 
-        STATUS insert_elem(int index, T& elem) {
-            return insert_elem(index, std::move(elem));
+        //左值实参复制一份, 不做隐式移动
+        STATUS insert_elem(int index, const T& elem) {
+            T copy(elem);
+            return insert_elem(index, std::move(copy));
         }
 
         STATUS insert_elem(int index, T&& elem) {
-            int j = 1;
-            Node<T> *p;
-
-            p = head;
-            while (p && j < index) {
-                p = p->next;
-                ++j;
+            if (index < 0) {
+                return ERROR;
             }
 
-            if (!p && index != 0)
-                return ERROR;
+            Node<T> *p = head;
+            if (index != 0) {
+                int j = 1;
+                while (p && j < index) {
+                    p = p->next;
+                    ++j;
+                }
+                if (p == nullptr) {
+                    return ERROR;
+                }
+            }
 
-            Node<T> *nod = new Node<T>;
-            nod->data = elem;
+            Node<T> *nod = new Node<T>{std::move(elem), nullptr, nullptr};
 
             if (index == 0) {
                 nod->prev = nullptr;
                 nod->next = head;
                 head = nod;
-                if(head->next == nullptr) {
+                if(nod->next == nullptr) {
                     tail = head;
                 } else {
-                    head->next->prev = nod;
+                    nod->next->prev = nod;
                 }
             } else {
                 nod->prev = p;
@@ -128,39 +154,72 @@ namespace ALG_DOUBLE_LIST
         }
 
         STATUS delete_elem(int index) {
-            int j = 1;
-            Node<T> *p;
-
-            p = head;
-            while (p && j < index) {
-                p = p->next;
-                ++j;
+            if (index < 0 || head == nullptr) {
+                return ERROR;
             }
 
-            if (!p)
-                return ERROR;
-            
             if (index == 0) {
                 Node<T> *nod = head;
                 head = head->next;
                 if(head != nullptr) {
                     head->prev = nullptr;
-                }
-                delete nod;
-            } else {
-                Node<T> *nod = p->next;
-                p->next = nod->next;
-                if(p->next != nullptr) {
-                    p->next->prev = p;
                 } else {
-                    tail = p;
+                    //删除唯一节点后 tail 必须同步置空, 否则悬垂
+                    tail = nullptr;
                 }
                 delete nod;
+                return OK;
             }
+
+            int j = 1;
+            Node<T> *p = head;
+            while (p && j < index) {
+                p = p->next;
+                ++j;
+            }
+
+            //目标位置不存在时 p 或 p->next 为空, 不能继续解引用
+            if (p == nullptr || p->next == nullptr) {
+                return ERROR;
+            }
+
+            Node<T> *nod = p->next;
+            p->next = nod->next;
+            if(p->next != nullptr) {
+                p->next->prev = p;
+            } else {
+                tail = p;
+            }
+            delete nod;
             return OK;
         }
 
     private:
+        //在尾部追加节点, 保持 prev 链与 tail 正确
+        void append_node(const T& value) {
+            Node<T> *nod = new Node<T>{value, nullptr, tail};
+            if (tail != nullptr) {
+                tail->next = nod;
+            } else {
+                head = nod;
+            }
+            tail = nod;
+        }
+
+        void clear() noexcept {
+            while (head != nullptr) {
+                Node<T> *next = head->next;
+                delete head;
+                head = next;
+            }
+            tail = nullptr;
+        }
+
+        void swap(DoubleList& rhs) noexcept {
+            std::swap(head, rhs.head);
+            std::swap(tail, rhs.tail);
+        }
+
         Node<T> *head{nullptr};
         Node<T> *tail{nullptr};
     };

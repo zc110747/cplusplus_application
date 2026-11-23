@@ -1,6 +1,7 @@
 # Problem.md —— 项目问题清单
 
-> 本文只**记录问题**，不包含任何修复。所有条目均基于对当前工作区（commit `7574c3b`）的**实际编译 / 实际运行**取证，
+> 本文正文只**记录问题**，条目描述保持取证时的原始状态（基于 commit `7574c3b`），
+> 修复进展统一记录在下方「修复状态」表中。所有条目均基于**实际编译 / 实际运行**取证，
 > 未验证的推测会被显式标注「未验证」。
 > 未改动 `README.md`，也未改动任何源码。
 
@@ -8,6 +9,22 @@
 - 编译器：`g++ 15.2.0`（MSYS2 mingw64）、`GNU Make 4.2.1`、`CMake 4.2.1`
 - 方法：在仓库**副本**中执行 `make`（不污染工作区）、`-Wall -Wextra` 全量语法检查、
   对可疑代码单独编译并在独立进程中运行以观察行为
+
+## 修复状态
+
+| 条目 | 状态 | 验证证据 |
+| --- | --- | --- |
+| B-01 ~ B-05 | ✅ 已修复 | 副本内全量构建 97/97 个 Makefile 目标通过 |
+| B-06 `rm -f $(objects)` | ✅ 已修复 | 连续两次 `make` 不再重新编译（仍会重复链接，原因见 B-10） |
+| M-01 析构条件写反 | ✅ 已修复 | 1000 次构造/析构：`new=1000 delete=1000 leaked=0` |
+| M-02 自赋值 | ✅ 已修复 | `b = b` 后取回原值 `7`，不再 `terminate` |
+| M-03 `Base` 缺虚析构 | ✅ 已修复 | `-Wdelete-non-virtual-dtor` 无告警 |
+| M-04 `static_cast` 下行转换 | ✅ 已修复 | 类型不符 / 空对象均抛 `bad_any_cast` |
+| M-05 单链表 | ✅ 已修复 | `delete_elem(3/100/-1)` 返回 ERROR 且无崩溃；析构 `new=5 delete=5`；深拷贝互不影响；左值实参不再被移动 |
+| M-06 双链表 | ✅ 已修复 | 删除唯一节点后反向遍历为空（`tail` 不再悬垂）；删空后正反向均为空；析构无泄漏 |
+| M-08 BMP 位深 < 8 | ✅ 已修复 | 5 个自带样例（1/4/8/24/32bpp）逐像素与独立解析器完全一致 |
+| M-09 BMP 其它缺陷 | ✅ 已修复 | 24bpp 宽 3 行对齐、负高度 top-down、截断文件、非 bmp 文件、空对象存盘不破坏文件：5 项边界用例通过 |
+| M-07 / M-10 / T-* / L-* / U-* / D-* / S-* | ⬜ 待处理 | — |
 
 ## 摘要
 
@@ -150,6 +167,28 @@ rm -f main.o
 | `learning_notes/modern_book/basic/other_improve.cpp` | 定义了 `other_improve_process()`，但 Makefile 的 `objects` 未列出、`main.cpp` 也未调用 → 从未被编译的死代码 |
 | `algorithm/template.txt` 与 `learning_notes/modern_book/template.txt` | 两份内容完全相同（md5 `e75569af...`）的重复文件 |
 | `.vscode/settings.json`（99 行）与 `cplusplus.code-workspace`（72 行） | 两份重复维护的 `files.associations` 清单，内容高度重叠 |
+
+### B-10 Windows 下产物名 `target` 与 `target.exe` 不一致，导致每次 make 都重复链接（P2）
+
+- 位置：全部 `executables = target` 的模块 + `build/build.mk:23-29`
+- 现象：`make` 每次都重新执行链接命令，`make --debug=b` 输出 `File 'target' does not exist.`，
+  而磁盘上实际是 `target.exe`（`ls -la target*` 可见）
+- 证据：
+
+```
+$ make --debug=b 2>&1 | grep target
+ File 'all' does not exist.
+   File 'target' does not exist.
+  Must remake target 'target'.
+g++ -o target main.o ...
+```
+
+- 原因：mingw64 的 `g++ -o target` 会自动补 `.exe` 后缀（实测 `g++ -o mtest m.cpp` 产物为 `mtest.exe`），
+  而 mingw 版 `make` 按字面量 `target` 判断是否存在 → 永远判定"不存在"。
+- 附注：这也修正了 S-05 的前提——"没有任何 Makefile 会产出 `target.exe`"只在 MSYS 版 g++ 下成立；
+  用 mingw64 g++ 构建时，`target.exe` 正是当前构建规则的真实产物。
+- 影响：不影响正确性，只影响增量构建效率；彻底修法是让 `executables` 带上 `$(EXEEXT)`（或统一 `target.exe`），
+  需同步修改 97 个 Makefile，本轮未做。
 
 ---
 
