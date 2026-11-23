@@ -10,14 +10,15 @@
 - 方法：在仓库**副本**中执行 `make`（不污染工作区）、`-Wall -Wextra` 全量语法检查、
   对可疑代码单独编译并在独立进程中运行以观察行为
 - 收尾回归（2026-11-23）：副本内 `make` 全量 97/97 目标通过、**0 warning**（`-Wall -Wextra` 已进 `build.mk`）；
-  关键验证程序（`t_any` / `t_list` / `t_bmp` / `t_bmp_edge` / `t_coro_lifetime` / `t_resptr`）复跑全部通过
+  关键验证程序（`t_any` / `t_list` / `t_bmp` / `t_bmp_edge` / `t_coro_lifetime` / `t_resptr`）复跑全部通过；
+  两遍构建回归 `PASS1=97 FAIL1=0 WARN=0` / `PASS2_NOOP=97 RELINK=0`（第二遍零重链，增量构建生效）
 
 ## 修复状态
 
 | 条目 | 状态 | 验证证据 |
 | --- | --- | --- |
 | B-01 ~ B-05 | ✅ 已修复 | 副本内全量构建 97/97 个 Makefile 目标通过 |
-| B-06 `rm -f $(objects)` | ✅ 已修复 | 连续两次 `make` 不再重新编译（仍会重复链接，原因见 B-10） |
+| B-06 `rm -f $(objects)` | ✅ 已修复 | 连续两次 `make` 不再重新编译；重复链接问题由 B-10 一并解决（第二遍 `make` 现为 `Nothing to be done`） |
 | M-01 析构条件写反 | ✅ 已修复 | 1000 次构造/析构：`new=1000 delete=1000 leaked=0` |
 | M-02 自赋值 | ✅ 已修复 | `b = b` 后取回原值 `7`，不再 `terminate` |
 | M-03 `Base` 缺虚析构 | ✅ 已修复 | `-Wdelete-non-virtual-dtor` 无告警 |
@@ -54,7 +55,7 @@
 | S-04 `.gitignore` 失效规则 | ✅ 已修复 | 删除不存在的 `asio_book/asio/*` |
 | S-06 索引完整性 | ✅ 已修复 | 新增 `algorithm/README.md`、`accumulation/README.md`（3 行 → 完整索引）、`learning_notes/README.md`（42 章对照表）；根 `README.md` 增加「其它目录」一节 |
 | B-11 `build/` 索引大小写 | ✅ 已修复 | `git mv Build→build` 纯大小写重命名，前后 blob 哈希同为 `f5d089f`；索引现有路径 `build/build.mk` 与 97 个 Makefile 的 `include ../build/build.mk` 一致 |
-| B-10 / S-05 产物名 `target` vs `target.exe` | ⬜ 待处理 | 需同步修改 97 个 `Makefile`（加 `$(EXEEXT)`），本轮未做；只影响增量构建效率，不影响正确性 |
+| B-10 / S-05 产物名 `target` vs `target.exe` | ✅ 已修复 | 只改 `build/build.mk`：`$(CC) -dumpmachine` 判定平台补 `$(EXEEXT)`，产物直接 `-o` 到最终路径（去掉 `mv`）。副本内两遍构建：第一遍 **97/97 通过、0 warning**，第二遍 **97/97 全 `Nothing to be done`、0 次重链**；`make ex` 在 `./` 与 `../executables` 两种路径下均可运行 |
 
 ## 摘要
 
@@ -198,7 +199,7 @@ rm -f main.o
 | `algorithm/template.txt` 与 `learning_notes/modern_book/template.txt` | 两份内容完全相同（md5 `e75569af...`）的重复文件 |
 | `.vscode/settings.json`（99 行）与 `cplusplus.code-workspace`（72 行） | 两份重复维护的 `files.associations` 清单，内容高度重叠 |
 
-### B-10 Windows 下产物名 `target` 与 `target.exe` 不一致，导致每次 make 都重复链接（P2）
+### B-10 Windows 下产物名 `target` 与 `target.exe` 不一致，导致每次 make 都重复链接（P2，已修）
 
 - 位置：全部 `executables = target` 的模块 + `build/build.mk:23-29`
 - 现象：`make` 每次都重新执行链接命令，`make --debug=b` 输出 `File 'target' does not exist.`，
@@ -217,8 +218,26 @@ g++ -o target main.o ...
   而 mingw 版 `make` 按字面量 `target` 判断是否存在 → 永远判定"不存在"。
 - 附注：这也修正了 S-05 的前提——"没有任何 Makefile 会产出 `target.exe`"只在 MSYS 版 g++ 下成立；
   用 mingw64 g++ 构建时，`target.exe` 正是当前构建规则的真实产物。
-- 影响：不影响正确性，只影响增量构建效率；彻底修法是让 `executables` 带上 `$(EXEEXT)`（或统一 `target.exe`），
-  需同步修改 97 个 Makefile，本轮未做。
+- 影响：不影响正确性，只影响增量构建效率。
+- 修复：只改 `build/build.mk` 一处，97 个 Makefile 全部不动。
+  - 用 `$(CC) -dumpmachine` 判定目标平台（含 `mingw`/`msys`/`cygwin` 则 `EXEEXT ?= .exe`，否则为空）。
+    不用 `$(OS)`，这样在 Linux 上交叉编译出 `.exe` 也正确。
+  - 新增 `executables_output := $(patsubst %/,%,$(executables_path))/$(executables)$(EXEEXT)`，
+    链接规则、`all`、`clean`、`ex`、`start` 全部改用这个真实产物路径。
+  - 同时**去掉 `mv` 搬运**：产物直接 `-o` 到 `executables_path`。原写法先链接到当前目录再 `mv` 走，
+    那 3 个 `executables_path = ../executables` 的目标同样每次都被判定"产物不存在"而重链——
+    与 B-10 是同一个症状的另一个成因。
+  - `clean` 同时删除旧命名的无后缀文件，避免历史残留。
+  - 顺带删除 3 个 Makefile 里已失效且无人引用的 `command = $(executables_path)/$(executables)`
+    （缺 `.exe`、与真实产物名不符，留在原地就是第二处真值来源）。
+- 证据（副本内两遍构建，97 个目标）：
+
+```
+PASS1=97 FAIL1=0 WARN=0
+PASS2_NOOP=97 RELINK=0
+```
+
+  修复前同一手法：第二遍 `make` 仍打印 `g++ -o target main.o ...`（重复链接）。
 
 ### B-11 `build/` 在 git 索引里是大写 `Build`，大小写敏感文件系统上全量构建失效（P1，已修）
 
@@ -677,7 +696,7 @@ warning: 'void* memcpy(void*, const void*, size_t)' writing to an object of
   `14.cpp_new_feature/{concepts,coroutines,print,ranges}`、`07.std/source_location`、`12.thread_coroutine/future`），
   导致"源码目录看起来有可执行文件、实际与当前代码不同步"。
 
-### S-05 产物命名不统一：`target` / `target.exe` / 两者并存（P3）
+### S-05 产物命名不统一：`target` / `target.exe` / 两者并存（P3，已修）
 
 - 事实（用 `ls` 精确匹配统计，避免 MSYS2 把 `target` 自动解析为 `target.exe` 造成误判）：
   - 66 个目录只有 `target`；
@@ -687,6 +706,10 @@ warning: 'void* memcpy(void*, const void*, size_t)' writing to an object of
 - 关键点：**没有任何 Makefile 会产出 `target.exe`**（全部写 `executables = target`），
   所以那 11 个目录里的 `.exe` 既不来自当前构建规则，也无法通过 `make` 复现——
   源码目录里"看起来有二进制"，实际与当前代码并不同步。
+- 修复（与 B-10 同一处改动）：`build.mk` 现在按平台补 `$(EXEEXT)`，`make` 的产物名与
+  磁盘真实文件名一致，上面三种并存状态不会再出现；`clean` 同时删除无后缀的旧命名。
+  取证时统计到的 66 / 11 / 7 是历史各次构建混用不同 g++（MSYS 版不补后缀、mingw64 版补后缀）
+  留下的残留，现已用 `make clean` 全仓清除，工作区无任何 `target` / `target.exe` / `*.o`。
 
 ### S-06 `README.md` 与子 README 的索引完整性（P3）
 

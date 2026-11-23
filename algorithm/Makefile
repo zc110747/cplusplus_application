@@ -18,7 +18,6 @@ include_path =
 # place the executables
 executables = ModernCpp
 executables_path = ../executables
-command = $(executables_path)/$(executables)
 
 # Including this file allows access to the Build System.
 include ../build/build.mk

@@ -62,7 +62,6 @@ include_path = -I"reference/" -I"modules/" -I"lambda/"
 executables = ModernCpp
 executables_path = ../executables
 CFLAGS += -g
-command = $(executables_path)/$(executables)
 
 # Including this file allows access to the Build System.
 include ../../build/build.mk
